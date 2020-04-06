@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="046fad6c-5b40-4ebc-baec-0bdd24e146e1" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="carpark@112.74.72.11" type="feb32156:DbDataSourceImpl" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="carpark@112.74.72.11" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="carpark@112.74.72.11" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="carpark: schema" type="76f4a085:MysqlImplModel$Schema" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="carpark@112.74.72.11" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="carpark: schema" type="76f4a085:MysqlImplModel$Schema" />
+        <item name="tb_admin: table" type="285a2a93:MysqlImplModel$Table" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="F:/apache-maven-3.6.0" />
+      </MavenGeneralSettings>
+    </option>
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="importAutomatically" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1aAWgUUDyiA3cnDSLOMDd35YmOp" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="mysql" />
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="vcs.Git" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\IdeaProjects\Carpark\src\main\resources\mapper" />
+      <recent name="E:\IdeaProjects\Carpark\src\main\resources\mapper\SYJ" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.example.carpark.javabean.SYJ" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\IdeaProjects\Carpark\src\main\resources\mapper" />
+      <recent name="E:\IdeaProjects\Carpark\src\main\resources" />
+      <recent name="E:\IdeaProjects\Carpark\src\main\java\com\example\carpark\service" />
+      <recent name="E:\IdeaProjects\Carpark\src\main\java\com\example\carpark\javabean" />
+      <recent name="E:\IdeaProjects\Carpark\src\main\java\com\example\carpark\dao" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="CarparkApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="Carpark" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.carpark.CarparkApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="046fad6c-5b40-4ebc-baec-0bdd24e146e1" name="Default Changelist" comment="" />
+      <created>1586178989269</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1586178989269</updated>
+      <workItem from="1586178995030" duration="4836000" />
+      <workItem from="1586184133501" duration="1244000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="367" y="110" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1586182888149">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="367" y="110" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586182888149" />
+    <state x="608" y="319" key="#com.intellij.javaee.module.view.common.J2EE.J2EEDeploymentDescriptorLocationPanel.changeDDPath" timestamp="1586184468924">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="608" y="319" key="#com.intellij.javaee.module.view.common.J2EE.J2EEDeploymentDescriptorLocationPanel.changeDDPath/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586184468924" />
+    <state x="357" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1586181498910">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="357" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586181498910" />
+    <state x="262" y="9" key="CommitChangelistDialog2" timestamp="1586185520136">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="262" y="9" key="CommitChangelistDialog2/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586185520136" />
+    <state x="432" y="154" key="FileChooserDialogImpl" timestamp="1586185370311">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="432" y="154" key="FileChooserDialogImpl/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586185370311" />
+    <state width="1493" height="215" key="GridCell.Tab.0.bottom" timestamp="1586184759131">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="215" key="GridCell.Tab.0.bottom/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586184759131" />
+    <state width="1493" height="215" key="GridCell.Tab.0.center" timestamp="1586184759131">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="215" key="GridCell.Tab.0.center/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586184759131" />
+    <state width="1493" height="215" key="GridCell.Tab.0.left" timestamp="1586184759131">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="215" key="GridCell.Tab.0.left/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586184759131" />
+    <state width="1493" height="215" key="GridCell.Tab.0.right" timestamp="1586184759131">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="215" key="GridCell.Tab.0.right/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586184759131" />
+    <state width="1493" height="215" key="GridCell.Tab.1.bottom" timestamp="1586184759132">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="215" key="GridCell.Tab.1.bottom/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586184759132" />
+    <state width="1493" height="215" key="GridCell.Tab.1.center" timestamp="1586184759131">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="215" key="GridCell.Tab.1.center/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586184759131" />
+    <state width="1493" height="215" key="GridCell.Tab.1.left" timestamp="1586184759131">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="215" key="GridCell.Tab.1.left/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586184759131" />
+    <state width="1493" height="215" key="GridCell.Tab.1.right" timestamp="1586184759132">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="215" key="GridCell.Tab.1.right/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586184759132" />
+    <state x="270" y="0" key="SettingsEditor" timestamp="1586185399389">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="270" y="0" key="SettingsEditor/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586185399389" />
+    <state x="194" y="204" key="new project wizard" timestamp="1586180768936">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="194" y="204" key="new project wizard/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586180768936" />
+  </component>
+</project>

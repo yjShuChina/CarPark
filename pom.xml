@@ -20,6 +20,7 @@
     </properties>
 
     <dependencies>
+<<<<<<< HEAD
 
         <!--        识别车牌-->
         <dependency>
@@ -51,6 +52,8 @@
 
 
 
+=======
+>>>>>>> 4bfd9d4... 管理员首次提交
         <!--自动帮我们引入了web模块开发需要的相关jar包-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
