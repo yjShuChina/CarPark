@@ -1,14 +1,15 @@
 package com.example.carpark.dao;
 
 
-import com.example.carpark.javabean.Tbadmin;
+
+import com.example.carpark.javabean.TbAdmin;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.HashMap;
 
 
 @Mapper
-public interface SYJLoginDao
+public interface LoginDao
 {
-	public Tbadmin login(HashMap<String, String> hashMap);
+	public TbAdmin login(HashMap<String, String> hashMap);
 }
