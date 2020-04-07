@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="046fad6c-5b40-4ebc-baec-0bdd24e146e1" name="Default Changelist" comment="" />
+    <list default="true" id="046fad6c-5b40-4ebc-baec-0bdd24e146e1" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/Carpark_war_exploded.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/Carpark_war_exploded.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Carpark.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Carpark.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+    </list>
+    <ignored path="$PROJECT_DIR$/out/" />
+    <ignored path="$PROJECT_DIR$/target/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -51,9 +60,25 @@
     </expand>
     <select />
   </component>
+  <component name="DefaultGradleProjectSettings">
+    <option name="isMigrated" value="true" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/pom.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="182">
+              <caret line="48" column="21" lean-forward="true" selection-start-line="48" selection-start-column="21" selection-end-line="48" selection-end-column="21" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="UPDATE_TYPE" value="REBASE" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
@@ -67,8 +92,69 @@
       </MavenImportingSettings>
     </option>
   </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="61" />
+    <option name="y" value="139" />
+    <option name="width" value="1382" />
+    <option name="height" value="745" />
+  </component>
   <component name="ProjectId" id="1aAWgUUDyiA3cnDSLOMDd35YmOp" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="CarPark" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CarPark" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CarPark" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CarPark" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CarPark" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CarPark" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CarPark" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CarPark" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CarPark" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CarPark" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="carpark" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CarPark" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CarPark" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="carpark" type="462c0819:PsiDirectoryNode" />
+              <item name="util" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
+    </panes>
+  </component>
   <component name="ProjectViewState">
     <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -80,6 +166,7 @@
     <property name="RequestMappingsPanelWidth0" value="75" />
     <property name="RequestMappingsPanelWidth1" value="75" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -109,6 +196,18 @@
       <recent name="E:\IdeaProjects\Carpark\src\main\java\com\example\carpark\javabean" />
       <recent name="E:\IdeaProjects\Carpark\src\main\java\com\example\carpark\dao" />
     </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
   </component>
   <component name="RunManager">
     <configuration name="CarparkApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
@@ -148,6 +247,7 @@
       <updated>1586178989269</updated>
       <workItem from="1586178995030" duration="4836000" />
       <workItem from="1586184133501" duration="1244000" />
+      <workItem from="1586248718500" duration="305000" />
     </task>
     <task id="LOCAL-00001" summary="舒元金实体类提交">
       <created>1586245009296</created>
@@ -159,6 +259,50 @@
     <option name="localTasksCounter" value="2" />
     <servers />
   </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="354000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21979435" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Designer" order="2" />
+      <window_info id="UI Designer" order="3" />
+      <window_info id="Favorites" order="4" side_tool="true" />
+      <window_info id="Web" order="5" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="FindBugs-IDEA" order="7" />
+      <window_info anchor="bottom" id="Spring" order="8" />
+      <window_info anchor="bottom" id="Sequence" order="9" />
+      <window_info anchor="bottom" id="Terminal" order="10" />
+      <window_info anchor="bottom" id="Docker" order="11" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.5012854" side_tool="true" weight="0.32896653" />
+      <window_info anchor="bottom" id="Java Enterprise" order="13" />
+      <window_info anchor="bottom" id="Database Changes" order="14" />
+      <window_info anchor="bottom" id="Version Control" order="15" sideWeight="0.49871466" visible="true" weight="0.32896653" />
+      <window_info anchor="bottom" id="Run with VisualVM" order="16" />
+      <window_info anchor="bottom" id="Debug with VisualVM" order="17" />
+      <window_info anchor="bottom" id="MyBatis Log" order="18" />
+      <window_info anchor="bottom" id="Tail" order="19" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Maven" order="3" />
+      <window_info anchor="right" id="Palette" order="4" />
+      <window_info anchor="right" id="Database" order="5" />
+      <window_info anchor="right" id="Palette&#9;" order="6" />
+      <window_info anchor="right" id="RestServices" order="7" />
+      <window_info anchor="right" id="Bean Validation" order="8" />
+    </layout>
+  </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
@@ -167,81 +311,52 @@
     <option name="LAST_COMMIT_MESSAGE" value="舒元金实体类提交" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="367" y="110" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1586182888149">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="367" y="110" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586182888149" />
-    <state x="608" y="319" key="#com.intellij.javaee.module.view.common.J2EE.J2EEDeploymentDescriptorLocationPanel.changeDDPath" timestamp="1586184468924">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="608" y="319" key="#com.intellij.javaee.module.view.common.J2EE.J2EEDeploymentDescriptorLocationPanel.changeDDPath/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586184468924" />
-    <state x="357" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1586181498910">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="357" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586181498910" />
-    <state x="262" y="9" key="CommitChangelistDialog2" timestamp="1586248237483">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="262" y="9" key="CommitChangelistDialog2/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586248237483" />
-    <state x="432" y="154" key="FileChooserDialogImpl" timestamp="1586185370311">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="432" y="154" key="FileChooserDialogImpl/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586185370311" />
-    <state width="1493" height="215" key="GridCell.Tab.0.bottom" timestamp="1586184759131">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state width="1493" height="215" key="GridCell.Tab.0.bottom/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586184759131" />
-    <state width="1493" height="215" key="GridCell.Tab.0.center" timestamp="1586184759131">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state width="1493" height="215" key="GridCell.Tab.0.center/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586184759131" />
-    <state width="1493" height="215" key="GridCell.Tab.0.left" timestamp="1586184759131">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state width="1493" height="215" key="GridCell.Tab.0.left/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586184759131" />
-    <state width="1493" height="215" key="GridCell.Tab.0.right" timestamp="1586184759131">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state width="1493" height="215" key="GridCell.Tab.0.right/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586184759131" />
-    <state width="1493" height="215" key="GridCell.Tab.1.bottom" timestamp="1586184759132">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state width="1493" height="215" key="GridCell.Tab.1.bottom/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586184759132" />
-    <state width="1493" height="215" key="GridCell.Tab.1.center" timestamp="1586184759131">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state width="1493" height="215" key="GridCell.Tab.1.center/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586184759131" />
-    <state width="1493" height="215" key="GridCell.Tab.1.left" timestamp="1586184759131">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state width="1493" height="215" key="GridCell.Tab.1.left/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586184759131" />
-    <state width="1493" height="215" key="GridCell.Tab.1.right" timestamp="1586184759132">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state width="1493" height="215" key="GridCell.Tab.1.right/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586184759132" />
-    <state x="147" y="71" key="MergeDialog" timestamp="1586248373273">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="147" y="71" key="MergeDialog/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586248373273" />
-    <state x="477" y="128" key="MultipleFileMergeDialog" timestamp="1586248373287">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="477" y="128" key="MultipleFileMergeDialog/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586248373287" />
-    <state x="270" y="0" key="SettingsEditor" timestamp="1586185399389">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="270" y="0" key="SettingsEditor/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586185399389" />
-    <state x="361" y="146" key="Vcs.Push.Dialog.v2" timestamp="1586248255937">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="361" y="146" key="Vcs.Push.Dialog.v2/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586248255937" />
-    <state x="562" y="330" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1586248336835">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="562" y="330" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586248336835" />
-    <state x="194" y="204" key="new project wizard" timestamp="1586180768936">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="194" y="204" key="new project wizard/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586180768936" />
+    <state x="367" y="110" key="#com.intellij.execution.impl.EditConfigurationsDialog" />
+    <state x="367" y="110" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824/1920.12.1440.860@0.0.1536.824" />
+    <state x="608" y="319" key="#com.intellij.javaee.module.view.common.J2EE.J2EEDeploymentDescriptorLocationPanel.changeDDPath" />
+    <state x="608" y="319" key="#com.intellij.javaee.module.view.common.J2EE.J2EEDeploymentDescriptorLocationPanel.changeDDPath/0.0.1536.824/1920.12.1440.860@0.0.1536.824" />
+    <state x="357" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" />
+    <state x="357" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1536.824/1920.12.1440.860@0.0.1536.824" />
+    <state x="262" y="9" key="CommitChangelistDialog2" />
+    <state x="262" y="9" key="CommitChangelistDialog2/0.0.1536.824/1920.12.1440.860@0.0.1536.824" />
+    <state x="432" y="154" key="FileChooserDialogImpl" />
+    <state x="432" y="154" key="FileChooserDialogImpl/0.0.1536.824/1920.12.1440.860@0.0.1536.824" />
+    <state width="1493" height="215" key="GridCell.Tab.0.bottom" />
+    <state width="1493" height="215" key="GridCell.Tab.0.bottom/0.0.1536.824/1920.12.1440.860@0.0.1536.824" />
+    <state width="1493" height="215" key="GridCell.Tab.0.center" />
+    <state width="1493" height="215" key="GridCell.Tab.0.center/0.0.1536.824/1920.12.1440.860@0.0.1536.824" />
+    <state width="1493" height="215" key="GridCell.Tab.0.left" />
+    <state width="1493" height="215" key="GridCell.Tab.0.left/0.0.1536.824/1920.12.1440.860@0.0.1536.824" />
+    <state width="1493" height="215" key="GridCell.Tab.0.right" />
+    <state width="1493" height="215" key="GridCell.Tab.0.right/0.0.1536.824/1920.12.1440.860@0.0.1536.824" />
+    <state width="1493" height="215" key="GridCell.Tab.1.bottom" />
+    <state width="1493" height="215" key="GridCell.Tab.1.bottom/0.0.1536.824/1920.12.1440.860@0.0.1536.824" />
+    <state width="1493" height="215" key="GridCell.Tab.1.center" />
+    <state width="1493" height="215" key="GridCell.Tab.1.center/0.0.1536.824/1920.12.1440.860@0.0.1536.824" />
+    <state width="1493" height="215" key="GridCell.Tab.1.left" />
+    <state width="1493" height="215" key="GridCell.Tab.1.left/0.0.1536.824/1920.12.1440.860@0.0.1536.824" />
+    <state width="1493" height="215" key="GridCell.Tab.1.right" />
+    <state width="1493" height="215" key="GridCell.Tab.1.right/0.0.1536.824/1920.12.1440.860@0.0.1536.824" />
+    <state x="147" y="71" key="MergeDialog" />
+    <state x="147" y="71" key="MergeDialog/0.0.1536.824/1920.12.1440.860@0.0.1536.824" />
+    <state x="477" y="128" key="MultipleFileMergeDialog" />
+    <state x="477" y="128" key="MultipleFileMergeDialog/0.0.1536.824/1920.12.1440.860@0.0.1536.824" />
+    <state x="270" y="0" key="SettingsEditor" />
+    <state x="270" y="0" key="SettingsEditor/0.0.1536.824/1920.12.1440.860@0.0.1536.824" />
+    <state x="361" y="146" key="Vcs.Push.Dialog.v2" />
+    <state x="361" y="146" key="Vcs.Push.Dialog.v2/0.0.1536.824/1920.12.1440.860@0.0.1536.824" />
+    <state x="562" y="330" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" />
+    <state x="562" y="330" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824/1920.12.1440.860@0.0.1536.824" />
+    <state x="194" y="204" key="new project wizard" />
+    <state x="194" y="204" key="new project wizard/0.0.1536.824/1920.12.1440.860@0.0.1536.824" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="182">
+          <caret line="48" column="21" lean-forward="true" selection-start-line="48" selection-start-column="21" selection-end-line="48" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
   </component>
 </project>
