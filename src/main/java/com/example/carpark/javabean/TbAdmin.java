@@ -3,7 +3,7 @@ package com.example.carpark.javabean;
 
 public class TbAdmin {
 
-  private long adminId;
+  private long adminId;//管理员id
   private String adminAcc;
   private String adminPwd;
   private String adminName;
