@@ -4,7 +4,7 @@ package com.example.carpark.javabean;
 public class TbAdmin {
 
   private long adminId;//管理员id
-  private String adminAcc;
+  private String adminAcc;//管理员账户
   private String adminPwd;
   private String adminName;
   private long roleId;
