@@ -14,9 +14,7 @@
 	<meta name="viewport"
 		  content="width=device-width,user-scalable=no,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0">
 	<title>Title</title>
-	<%
-		String path = request.getContextPath();
-	%>
+	<%String path = request.getContextPath();%>
 	<link rel="stylesheet" href=<%=path+"/layui/css/layui.css"%>>
 	<script src=<%=path + "/js/jquery-3.4.1.js"%>></script>
 	<script src=<%=path + "/js/json2.js"%>></script>

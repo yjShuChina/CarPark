@@ -7,6 +7,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.springframework.stereotype.Component;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
 
@@ -28,7 +29,7 @@ public class SystemLogAspect {
 
     //Controller层切点
     @Pointcut("execution (* com.example.carpark.service..*.*(..))")
-    public  void controllerAspect() {
+    public void controllerAspect() {
     }
 
     /**
@@ -39,7 +40,7 @@ public class SystemLogAspect {
     @Before("controllerAspect()")
     //joinPoint 封装了代理方法信息的对象,若用不到则可以忽略不写
     public void doBefore(JoinPoint joinPoint) {
-        System.out.println("==========执行controller前置通知===============");
+        System.out.println("==========执行service前置通知===============");
         //这个判断是为了提高新能？在高并发和复杂log信息拼接的情况下，使用这种标准的方法输出log能够省去不小的系统开销
         //ERROR及其以上级别的log信息是一定会被输出的，所以只有logger.isDebugEnabled和logger.isInfoEnabled方法，而没有logger.isErrorEnabled方法。
         if(logger.isInfoEnabled()){
@@ -52,7 +53,7 @@ public class SystemLogAspect {
     @Around("controllerAspect()")
     //joinPoint 封装了代理方法信息的对象,若用不到则可以忽略不写
     public Object around(JoinPoint joinPoint){
-        System.out.println("==========开始执行controller环绕通知===============");
+        System.out.println("==========开始执行service环绕通知===============");
         long start = System.currentTimeMillis();//获取程序运行开始的时间
         //(signature是信号,标识的意思):获取被增强的方法相关信息.其后续方法有两个
         //getDeclaringTypeName: 返回方法所在的包名和类名
@@ -66,7 +67,7 @@ public class SystemLogAspect {
             if(logger.isInfoEnabled()){//提高输出效率
                 logger.info("around " + joinPoint + "\tUse time : " + (end - start) + " ms!");
             }
-            System.out.println("==========结束执行controller环绕通知===============");
+            System.out.println("==========结束执行service环绕通知===============");
             return object;
         } catch (Throwable e) {
             System.out.println("环绕通知中的异常--------------------------------"+methodName+"-------"+e.getMessage());
@@ -106,7 +107,9 @@ public class SystemLogAspect {
             for (Method method : methods) {
                 if (method.getName().equals(methodName)) {
                     Class[] clazzs = method.getParameterTypes();
-                    if (clazzs.length == arguments.length) {
+                    Annotation annotation = method.getAnnotation(Log.class);
+                    System.out.println("annotation-->"+annotation);
+                    if (annotation != null&&clazzs.length == arguments.length) {
                         operationType = method.getAnnotation(Log.class).operationType();
                         operationName = method.getAnnotation(Log.class).operationName();
                         break;
@@ -114,7 +117,7 @@ public class SystemLogAspect {
                 }
             }
             //*========控制台输出=========*//
-            System.out.println("=====controller后置通知开始=====");
+            System.out.println("=====service后置通知开始=====");
             System.out.println("请求方法:" + (joinPoint.getTarget().getClass().getName() + "." + joinPoint.getSignature().getName() + "()")+"."+operationType);
             System.out.println("方法描述:" + operationName);
 
@@ -123,7 +126,7 @@ public class SystemLogAspect {
 
             //保存数据库
 //            systemLogService.insert(log);
-            System.out.println("=====controller后置通知结束=====");
+            System.out.println("=====service后置通知结束=====");
         }  catch (Exception e) {
             //记录本地异常日志
             logger.error("==后置通知异常==");
