@@ -5,7 +5,7 @@
 <mapper namespace="com.example.demo.dao.LoginDao">
 
 
-    <select id="login" resultType="com.example.carpark.javabean.SYJ.SYJTbadmin" parameterType="java.util.HashMap">
+    <select id="login" resultType="com.example.carpark.javabean.Tbadmin" parameterType="java.util.HashMap">
 
 		select * from tb_admin where aacc = #{aacc} and apass = #{apass}
 	</select>

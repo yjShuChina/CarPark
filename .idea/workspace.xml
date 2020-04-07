@@ -1,17 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="046fad6c-5b40-4ebc-baec-0bdd24e146e1" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/administration/js/adminMain.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/administration/jsp/adminMain.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/92806ead-2e15-48a3-a9e2-d3e4612bb891.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/92806ead-2e15-48a3-a9e2-d3e4612bb891.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Carpark.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Carpark.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/carpark/controller/SYJ/SYJController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/carpark/dao/SYJ/SYJLoginDao.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/carpark/javabean/SYJ/SYJTbadmin.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/carpark/service/SYJ/SYJLoginService.java" beforeDir="false" />
-    </list>
+    <list default="true" id="046fad6c-5b40-4ebc-baec-0bdd24e146e1" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -54,14 +44,6 @@
     </expand>
     <select />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Jsp File" />
-        <option value="JavaScript File" />
-      </list>
-    </option>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -102,7 +84,7 @@
     <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="settings.github" />
+    <property name="settings.editor.selected.configurable" value="vcs.Git" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -153,8 +135,6 @@
       <updated>1586178989269</updated>
       <workItem from="1586178995030" duration="4836000" />
       <workItem from="1586184133501" duration="1244000" />
-      <workItem from="1586188496410" duration="47000" />
-      <workItem from="1586222255863" duration="5269000" />
     </task>
     <servers />
   </component>
@@ -214,11 +194,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1493" height="215" key="GridCell.Tab.1.right/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586184759132" />
-    <state x="270" y="0" key="SettingsEditor" timestamp="1586228976539">
+    <state x="270" y="0" key="SettingsEditor" timestamp="1586185399389">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="270" y="0" key="SettingsEditor/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586185399389" />
-    <state x="270" y="0" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1586228976539" />
     <state x="194" y="204" key="new project wizard" timestamp="1586180768936">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
