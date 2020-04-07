@@ -25,8 +25,8 @@ public class LoginService {
 
         HashMap<String, String> hashMap = new HashMap<>();
 
-        hashMap.put("aacc", aacc);
-        hashMap.put("apass", md5);
+        hashMap.put("adminAcc", aacc);
+//        hashMap.put("adminPwd", md5);
 
         TbAdmin tbadmin = loginDao.login(hashMap);
 

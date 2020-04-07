@@ -72,7 +72,7 @@
 
 </form>
 <script src=<%=path + "/layui/layui.js"%>></script>
-<script src=<%=path + "/back/js/index.js"%>></script>
+<script src=<%=path + "/administration/js/index.js"%>></script>
 <form class="layui-form" style="display: none" action="" id="register">
 	<div class="layui-form-item"><h1></h1></div>
 	<div class="layui-form-item">

@@ -22,7 +22,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         }
 
         //判断路径是登出还是登录验证。是这两者之一的话执行controller中定义的方法
-        if (uri.endsWith("/SYJadmin/login") || uri.endsWith("/SYJadmin/out") || uri.endsWith("/SYJadmin/index")) {
+        if (uri.endsWith("/admin/login") || uri.endsWith("/admin/out") || uri.endsWith("/admin/index")) {
             return true;
         }
 
@@ -32,7 +32,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         }
 
         //最后的情况就是进入登录页面
-        response.sendRedirect(request.getContextPath() + "/SYJadmin/index");
+        response.sendRedirect(request.getContextPath() + "/admin/index");
 
         return false;
     }

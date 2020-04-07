@@ -1,7 +1,9 @@
 package com.example.carpark.controller;
 
 
+import com.example.carpark.javabean.TbAdmin;
 import com.example.carpark.service.LoginService;
+import com.google.gson.Gson;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -28,7 +30,7 @@ import java.util.Random;
 
 
 @Controller
-@RequestMapping("/SYJadmin")
+@RequestMapping("/admin")
 public class AdminController {
 
     @Autowired
@@ -58,30 +60,30 @@ public class AdminController {
 //        return modelAndView;
 //    }
 
-//    @RequestMapping("/login")
-//    public void Login(String acc, HttpServletRequest request, HttpServletResponse response) {
-//
-//        String captcha = (String) request.getSession().getAttribute("vcode");
-//        Gson g = new Gson();
-//        TbAdmin tbadmin = g.fromJson(acc, TbAdmin.class);
+    @RequestMapping("/login")
+    public void Login(String acc, HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("登录");
+        String captcha = (String) request.getSession().getAttribute("vcode");
+        Gson g = new Gson();
+        TbAdmin tbadmin = g.fromJson(acc, TbAdmin.class);
 //        if (captcha.equalsIgnoreCase(tbadmin.getCaptcha())) {
-//
-//            TbAdmin admin1 = loginService.login(tbadmin.getAacc(), tbadmin.getApass());
-//
-//            System.out.println(g.toJson(admin1));
-//            if (null != admin1) {
-//                request.getSession().setAttribute("tbadmin", admin1);
-//                outWithHtml(response, "success");
-//                System.out.println("登录成功");
-//            } else {
-//                outWithHtml(response, "nameerror");
-//                System.out.println("帐号或密码错误");
-//            }
+
+            TbAdmin admin1 = loginService.login(tbadmin.getAdminAcc(), tbadmin.getAdminPwd());
+
+            System.out.println(g.toJson(admin1));
+            if (null != admin1) {
+                request.getSession().setAttribute("tbadmin", admin1);
+                outWithHtml(response, "success");
+                System.out.println("登录成功");
+            } else {
+                outWithHtml(response, "nameerror");
+                System.out.println("帐号或密码错误");
+            }
 //        } else {
 //            outWithHtml(response, "captchaerror");
 //            System.out.println("验证码错误");
 //        }
-//    }
+    }
 
 
 

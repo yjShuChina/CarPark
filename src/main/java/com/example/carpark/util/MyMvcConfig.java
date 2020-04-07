@@ -22,19 +22,19 @@ public class MyMvcConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/js/**").addResourceLocations("/WEB-INF/" + "/js/");
     }
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        //注册TestInterceptor拦截器
-        InterceptorRegistration registration = registry.addInterceptor(new LoginInterceptor());
-        registration.addPathPatterns("/**");                      //所有路径都被拦截
-        registration.excludePathPatterns(  // 添加不拦截路径
-                "/SYJadmin/CheckCodeServlet",              // 验证码
-                "/**/*.html",            //html静态资源
-                "/**/*.js",              //js静态资源
-                "/**/*.css",             //css静态资源
-                "/**/*.woff",
-                "/**/*.ttf"
-        );
-    }
+//    @Override
+//    public void addInterceptors(InterceptorRegistry registry) {
+//        //注册TestInterceptor拦截器
+//        InterceptorRegistration registration = registry.addInterceptor(new LoginInterceptor());
+//        registration.addPathPatterns("/**");                      //所有路径都被拦截
+//        registration.excludePathPatterns(  // 添加不拦截路径
+//                "/admin/CheckCodeServlet",              // 验证码
+//                "/**/*.html",            //html静态资源
+//                "/**/*.js",              //js静态资源
+//                "/**/*.css",             //css静态资源
+//                "/**/*.woff",
+//                "/**/*.ttf"
+//        );
+//    }
 }
 
