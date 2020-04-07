@@ -1,47 +1,54 @@
 package com.example.carpark.javabean;
 
+import org.springframework.stereotype.Component;
 
+@Component
 public class TbMenu {
 
-  private long menuId;
-  private String menuName;
-  private String menuUrl;
-  private long parentId;
+  private Integer menu_id;
+  private String menu_name;
+  private String menu_url;
+  private Integer parent_id;
 
-
-  public long getMenuId() {
-    return menuId;
+  public Integer getMenu_id() {
+    return menu_id;
   }
 
-  public void setMenuId(long menuId) {
-    this.menuId = menuId;
+  public void setMenu_id(Integer menu_id) {
+    this.menu_id = menu_id;
   }
 
-
-  public String getMenuName() {
-    return menuName;
+  public String getMenu_name() {
+    return menu_name;
   }
 
-  public void setMenuName(String menuName) {
-    this.menuName = menuName;
+  public void setMenu_name(String menu_name) {
+    this.menu_name = menu_name;
   }
 
-
-  public String getMenuUrl() {
-    return menuUrl;
+  public String getMenu_url() {
+    return menu_url;
   }
 
-  public void setMenuUrl(String menuUrl) {
-    this.menuUrl = menuUrl;
+  public void setMenu_url(String menu_url) {
+    this.menu_url = menu_url;
   }
 
-
-  public long getParentId() {
-    return parentId;
+  public Integer getParent_id() {
+    return parent_id;
   }
 
-  public void setParentId(long parentId) {
-    this.parentId = parentId;
+  public void setParent_id(Integer parent_id) {
+    this.parent_id = parent_id;
   }
 
+  @Override
+  public String toString() {
+    return "TbMenu{" +
+            "menu_id=" + menu_id +
+            ", menu_name='" + menu_name + '\'' +
+            ", menu_url='" + menu_url + '\'' +
+            ", parent_id=" + parent_id +
+            '}';
+  }
 }
