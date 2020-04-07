@@ -3,9 +3,9 @@ package com.example.carpark.javabean;
 
 public class TbAdmin {
 
-  private long adminId;
-  private String adminAcc;
-  private String adminPwd;
+  private long adminId;//管理员id
+  private String adminAcc;//管理员账户
+  private String adminPwd;//管理员密码
   private String adminName;
   private long roleId;
   private long adminState;
