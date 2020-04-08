@@ -2,7 +2,6 @@ package com.example.carpark.controller;
 
 
 import com.example.carpark.javabean.TbAdmin;
-import com.example.carpark.javabean.TbMenu;
 import com.example.carpark.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,13 +17,11 @@ import javax.servlet.http.HttpSession;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
 /**
  * 管理员控制类
- * 郭子淳
  */
 @Controller
 @RequestMapping("/admin")
@@ -32,10 +29,7 @@ public class AdminController {
 
     @Autowired
     private AdminService adminService;
-
-    private char[] codeSequence = { 'A', '1','B', 'C', '2','D','3', 'E','4', 'F', '5','G','6', 'H', '7','I', '8','J',
-            'K',   '9' ,'L', '1','M',  '2','N',  'P', '3', 'Q', '4', 'R', 'S', 'T', 'U', 'V', 'W',
-            'X', 'Y', 'Z'};
+    private Random random = new Random();
 
     /**
      * 管理员登陆验证
@@ -46,116 +40,72 @@ public class AdminController {
     @ResponseBody
     public String adminLogin(@RequestParam Map<String,Object> param, HttpSession session){
         System.out.println("===============================管理员登陆=============================");
-        String vcode = session.getAttribute("vcode").toString();//获取session上的验证码
+        String vcode = session.getAttribute("vcode").toString();
         if(vcode.equalsIgnoreCase(param.get("captcha").toString())){
-            String ret = adminService.adminLogin(param,session);//获取service层返回的信息
+            String ret = adminService.adminLogin(param);
             return ret;
         }
         return "验证码错误";
     }
 
     /**
-     *  获取菜单
-     * @param session
-     */
-    @RequestMapping("/findMenu")
-    @ResponseBody
-    public List<TbMenu> findMenu(HttpSession session){
-        System.out.println("==================查询角色菜单===================");
-        TbAdmin tbAdmin = (TbAdmin) session.getAttribute("tbAdmin");//获取session上的管理员信息
-        if(tbAdmin != null){
-            List<TbMenu> parentMenuList = adminService.findMenu(tbAdmin);
-            return parentMenuList;
-        }
-        return null;
-    }
-
-    /**
-     * 验证管理是否登陆
-     * @param session
-     * @return
-     */
-    @RequestMapping("/findCurrentAdmin")
-    @ResponseBody
-    public TbAdmin findCurrentAdmin(HttpSession session){
-        System.out.println("==================判断管理员是否登陆===================");
-        return  (TbAdmin) session.getAttribute("tbAdmin");//获取session上的管理员信息
-    }
-
-    /**
-     * 管理员退出
-     * @param session
-     * @return
-     */
-    @ResponseBody
-    @RequestMapping("/exit")
-    public String exit(HttpSession session){
-        session.setAttribute("tbAdmin",null);
-        return "success";
-    }
-
-    /**
      * 获取验证码图片
-     * @param session
+     * @param request
      * @param response
      * @throws ServletException
      * @throws IOException
      */
     @RequestMapping("/CheckCodeServlet")
-    public void CheckCodeServlet(HttpSession session, HttpServletResponse response)throws ServletException, IOException{
+    public void CheckCodeServlet(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException{
         System.out.println("=====================获取验证码=======================");
-        int width = 63;
-        int height = 37;
-        Random random = new Random();
-        //设置response头信息
-        //禁止缓存
-        response.setHeader("Pragma", "No-cache");
-        response.setHeader("Cache-Control", "no-cache");
-        response.setDateHeader("Expires", 0);
-
-        //生成缓冲区image类
-        BufferedImage image = new BufferedImage(width, height, 1);
-        //产生image类的Graphics用于绘制操作
-        Graphics g = image.getGraphics();
-        //Graphics类的样式
-        g.setColor(this.getColor(200, 250));
-        g.setFont(new Font("Times New Roman",0,28));
-        g.fillRect(0, 0, width, height);
-        //绘制干扰线
-        for(int i=0;i<40;i++){
-            g.setColor(this.getColor(130, 200));
-            int x = random.nextInt(width);
-            int y = random.nextInt(height);
-            int x1 = random.nextInt(12);
-            int y1 = random.nextInt(12);
-            g.drawLine(x, y, x + x1, y + y1);
+        //内存图片对象(TYPE_INT_BGR 选择图片模式RGB模式)
+        BufferedImage image = new BufferedImage(100, 35, BufferedImage.TYPE_INT_BGR);
+        //得到画笔
+        Graphics graphics = image.getGraphics();
+        //画之前要设置颜色，设置画笔颜色
+        graphics.setColor(new Color(236, 255, 253, 255));
+        //设置字体类型、字体大小、字体样式　
+        graphics.setFont(new Font("黑体", Font.BOLD, 23));
+        //填充矩形区域（指定要画的区域设置区）
+        graphics.fillRect(0, 0, 100, 35);
+        //为了防止黑客软件通过扫描软件识别验证码。要在验证码图片上加干扰线
+        //给两个点连一条线graphics.drawLine();
+        for (int i = 0; i < 5; i++) {
+            //颜色也要随机（设置每条线随机颜色）
+            graphics.setColor(getRandomColor());
+            int x1 = random.nextInt(100);
+            int y1 = random.nextInt(35);
+            int x2 = random.nextInt(100);
+            int y2 = random.nextInt(35);
+            graphics.drawLine(x1, y1, x2, y2);
         }
 
-        //绘制字符
-        String strCode = "";
-        for(int i=0;i<4;i++){
-            String rand = String.valueOf(codeSequence[random.nextInt(codeSequence.length)]);
-            strCode = strCode + rand;
-            g.setColor(new Color(20+random.nextInt(110),20+random.nextInt(110),20+random.nextInt(110)));
-            g.drawString(rand, 13*i+6, 28);
-        }
-        //将字符保存到session中用于前端的验证
-        session.setAttribute("vcode", strCode.toLowerCase());
-        g.dispose();
+        //拼接4个验证码，画到图片上
+        char[] arrays = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'W', 'X', 'Y', 'Z', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < 4; i++) {
+            //设置字符的颜色
 
-        ImageIO.write(image, "JPEG", response.getOutputStream());
-        response.getOutputStream().flush();
+            int index = random.nextInt(arrays.length);
+            builder.append(arrays[index]);
+        }
+        //创建session对象将生成的验证码字符串以名字为checkCode保存在session中request.getSession().setAttribute("checkCode",builder.toString());
+        //将4个字符画到图片上graphics.drawString(str ,x,y);一个字符一个字符画
+        request.getSession().setAttribute("vcode", builder.toString());
+        for (int i = 0; i < builder.toString().length(); i++) {
+            graphics.setColor(getRandomColor());
+            char item = builder.toString().charAt(i);
+            graphics.drawString(item + "", 10 + (i * 20), 25);
+        }
+
+        //输出内存图片到输出流
+        ImageIO.write(image, "jpg", response.getOutputStream());
     }
 
-    public  Color getColor(int fc,int bc){
-        Random random = new Random();
-        if(fc>255)
-            fc = 255;
-        if(bc>255)
-            bc = 255;
-        int r = fc + random.nextInt(bc - fc);
-        int g = fc + random.nextInt(bc - fc);
-        int b = fc + random.nextInt(bc - fc);
-        return new Color(r,g,b);
+    private Color getRandomColor() {
+        int r = random.nextInt(256);
+        int g = random.nextInt(256);
+        int b = random.nextInt(256);
+        return new Color(r, g, b);
     }
 }
