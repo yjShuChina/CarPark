@@ -1,54 +1,57 @@
 package com.example.carpark.javabean;
 
-import org.springframework.stereotype.Component;
 
-@Component
 public class TbCashier {
 
-  private String cashier_id;
-  private String cashier_pwd;
-  private String cashier_name;
-  private Integer cashier_state;
+  private long cashierId;
+  private String cashierAccount;
+  private String cashierPwd;
+  private String cashierName;
+  private long cashierState;
 
-  public String getCashier_id() {
-    return cashier_id;
+
+  public long getCashierId() {
+    return cashierId;
   }
 
-  public void setCashier_id(String cashier_id) {
-    this.cashier_id = cashier_id;
+  public void setCashierId(long cashierId) {
+    this.cashierId = cashierId;
   }
 
-  public String getCashier_pwd() {
-    return cashier_pwd;
+
+  public String getCashierAccount() {
+    return cashierAccount;
   }
 
-  public void setCashier_pwd(String cashier_pwd) {
-    this.cashier_pwd = cashier_pwd;
+  public void setCashierAccount(String cashierAccount) {
+    this.cashierAccount = cashierAccount;
   }
 
-  public String getCashier_name() {
-    return cashier_name;
+
+  public String getCashierPwd() {
+    return cashierPwd;
   }
 
-  public void setCashier_name(String cashier_name) {
-    this.cashier_name = cashier_name;
+  public void setCashierPwd(String cashierPwd) {
+    this.cashierPwd = cashierPwd;
   }
 
-  public long getCashier_state() {
-    return cashier_state;
+
+  public String getCashierName() {
+    return cashierName;
   }
 
-  public void setCashier_state(Integer cashier_state) {
-    this.cashier_state = cashier_state;
+  public void setCashierName(String cashierName) {
+    this.cashierName = cashierName;
   }
 
-  @Override
-  public String toString() {
-    return "TbCashier{" +
-            "cashier_id='" + cashier_id + '\'' +
-            ", cashier_pwd='" + cashier_pwd + '\'' +
-            ", cashier_name='" + cashier_name + '\'' +
-            ", cashier_state=" + cashier_state +
-            '}';
+
+  public long getCashierState() {
+    return cashierState;
   }
+
+  public void setCashierState(long cashierState) {
+    this.cashierState = cashierState;
+  }
+
 }

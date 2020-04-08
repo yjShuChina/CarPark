@@ -1,44 +1,37 @@
 package com.example.carpark.javabean;
 
-import org.springframework.stereotype.Component;
 
-@Component
 public class TbMonthChargeParameter {
 
-  private Integer mcp_id;
-  private Integer month;
-  private Integer price;
+  private long mcpId;
+  private long month;
+  private long price;
 
-  public Integer getMcp_id() {
-    return mcp_id;
+
+  public long getMcpId() {
+    return mcpId;
   }
 
-  public void setMcp_id(Integer mcp_id) {
-    this.mcp_id = mcp_id;
+  public void setMcpId(long mcpId) {
+    this.mcpId = mcpId;
   }
 
-  public Integer getMonth() {
+
+  public long getMonth() {
     return month;
   }
 
-  public void setMonth(Integer month) {
+  public void setMonth(long month) {
     this.month = month;
   }
 
-  public Integer getPrice() {
+
+  public long getPrice() {
     return price;
   }
 
-  public void setPrice(Integer price) {
+  public void setPrice(long price) {
     this.price = price;
   }
 
-  @Override
-  public String toString() {
-    return "TbMonthChargeParameter{" +
-            "mcp_id=" + mcp_id +
-            ", month=" + month +
-            ", price=" + price +
-            '}';
-  }
 }

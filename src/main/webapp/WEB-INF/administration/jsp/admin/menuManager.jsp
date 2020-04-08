@@ -1,16 +1,17 @@
 <%--
   Created by IntelliJ IDEA.
-  User: apple6356555
-  Date: 2020/3/27
-  Time: 0:42
+  User: 92059
+  Date: 2020/4/8
+  Time: 17:15
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
 <html>
 <head>
-	<title>Title</title>
+    <title>菜单管理页面</title>
 </head>
 <body>
-<h2>跳转成功</h2>
+
 </body>
 </html>

@@ -2,53 +2,75 @@ package com.example.carpark.javabean;
 
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class TbMenu {
 
-  private Integer menu_id;
-  private String menu_name;
-  private String menu_url;
-  private Integer parent_id;
+  private long menuId;
+  private String menuName;
+  private String menuUrl;
+  private long parentId;
+  private long state;
+  private List<TbMenu> submenuList;
 
-  public Integer getMenu_id() {
-    return menu_id;
+  public long getMenuId() {
+    return menuId;
   }
 
-  public void setMenu_id(Integer menu_id) {
-    this.menu_id = menu_id;
+  public void setMenuId(Integer menuId) {
+    this.menuId = menuId;
   }
 
-  public String getMenu_name() {
-    return menu_name;
+  public String getMenuName() {
+    return menuName;
   }
 
-  public void setMenu_name(String menu_name) {
-    this.menu_name = menu_name;
+  public void setMenuName(String menuName) {
+    this.menuName = menuName;
   }
 
-  public String getMenu_url() {
-    return menu_url;
+  public String getMenuUrl() {
+    return menuUrl;
   }
 
-  public void setMenu_url(String menu_url) {
-    this.menu_url = menu_url;
+  public void setMenuUrl(String menuUrl) {
+    this.menuUrl = menuUrl;
   }
 
-  public Integer getParent_id() {
-    return parent_id;
+  public long getParentId() {
+    return parentId;
   }
 
-  public void setParent_id(Integer parent_id) {
-    this.parent_id = parent_id;
+  public void setParentId(Integer parentId) {
+    this.parentId = parentId;
+  }
+
+  public long getState() {
+    return state;
+  }
+
+  public void setState(Integer state) {
+    this.state = state;
+  }
+
+  public List<TbMenu> getSubmenuList() {
+    return submenuList;
+  }
+
+  public void setSubmenuList(List<TbMenu> submenuList) {
+    this.submenuList = submenuList;
   }
 
   @Override
   public String toString() {
     return "TbMenu{" +
-            "menu_id=" + menu_id +
-            ", menu_name='" + menu_name + '\'' +
-            ", menu_url='" + menu_url + '\'' +
-            ", parent_id=" + parent_id +
+            "menuId=" + menuId +
+            ", menuName='" + menuName + '\'' +
+            ", menuUrl='" + menuUrl + '\'' +
+            ", parentId=" + parentId +
+            ", state=" + state +
+            ", submenuList=" + submenuList +
             '}';
   }
 }

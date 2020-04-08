@@ -4,40 +4,27 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.carpark.dao.AdminDao">
+<!--    管理员登陆验证-->
     <select id="adminLogin" parameterType="java.util.Map" resultType="TbAdmin">
-        select * from tb_admin where admin_account = #{admin_account} and admin_pwd = #{admin_pwd}
+        select * from tb_admin where admin_account = #{adminAccount} and admin_pwd = #{adminPwd}
     </select>
 
+<!--    查询所有父菜单-->
+    <select id="findParentMenu" resultType="TbMenu" parameterType="java.lang.Integer">
+        select * from tb_menu where parent_id = #{parentId}
+    </select>
 
-    <!-- 林堂星——table 查找  -->
-    <select id="findAll" resultType="com.example.carpark.javabean.TbCashier" >
-        select  * from tb_cashier
-        <where>
-            <if test="cashier_name != '' and cashier_name !=null">
-                and cashier_name = #{username}
-            </if>
-        </where>
-        ORDER BY cashier_name desc limit #{currentPage},#{pageSize}
+<!--    根据父id和角色id查询子菜单-->
+    <select id="findMenu" resultMap="submenuMap" parameterType="java.util.Map">
+         select b.menu_id,b.menu_name,b.menu_url,b.parent_id,a.state from tb_menu b join tb_role_menu a on a.menu_id = b.menu_id and a.role_id = #{roleId} and b.parent_id = #{parentId}
     </select>
-    <!-- table 查找条数  -->
-    <select id="findCount" resultType="int" >
-        select  count(*) from tb_cashier
-        <where>
-            <if test="username != '' and username !=null">
-                and cashier_account = #{username}
-            </if>
-        </where>
-    </select>
-    <!-- table 禁用  -->
-    <update id="forbiddenState" parameterType="java.util.Map">
-			update tb_cashier
-			set  cashier_state = '0'
-			where cashier_account = #{username}
-	</update>
-    <!-- table 启用  -->
-    <update id="openState" parameterType="java.util.Map">
-			update tb_cashier
-			set  cashier_state = '1'
-			where cashier_account = #{username}
-	</update>
+
+<!--    查询子菜单返回类型映射-->
+    <resultMap id="submenuMap" type="TbMenu">
+        <id column="MENU_ID" property="menuId"/>
+        <result column="MENU_NAME" property="menuName"/>
+        <result column="MENU_URL" property="menuUrl"/>
+        <result column="PARENT_ID" property="parentId"/>
+        <result column="STATE" property="state"/>
+    </resultMap>
 </mapper>

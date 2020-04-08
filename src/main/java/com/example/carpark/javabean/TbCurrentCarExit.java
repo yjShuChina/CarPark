@@ -1,59 +1,54 @@
 package com.example.carpark.javabean;
 
 
-import org.springframework.stereotype.Component;
-
-import java.util.Date;
-
-@Component
 public class TbCurrentCarExit {
 
-  private Integer cce_id;
-  private String car_number;
-  private Date entry_time;
-  private Date exit_time;
-  private Integer price;
+  private long cceId;
+  private String carNumber;
+  private java.sql.Timestamp entryTime;
+  private java.sql.Timestamp exitTime;
+  private long price;
   private String channel;
-  private String park_space_id;
-  private String cashier_id;
+  private String parkSpaceId;
+  private long cashierId;
 
-  public Integer getCce_id() {
-    return cce_id;
+  public long getCceId() {
+    return cceId;
   }
 
-  public void setCce_id(Integer cce_id) {
-    this.cce_id = cce_id;
+  public void setCceId(long cceId) {
+    this.cceId = cceId;
   }
 
-  public String getCar_number() {
-    return car_number;
+  public String getCarNumber() {
+    return carNumber;
   }
 
-  public void setCar_number(String car_number) {
-    this.car_number = car_number;
+  public void setCarNumber(String carNumber) {
+    this.carNumber = carNumber;
   }
 
-  public Date getEntry_time() {
-    return entry_time;
+  public java.sql.Timestamp getEntryTime() {
+    return entryTime;
   }
 
-  public void setEntry_time(Date entry_time) {
-    this.entry_time = entry_time;
+  public void setEntryTime(java.sql.Timestamp entryTime) {
+    this.entryTime = entryTime;
   }
 
-  public Date getExit_time() {
-    return exit_time;
+  public java.sql.Timestamp getExitTime() {
+    return exitTime;
   }
 
-  public void setExit_time(Date exit_time) {
-    this.exit_time = exit_time;
+  public void setExitTime(java.sql.Timestamp exitTime) {
+    this.exitTime = exitTime;
   }
 
-  public Integer getPrice() {
+  public long getPrice() {
     return price;
   }
 
-  public void setPrice(Integer price) {
+  public void setPrice(long price) {
     this.price = price;
   }
 
@@ -65,33 +60,20 @@ public class TbCurrentCarExit {
     this.channel = channel;
   }
 
-  public String getPark_space_id() {
-    return park_space_id;
+  public String getParkSpaceId() {
+    return parkSpaceId;
   }
 
-  public void setPark_space_id(String park_space_id) {
-    this.park_space_id = park_space_id;
+  public void setParkSpaceId(String parkSpaceId) {
+    this.parkSpaceId = parkSpaceId;
   }
 
-  public String getCashier_id() {
-    return cashier_id;
+  public long getCashierId() {
+    return cashierId;
   }
 
-  public void setCashier_id(String cashier_id) {
-    this.cashier_id = cashier_id;
+  public void setCashierId(long cashierId) {
+    this.cashierId = cashierId;
   }
 
-  @Override
-  public String toString() {
-    return "TbCurrentCarExit{" +
-            "cce_id=" + cce_id +
-            ", car_number='" + car_number + '\'' +
-            ", entry_time=" + entry_time +
-            ", exit_time=" + exit_time +
-            ", price=" + price +
-            ", channel='" + channel + '\'' +
-            ", park_space_id='" + park_space_id + '\'' +
-            ", cashier_id='" + cashier_id + '\'' +
-            '}';
-  }
 }

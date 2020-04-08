@@ -958,7 +958,7 @@
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="243" parent="226" name="admin_acc">
+    <column id="243" parent="226" name="admin_account">
       <Position>2</Position>
       <Comment>管理员账号</Comment>
       <DataType>varchar(255)|0s</DataType>
@@ -1011,40 +1011,47 @@
     </foreign-key>
     <column id="251" parent="227" name="cashier_id">
       <Position>1</Position>
+      <Comment>收费员表id</Comment>
+      <DataType>int(100)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="252" parent="227" name="cashier_account">
+      <Position>2</Position>
       <Comment>收费员账号</Comment>
-      <DataType>varchar(100)|0s</DataType>
+      <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
-      <Collation>utf8_general_ci</Collation>
     </column>
-    <column id="252" parent="227" name="cashier_pwd">
-      <Position>2</Position>
+    <column id="253" parent="227" name="cashier_pwd">
+      <Position>3</Position>
       <Comment>收费员密码</Comment>
       <DataType>varchar(32)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
       <Collation>utf8_general_ci</Collation>
     </column>
-    <column id="253" parent="227" name="cashier_name">
-      <Position>3</Position>
+    <column id="254" parent="227" name="cashier_name">
+      <Position>4</Position>
       <Comment>收费员姓名</Comment>
       <DataType>varchar(16)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="254" parent="227" name="cashier_state">
-      <Position>4</Position>
+    <column id="255" parent="227" name="cashier_state">
+      <Position>5</Position>
       <Comment>状态</Comment>
       <DataType>int(8)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="255" parent="227" name="PRIMARY">
+    <key id="256" parent="227" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>cashier_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="256" parent="228" name="cs_id">
+    <column id="257" parent="228" name="cs_id">
       <Position>1</Position>
       <Comment>排班表ID</Comment>
       <DataType>int(100)|0s</DataType>
@@ -1052,7 +1059,7 @@
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="257" parent="228" name="shifts">
+    <column id="258" parent="228" name="shifts">
       <Position>2</Position>
       <Comment>班次</Comment>
       <DataType>varchar(16)|0s</DataType>
@@ -1060,29 +1067,28 @@
       <ColumnKind>normal</ColumnKind>
       <Collation>utf8_general_ci</Collation>
     </column>
-    <column id="258" parent="228" name="cashier_id">
+    <column id="259" parent="228" name="cashier_id">
       <Position>3</Position>
       <Comment>收费员ID</Comment>
-      <DataType>varchar(16)|0s</DataType>
+      <DataType>int(16)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
-      <Collation>utf8_general_ci</Collation>
     </column>
-    <index id="259" parent="228" name="cashier_id">
+    <index id="260" parent="228" name="cashier_id">
       <ColNames>cashier_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="260" parent="228" name="PRIMARY">
+    <key id="261" parent="228" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>cs_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="261" parent="228" name="tb_cashier_shifts_ibfk_1">
+    <foreign-key id="262" parent="228" name="tb_cashier_shifts_ibfk_1">
       <ColNames>cashier_id</ColNames>
       <RefTableName>tb_cashier</RefTableName>
       <RefColNames>cashier_id</RefColNames>
     </foreign-key>
-    <column id="262" parent="229" name="cp_id">
+    <column id="263" parent="229" name="cp_id">
       <Position>1</Position>
       <Comment>收费参数ID</Comment>
       <DataType>int(100)|0s</DataType>
@@ -1090,26 +1096,26 @@
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="263" parent="229" name="charge_time">
+    <column id="264" parent="229" name="charge_time">
       <Position>2</Position>
       <Comment>时间段</Comment>
       <DataType>datetime|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="264" parent="229" name="price">
+    <column id="265" parent="229" name="price">
       <Position>3</Position>
       <Comment>收费</Comment>
       <DataType>int(16)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="265" parent="229" name="PRIMARY">
+    <key id="266" parent="229" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>cp_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="266" parent="230" name="cce_id">
+    <column id="267" parent="230" name="cce_id">
       <Position>1</Position>
       <Comment>车辆出场结算ID</Comment>
       <DataType>int(100)|0s</DataType>
@@ -1117,7 +1123,7 @@
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="267" parent="230" name="car_number">
+    <column id="268" parent="230" name="car_number">
       <Position>2</Position>
       <Comment>车牌号</Comment>
       <DataType>varchar(8)|0s</DataType>
@@ -1125,28 +1131,28 @@
       <ColumnKind>normal</ColumnKind>
       <Collation>utf8_general_ci</Collation>
     </column>
-    <column id="268" parent="230" name="entry_time">
+    <column id="269" parent="230" name="entry_time">
       <Position>3</Position>
       <Comment>进场时间</Comment>
       <DataType>datetime|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="269" parent="230" name="exit_time">
+    <column id="270" parent="230" name="exit_time">
       <Position>4</Position>
       <Comment>出场时间</Comment>
       <DataType>datetime|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="270" parent="230" name="price">
+    <column id="271" parent="230" name="price">
       <Position>5</Position>
       <Comment>停车产生的费用</Comment>
       <DataType>int(50)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="271" parent="230" name="channel">
+    <column id="272" parent="230" name="channel">
       <Position>6</Position>
       <Comment>渠道</Comment>
       <DataType>varchar(10)|0s</DataType>
@@ -1154,7 +1160,7 @@
       <ColumnKind>normal</ColumnKind>
       <Collation>utf8_general_ci</Collation>
     </column>
-    <column id="272" parent="230" name="park_space_id">
+    <column id="273" parent="230" name="park_space_id">
       <Position>7</Position>
       <Comment>停车位</Comment>
       <DataType>varchar(8)|0s</DataType>
@@ -1162,36 +1168,30 @@
       <ColumnKind>normal</ColumnKind>
       <Collation>utf8_general_ci</Collation>
     </column>
-    <column id="273" parent="230" name="cashier_id">
+    <column id="274" parent="230" name="cashier_id">
       <Position>8</Position>
       <Comment>收费员ID</Comment>
-      <DataType>varchar(16)|0s</DataType>
+      <DataType>int(16)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
-      <Collation>utf8_general_ci</Collation>
     </column>
-    <index id="274" parent="230" name="park_space_id">
+    <index id="275" parent="230" name="park_space_id">
       <ColNames>park_space_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="275" parent="230" name="cashier_id">
+    <index id="276" parent="230" name="cashier_id">
       <ColNames>cashier_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="276" parent="230" name="PRIMARY">
+    <key id="277" parent="230" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>cce_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="277" parent="230" name="tb_current_car_exit_ibfk_3">
+    <foreign-key id="278" parent="230" name="tb_current_car_exit_ibfk_3">
       <ColNames>park_space_id</ColNames>
       <RefTableName>tb_park_space</RefTableName>
       <RefColNames>park_space_id</RefColNames>
-    </foreign-key>
-    <foreign-key id="278" parent="230" name="tb_current_car_exit_ibfk_2">
-      <ColNames>cashier_id</ColNames>
-      <RefTableName>tb_cashier</RefTableName>
-      <RefColNames>cashier_id</RefColNames>
     </foreign-key>
     <column id="279" parent="231" name="log_id">
       <Position>1</Position>
@@ -1339,42 +1339,35 @@
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="300" parent="234" name="month">
+    <column id="300" parent="234" name="mcp_id">
       <Position>6</Position>
       <Comment>月份数</Comment>
-      <DataType>int(8)|0s</DataType>
+      <DataType>int(100)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="301" parent="234" name="price">
-      <Position>7</Position>
-      <Comment>费用</Comment>
-      <DataType>int(50)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <index id="302" parent="234" name="user_id">
+    <index id="301" parent="234" name="user_id">
       <ColNames>user_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="303" parent="234" name="PRIMARY">
+    <key id="302" parent="234" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>mvr_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="304" parent="234" name="tb_month_vip_ibfk_1">
+    <foreign-key id="303" parent="234" name="tb_month_vip_ibfk_1">
       <ColNames>user_id</ColNames>
       <RefTableName>tb_user</RefTableName>
       <RefColNames>user_id</RefColNames>
     </foreign-key>
-    <column id="305" parent="235" name="pci_id">
+    <column id="304" parent="235" name="pci_id">
       <Position>1</Position>
       <Comment>场内车辆信息表ID</Comment>
       <DataType>int(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="306" parent="235" name="car_number">
+    <column id="305" parent="235" name="car_number">
       <Position>2</Position>
       <Comment>车牌号（不是外键）</Comment>
       <DataType>varchar(8)|0s</DataType>
@@ -1382,20 +1375,27 @@
       <ColumnKind>normal</ColumnKind>
       <Collation>utf8_general_ci</Collation>
     </column>
-    <column id="307" parent="235" name="car_identity">
+    <column id="306" parent="235" name="car_identity">
       <Position>3</Position>
       <Comment>临时车or月缴车or白名单车</Comment>
       <DataType>int(8)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="308" parent="235" name="park_space_id">
+    <column id="307" parent="235" name="park_space_id">
       <Position>4</Position>
       <Comment>车位ID（字符串）</Comment>
       <DataType>varchar(8)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
       <Collation>utf8_general_ci</Collation>
+    </column>
+    <column id="308" parent="235" name="car_time">
+      <Position>5</Position>
+      <Comment>车辆进场时间</Comment>
+      <DataType>datetime|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
     </column>
     <index id="309" parent="235" name="fk_psi">
       <ColNames>park_space_id</ColNames>
@@ -1555,10 +1555,9 @@
     <column id="333" parent="239" name="cashier_id">
       <Position>8</Position>
       <Comment>收费员ID</Comment>
-      <DataType>varchar(16)|0s</DataType>
+      <DataType>int(16)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
-      <Collation>utf8_general_ci</Collation>
     </column>
     <index id="334" parent="239" name="park_space_id">
       <ColNames>park_space_id</ColNames>
@@ -1578,12 +1577,7 @@
       <RefTableName>tb_park_space</RefTableName>
       <RefColNames>park_space_id</RefColNames>
     </foreign-key>
-    <foreign-key id="338" parent="239" name="tb_total_car_exit_ibfk_2">
-      <ColNames>cashier_id</ColNames>
-      <RefTableName>tb_cashier</RefTableName>
-      <RefColNames>cashier_id</RefColNames>
-    </foreign-key>
-    <column id="339" parent="240" name="user_id">
+    <column id="338" parent="240" name="user_id">
       <Position>1</Position>
       <Comment>车主ID</Comment>
       <DataType>int(100)|0s</DataType>
@@ -1591,7 +1585,7 @@
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="340" parent="240" name="user_tel">
+    <column id="339" parent="240" name="user_tel">
       <Position>2</Position>
       <Comment>车主手机号（登陆账号）</Comment>
       <DataType>varchar(16)|0s</DataType>
@@ -1599,7 +1593,7 @@
       <ColumnKind>normal</ColumnKind>
       <Collation>utf8_general_ci</Collation>
     </column>
-    <column id="341" parent="240" name="user_pwd">
+    <column id="340" parent="240" name="user_pwd">
       <Position>3</Position>
       <Comment>车主登陆密码</Comment>
       <DataType>varchar(32)|0s</DataType>
@@ -1607,7 +1601,7 @@
       <ColumnKind>normal</ColumnKind>
       <Collation>utf8_general_ci</Collation>
     </column>
-    <column id="342" parent="240" name="car_number">
+    <column id="341" parent="240" name="car_number">
       <Position>4</Position>
       <Comment>车牌号</Comment>
       <DataType>varchar(8)|0s</DataType>
@@ -1615,35 +1609,35 @@
       <ColumnKind>normal</ColumnKind>
       <Collation>utf8_general_ci</Collation>
     </column>
-    <column id="343" parent="240" name="user_name">
+    <column id="342" parent="240" name="user_name">
       <Position>5</Position>
       <Comment>车主姓名</Comment>
       <DataType>varchar(16)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
       <Collation>utf8_general_ci</Collation>
     </column>
-    <column id="344" parent="240" name="month_vip_begin">
+    <column id="343" parent="240" name="month_vip_begin">
       <Position>6</Position>
       <Comment>月缴生效时间</Comment>
       <DataType>datetime|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="345" parent="240" name="month_vip_deadline">
+    <column id="344" parent="240" name="month_vip_deadline">
       <Position>7</Position>
       <Comment>月缴截止时间</Comment>
       <DataType>datetime|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="346" parent="240" name="car_number">
+    <index id="345" parent="240" name="car_number">
       <ColNames>car_number</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="347" parent="240" name="PRIMARY">
+    <key id="346" parent="240" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>user_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="348" parent="241" name="wl_id">
+    <column id="347" parent="241" name="wl_id">
       <Position>1</Position>
       <Comment>白名单ID</Comment>
       <DataType>int(100)|0s</DataType>
@@ -1651,7 +1645,7 @@
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="349" parent="241" name="user_tel">
+    <column id="348" parent="241" name="user_tel">
       <Position>2</Position>
       <Comment>车主手机号</Comment>
       <DataType>varchar(16)|0s</DataType>
@@ -1659,7 +1653,7 @@
       <ColumnKind>normal</ColumnKind>
       <Collation>utf8_general_ci</Collation>
     </column>
-    <column id="350" parent="241" name="car_number">
+    <column id="349" parent="241" name="car_number">
       <Position>3</Position>
       <Comment>车牌号</Comment>
       <DataType>varchar(8)|0s</DataType>
@@ -1667,14 +1661,14 @@
       <ColumnKind>normal</ColumnKind>
       <Collation>utf8_general_ci</Collation>
     </column>
-    <column id="351" parent="241" name="user_name">
+    <column id="350" parent="241" name="user_name">
       <Position>4</Position>
       <Comment>车主姓名</Comment>
       <DataType>varchar(16)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="352" parent="241" name="PRIMARY">
+    <key id="351" parent="241" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>wl_id</ColNames>
       <Primary>1</Primary>
