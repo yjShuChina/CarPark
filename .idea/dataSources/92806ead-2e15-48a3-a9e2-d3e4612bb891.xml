@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataSource name="carpark@112.74.72.11">
-  <database-model serializer="dbm" dbms="MYSQL" family-id="MYSQL" format-version="4.17">
+  <database-model serializer="dbm" dbms="MYSQL" family-id="MYSQL" format-version="4.15">
     <root id="1">
       <ServerVersion>5.7.25</ServerVersion>
       <DefaultEngine>InnoDB</DefaultEngine>
@@ -9,6 +9,7 @@
     </root>
     <schema id="2" parent="1" name="carpark">
       <Current>1</Current>
+      <Visible>1</Visible>
       <Collation>utf8mb4_general_ci</Collation>
     </schema>
     <schema id="3" parent="1" name="information_schema">
@@ -1006,6 +1007,7 @@
     </key>
     <foreign-key id="250" parent="226" name="tb_admin_ibfk_1">
       <ColNames>admin_id</ColNames>
+      <RefSchemaName>carpark</RefSchemaName>
       <RefTableName>tb_role</RefTableName>
       <RefColNames>role_id</RefColNames>
     </foreign-key>
@@ -1044,6 +1046,7 @@
       <Comment>状态</Comment>
       <DataType>int(8)|0s</DataType>
       <NotNull>1</NotNull>
+      <DefaultExpression>1</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
     <key id="256" parent="227" name="PRIMARY">
@@ -1085,6 +1088,7 @@
     </key>
     <foreign-key id="262" parent="228" name="tb_cashier_shifts_ibfk_1">
       <ColNames>cashier_id</ColNames>
+      <RefSchemaName>carpark</RefSchemaName>
       <RefTableName>tb_cashier</RefTableName>
       <RefColNames>cashier_id</RefColNames>
     </foreign-key>
@@ -1190,6 +1194,7 @@
     </key>
     <foreign-key id="278" parent="230" name="tb_current_car_exit_ibfk_3">
       <ColNames>park_space_id</ColNames>
+      <RefSchemaName>carpark</RefSchemaName>
       <RefTableName>tb_park_space</RefTableName>
       <RefColNames>park_space_id</RefColNames>
     </foreign-key>
@@ -1357,6 +1362,7 @@
     </key>
     <foreign-key id="303" parent="234" name="tb_month_vip_ibfk_1">
       <ColNames>user_id</ColNames>
+      <RefSchemaName>carpark</RefSchemaName>
       <RefTableName>tb_user</RefTableName>
       <RefColNames>user_id</RefColNames>
     </foreign-key>
@@ -1491,11 +1497,13 @@
     </key>
     <foreign-key id="324" parent="238" name="tb_role_menu_ibfk_1">
       <ColNames>role_id</ColNames>
+      <RefSchemaName>carpark</RefSchemaName>
       <RefTableName>tb_role</RefTableName>
       <RefColNames>role_id</RefColNames>
     </foreign-key>
     <foreign-key id="325" parent="238" name="tb_role_menu_ibfk_2">
       <ColNames>menu_id</ColNames>
+      <RefSchemaName>carpark</RefSchemaName>
       <RefTableName>tb_menu</RefTableName>
       <RefColNames>menu_id</RefColNames>
     </foreign-key>
@@ -1574,6 +1582,7 @@
     </key>
     <foreign-key id="337" parent="239" name="tb_total_car_exit_ibfk_1">
       <ColNames>park_space_id</ColNames>
+      <RefSchemaName>carpark</RefSchemaName>
       <RefTableName>tb_park_space</RefTableName>
       <RefColNames>park_space_id</RefColNames>
     </foreign-key>

@@ -18,4 +18,6 @@ public class UrlController {
     public String redirect(@PathVariable(value = "uri")String path){
         return "/administration/jsp/admin/"+path;
     }
+
+
 }
