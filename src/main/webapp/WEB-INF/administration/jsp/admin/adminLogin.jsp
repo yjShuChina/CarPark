@@ -7,8 +7,6 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--郭子淳--%>
-<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -25,28 +23,27 @@
 <form class="layui-form" onsubmit="return false;" > <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
     <div style="padding-top: 10%;padding-left: 50%;">
         <div class="layui-form-item">
-            <h3 style="align-content: center">智能车牌识别停车场 管理端</h3>
+            <h3 style="align-content: center">智能停车场管理端</h3>
             <hr style="width: 40%">
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">帐号：</label>
             <div class="layui-input-inline">
-                <input type="text" name="adminAccount" placeholder="请输入帐号" required lay-verify="required" autocomplete="off"
+                <input type="text" name="admin_account" placeholder="请输入帐号" required lay-verify="required" autocomplete="off"
                        class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">密码：</label>
             <div class="layui-input-inline">
-                <input type="password" name="adminPwd" required lay-verify="required" placeholder="请输入密码"
+                <input type="password" name="admin_pwd" required lay-verify="required" placeholder="请输入密码"
                        autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label"></label>
             <div class="layui-input-inline">
-                <img title="点击更换" id="image" src="${pageContext.request.contextPath}/admin/CheckCodeServlet" onclick="changeCode()">
-                <a href="javascript:;" onclick="changeCode()">看不清?换一张</a>
+                <img title="点击更换" id="img" src="${pageContext.request.contextPath}/admin/CheckCodeServlet" onclick="changeCode(this)">
             </div>
             <div ></div>
         </div>
@@ -78,12 +75,10 @@
                     dataType: "text",
                     success: function (res) {
                         if(res === '验证成功'){
-                            layer.alert(res,function () {
-                                window.location.href = path+'/url/adminMain';
-                            })
+                            layer.alert(res)
                         }else {
-                            layer.alert(res);
-                            changeCode();
+                            layer.alert(res)
+                            changeCode($('#img'));
                         }
                     },
                     error: function () {
@@ -95,8 +90,8 @@
         });
     });
     //ajax获取验证码
-    function changeCode() {
-        $("#image").attr("src",path + "/admin/CheckCodeServlet?num="+Math.random())
+    function changeCode(msg) {
+        msg.src = path + "/admin/CheckCodeServlet?num="+Math.random()+1;
     }
 </script>
 </body>

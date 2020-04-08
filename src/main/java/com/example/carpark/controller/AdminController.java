@@ -1,7 +1,9 @@
 package com.example.carpark.controller;
 
 
+import com.example.carpark.javabean.DataManagementResult;
 import com.example.carpark.javabean.TbAdmin;
+import com.example.carpark.javabean.TbCashier;
 import com.example.carpark.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +19,7 @@ import javax.servlet.http.HttpSession;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -107,5 +110,30 @@ public class AdminController {
         int g = random.nextInt(256);
         int b = random.nextInt(256);
         return new Color(r, g, b);
+    }
+
+    //林堂星_用户管理
+    @RequestMapping("/test")
+    public String test(){
+        return "administration/jsp/admin/adminManagement";
+    }
+    //林堂星_用户管理
+    @RequestMapping("/adminManagement")
+    @ResponseBody
+    public DataManagementResult adminManagement(String page, String limit, String uid, String startTime, String endTime, String stateId, String oId)
+    {
+        System.out.println("int++++++++++++++++");
+        int pageInt = Integer.valueOf(page);
+        int limitInt = Integer.valueOf(limit);
+        int f = adminService.forbiddenState(stateId);
+        int o = adminService.openState(oId);
+        List<TbCashier> list = adminService.findAll(uid,startTime,endTime,pageInt,limitInt);
+        int count = adminService.findCount(uid,startTime,endTime);
+        DataManagementResult dataManagementResult = new DataManagementResult();
+        dataManagementResult.setCode(0);
+        dataManagementResult.setMsg("");
+        dataManagementResult.setCount(count);
+        dataManagementResult.setData(list);
+        return dataManagementResult;
     }
 }

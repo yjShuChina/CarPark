@@ -7,4 +7,37 @@
     <select id="adminLogin" parameterType="java.util.Map" resultType="TbAdmin">
         select * from tb_admin where admin_account = #{admin_account} and admin_pwd = #{admin_pwd}
     </select>
+
+
+    <!-- 林堂星——table 查找  -->
+    <select id="findAll" resultType="com.example.carpark.javabean.TbCashier" >
+        select  * from tb_cashier
+        <where>
+            <if test="cashier_name != '' and cashier_name !=null">
+                and cashier_name = #{username}
+            </if>
+        </where>
+        ORDER BY cashier_name desc limit #{currentPage},#{pageSize}
+    </select>
+    <!-- table 查找条数  -->
+    <select id="findCount" resultType="int" >
+        select  count(*) from tb_cashier
+        <where>
+            <if test="username != '' and username !=null">
+                and cashier_account = #{username}
+            </if>
+        </where>
+    </select>
+    <!-- table 禁用  -->
+    <update id="forbiddenState" parameterType="java.util.Map">
+			update tb_cashier
+			set  cashier_state = '0'
+			where cashier_account = #{username}
+	</update>
+    <!-- table 启用  -->
+    <update id="openState" parameterType="java.util.Map">
+			update tb_cashier
+			set  cashier_state = '1'
+			where cashier_account = #{username}
+	</update>
 </mapper>

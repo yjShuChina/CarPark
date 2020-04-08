@@ -41,4 +41,3 @@ mybatis:
   type-aliases-package: com.example.carpark.javabean
 
 
-

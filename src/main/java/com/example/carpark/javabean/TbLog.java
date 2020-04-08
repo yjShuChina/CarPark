@@ -1,23 +1,25 @@
 package com.example.carpark.javabean;
 
+import org.springframework.stereotype.Component;
 
+import java.util.Date;
+
+@Component
 public class TbLog {
 
-  private long logId;
+  private Integer log_id;
   private String uname;
-  private java.sql.Timestamp operationTime;
+  private Date operation_time;
   private String operation;
-  private String operationType;
+  private String operation_type;
 
-
-  public long getLogId() {
-    return logId;
+  public Integer getLog_id() {
+    return log_id;
   }
 
-  public void setLogId(long logId) {
-    this.logId = logId;
+  public void setLog_id(Integer log_id) {
+    this.log_id = log_id;
   }
-
 
   public String getUname() {
     return uname;
@@ -27,15 +29,13 @@ public class TbLog {
     this.uname = uname;
   }
 
-
-  public java.sql.Timestamp getOperationTime() {
-    return operationTime;
+  public Date getOperation_time() {
+    return operation_time;
   }
 
-  public void setOperationTime(java.sql.Timestamp operationTime) {
-    this.operationTime = operationTime;
+  public void setOperation_time(Date operation_time) {
+    this.operation_time = operation_time;
   }
-
 
   public String getOperation() {
     return operation;
@@ -45,13 +45,22 @@ public class TbLog {
     this.operation = operation;
   }
 
-
-  public String getOperationType() {
-    return operationType;
+  public String getOperation_type() {
+    return operation_type;
   }
 
-  public void setOperationType(String operationType) {
-    this.operationType = operationType;
+  public void setOperation_type(String operation_type) {
+    this.operation_type = operation_type;
   }
 
+  @Override
+  public String toString() {
+    return "TbLog{" +
+            "log_id=" + log_id +
+            ", uname='" + uname + '\'' +
+            ", operation_time=" + operation_time +
+            ", operation='" + operation + '\'' +
+            ", operation_type='" + operation_type + '\'' +
+            '}';
+  }
 }
