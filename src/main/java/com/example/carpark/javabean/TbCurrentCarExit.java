@@ -12,7 +12,6 @@ public class TbCurrentCarExit {
   private String parkSpaceId;
   private long cashierId;
 
-
   public long getCceId() {
     return cceId;
   }
@@ -20,7 +19,6 @@ public class TbCurrentCarExit {
   public void setCceId(long cceId) {
     this.cceId = cceId;
   }
-
 
   public String getCarNumber() {
     return carNumber;
@@ -30,7 +28,6 @@ public class TbCurrentCarExit {
     this.carNumber = carNumber;
   }
 
-
   public java.sql.Timestamp getEntryTime() {
     return entryTime;
   }
@@ -38,7 +35,6 @@ public class TbCurrentCarExit {
   public void setEntryTime(java.sql.Timestamp entryTime) {
     this.entryTime = entryTime;
   }
-
 
   public java.sql.Timestamp getExitTime() {
     return exitTime;
@@ -48,7 +44,6 @@ public class TbCurrentCarExit {
     this.exitTime = exitTime;
   }
 
-
   public long getPrice() {
     return price;
   }
@@ -56,7 +51,6 @@ public class TbCurrentCarExit {
   public void setPrice(long price) {
     this.price = price;
   }
-
 
   public String getChannel() {
     return channel;
@@ -66,7 +60,6 @@ public class TbCurrentCarExit {
     this.channel = channel;
   }
 
-
   public String getParkSpaceId() {
     return parkSpaceId;
   }
@@ -74,7 +67,6 @@ public class TbCurrentCarExit {
   public void setParkSpaceId(String parkSpaceId) {
     this.parkSpaceId = parkSpaceId;
   }
-
 
   public long getCashierId() {
     return cashierId;
