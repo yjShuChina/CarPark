@@ -1,5 +1,6 @@
 package com.example.carpark.controller;
 
+<<<<<<< HEAD
 
 import com.example.carpark.javabean.TbCashier;
 import com.example.carpark.service.AdminService;
@@ -19,10 +20,27 @@ import java.util.Map;
 /**
  * 收费员控制类
  */
+=======
+import com.example.carpark.javabean.TbUser;
+import com.example.carpark.service.MonthService;
+import com.google.gson.Gson;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+>>>>>>> 3889b8d... 潘奕安0408
 @Controller
 @RequestMapping("/charge")
 public class ChargeController {
 
+<<<<<<< HEAD
     @Autowired
     private ChargeService chargeService;
 
@@ -63,4 +81,39 @@ public class ChargeController {
     public String redirect(@PathVariable(value = "uri")String path){
         return "/charge/jsp/"+path;
     }
+=======
+    @Resource
+    private MonthService monthService;
+    Gson g = new Gson();
+
+    /**
+     * 收费员端页面跳转
+     *
+     * @param path
+     * @return
+     */
+    @RequestMapping("/path/{url}")
+    public String getUrl(@PathVariable(value = "url") String path) {
+        return "/cashier/jsp/" + path;
+    }
+
+    //添加月缴信息
+    @RequestMapping("/addMonthlyPayment")
+    public void addMonthlyPayment(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+//        String jsonstr = request.getParameter("tbUser");
+//        TbUser tbUser = g.fromJson(jsonstr, TbUser.class);
+//        System.out.println("新增月缴用户的tbUser= " + tbUser);
+//        monthService.addMonthlyPayment(tbUser);
+//        if (tbUser != null) {
+//            response.getWriter().print("success");
+//            System.out.println("月缴新增成功");
+//
+//        } else {
+//            response.getWriter().print("error");
+//            System.out.println("月缴新增失败");
+//        }
+    }
+
+>>>>>>> 3889b8d... 潘奕安0408
 }

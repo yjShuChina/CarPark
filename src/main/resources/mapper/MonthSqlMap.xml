@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.carpark.dao.MonthDao">
+
+	<!--添加用户信息-->
+	<insert id="addUser" parameterType="TbUser">
+		insert into tb_user (user_tel,user_pwd,car_number,user_name,month_vip_begin,month_vip_deadline)
+		values
+		(#{user_tel},'123456',#{car_number},#{user_name},#{month_vip_begin},#{month_vip_deadline})
+	</insert>
+
+	<!--添加月缴信息-->
+	<insert id="addMonthlyPayment" parameterType="TbMonthVip">
+		insert into tb_month_vip (user_id,handle_time,origin_deadline,current_deadline,mcp_id)
+		values
+		(#{user_id},(select DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s') from dual),#{origin_deadline},#{current_deadline},#{mcp_id})
+	</insert>
+
+</mapper>
