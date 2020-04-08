@@ -51,8 +51,8 @@ public class AdminServiceImpl implements AdminService {
         for (int i = 0;i < parentMenuList.size();i++)//循环遍历父级菜单
         {
             HashMap<String,Object> map = new HashMap<>();
-            map.put("role_id",tbAdmin.getRole_id());//将角色id添加到map
-            map.put("parent_id",parentMenuList.get(i).getMenu_id());//将父级菜单id添加到map
+            map.put("roleId",tbAdmin.getRoleId());//将角色id添加到map
+            map.put("parentId",parentMenuList.get(i).getMenuId());//将父级菜单id添加到map
             List<TbMenu> submenuList = adminDao.findMenu(map);//查询该父级菜单下所有子菜单
             for (int j = 0; j < submenuList.size(); j++) {//遍历子菜单集
                 if(submenuList.get(j).getState() == 2)//如果状态为2,则移除

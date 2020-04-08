@@ -14,7 +14,7 @@ layui.use(['element','layer'], function(){
             url:path+'/admin/findCurrentAdmin',
             type:'post',
             success:function (msg) {
-                $('#admin_name').text(msg.admin_name);
+                $('#admin_name').text(msg.adminName);
             },
             error:function (msg) {
                 layer.msg('网络开小差啦',{icon:5})
@@ -28,10 +28,10 @@ layui.use(['element','layer'], function(){
                 var html = "";
                 for (var i = 0;i < msg.length; i++)
                 {
-                    html += '<li class="layui-nav-item"><a class="" href="javascript:;">'+msg[i].menu_name+'</a><dl class="layui-nav-child">';
+                    html += '<li class="layui-nav-item"><a class="" href="javascript:;">'+msg[i].menuName+'</a><dl class="layui-nav-child">';
                     for (var j = 0; j < msg[i].submenuList.length;j++)
                     {
-                        html += '<dd><a href="javascript:;" title="'+msg[i].submenuList[j].menu_url+'" onclick="changePath(this)">'+msg[i].submenuList[j].menu_name+'</a></dd>';
+                        html += '<dd><a href="javascript:;" title="'+msg[i].submenuList[j].menuUrl+'" onclick="changePath(this)">'+msg[i].submenuList[j].menuName+'</a></dd>';
                     }
                     html += '</dl></li>';
                 }

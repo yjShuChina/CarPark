@@ -22,10 +22,10 @@ public interface AdminDao {
 
     /**
      * 查询所有父级菜单
-     * @param parent_id
+     * @param parentId
      * @return
      */
-    List<TbMenu> findParentMenu(Integer parent_id);
+    List<TbMenu> findParentMenu(Integer parentId);
 
     /**
      * 根据父级菜单id和角色id查询子菜单

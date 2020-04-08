@@ -31,14 +31,14 @@
         <div class="layui-form-item">
             <label class="layui-form-label">帐号：</label>
             <div class="layui-input-inline">
-                <input type="text" name="admin_account" placeholder="请输入帐号" required lay-verify="required" autocomplete="off"
+                <input type="text" name="adminAccount" placeholder="请输入帐号" required lay-verify="required" autocomplete="off"
                        class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">密码：</label>
             <div class="layui-input-inline">
-                <input type="password" name="admin_pwd" required lay-verify="required" placeholder="请输入密码"
+                <input type="password" name="adminPwd" required lay-verify="required" placeholder="请输入密码"
                        autocomplete="off" class="layui-input">
             </div>
         </div>
