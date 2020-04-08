@@ -4,7 +4,27 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.carpark.dao.AdminDao">
+<!--    管理员登陆验证-->
     <select id="adminLogin" parameterType="java.util.Map" resultType="TbAdmin">
         select * from tb_admin where admin_account = #{admin_account} and admin_pwd = #{admin_pwd}
     </select>
+
+<!--    查询所有父菜单-->
+    <select id="findParentMenu" resultType="TbMenu" parameterType="java.lang.Integer">
+        select * from tb_menu where parent_id = #{parent_id}
+    </select>
+
+<!--    根据父id和角色id查询子菜单-->
+    <select id="findMenu" resultMap="submenuMap" parameterType="java.util.Map">
+         select b.menu_id,b.menu_name,b.menu_url,b.parent_id,a.state from tb_menu b join tb_role_menu a on a.menu_id = b.menu_id and a.role_id = #{role_id} and b.parent_id = #{parent_id}
+    </select>
+
+<!--    查询子菜单返回类型映射-->
+    <resultMap id="submenuMap" type="TbMenu">
+        <id column="MENU_ID" property="menu_id"/>
+        <result column="MENU_NAME" property="menu_name"/>
+        <result column="MENU_URL" property="menu_url"/>
+        <result column="PARENT_ID" property="parent_id"/>
+        <result column="STATE" property="state"/>
+    </resultMap>
 </mapper>

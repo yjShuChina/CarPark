@@ -1,67 +1,54 @@
 package com.example.carpark.javabean;
 
+import org.springframework.stereotype.Component;
 
-import java.util.List;
-
+@Component
 public class TbMenu {
 
-  private long menuId;
-  private String menuName;
-  private String menuUrl;
-  private long parentId;
-  private long state;
-  private List<TbMenu> submenuList;
+  private Integer menu_id;
+  private String menu_name;
+  private String menu_url;
+  private Integer parent_id;
 
-
-  public long getState() {
-    return state;
+  public Integer getMenu_id() {
+    return menu_id;
   }
 
-  public void setState(long state) {
-    this.state = state;
+  public void setMenu_id(Integer menu_id) {
+    this.menu_id = menu_id;
   }
 
-  public List<TbMenu> getSubmenuList() {
-    return submenuList;
+  public String getMenu_name() {
+    return menu_name;
   }
 
-  public void setSubmenuList(List<TbMenu> submenuList) {
-    this.submenuList = submenuList;
+  public void setMenu_name(String menu_name) {
+    this.menu_name = menu_name;
   }
 
-  public long getMenuId() {
-    return menuId;
+  public String getMenu_url() {
+    return menu_url;
   }
 
-  public void setMenuId(long menuId) {
-    this.menuId = menuId;
+  public void setMenu_url(String menu_url) {
+    this.menu_url = menu_url;
   }
 
-
-  public String getMenuName() {
-    return menuName;
+  public Integer getParent_id() {
+    return parent_id;
   }
 
-  public void setMenuName(String menuName) {
-    this.menuName = menuName;
+  public void setParent_id(Integer parent_id) {
+    this.parent_id = parent_id;
   }
 
-
-  public String getMenuUrl() {
-    return menuUrl;
+  @Override
+  public String toString() {
+    return "TbMenu{" +
+            "menu_id=" + menu_id +
+            ", menu_name='" + menu_name + '\'' +
+            ", menu_url='" + menu_url + '\'' +
+            ", parent_id=" + parent_id +
+            '}';
   }
-
-  public void setMenuUrl(String menuUrl) {
-    this.menuUrl = menuUrl;
-  }
-
-
-  public long getParentId() {
-    return parentId;
-  }
-
-  public void setParentId(long parentId) {
-    this.parentId = parentId;
-  }
-
 }

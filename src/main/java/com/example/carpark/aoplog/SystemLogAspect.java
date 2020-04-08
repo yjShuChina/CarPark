@@ -184,7 +184,9 @@ public class SystemLogAspect {
             for (Method method : methods) {
                 if (method.getName().equals(methodName)) {
                     Class[] clazzs = method.getParameterTypes();
-                    if (clazzs.length == arguments.length) {
+                    Annotation annotation = method.getAnnotation(Log.class);
+                    System.out.println("annotation-->"+annotation);
+                    if (annotation != null&&clazzs.length == arguments.length) {
                         operationType = method.getAnnotation(Log.class).operationType();
                         operationName = method.getAnnotation(Log.class).operationName();
                         break;
