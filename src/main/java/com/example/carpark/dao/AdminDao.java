@@ -33,4 +33,18 @@ public interface AdminDao {
      * @return
      */
     List<TbMenu> findMenu(Map<String,Object> map);
+
+    /**
+     * 根据父级ID\菜单名称\page\limit查询菜单
+     * @param map
+     * @return
+     */
+    List<TbMenu> findMenuByPage(Map<String,Object> map);
+
+    /**
+     * 根据父级ID\菜单名称查询菜单总数
+     * @param map
+     * @return
+     */
+    Integer findMenuCount(Map<String,Object> map);
 }
