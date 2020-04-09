@@ -5,6 +5,7 @@ import com.example.carpark.javabean.ResultDate;
 import com.example.carpark.javabean.TbAdmin;
 import com.example.carpark.javabean.TbMenu;
 import com.example.carpark.service.AdminService;
+import com.example.carpark.util.ApplicationContextHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -106,13 +107,12 @@ public class AdminController {
     @ResponseBody
     @RequestMapping("/findMenuById")
     public ResultDate findMenuById(@RequestParam Map<String,Object> param){
-        System.out.println("===========================分页查询菜单=========================");
+        System.out.println("===========================查询菜单列表=========================");
         Integer page = Integer.valueOf(param.get("page").toString());
         Integer limit = Integer.valueOf(param.get("limit").toString());
         page = (page - 1) * limit;//计算第几页
         param.put("page",page);
         param.put("limit",limit);
-        param.put("parentId",Integer.valueOf(param.get("parentId").toString()));//这里前台获取的是String,所以这里做了强制类型转换
         return adminService.findMenuById(param);
     }
 
@@ -179,5 +179,67 @@ public class AdminController {
         int g = fc + random.nextInt(bc - fc);
         int b = fc + random.nextInt(bc - fc);
         return new Color(r,g,b);
+    }
+
+    /**
+     *  根据父级ID查询菜单
+     * @param parentId
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/findSubmenu")
+    public List<TbMenu> findSubmenu(Integer parentId){
+        System.out.println("=================根据父级ID查询菜单================");
+        return adminService.findSubmenu(parentId);
+    }
+
+    /**
+     * 根据父级菜单ID、菜单名、url增加菜单
+     * @param param
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/addMenu")
+    public String addMenu(@RequestParam Map<String,Object> param){
+        System.out.println("=================增加菜单===================");
+        TbMenu tbMenu = ApplicationContextHelper.getBean(TbMenu.class);
+        tbMenu.setMenuName(param.get("menuName").toString());
+        tbMenu.setMenuUrl(param.get("menuUrl").toString());
+        tbMenu.setParentId(Integer.valueOf(param.get("parentId").toString()));
+        return adminService.addMenu(tbMenu) > 0?"增加成功":"菜单名已存在";//如果返回值大于1则添加成功，否则添加失败
+    }
+
+    /**
+     * 更新菜单信息
+     * @param param
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/updateMenu")
+    public String updateMenu(@RequestParam Map<String,Object> param){
+        System.out.println("=================更新菜单信息============");
+        return adminService.updateMenu(param) > 0?"success":"error";
+    }
+
+    /**
+     *  修改菜单父ID
+     * @param param
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/updateMenuParentId")
+    public String updateMenuParentId(@RequestParam Map<String,Object> param){
+        return adminService.updateMenuParentId(param) > 0 ? "success":"error";
+    }
+
+    /**
+     * 新增子菜单
+     * @param param
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/addSubmenu")
+    public String addSubmenu(@RequestParam Map<String,Object> param){
+        return adminService.addSubmenu(param)>0?"success":"error";
     }
 }

@@ -32,30 +32,22 @@
                     <input type="text" id ="menuName" name ="menuName" placeholder="请输入" autocomplete="off" class="layui-input">
                 </div>
                 <button class="layui-btn" lay-submit lay-filter="formDemo"><i class="layui-icon layui-icon-search"></i> 查询</button>
+                <button title="新增父级菜单" class="layui-btn"  onclick="addParentMenu()"><i class="layui-icon layui-icon-add-circle"></i> 增加</button>
             </div>
         </form>
-        <table class="layui-table">
-            <colgroup>
-                <col width="100">
-                <col width="150">
-                <col width="200">
-                <col width="300">
-            </colgroup>
-            <thead style="text-align: center;">
-            <tr>
-                <th>菜单ID</th>
-                <th>菜单名称</th>
-                <th>菜单路径</th>
-                <th>菜单等级</th>
-                <th>操作</th>
-            </tr>
-            </thead>
-            <tbody id="tbody" style="text-align: center;">
-
-            </tbody>
-        </table>
-        <div id="test1" style="text-align: center"></div>
+        <table class="layui-hide" id="demotable" lay-filter="demotable"></table>
     </div>
 </fieldset>
 </body>
+<div hidden="hidden" id="submenu"></div>
+<div>
+</div>
+<script type="text/html" id="barDemo">
+    <a title="删除菜单" class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete"><i class="layui-icon layui-icon-delete"></i>删除</a>
+    {{# if (d.parentId === 0){ }}
+    <a title="新增二级菜单" class="layui-btn layui-btn-xs layui-btn" lay-event="add"><i class="layui-icon layui-icon-add-1"></i>新增</a>
+    {{# } else{ }}
+    <a title="更改父级菜单" class="layui-btn layui-btn-xs layui-btn-normal" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>更改</a>
+    {{#  } }}
+</script>
 </html>

@@ -4,6 +4,7 @@ import com.example.carpark.dao.AdminDao;
 import com.example.carpark.javabean.ResultDate;
 import com.example.carpark.javabean.TbAdmin;
 import com.example.carpark.javabean.TbMenu;
+import com.example.carpark.javabean.TbRole;
 import com.example.carpark.service.AdminService;
 import com.example.carpark.util.ApplicationContextHelper;
 import com.example.carpark.util.MD5;
@@ -90,6 +91,92 @@ public class AdminServiceImpl implements AdminService {
         rd.setMsg("");
         System.out.println(rd.toString());
         return rd;
+    }
+
+    /**
+     * 根据父级ID查询菜单
+     * @param parentId
+     * @return
+     */
+    @Override
+    public List<TbMenu> findSubmenu(Integer parentId) {
+        return adminDao.findParentMenu(parentId);
+    }
+
+    /**
+     * 新增菜单
+     * @param tbMenu
+     * @return
+     */
+    @Override
+    public Integer addMenu(TbMenu tbMenu) {
+        TbMenu tbMenu2 = adminDao.findMenuByName(tbMenu.getMenuName());//查询该菜单名是否存在
+        if(tbMenu2 == null){
+            return adminDao.addMenu(tbMenu);
+        }
+        return 0;
+    }
+
+    /**
+     * 更新菜单信息
+     * @param param
+     * @return
+     */
+    @Override
+    public Integer updateMenu(Map<String,Object> param) {
+        TbMenu tbMenu = ApplicationContextHelper.getBean(TbMenu.class);
+        tbMenu.setMenuId(Integer.valueOf(param.get("menuId").toString()));
+        if(param.containsKey("menuName")){
+            TbMenu tbMenu2 = adminDao.findMenuByName(param.get("menuName").toString()) ;//判断菜单名是否已经存在
+            if(tbMenu2 != null){
+                return 0;
+            }
+            tbMenu.setMenuName(param.get("menuName").toString());
+        }
+        if(param.containsKey("menuUrl")){
+            TbMenu tbMenu2 = adminDao.findMenuByUrl(param.get("menuUrl").toString()) ;//判断菜单路径是否存在
+            if(tbMenu2 != null){
+                return 0;
+            }
+            tbMenu.setMenuName(param.get("menuUrl").toString());
+        }
+        return adminDao.updateMenu(tbMenu);
+    }
+
+    @Override
+    public Integer updateMenuParentId(Map<String, Object> map) {
+        return adminDao.updateMenuParentId(map);
+    }
+
+    /**
+     * 新增菜单，并判定管理是否给所有角色启用新菜单
+     * @param map
+     * @return
+     */
+    @Override
+    public Integer addSubmenu(Map<String, Object> map) {
+        TbMenu tbMenu = ApplicationContextHelper.getBean(TbMenu.class);
+        tbMenu.setMenuName(map.get("menuName").toString());
+        tbMenu.setMenuUrl(map.get("menuUrl").toString());
+        tbMenu.setParentId(Integer.valueOf(map.get("parentId").toString()));
+        Integer i = adminDao.addMenu(tbMenu),k = 0;//k用于计算是否关系表内所有角色都增加了
+        if(i > 0){
+            Integer menuId = adminDao.findMenuMaxId();//查询最新增加的菜单ID
+            Integer state = map.get("use").toString().equals("yes") ? 1 : 2; //判断管理员选是/否
+            List<TbRole> roleList = adminDao.findAllRole();
+            for (TbRole tbRole : roleList) {
+                Map<String,Object> rmmap = new HashMap<>();
+                rmmap.put("menuId",menuId);
+                rmmap.put("roleId", tbRole.getRoleId());
+                rmmap.put("state",state);
+                Integer j = adminDao.addRoleMenu(rmmap);
+                k ++ ;
+            }
+            if(k == roleList.size()){
+                return k;
+            }
+        }
+        return 0;
     }
 
 

@@ -18,4 +18,14 @@ public interface AdminService {
     List<TbMenu> findMenu(TbAdmin tbAdmin);
 
     ResultDate<TbMenu> findMenuById(Map<String,Object> map);
+
+    List<TbMenu> findSubmenu(Integer parentId);
+
+    Integer addMenu(TbMenu tbMenu);
+
+    Integer updateMenu(Map<String,Object> param);
+
+    Integer updateMenuParentId(Map<String,Object> map);
+
+    Integer addSubmenu(Map<String,Object> map);
 }

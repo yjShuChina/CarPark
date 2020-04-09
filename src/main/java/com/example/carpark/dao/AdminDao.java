@@ -2,6 +2,7 @@ package com.example.carpark.dao;
 
 import com.example.carpark.javabean.TbAdmin;
 import com.example.carpark.javabean.TbMenu;
+import com.example.carpark.javabean.TbRole;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -47,4 +48,58 @@ public interface AdminDao {
      * @return
      */
     Integer findMenuCount(Map<String,Object> map);
+
+    /**
+     * 新增菜单
+     * @param tbMenu
+     * @return
+     */
+    Integer addMenu(TbMenu tbMenu);
+
+    /**
+     * 修改菜单信息
+     * @param tbMenu
+     * @return
+     */
+    Integer updateMenu(TbMenu tbMenu);
+
+    /**
+     * 根据菜单名称查询菜单
+     * @param menuName
+     * @return
+     */
+    TbMenu findMenuByName(String menuName);
+
+    /**
+     * 根据url查询菜单
+     * @param menuUrl
+     * @return
+     */
+    TbMenu findMenuByUrl(String menuUrl);
+
+    /**
+     *  更新二级菜单的一级菜单
+     * @param map
+     * @return
+     */
+    Integer updateMenuParentId(Map<String,Object> map);
+
+    /**
+     * 查询所有角色
+     * @return
+     */
+    List<TbRole> findAllRole();
+
+    /**
+     * 新增角色菜单关系表
+     * @param map
+     * @return
+     */
+    Integer addRoleMenu(Map<String,Object> map);
+
+    /**
+     * 查询最新添加的菜单ID
+     * @return
+     */
+    Integer findMenuMaxId();
 }

@@ -28,10 +28,10 @@
         <result column="STATE" property="state"/>
     </resultMap>
 
+<!--    分页查询菜单列表-->
     <select id="findMenuByPage" resultType="TbMenu" parameterType="java.util.Map">
         select * from tb_menu
         <where>
-            and parent_id = #{parentId}
             <if test="menuName != null and menuName != ''">
                 and menu_name like concat('%',#{menuName},'%')
             </if>
@@ -39,14 +39,54 @@
         limit #{page},#{limit}
     </select>
 
+<!--    查询菜单总数-->
     <select id="findMenuCount" resultType="java.lang.Integer" parameterType="java.util.Map">
         select count(*) from tb_menu
         <where>
-            and parent_id = #{parentId}
             <if test="menuName != null and menuName != ''">
                 and menu_name like concat('%',#{menuName},'%')
             </if>
         </where>
     </select>
 
+    <insert id="addMenu" parameterType="TbMenu">
+        insert into tb_menu (menu_name,menu_url,parent_id) values (#{menuName},#{menuUrl},#{parentId});
+    </insert>
+
+    <update id="updateMenu" parameterType="TbMenu">
+        update tb_menu
+        <set>
+            <if test="menuName != null and menuName != ''">
+                menu_name = #{menuName}
+            </if>
+            <if test="menuUrl != null and menuUrl != ''">
+                menu_url = #{menuUrl}
+            </if>
+        </set>
+        where menu_id = #{menuId}
+    </update>
+
+    <select id="findMenuByName" parameterType="java.lang.String" resultType="TbMenu">
+        select * from tb_menu where menu_name = #{menuName}
+    </select>
+
+    <select id="findMenuByUrl" parameterType="java.lang.String" resultType="TbMenu">
+        select * from tb_menu where menu_url = #{menuUrl}
+    </select>
+
+    <update id="updateMenuParentId" parameterType="java.util.Map">
+        update tb_menu set parent_id = #{parentId} where menu_id = #{menuId}
+    </update>
+<!--    查询所有角色-->
+    <select id="findAllRole" resultType="TbRole">
+        select * from tb_role
+    </select>
+
+    <insert id="addRoleMenu" parameterType="java.util.Map">
+        insert into tb_role_menu (role_id,menu_id,state) values (#{roleId},#{menuId},#{state})
+    </insert>
+
+    <select id="findMenuMaxId" resultType="java.lang.Integer" >
+        SELECT MAX(menu_id) from tb_menu
+    </select>
 </mapper>
