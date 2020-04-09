@@ -8,4 +8,9 @@
 		select * from tb_user where car_number=#{carnumber}
 	</select>
 
+	<insert id="CarIn" parameterType="com.example.carpark.javabean.TbParkCarInfo">
+		insert into tb_park_car_info (car_number,car_identity,car_time)
+		values
+		(#{carNumber},#{carIdentity},#{carTime})
+	</insert>
 </mapper>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataSource name="carpark@112.74.72.11">
-  <database-model serializer="dbm" dbms="MYSQL" family-id="MYSQL" format-version="4.17">
+  <database-model serializer="dbm" dbms="MYSQL" family-id="MYSQL" format-version="4.15">
     <root id="1">
       <ServerVersion>5.7.25</ServerVersion>
       <DefaultEngine>InnoDB</DefaultEngine>
@@ -10,9 +10,11 @@
     <schema id="2" parent="1" name="carpark">
       <Current>1</Current>
       <Collation>utf8mb4_general_ci</Collation>
+      <Visible>1</Visible>
     </schema>
     <schema id="3" parent="1" name="information_schema">
       <Collation>utf8_general_ci</Collation>
+      <Substituted>1</Substituted>
     </schema>
     <collation id="4" parent="1" name="armscii8_bin">
       <Charset>armscii8</Charset>
