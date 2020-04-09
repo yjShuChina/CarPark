@@ -22,6 +22,7 @@ public class ApplicationContextHelper implements ApplicationContextAware {
             System.out.println("[error]==>ApplicationContext未注入，请检查");
             return null;
         }
+        System.out.println("生成====>"+clazz+"类");
         return ac.getBean(clazz);
     }
 
@@ -30,6 +31,7 @@ public class ApplicationContextHelper implements ApplicationContextAware {
             System.out.println("[error]==>ApplicationContext未注入，请检查");
             return null;
         }
+        System.out.println("生成====>"+clazz+"类");
         return ac.getBean(name, clazz);
     }
 }

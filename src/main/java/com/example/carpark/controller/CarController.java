@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -33,7 +34,7 @@ import java.util.Random;
 public class CarController
 {
 
-    @Autowired
+    @Resource
     private CarService carService;
 
     /**
