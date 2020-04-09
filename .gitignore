@@ -32,3 +32,5 @@ build/
 /.idea/
 /.mvn/
 /target/
+/.idea/
+/target/

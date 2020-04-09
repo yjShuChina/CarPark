@@ -1,7 +1,7 @@
 // 郭子淳
 
 function changePath(node) {
-    window.manager.location.href = node.title;
+    window.manager.location.href =$('#path').val() + node.title;
 }
 
 //JavaScript代码区域
