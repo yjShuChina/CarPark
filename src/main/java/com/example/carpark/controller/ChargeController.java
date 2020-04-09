@@ -12,11 +12,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.DateFormat;
@@ -68,6 +70,17 @@ public class ChargeController {
         return "验证码错误";
     }
 
+    @RequestMapping("/demo")
+    public void demo() {
+
+    }
+    @RequestMapping("/uploadTrainPicture")
+    @ResponseBody
+    public void addTrainPicture(@RequestParam("file") MultipartFile file, HttpServletResponse response) throws IOException {
+        System.out.println(file.getOriginalFilename());
+        String str = chargeService.findcarnumber(file);
+        System.out.println("车牌号=" + str);
+    }
     /**
      * 路径跳转
      *

@@ -2,6 +2,7 @@ package com.example.carpark.service;
 
 
 import com.example.carpark.javabean.TbCashier;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Map;
 
@@ -15,5 +16,8 @@ public interface ChargeService {
      * @param map
      * @return
      */
-    public TbCashier chargeLogin(Map<String,Object> map);
+    TbCashier chargeLogin(Map<String,Object> map);
+
+    //车牌识别
+    String findcarnumber(MultipartFile file);
 }

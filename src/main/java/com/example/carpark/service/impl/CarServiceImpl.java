@@ -25,8 +25,7 @@ import static org.apache.tomcat.util.codec.binary.Base64.encodeBase64;
  * 车辆service层
  */
 @Service
-public class CarServiceImpl implements CarService
-{
+public class CarServiceImpl implements CarService {
 
     @Resource
     private CarDao carDao;
@@ -47,9 +46,8 @@ public class CarServiceImpl implements CarService
 
 
     @Override
-    public String findcarnumber(String imgFile)
-    {
-        String carnumber="";
+    public String findcarnumber(String imgFile) {
+        String carnumber = "";
         String host = "https://ocrcp.market.alicloudapi.com";
         String path = "/rest/160601/ocr/ocr_vehicle_plate.json";
         String appcode = "6b7ded664bdc40c68843e2431cbddde7";
@@ -83,18 +81,18 @@ public class CarServiceImpl implements CarService
         // 拼装请求body的json字符串
         JSONObject requestObj = new JSONObject();
         try {
-            if(is_old_format) {
+            if (is_old_format) {
                 JSONObject obj = new JSONObject();
                 obj.put("image", getParam(50, imgBase64));
-                if(config_str.length() > 0) {
+                if (config_str.length() > 0) {
                     obj.put("configure", getParam(50, config_str));
                 }
                 JSONArray inputArray = new JSONArray();
                 inputArray.add(obj);
                 requestObj.put("inputs", inputArray);
-            }else{
+            } else {
                 requestObj.put("image", imgBase64);
-                if(config_str.length() > 0) {
+                if (config_str.length() > 0) {
                     requestObj.put("configure", config_str);
                 }
             }
@@ -107,32 +105,32 @@ public class CarServiceImpl implements CarService
 
             HttpResponse response = HttpUtils.doPost(host, path, method, headers, querys, bodys);
             int stat = response.getStatusLine().getStatusCode();
-            if(stat != 200){
+            if (stat != 200) {
                 System.out.println("Http code: " + stat);
-                System.out.println("http header error msg: "+ response.getFirstHeader("X-Ca-Error-Message"));
+                System.out.println("http header error msg: " + response.getFirstHeader("X-Ca-Error-Message"));
                 System.out.println("Http body error msg:" + EntityUtils.toString(response.getEntity()));
                 return "";
             }
 
             String res = EntityUtils.toString(response.getEntity());
             JSONObject res_obj = JSON.parseObject(res);
-            if(is_old_format) {
+            if (is_old_format) {
                 JSONArray outputArray = res_obj.getJSONArray("outputs");
                 String output = outputArray.getJSONObject(0).getJSONObject("outputValue").getString("dataValue");
                 JSONObject out = JSON.parseObject(output);
                 System.out.println(out.toJSONString());
-            }else{
-                String str=res_obj.toJSONString();
+            } else {
+                String str = res_obj.toJSONString();
                 System.out.println(str);
                 Map mapTypes = JSON.parseObject(str);
                 System.out.println("这个是用JSON类的parseObject来解析JSON字符串!!!");
-                for (Object obj : mapTypes.keySet()){
-                    System.out.println("key为："+obj+"值为："+mapTypes.get(obj));
+                for (Object obj : mapTypes.keySet()) {
+                    System.out.println("key为：" + obj + "值为：" + mapTypes.get(obj));
                 }
-                String str1=mapTypes.get("plates").toString();
-                str1=str1.split("\"txt\":\"")[1].split("\",\"")[0];
+                String str1 = mapTypes.get("plates").toString();
+                str1 = str1.split("\"txt\":\"")[1].split("\",\"")[0];
                 System.out.println(str1);
-                carnumber=str1;
+                carnumber = str1;
 
             }
         } catch (Exception e) {
@@ -140,10 +138,11 @@ public class CarServiceImpl implements CarService
         }
         return carnumber;
     }
+
     @Override
-    public TbUser findUsermsg(String carnumber){
+    public TbUser findUsermsg(String carnumber) {
         System.out.println("!!!");
-        TbUser tbUser=carDao.findUsermsg(carnumber);
+        TbUser tbUser = carDao.findUsermsg(carnumber);
         return tbUser;
     }
 
