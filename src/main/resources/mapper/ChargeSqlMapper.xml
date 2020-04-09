@@ -4,7 +4,20 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.carpark.dao.ChargeDao">
+
+<!--    收费员登录-->
     <select id="chargeLogin" parameterType="java.util.Map" resultType="TbCashier">
         select * from tb_cashier where cashier_account = #{cashier_account} and cashier_pwd = #{cashier_pwd}
     </select>
+
+<!--    白名单查询-->
+    <select id="whitelistQuery" parameterType="String" resultType="TbWhiteList">
+        select * from tb_white_list where car_number = #{carNumber}
+    </select>
+
+<!--    场内车辆信息查询-->
+    <select id="carParkQuery" parameterType="String" resultType="TbParkCarInfo">
+        select * from tb_park_car_info where car_number = #{carNumber}
+    </select>
+
 </mapper>

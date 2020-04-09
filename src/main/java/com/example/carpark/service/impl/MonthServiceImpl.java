@@ -38,4 +38,5 @@ public class MonthServiceImpl implements MonthService {
     public int findIdByCarNumber(String carNumber) {
         return monthDao.findIdByCarNumber(carNumber);
     }
+
 }
