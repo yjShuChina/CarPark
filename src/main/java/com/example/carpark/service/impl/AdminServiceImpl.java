@@ -1,12 +1,9 @@
 package com.example.carpark.service.impl;
 
 import com.example.carpark.dao.AdminDao;
-import com.example.carpark.javabean.ResultDate;
 import com.example.carpark.javabean.TbAdmin;
 import com.example.carpark.javabean.TbMenu;
 import com.example.carpark.service.AdminService;
-import com.example.carpark.util.ApplicationContextHelper;
-import com.example.carpark.util.MD5;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,7 +32,6 @@ public class AdminServiceImpl implements AdminService {
      */
     @Override
     public String adminLogin(Map<String,Object> map, HttpSession session) {
-        map.put("adminPwd",MD5.machining(map.get("adminPwd").toString()));//将管理员输入的密码转成MD5加密
         TbAdmin tbAdmin2 = adminDao.adminLogin(map);
         if(tbAdmin2 != null){
             session.setAttribute("tbAdmin",tbAdmin2);//将管理员信息放到session
@@ -74,22 +70,6 @@ public class AdminServiceImpl implements AdminService {
         }
         System.out.println(parentMenuList.toString());
         return parentMenuList;
-    }
-
-    /**
-     * 菜单查询service层
-     * @param map
-     * @return
-     */
-    @Override
-    public ResultDate<TbMenu> findMenuById(Map<String,Object> map) {
-        ResultDate<TbMenu> rd = ApplicationContextHelper.getBean("ResultDate",ResultDate.class);
-        rd.setCode(0);
-        rd.setData(adminDao.findMenuByPage(map));
-        rd.setCount(adminDao.findMenuCount(map));
-        rd.setMsg("");
-        System.out.println(rd.toString());
-        return rd;
     }
 
 

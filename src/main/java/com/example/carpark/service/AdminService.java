@@ -1,6 +1,5 @@
 package com.example.carpark.service;
 
-import com.example.carpark.javabean.ResultDate;
 import com.example.carpark.javabean.TbAdmin;
 import com.example.carpark.javabean.TbMenu;
 
@@ -16,6 +15,4 @@ public interface AdminService {
     String adminLogin(Map <String,Object> map, HttpSession session);
 
     List<TbMenu> findMenu(TbAdmin tbAdmin);
-
-    ResultDate<TbMenu> findMenuById(Map<String,Object> map);
 }

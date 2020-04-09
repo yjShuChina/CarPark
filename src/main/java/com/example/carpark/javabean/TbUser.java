@@ -74,4 +74,16 @@ public class TbUser {
     this.monthVipDeadline = monthVipDeadline;
   }
 
+  @Override
+  public String toString() {
+    return "TbUser{" +
+            "userId=" + userId +
+            ", userTel='" + userTel + '\'' +
+            ", userPwd='" + userPwd + '\'' +
+            ", carNumber='" + carNumber + '\'' +
+            ", userName='" + userName + '\'' +
+            ", monthVipBegin=" + monthVipBegin +
+            ", monthVipDeadline=" + monthVipDeadline +
+            '}';
+  }
 }

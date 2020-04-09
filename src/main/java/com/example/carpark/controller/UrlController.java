@@ -10,14 +10,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class UrlController {
 
     /**
-     * 管理员端路径跳转
+     * 路径跳转
      * @param path
      * @return
      */
-    @RequestMapping("/admin/{uri}")
+    @RequestMapping("/{uri}")
     public String redirect(@PathVariable(value = "uri")String path){
         return "/administration/jsp/admin/"+path;
     }
-
-
 }

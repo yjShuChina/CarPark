@@ -8,14 +8,29 @@
 	<insert id="addUser" parameterType="TbUser">
 		insert into tb_user (user_tel,user_pwd,car_number,user_name,month_vip_begin,month_vip_deadline)
 		values
-		(#{user_tel},'123456',#{car_number},#{user_name},#{month_vip_begin},#{month_vip_deadline})
+		(#{userTel},'123456',#{carNumber},#{userName},#{monthVipBegin},#{monthVipDeadline})
 	</insert>
 
 	<!--添加月缴信息-->
 	<insert id="addMonthlyPayment" parameterType="TbMonthVip">
 		insert into tb_month_vip (user_id,handle_time,origin_deadline,current_deadline,mcp_id)
 		values
-		(#{user_id},(select DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s') from dual),#{origin_deadline},#{current_deadline},#{mcp_id})
+		(#{userId},(select DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s') from dual),#{originDeadline},#{currentDeadline},#{mcpId})
 	</insert>
+
+	<!--查询月缴产品表-->
+	<select id="findMonthCharge" resultType="TbMonthChargeParameter">
+		select * from tb_month_charge_parameter
+	</select>
+
+	<!--通过月缴参数id，查询缴交月份-->
+	<select id="findMonthById" resultType="int" parameterType="int">
+		select month from tb_month_charge_parameter where mcp_id = #{mcpId}
+	</select>
+
+	<!--通过车牌号，查询用户id-->
+	<select id="findIdByCarNumber" resultType="int" parameterType="java.lang.String">
+		select user_id from tb_user where car_number = #{carNumber}
+	</select>
 
 </mapper>

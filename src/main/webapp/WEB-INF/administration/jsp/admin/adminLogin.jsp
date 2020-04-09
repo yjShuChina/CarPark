@@ -79,7 +79,7 @@
                     success: function (res) {
                         if(res === '验证成功'){
                             layer.alert(res,function () {
-                                window.location.href = path+'/url/admin/adminMain';
+                                window.location.href = path+'/url/adminMain';
                             })
                         }else {
                             layer.alert(res);

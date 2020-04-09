@@ -1,22 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="046fad6c-5b40-4ebc-baec-0bdd24e146e1" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/carpark/controller/ChargeController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/carpark/dao/ChargeDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/carpark/service/ChargeService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/carpark/service/impl/ChargeServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/mapper/ChargeSqlMapper.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/charge/jsp/chargeLnterface.jsp" afterDir="false" />
+    <list default="true" id="046fad6c-5b40-4ebc-baec-0bdd24e146e1" name="Default Changelist" comment="潘奕安0409，新增月缴用户">
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/charge/jsp/monthlyPayment.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/92806ead-2e15-48a3-a9e2-d3e4612bb891.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/92806ead-2e15-48a3-a9e2-d3e4612bb891.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/carpark/dao/LoginDao.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/carpark/javabean/TbCurrentCarExit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/carpark/javabean/TbCurrentCarExit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Carpark.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Carpark.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/carpark/controller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/carpark/controller/AdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/carpark/controller/CarController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/carpark/controller/ChargeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/carpark/controller/ChargeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/carpark/controller/UrlController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/carpark/controller/UrlController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/carpark/dao/AdminDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/carpark/dao/AdminDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/carpark/dao/CarDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/carpark/dao/MonthDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/carpark/dao/MonthDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/carpark/javabean/ResultDate.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/carpark/javabean/TbMonthVip.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/carpark/javabean/TbMonthVip.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/carpark/javabean/TbUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/carpark/javabean/TbUser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/carpark/javabean/TreeData.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/carpark/service/AdminService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/carpark/service/AdminService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/carpark/service/CarService.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/carpark/service/LoginService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/charge/jsp/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/charge/jsp/chargeLogin.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/SqlMapConfig.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/SqlMapConfig.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/carpark/service/MonthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/carpark/service/MonthService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/carpark/service/impl/AdminServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/carpark/service/impl/AdminServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/carpark/service/impl/CarServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/carpark/service/impl/MonthServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/carpark/service/impl/MonthServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/carpark/util/HttpUtils.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/AdminSqlMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/AdminSqlMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/MonthSqlMap.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/MonthSqlMap.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/UserSqlMap.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/administration/js/admin/adminMain.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/administration/js/admin/adminMain.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/administration/js/admin/menuManager.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/administration/jsp/admin/adminLogin.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/administration/jsp/admin/adminLogin.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/administration/jsp/admin/gate.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/administration/jsp/admin/menuManager.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/administration/jsp/admin/menuManager.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/cashier/jsp/addPaymentPopup.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/charge/jsp/addPaymentPopup.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/cashier/jsp/monthlyPayment.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/charge/jsp/chargeLnterface.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/charge/jsp/chargeLnterface.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/img/gatebg.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/carpark/CarparkApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/carpark/CarparkApplicationTests.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/log4j.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/log4j.properties" afterDir="false" />
     </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -49,30 +77,34 @@
         <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
         <item name="carpark: schema" type="76f4a085:MysqlImplModel$Schema" />
       </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="carpark@112.74.72.11" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="carpark: schema" type="76f4a085:MysqlImplModel$Schema" />
+        <item name="tb_admin: table" type="285a2a93:MysqlImplModel$Table" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="carpark@112.74.72.11" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="carpark: schema" type="76f4a085:MysqlImplModel$Schema" />
+        <item name="tb_current_car_exit: table" type="285a2a93:MysqlImplModel$Table" />
+      </path>
     </expand>
     <select />
   </component>
   <component name="DefaultGradleProjectSettings">
     <option name="isMigrated" value="true" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="mybatis-cfg.xml" />
-        <option value="Jsp File" />
-        <option value="Class" />
-        <option value="Interface" />
-      </list>
-    </option>
-  </component>
   <component name="Git.Settings">
-    <option name="UPDATE_TYPE" value="REBASE" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
-        <option name="mavenHome" value="F:/apache-maven-3.6.0" />
+        <option name="mavenHome" value="D:/Program Files/Apache Software Foundation/apache-maven-3.6.0" />
       </MavenGeneralSettings>
     </option>
     <option name="importingSettings">
@@ -82,7 +114,9 @@
     </option>
   </component>
   <component name="ProjectId" id="1aAWgUUDyiA3cnDSLOMDd35YmOp" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -97,7 +131,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources/mapper" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/java/com/example/carpark/util" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -107,12 +141,12 @@
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.2" />
+    <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="MavenSettings" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\IDEA\CarPark\src\main\webapp\WEB-INF\administration\js\admin" />
-      <recent name="D:\IDEA\CarPark\src\main\webapp\WEB-INF\administration\jsp\admin" />
+      <recent name="D:\ideaIU\workspace1\CarPark\src\main\webapp\WEB-INF\charge\jsp" />
       <recent name="E:\IdeaProjects\Carpark\src\main\resources\mapper" />
       <recent name="E:\IdeaProjects\Carpark\src\main\resources\mapper\SYJ" />
     </key>
@@ -120,12 +154,24 @@
       <recent name="com.example.carpark.javabean.SYJ" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="E:\IdeaProjects\CarPark\src\main\resources\mapper" />
-      <recent name="E:\IdeaProjects\CarPark\src\main\webapp\WEB-INF\charge\jsp" />
-      <recent name="D:\IDEA\CarPark\src\main\java\com\example\carpark\aoplog" />
       <recent name="D:\IDEA\CarPark\src\main\java\com\example\carpark\util" />
       <recent name="E:\IdeaProjects\Carpark\src\main\resources\mapper" />
+      <recent name="E:\IdeaProjects\Carpark\src\main\resources" />
+      <recent name="E:\IdeaProjects\Carpark\src\main\java\com\example\carpark\service" />
+      <recent name="E:\IdeaProjects\Carpark\src\main\java\com\example\carpark\javabean" />
     </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
   </component>
   <component name="RunManager">
     <configuration name="CarparkApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
@@ -137,15 +183,24 @@
     </configuration>
   </component>
   <component name="ServiceViewManager">
-    <option name="viewStates">
-      <list>
-        <serviceView>
-          <treeState>
-            <expand />
-            <select />
-          </treeState>
-        </serviceView>
-      </list>
+    <option name="allServicesViewState">
+      <serviceView>
+        <option name="contentProportion" value="0.15358362" />
+        <treeState>
+          <expand>
+            <path>
+              <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@1561e52e" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+            </path>
+            <path>
+              <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@1561e52e" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceNode@f426ce" type="9fbbdea:ServiceModel$ServiceNode" />
+            </path>
+          </expand>
+          <select />
+        </treeState>
+      </serviceView>
     </option>
   </component>
   <component name="SvnConfiguration">
@@ -162,9 +217,8 @@
       <workItem from="1586184133501" duration="1244000" />
       <workItem from="1586248718500" duration="305000" />
       <workItem from="1586249921821" duration="52000" />
-      <workItem from="1586250833122" duration="16611000" />
-      <workItem from="1586273447221" duration="52000" />
-      <workItem from="1586306710256" duration="14491000" />
+      <workItem from="1586250833122" duration="3621000" />
+      <workItem from="1586419392315" duration="596000" />
     </task>
     <task id="LOCAL-00001" summary="舒元金实体类提交">
       <created>1586245009296</created>
@@ -173,28 +227,7 @@
       <option name="project" value="LOCAL" />
       <updated>1586245009296</updated>
     </task>
-    <task id="LOCAL-00002" summary="4.7--郭子淳提交--更新实体类">
-      <created>1586254614823</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1586254614823</updated>
-    </task>
-    <task id="LOCAL-00003" summary="4.7--舒元金提交--更新实体类驼峰、增加下划线转驼峰功能">
-      <created>1586341548124</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1586341548124</updated>
-    </task>
-    <task id="LOCAL-00004" summary="4.7--舒元金提交--更新实体类驼峰、增加下划线转驼峰功能">
-      <created>1586341576628</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1586341576628</updated>
-    </task>
-    <option name="localTasksCounter" value="5" />
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -215,115 +248,61 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="舒元金实体类提交" />
-    <MESSAGE value="4.7--郭子淳提交--更新实体类" />
-    <MESSAGE value="4.7--舒元金提交--更新实体类驼峰、增加下划线转驼峰功能" />
-    <option name="LAST_COMMIT_MESSAGE" value="4.7--舒元金提交--更新实体类驼峰、增加下划线转驼峰功能" />
+    <MESSAGE value="潘奕安0409，新增月缴用户" />
+    <option name="LAST_COMMIT_MESSAGE" value="潘奕安0409，新增月缴用户" />
   </component>
   <component name="WindowStateProjectService">
     <state x="367" y="110" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1586252198033" />
     <state x="367" y="110" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586252198033" />
-    <state x="574" y="105" key="#com.intellij.ide.util.MemberChooser" timestamp="1586345268535">
+    <state x="574" y="105" key="#com.intellij.ide.util.MemberChooser" timestamp="1586254558486">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="574" y="105" key="#com.intellij.ide.util.MemberChooser/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586345268535" />
-    <state x="574" y="105" key="#com.intellij.ide.util.MemberChooser/0.0.1536.824@0.0.1536.824" timestamp="1586263980001" />
+    <state x="574" y="105" key="#com.intellij.ide.util.MemberChooser/0.0.1536.824@0.0.1536.824" timestamp="1586254558486" />
     <state x="608" y="319" key="#com.intellij.javaee.module.view.common.J2EE.J2EEDeploymentDescriptorLocationPanel.changeDDPath" timestamp="1586252198033" />
     <state x="608" y="319" key="#com.intellij.javaee.module.view.common.J2EE.J2EEDeploymentDescriptorLocationPanel.changeDDPath/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586252198033" />
     <state x="357" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1586252198033" />
     <state x="357" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586252198033" />
-    <state x="499" y="162" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1586263808249">
+    <state x="262" y="9" key="CommitChangelistDialog2" timestamp="1586252198033" />
+    <state x="262" y="9" key="CommitChangelistDialog2/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586252198033" />
+    <state x="432" y="154" key="FileChooserDialogImpl" timestamp="1586252198033" />
+    <state x="432" y="154" key="FileChooserDialogImpl/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586252198033" />
+    <state width="1493" height="215" key="GridCell.Tab.0.bottom" timestamp="1586252198033" />
+    <state width="1493" height="215" key="GridCell.Tab.0.bottom/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586252198033" />
+    <state width="1493" height="215" key="GridCell.Tab.0.center" timestamp="1586252198033" />
+    <state width="1493" height="215" key="GridCell.Tab.0.center/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586252198033" />
+    <state width="1493" height="215" key="GridCell.Tab.0.left" timestamp="1586252198033" />
+    <state width="1493" height="215" key="GridCell.Tab.0.left/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586252198033" />
+    <state width="1493" height="215" key="GridCell.Tab.0.right" timestamp="1586252198033" />
+    <state width="1493" height="215" key="GridCell.Tab.0.right/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586252198033" />
+    <state width="1493" height="215" key="GridCell.Tab.1.bottom" timestamp="1586252198033" />
+    <state width="1493" height="215" key="GridCell.Tab.1.bottom/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586252198033" />
+    <state width="1493" height="215" key="GridCell.Tab.1.center" timestamp="1586252198033" />
+    <state width="1493" height="215" key="GridCell.Tab.1.center/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586252198033" />
+    <state width="1493" height="215" key="GridCell.Tab.1.left" timestamp="1586252198033" />
+    <state width="1493" height="215" key="GridCell.Tab.1.left/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586252198033" />
+    <state width="1493" height="215" key="GridCell.Tab.1.right" timestamp="1586252198033" />
+    <state width="1493" height="215" key="GridCell.Tab.1.right/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586252198033" />
+    <state x="147" y="71" key="MergeDialog" timestamp="1586252386352">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="499" y="162" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1536.824@0.0.1536.824" timestamp="1586263808249" />
-    <state x="262" y="9" key="CommitChangelistDialog2" timestamp="1586341574368">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="262" y="9" key="CommitChangelistDialog2/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586341574368" />
-    <state x="262" y="9" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1586254614278" />
-    <state x="432" y="154" key="FileChooserDialogImpl" timestamp="1586346236292">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="432" y="154" key="FileChooserDialogImpl/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586346236292" />
-    <state width="1493" height="188" key="GridCell.Tab.0.bottom" timestamp="1586346825044">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state width="1493" height="188" key="GridCell.Tab.0.bottom/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586346825044" />
-    <state width="1493" height="2" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1586271740140" />
-    <state width="1493" height="188" key="GridCell.Tab.0.center" timestamp="1586346825044">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state width="1493" height="188" key="GridCell.Tab.0.center/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586346825044" />
-    <state width="1493" height="2" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1586271740140" />
-    <state width="1493" height="188" key="GridCell.Tab.0.left" timestamp="1586346825044">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state width="1493" height="188" key="GridCell.Tab.0.left/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586346825044" />
-    <state width="1493" height="2" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1586271740140" />
-    <state width="1493" height="188" key="GridCell.Tab.0.right" timestamp="1586346825044">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state width="1493" height="188" key="GridCell.Tab.0.right/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586346825044" />
-    <state width="1493" height="2" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1586271740140" />
-    <state width="1493" height="188" key="GridCell.Tab.1.bottom" timestamp="1586346825045">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state width="1493" height="188" key="GridCell.Tab.1.bottom/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586346825045" />
-    <state width="1493" height="2" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1586271740140" />
-    <state width="1493" height="188" key="GridCell.Tab.1.center" timestamp="1586346825044">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state width="1493" height="188" key="GridCell.Tab.1.center/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586346825044" />
-    <state width="1493" height="2" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1586271740140" />
-    <state width="1493" height="188" key="GridCell.Tab.1.left" timestamp="1586346825044">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state width="1493" height="188" key="GridCell.Tab.1.left/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586346825044" />
-    <state width="1493" height="2" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1586271740140" />
-    <state width="1493" height="188" key="GridCell.Tab.1.right" timestamp="1586346825044">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state width="1493" height="188" key="GridCell.Tab.1.right/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586346825044" />
-    <state width="1493" height="2" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1586271740140" />
-    <state width="1493" height="2" key="GridCell.Tab.2.bottom" timestamp="1586271245546">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state width="1493" height="2" key="GridCell.Tab.2.bottom/0.0.1536.824@0.0.1536.824" timestamp="1586271245546" />
-    <state width="1493" height="2" key="GridCell.Tab.2.center" timestamp="1586271245546">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state width="1493" height="2" key="GridCell.Tab.2.center/0.0.1536.824@0.0.1536.824" timestamp="1586271245546" />
-    <state width="1493" height="2" key="GridCell.Tab.2.left" timestamp="1586271245546">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state width="1493" height="2" key="GridCell.Tab.2.left/0.0.1536.824@0.0.1536.824" timestamp="1586271245546" />
-    <state width="1493" height="2" key="GridCell.Tab.2.right" timestamp="1586271245546">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state width="1493" height="2" key="GridCell.Tab.2.right/0.0.1536.824@0.0.1536.824" timestamp="1586271245546" />
-    <state x="147" y="71" key="MergeDialog" timestamp="1586346905527">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="147" y="71" key="MergeDialog/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586346905527" />
+    <state x="147" y="71" key="MergeDialog/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586252198033" />
     <state x="147" y="71" key="MergeDialog/0.0.1536.824@0.0.1536.824" timestamp="1586252386352" />
-    <state x="477" y="128" key="MultipleFileMergeDialog" timestamp="1586346908471">
+    <state x="477" y="128" key="MultipleFileMergeDialog" timestamp="1586252388867">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="477" y="128" key="MultipleFileMergeDialog/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586346908471" />
+    <state x="477" y="128" key="MultipleFileMergeDialog/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586252198033" />
     <state x="477" y="128" key="MultipleFileMergeDialog/0.0.1536.824@0.0.1536.824" timestamp="1586252388867" />
-    <state x="270" y="0" key="SettingsEditor" timestamp="1586273498433">
+    <state x="270" y="0" key="SettingsEditor" timestamp="1586253110890">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="270" y="0" key="SettingsEditor/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586273498432" />
+    <state x="270" y="0" key="SettingsEditor/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586252198033" />
     <state x="270" y="0" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1586253110890" />
-    <state x="361" y="146" key="Vcs.Push.Dialog.v2" timestamp="1586341588628">
+    <state x="361" y="146" key="Vcs.Push.Dialog.v2" timestamp="1586252198033" />
+    <state x="361" y="146" key="Vcs.Push.Dialog.v2/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586252198033" />
+    <state x="562" y="330" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1586252199296">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="361" y="146" key="Vcs.Push.Dialog.v2/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586341588628" />
-    <state x="361" y="146" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1586254629310" />
-    <state x="562" y="330" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1586346869367">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="562" y="330" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586346869367" />
+    <state x="562" y="330" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586252198033" />
     <state x="562" y="330" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824@0.0.1536.824" timestamp="1586252199296" />
     <state x="194" y="204" key="new project wizard" timestamp="1586252198033" />
     <state x="194" y="204" key="new project wizard/0.0.1536.824/1920.12.1440.860@0.0.1536.824" timestamp="1586252198033" />

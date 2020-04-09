@@ -1,7 +1,6 @@
 package com.example.carpark.controller;
 
 
-import com.example.carpark.javabean.ResultDate;
 import com.example.carpark.javabean.TbAdmin;
 import com.example.carpark.javabean.TbMenu;
 import com.example.carpark.service.AdminService;
@@ -16,11 +15,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.swing.plaf.LayerUI;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -93,27 +90,8 @@ public class AdminController {
     @ResponseBody
     @RequestMapping("/exit")
     public String exit(HttpSession session){
-        System.out.println("=====================管理员退出=====================");
         session.setAttribute("tbAdmin",null);
         return "success";
-    }
-
-    /**
-     * 根据条件分页查询菜单
-     * @param param
-     * @return
-     */
-    @ResponseBody
-    @RequestMapping("/findMenuById")
-    public ResultDate findMenuById(@RequestParam Map<String,Object> param){
-        System.out.println("===========================分页查询菜单=========================");
-        Integer page = Integer.valueOf(param.get("page").toString());
-        Integer limit = Integer.valueOf(param.get("limit").toString());
-        page = (page - 1) * limit;//计算第几页
-        param.put("page",page);
-        param.put("limit",limit);
-        param.put("parentId",Integer.valueOf(param.get("parentId").toString()));//这里前台获取的是String,所以这里做了强制类型转换
-        return adminService.findMenuById(param);
     }
 
     /**
@@ -124,7 +102,7 @@ public class AdminController {
      * @throws IOException
      */
     @RequestMapping("/CheckCodeServlet")
-    public void CheckCodeServlet(HttpSession session, HttpServletResponse response) throws ServletException, IOException{
+    public void CheckCodeServlet(HttpSession session, HttpServletResponse response)throws ServletException, IOException{
         System.out.println("=====================获取验证码=======================");
         int width = 63;
         int height = 37;

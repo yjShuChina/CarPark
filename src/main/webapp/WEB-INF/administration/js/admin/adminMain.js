@@ -1,7 +1,7 @@
 // 郭子淳
 
 function changePath(node) {
-    window.manager.location.href = $('#path').val() + node.title;
+    window.manager.location.href = node.title;
 }
 
 //JavaScript代码区域
@@ -52,7 +52,7 @@ layui.use(['element','layer'], function(){
                 type:'post',
                 success:function (msg) {
                     if(msg === 'success'){
-                        window.location.href = path+"/url/admin/adminLogin";
+                        window.location.href = path+"/url/adminLogin";
                     }
                 },
                 error:function (msg) {

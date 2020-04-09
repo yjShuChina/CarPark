@@ -63,4 +63,15 @@ public class TbMonthVip {
     this.mcpId = mcpId;
   }
 
+  @Override
+  public String toString() {
+    return "TbMonthVip{" +
+            "mvrId=" + mvrId +
+            ", userId=" + userId +
+            ", handleTime=" + handleTime +
+            ", originDeadline=" + originDeadline +
+            ", currentDeadline=" + currentDeadline +
+            ", mcpId=" + mcpId +
+            '}';
+  }
 }

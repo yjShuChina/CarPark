@@ -27,26 +27,4 @@
         <result column="PARENT_ID" property="parentId"/>
         <result column="STATE" property="state"/>
     </resultMap>
-
-    <select id="findMenuByPage" resultType="TbMenu" parameterType="java.util.Map">
-        select * from tb_menu
-        <where>
-            and parent_id = #{parentId}
-            <if test="menuName != null and menuName != ''">
-                and menu_name like concat('%',#{menuName},'%')
-            </if>
-        </where>
-        limit #{page},#{limit}
-    </select>
-
-    <select id="findMenuCount" resultType="java.lang.Integer" parameterType="java.util.Map">
-        select count(*) from tb_menu
-        <where>
-            and parent_id = #{parentId}
-            <if test="menuName != null and menuName != ''">
-                and menu_name like concat('%',#{menuName},'%')
-            </if>
-        </where>
-    </select>
-
 </mapper>
