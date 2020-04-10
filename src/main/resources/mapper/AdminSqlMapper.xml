@@ -9,7 +9,7 @@
         select * from tb_admin where admin_account = #{adminAccount} and admin_pwd = #{adminPwd}
     </select>
 
-<!--    查询所有父菜单-->
+<!--    根据parentId查询菜单-->
     <select id="findParentMenu" resultType="TbMenu" parameterType="java.lang.Integer">
         select * from tb_menu where parent_id = #{parentId}
     </select>
@@ -74,6 +74,7 @@
         select * from tb_menu where menu_url = #{menuUrl}
     </select>
 
+<!--    更新菜单父级菜单-->
     <update id="updateMenuParentId" parameterType="java.util.Map">
         update tb_menu set parent_id = #{parentId} where menu_id = #{menuId}
     </update>
@@ -82,11 +83,36 @@
         select * from tb_role
     </select>
 
+<!--    添加角色菜单关系表-->
     <insert id="addRoleMenu" parameterType="java.util.Map">
         insert into tb_role_menu (role_id,menu_id,state) values (#{roleId},#{menuId},#{state})
     </insert>
 
+<!--    查询最新更新菜单-->
     <select id="findMenuMaxId" resultType="java.lang.Integer" >
         SELECT MAX(menu_id) from tb_menu
     </select>
+
+<!--    删除父级菜单-->
+    <delete id="deleteMenu" parameterType="java.lang.Integer">
+        delete from tb_menu where menu_id = #{menuId}
+    </delete>
+
+<!--    删除父级菜单下的子菜单-->
+    <delete id="deleteSubmenu" parameterType="java.lang.Integer">
+        delete from tb_menu where parent_id = #{parentId}
+    </delete>
+
+<!--    删除菜单和角色的关联表-->
+    <delete id="deleteRoleMenu" parameterType="TbRoleMenu">
+        delete from tb_role_menu
+        <where>
+            <if test="menuId != null and menuId != '' and menuId != 0">
+                and menu_id = #{menuId}
+            </if>
+            <if test="roleId != null and roleId != '' and roleId != 0">
+                and role_id = #{roleId}
+            </if>
+        </where>
+    </delete>
 </mapper>

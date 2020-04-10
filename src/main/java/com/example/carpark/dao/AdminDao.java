@@ -3,6 +3,7 @@ package com.example.carpark.dao;
 import com.example.carpark.javabean.TbAdmin;
 import com.example.carpark.javabean.TbMenu;
 import com.example.carpark.javabean.TbRole;
+import com.example.carpark.javabean.TbRoleMenu;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -102,4 +103,25 @@ public interface AdminDao {
      * @return
      */
     Integer findMenuMaxId();
+
+    /**
+     * 删除父级菜单
+     * @param menuId
+     * @return
+     */
+    Integer deleteMenu(Integer menuId);
+
+    /**
+     * 删除父级菜单下的子菜单
+     * @param parentId
+     * @return
+     */
+    Integer deleteSubmenu(Integer parentId);
+
+    /**
+     * 删除菜单角色关联表
+     * @param tbRoleMenu
+     * @return
+     */
+    Integer deleteRoleMenu(TbRoleMenu tbRoleMenu);
 }

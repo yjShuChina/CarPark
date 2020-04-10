@@ -1,10 +1,7 @@
 package com.example.carpark.service.impl;
 
 import com.example.carpark.dao.AdminDao;
-import com.example.carpark.javabean.ResultDate;
-import com.example.carpark.javabean.TbAdmin;
-import com.example.carpark.javabean.TbMenu;
-import com.example.carpark.javabean.TbRole;
+import com.example.carpark.javabean.*;
 import com.example.carpark.service.AdminService;
 import com.example.carpark.util.ApplicationContextHelper;
 import com.example.carpark.util.MD5;
@@ -179,5 +176,39 @@ public class AdminServiceImpl implements AdminService {
         return 0;
     }
 
+    /**
+     * 删除菜单以及菜单角色关联表
+     * @param tbMenu
+     * @return
+     */
+    @Override
+    public Integer deleteMenu(TbMenu tbMenu) {
+        if(tbMenu.getParentId() == 0){//判断是否是父级菜单
+            List<TbMenu> menuList = adminDao.findParentMenu((int) tbMenu.getMenuId());//查询该父级菜单下所有子菜单
+            Integer k = 0;//计算删除字段数
+            for (TbMenu tbMenu2:menuList) {
+                TbRoleMenu tbRoleMenu = ApplicationContextHelper.getBean(TbRoleMenu.class);
+                tbRoleMenu.setMenuId(tbMenu2.getMenuId());
+                Integer i = adminDao.deleteRoleMenu(tbRoleMenu);//删除菜单角色关系表
+                if(i > 0){
+                    k++;
+                }
+            }
+            if(k == menuList.size()){
+                Integer j = adminDao.deleteSubmenu((int) tbMenu.getMenuId());//删除菜单下的子菜单
+                if(j == menuList.size()){
+                    return adminDao.deleteMenu((int) tbMenu.getMenuId());//删除菜单
+                }
+            }
+        }else {
+            TbRoleMenu tbRoleMenu = ApplicationContextHelper.getBean(TbRoleMenu.class);
+            tbRoleMenu.setMenuId(tbMenu.getMenuId());
+            Integer i = adminDao.deleteRoleMenu(tbRoleMenu);
+            if(i >0){
+                return adminDao.deleteMenu((int) tbMenu.getMenuId());
+            }
+        }
+        return 0;
+    }
 
 }

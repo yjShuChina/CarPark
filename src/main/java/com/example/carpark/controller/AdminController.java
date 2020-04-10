@@ -100,7 +100,7 @@ public class AdminController {
     }
 
     /**
-     * 根据条件分页查询菜单
+     * 根据条件分页查询菜单(page,limit,menuName)
      * @param param
      * @return
      */
@@ -210,7 +210,7 @@ public class AdminController {
     }
 
     /**
-     * 更新菜单信息
+     * 更新菜单信息(menuId,menuName,menuUrl)
      * @param param
      * @return
      */
@@ -222,24 +222,39 @@ public class AdminController {
     }
 
     /**
-     *  修改菜单父ID
+     *  修改菜单父ID(menuId,parentId)
      * @param param
      * @return
      */
     @ResponseBody
     @RequestMapping("/updateMenuParentId")
     public String updateMenuParentId(@RequestParam Map<String,Object> param){
+        System.out.println("===============修改菜单父级菜单=============");
         return adminService.updateMenuParentId(param) > 0 ? "success":"error";
     }
 
     /**
-     * 新增子菜单
+     * 新增子菜单(menuName,menuUrl,parentId,use)
      * @param param
      * @return
      */
     @ResponseBody
     @RequestMapping("/addSubmenu")
     public String addSubmenu(@RequestParam Map<String,Object> param){
+        System.out.println("=================新增子菜单=================");
         return adminService.addSubmenu(param)>0?"success":"error";
+    }
+
+    /**
+     * 删除菜单（menuId,parentId）
+     * @param tbMenu
+     * @return
+     */
+    @RequestMapping("/deleteMenu")
+    @ResponseBody
+    public String deleteMenu(TbMenu tbMenu){
+        System.out.println("=============删除菜单==============");
+        System.out.println("tbMenu===>"+tbMenu.toString());
+        return adminService.deleteMenu(tbMenu) > 0 ? "success":"error";
     }
 }

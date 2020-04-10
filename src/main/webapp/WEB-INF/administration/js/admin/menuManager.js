@@ -130,28 +130,26 @@ layui.use(['form','laypage','layer','tree','util','table'], function(){
         var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
         var menuId = tr.find("td").eq(0).text();
         if(obj.event === 'delete'){
-            layer.confirm('真的删除改菜单吗', function(index){
+            layer.confirm('确定删除该菜单吗？如果是一级菜单会导致其所有二级菜单也被删除！', function(index){
                 $.ajax({
-                    url:'../../user/updateState',
+                    url:$('#path').val()+'/admin/deleteMenu',
                     type:'post',
-                    data:{'row_id':row_id,'state':3},
+                    data:{'menuId':menuId,'parentId':tr.find("td").eq(3).text()},
                     success:function (msg) {
                         layer.msg(msg);
                         //重载表格
                         table.reload('demotable', {
-                            url:'../../user/findUserList'
+                            url:$('#path').val()+'/admin/findMenuById'
                             ,where:{
-                                user_id:$('#user_id').val()
-                                ,period:$('#test1').val()
-                                ,state:$('#state').val()
+                                menuName:$('#menuName').val()
                             }
                             ,page: {
-                                curr: obj.curr //从当前页开始
+                                curr: 1 //重当前页
                             }
                         })
                     },
                     error:function () {
-                        layer.msg('网络异常')
+                        layer.msg('网络开小差啦',{icon:5});
                     }
                 })
             });
@@ -161,31 +159,31 @@ layui.use(['form','laypage','layer','tree','util','table'], function(){
                 type:'post',
                 data:{parentId:0},
                 success:function (msg) {
-                    var html = '<form class="layui-form" onsubmit="return false;">';
+                    var html = '<form class="layui-form" onsubmit="return false;" lay-filter="formTest">';
                     html += '<div class="layui-form-item">' +
-                        '                <label class="layui-form-label">菜单名称：</label>' +
-                        '                <div class="layui-input-inline">'+tr.find("td").eq(1).text()+'</div>' +
-                        '            </div>'
+                        '        <label class="layui-form-label">菜单名称：</label>' +
+                        '        <div class="layui-input-inline">' +
+                        '            <input type="text" autocomplete="off" value="'+tr.find("td").eq(1).text()+'" class="layui-input" disabled>'+
+                        '        </div>' +
+                        '    </div>'
                     html += '  <div class="layui-form-item">' +
-                        '    <label class="layui-form-label">一级菜单</label>' +
-                        '    <div class="layui-input-block">' +
-                        '      <select name="parentId" id="parentId" lay-verify="required">';
+                        '    <label class="layui-form-label">一级菜单:</label>' +
+                        '    <div class="layui-input-inline">' +
+                        '      <select name="parentId" id="parentId" lay-verify="required" lay-filter="parentId">';
                     for (var i = 1;i < msg.length;i++){
-                        if(tr.find("td").eq(1).text() === msg[i].menuId){
-                            html += '<option value="'+msg[i].menuId+'" selected>'+msg[i].menuName+'</option>';
-                        }else {
-                            html += '<option value="'+msg[i].menuId+'">'+msg[i].menuName+'</option>';
-                        }
+                        html += '<option value="'+msg[i].menuId+'">'+msg[i].menuName+'</option>';
                     }
                     html += '</select></div></div>'
                     html += '</form>'
-                    $('#submenu').empty();
+                    $('#submenu').empty();//清空容器
                     $('#submenu').html(html);
+                    form.val('formTest',{'parentId':tr.find("td").eq(3).text()});//给下拉框赋初始值，formTest是form的lay-filter,parentId是name
+                    form.render();//重新渲染（必须）
                     layer.open({
                         type: 1,
                         title:'更改一级菜单',
                         skin: 'layui-layer-rim', //加上边框
-                        area: ['420px', '240px'], //宽高
+                        area: ['360px', '320px'], //宽高
                         content: $('#submenu'),
                         btn:['确定','取消'],
                         btn1:function(index, layero) {
@@ -196,6 +194,11 @@ layui.use(['form','laypage','layer','tree','util','table'], function(){
                                     data:{'menuId':menuId,'parentId':$('#parentId').val()},
                                     success:function (msg) {
                                         layer.msg(msg);
+                                        if(msg === 'success'){
+                                            obj.update({
+                                                parentId:$('#parentId').val()
+                                            });
+                                        }
                                         layer.close(index);
                                     },
                                     error:function (msg) {

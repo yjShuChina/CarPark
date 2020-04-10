@@ -28,4 +28,6 @@ public interface AdminService {
     Integer updateMenuParentId(Map<String,Object> map);
 
     Integer addSubmenu(Map<String,Object> map);
+
+    Integer deleteMenu(TbMenu tbMenu);
 }
