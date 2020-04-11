@@ -3,6 +3,7 @@ package com.example.carpark.service;
 import com.example.carpark.javabean.ResultDate;
 import com.example.carpark.javabean.TbAdmin;
 import com.example.carpark.javabean.TbMenu;
+import com.example.carpark.javabean.TreeData;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -36,4 +37,8 @@ public interface AdminService {
     String addRole(Map<String,Object> map);
 
     Integer deleteRole(Integer roleId);
+
+    List<TreeData> findRoleMenu(Integer roleId);
+
+    Integer updateRoleMenu(List<TreeData> list,Integer roleId);
 }

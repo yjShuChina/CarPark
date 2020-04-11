@@ -179,4 +179,33 @@
             </if>
         </where>
     </select>
+
+    <update id="resetMenuState" parameterType="java.util.Map">
+        update tb_role_menu
+        <choose>
+            <when test="state == 1">
+                set state = 1
+            </when>
+            <otherwise>
+                set state = 2
+            </otherwise>
+        </choose>
+        where role_id = #{roleId} and menu_id in
+        <foreach collection="list" item="item" open="(" separator="," close=")">
+            #{item.menuId}
+        </foreach>
+    </update>
+
+    <update id="resetAllMenu" parameterType="java.util.Map">
+        update tb_role_menu
+        <choose>
+            <when test="state == 1">
+                set state = 1
+            </when>
+            <otherwise>
+                set state = 2
+            </otherwise>
+        </choose>
+        where role_id =  #{roleId}
+    </update>
 </mapper>

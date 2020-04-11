@@ -115,9 +115,83 @@ layui.use(['form','laypage','layer','tree','util','table'], function() {
         var roleId = tr.find("td").eq(0).text();
 
         if(obj.event === 'search'){
+            $.ajax({
+                url:$('#path').val()+'/admin/findRoleMenu',
+                type:'post',
+                data:{'roleId':roleId},
+                success:function (msg) {
+                    tree.render({
+                        elem: '#test7'
+                        ,data: msg
+                        ,showCheckbox: false
+                        ,id:'treeNode'
+                    });
 
+                    layer.open({
+                        title:'权限管理'
+                        ,type:1
+                        ,area:['360px','400px']
+                        ,shadeClose:true
+                        ,content:$('#test7')
+                        ,fixed: false
+                        ,resize:false
+                        ,btn:['确定']
+                        ,btn1:function (index, layero) {
+                            layer.close(index);
+                        }
+                    })
+                },
+                error:function (msg) {
+                    layer.msg('网络开小差啦',{icon:5});
+                }
+            })
         }else if(obj.event === 'edit'){
+            $.ajax({
+                url:$('#path').val()+'/admin/findRoleMenu',
+                type:'post',
+                data:{'roleId':roleId},
+                success:function (msg) {
+                    tree.render({
+                        elem: '#test7'
+                        ,data: msg
+                        ,showCheckbox: true
+                        ,id:'treeNode'
+                    });
 
+                    layer.open({
+                        title:'权限管理'
+                        ,type:1
+                        ,area:['360px','400px']
+                        ,shadeClose:true
+                        ,content:$('#test7')
+                        ,fixed: false
+                        ,resize:false
+                        ,btn:['确定','取消']
+                        ,btn1:function (index, layero) {
+                            layer.confirm('您确定要修改吗',function () {
+                                $.ajax({
+                                    url:$('#path').val()+'/admin/updateRoleMenu',
+                                    type:'post',
+                                    data:{'treeDate':JSON.stringify(tree.getChecked('treeNode')),'roleId':roleId},
+                                    success:function (msg) {
+                                        layer.alert(msg);
+                                        layer.close(index);
+                                    },
+                                    error:function (msg) {
+                                        layer.msg('网络开小差啦！',{icon:5})
+                                    }
+                                })
+                            })
+                        }
+                        ,btn2:function (index, layero) {
+                            layer.close(index);
+                        }
+                    })
+                },
+                error:function (msg) {
+                    layer.msg('网络开小差啦',{icon:5});
+                }
+            })
         }else if(obj.event === 'delete'){
             layer.confirm('确定要删除该角色吗?', function(index){
                 $.ajax({

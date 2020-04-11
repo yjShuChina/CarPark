@@ -4,8 +4,11 @@ package com.example.carpark.controller;
 import com.example.carpark.javabean.ResultDate;
 import com.example.carpark.javabean.TbAdmin;
 import com.example.carpark.javabean.TbMenu;
+import com.example.carpark.javabean.TreeData;
 import com.example.carpark.service.AdminService;
 import com.example.carpark.util.ApplicationContextHelper;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -291,5 +294,21 @@ public class AdminController {
     public String deleteRole(Integer roleId){
         System.out.println("================删除角色===============");
         return adminService.deleteRole(roleId) > 0 ? "success":"error";
+    }
+
+    @ResponseBody
+    @RequestMapping("/findRoleMenu")
+    public List<TreeData> findRoleMenu(Integer roleId){
+        System.out.println("=============查询角色菜单============");
+        return adminService.findRoleMenu(roleId);
+    }
+
+    @ResponseBody
+    @RequestMapping("/updateRoleMenu")
+    public String updateRoleMenu(String treeDate,Integer roleId){
+        System.out.println("============修改权限=============");
+        Gson gson = new Gson();
+        List<TreeData> treeDataList = gson.fromJson(treeDate,new TypeToken<List<TreeData>>() {}.getType());
+        return adminService.updateRoleMenu(treeDataList,roleId) > 0 ? "修改成功":"修改失败";
     }
 }

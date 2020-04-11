@@ -40,6 +40,7 @@
 </fieldset>
 </body>
 <div hidden = "hidden" id="roleDiv"></div>
+<div id="test7" class="demo-tree" hidden="hidden"></div>
 <script type="text/html" id="barDemo">
     {{# if (d.role === '超级管理员' || d.roleId === 1){ }}
     <a title="查看角色权限" class="layui-btn layui-btn-xs layui-btn" lay-event="search"><i class="layui-icon layui-icon-search"></i>查看权限</a>

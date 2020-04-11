@@ -282,5 +282,66 @@ public class AdminServiceImpl implements AdminService {
         return 0;
     }
 
+    /**
+     * 根据角色id生成树形组件的数据
+     * @param roleId
+     * @return
+     */
+    @Override
+    public List<TreeData> findRoleMenu(Integer roleId) {
+        List<TreeData> treeDataList = new ArrayList<>();
+        List<TbMenu> menuList = adminDao.findParentMenu(0);
+        for (TbMenu tbMenu:menuList) {
+            TreeData treeData = ApplicationContextHelper.getBean(TreeData.class);
+            treeData.setId((int)tbMenu.getMenuId());
+            treeData.setTitle(tbMenu.getMenuName());
+            Map<String,Object> map = new HashMap<>();
+            map.put("roleId",roleId);
+            map.put("parentId",tbMenu.getMenuId());
+            List<TbMenu> menuList2 = adminDao.findMenu(map);
+            List<TreeData> treeDataList2 = new ArrayList<>();
+            for (TbMenu tbMenu2:menuList2) {
+                TreeData treeData2 = ApplicationContextHelper.getBean(TreeData.class);
+                treeData2.setId((int) tbMenu2.getMenuId());
+                treeData2.setTitle(tbMenu2.getMenuName());
+                if(tbMenu2.getState() == 1){
+                    treeData2.setChecked(true);
+                }else {
+                    treeData2.setChecked(false);
+                }
+                treeDataList2.add(treeData2);
+            }
+            treeData.setChildren(treeDataList2);
+            treeDataList.add(treeData);
+        }
+        return treeDataList;
+    }
+
+    @Override
+    public Integer updateRoleMenu(List<TreeData> list, Integer roleId) {
+        TbRoleMenu tbRoleMenu = ApplicationContextHelper.getBean(TbRoleMenu.class);
+        tbRoleMenu.setRoleId(roleId);
+        List<TbRoleMenu> roleMenuList = adminDao.findRoleMenuListById(tbRoleMenu);
+        HashMap<String,Object> map = new HashMap<>();
+        map.put("roleId",roleId);
+        map.put("state",2);
+        if(adminDao.resetAllMenu(map) == roleMenuList.size()){
+            if(list.size() > 0){
+                List<TbMenu> menuList = new ArrayList<>();
+                for (TreeData t : list) {
+                    for (TreeData t2:t.getChildren()) {
+                        TbMenu tbMenu = ApplicationContextHelper.getBean(TbMenu.class);
+                        tbMenu.setMenuId(t2.getId());
+                        menuList.add(tbMenu);
+                    }
+                }
+                map.put("list",menuList);
+                map.put("state",1);
+                return adminDao.resetMenuState(map);
+            }
+            return list.size();
+        }
+        return 0;
+    }
 
 }

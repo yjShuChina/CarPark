@@ -186,4 +186,17 @@ public interface AdminDao {
      * @return
      */
     List<TbRoleMenu> findRoleMenuListById(TbRoleMenu tbRoleMenu);
+
+    /**
+     * 修改角色菜单状态
+     * @return
+     */
+    Integer resetMenuState(Map<String,Object> map);
+
+    /**
+     * 修改该角色所有菜单ID
+     * @param map
+     * @return
+     */
+    Integer resetAllMenu(Map<String,Object> map);
 }
