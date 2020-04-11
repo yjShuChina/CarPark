@@ -1,12 +1,10 @@
 package com.example.carpark.controller;
 
 
-import com.example.carpark.javabean.ResultDate;
-import com.example.carpark.javabean.TbAdmin;
-import com.example.carpark.javabean.TbMenu;
-import com.example.carpark.javabean.TreeData;
+import com.example.carpark.javabean.*;
 import com.example.carpark.service.AdminService;
 import com.example.carpark.util.ApplicationContextHelper;
+import com.example.carpark.util.ResponseUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.Resource;
 import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -24,10 +23,8 @@ import javax.swing.plaf.LayerUI;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
-import java.util.Random;
 
 /**
  * 管理员控制类
@@ -39,6 +36,9 @@ public class AdminController {
 
     @Autowired
     private AdminService adminService;
+
+    @Resource
+    private Diagis datagridResult;
 
     private char[] codeSequence = { 'A', '1','B', 'C', '2','D','3', 'E','4', 'F', '5','G','6', 'H', '7','I', '8','J',
             'K',   '9' ,'L', '1','M',  '2','N',  'P', '3', 'Q', '4', 'R', 'S', 'T', 'U', 'V', 'W',
@@ -310,5 +310,65 @@ public class AdminController {
         Gson gson = new Gson();
         List<TreeData> treeDataList = gson.fromJson(treeDate,new TypeToken<List<TreeData>>() {}.getType());
         return adminService.updateRoleMenu(treeDataList,roleId) > 0 ? "修改成功":"修改失败";
+    }
+
+
+
+    //日志查找 4.11
+    @ResponseBody
+    @RequestMapping("/table")
+    public void table(HttpServletRequest request, HttpServletResponse response){
+        HashMap<String,Object> condition = new HashMap<>();
+        String name=request.getParameter("key");
+        String type= request.getParameter("type");
+        String page = request.getParameter("page");
+        String limit = request.getParameter("limit");
+        System.out.println(type);
+        if(null!=name&&!"".equals(name.trim())){
+            condition.put("UNAME",name);
+        }
+        if(null!=type&&!"".equals(type.trim())){
+            condition.put("TYPE",type);
+        }
+        int pageInt = Integer.valueOf(page);
+        int limitInt = Integer.valueOf(limit);
+        condition.put("pageInt",limitInt * (pageInt - 1));
+        condition.put("limitInt",limitInt);
+        int count=adminService.findLogCount(condition);
+        datagridResult.setCode(0);
+        datagridResult.setMsg("");
+        datagridResult.setCount(count);
+        List<TbLog> users=new ArrayList<>();
+        users=adminService.findLog(condition);
+        datagridResult.setData(users);
+        System.out.println("表格数据==="+toJson(datagridResult));
+        ResponseUtils.outJson(response,toJson(datagridResult));
+    }
+    //转json(日志)
+    protected String toJson(Diagis datagridResult){
+        Gson gson=new Gson();
+        StringBuilder sb = new StringBuilder();
+        sb.append("{\"code\":").append(datagridResult.getCode())
+                .append(",\"msg\":\"").append(datagridResult.getMsg())
+                .append("\",\"count\":").append(datagridResult.getCount())
+                .append(",\"data\":[");
+        if(datagridResult.getData().size()!=0){
+            for(Object object : datagridResult.getData()){
+                TbLog user = (TbLog) object;
+                String sql=gson.toJson(user);
+                System.out.println("对象转gson"+sql);
+                sb.append(sql);
+                sb.append(",");
+            }
+            sb.delete(sb.length() - 1, sb.length());
+            sb.append("]}");
+        }else{
+            for(int i=0;i<8;i++){
+                sb.delete(sb.length(),sb.length());
+            }
+            sb.append("}");
+        }
+
+        return sb.toString();
     }
 }

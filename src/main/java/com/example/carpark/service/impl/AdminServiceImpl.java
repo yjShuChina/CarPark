@@ -344,4 +344,18 @@ public class AdminServiceImpl implements AdminService {
         return 0;
     }
 
+
+    //查找日志页数 4.11
+    @Override
+    public Integer findLogCount(HashMap<String,Object> condition)
+    {
+        return adminDao.findLogCount(condition);
+    }
+    //查找日志
+    @Override
+    public List<TbLog> findLog(HashMap<String,Object> condition)
+    {
+        return adminDao.findLog(condition);
+    }
+
 }

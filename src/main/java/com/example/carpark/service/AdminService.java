@@ -1,11 +1,9 @@
 package com.example.carpark.service;
 
-import com.example.carpark.javabean.ResultDate;
-import com.example.carpark.javabean.TbAdmin;
-import com.example.carpark.javabean.TbMenu;
-import com.example.carpark.javabean.TreeData;
+import com.example.carpark.javabean.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -41,4 +39,9 @@ public interface AdminService {
     List<TreeData> findRoleMenu(Integer roleId);
 
     Integer updateRoleMenu(List<TreeData> list,Integer roleId);
+
+    //4.11 hyh添加
+    Integer findLogCount(HashMap<String, Object> condition);
+
+    List<TbLog> findLog(HashMap<String, Object> condition);
 }

@@ -208,4 +208,32 @@
         </choose>
         where role_id =  #{roleId}
     </update>
+
+
+    <!--   4.11  hyh  日志查看-->
+    <select id="findLog" parameterType="java.util.Map" resultType="com.example.carpark.javabean.TbLog">
+        select u.* from tb_log u
+        <where>
+            <if test="UNAME!=null and UNAME !=''">
+                and u.uname LIKE '%' #{UNAME} '%'
+            </if>
+            <if test="TYPE!='' and TYPE !=null">
+                and u.operation_type = #{TYPE}
+            </if>
+            and 1=1 limit #{pageInt},#{limitInt}
+        </where>
+    </select>
+
+    <select id="findLogCount" resultType="java.lang.Integer"  parameterType="com.example.carpark.javabean.TbLog">
+        select count(*) from tb_log
+        <where>
+            <if test="UNAME!=null and UNAME !=''">
+                and uname LIKE '%' #{UNAME} '%'
+            </if>
+            <if test="TYPE!='' and TYPE !=null">
+                and operation_type = #{TYPE}
+            </if>
+        </where>
+    </select>
+
 </mapper>

@@ -1,11 +1,9 @@
 package com.example.carpark.dao;
 
-import com.example.carpark.javabean.TbAdmin;
-import com.example.carpark.javabean.TbMenu;
-import com.example.carpark.javabean.TbRole;
-import com.example.carpark.javabean.TbRoleMenu;
+import com.example.carpark.javabean.*;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -199,4 +197,11 @@ public interface AdminDao {
      * @return
      */
     Integer resetAllMenu(Map<String,Object> map);
+
+
+    //查找日志页数
+    Integer findLogCount(HashMap<String,Object> condition);
+
+    //查找日志信息
+    List<TbLog> findLog(HashMap<String,Object> condition);
 }
