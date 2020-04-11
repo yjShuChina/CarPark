@@ -257,4 +257,21 @@ public class AdminController {
         System.out.println("tbMenu===>"+tbMenu.toString());
         return adminService.deleteMenu(tbMenu) > 0 ? "success":"error";
     }
+
+    /**
+     * 分页查询角色表
+     * @param param
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/findRoleByPage")
+    public ResultDate findRoleByPage(@RequestParam Map<String,Object> param){
+        System.out.println("===========================查询角色列表=========================");
+        Integer page = Integer.valueOf(param.get("page").toString());
+        Integer limit = Integer.valueOf(param.get("limit").toString());
+        page = (page - 1) * limit;//计算第几页
+        param.put("page",page);
+        param.put("limit",limit);
+        return adminService.findRoleByPage(param);
+    }
 }

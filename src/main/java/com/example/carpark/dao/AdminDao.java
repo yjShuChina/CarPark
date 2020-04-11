@@ -124,4 +124,18 @@ public interface AdminDao {
      * @return
      */
     Integer deleteRoleMenu(TbRoleMenu tbRoleMenu);
+
+    /**
+     * 分页查询角色表
+     * @param map
+     * @return
+     */
+    List<TbRole> findRoleByPage(Map<String,Object> map);
+
+    /**
+     * 查询角色表的总数
+     * @param map
+     * @return
+     */
+    Integer findRoleListCount(Map<String,Object> map);
 }

@@ -211,4 +211,20 @@ public class AdminServiceImpl implements AdminService {
         return 0;
     }
 
+    /**
+     * 分页查询角色表
+     * @param map
+     * @return
+     */
+    @Override
+    public ResultDate<TbRole> findRoleByPage(Map<String, Object> map) {
+        ResultDate<TbRole> rd = ApplicationContextHelper.getBean(ResultDate.class);
+        rd.setCode(0);
+        rd.setData(adminDao.findRoleByPage(map));
+        rd.setCount(adminDao.findRoleListCount(map));
+        rd.setMsg("");
+        System.out.println(rd.toString());
+        return rd;
+    }
+
 }

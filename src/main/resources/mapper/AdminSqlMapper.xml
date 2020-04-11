@@ -115,4 +115,23 @@
             </if>
         </where>
     </delete>
+
+    <select id="findRoleByPage" parameterType="java.util.Map" resultType="TbRole">
+        select * from tb_role
+        <where>
+            <if test="role != null and role != ''">
+                and role like concat('%',#{role},'%')
+            </if>
+        </where>
+        limit #{page},#{limit}
+    </select>
+
+    <select id="findRoleListCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+        select count(*) from tb_role
+        <where>
+            <if test="role != null and role != ''">
+                and role like concat('%',#{role},'%')
+            </if>
+        </where>
+    </select>
 </mapper>

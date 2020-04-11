@@ -30,4 +30,6 @@ public interface AdminService {
     Integer addSubmenu(Map<String,Object> map);
 
     Integer deleteMenu(TbMenu tbMenu);
+
+    ResultDate findRoleByPage(Map<String,Object> map);
 }
