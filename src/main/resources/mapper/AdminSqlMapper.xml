@@ -14,6 +14,11 @@
         select * from tb_menu where parent_id = #{parentId}
     </select>
 
+<!--    查询父级菜单ID不为给定值的所有菜单-->
+    <select id="findAllSubmenu" resultType="TbMenu" parameterType="java.lang.Integer">
+        select * from tb_menu where parent_id != #{parentId}
+    </select>
+
 <!--    根据父id和角色id查询子菜单-->
     <select id="findMenu" resultMap="submenuMap" parameterType="java.util.Map">
          select b.menu_id,b.menu_name,b.menu_url,b.parent_id,a.state from tb_menu b join tb_role_menu a on a.menu_id = b.menu_id and a.role_id = #{roleId} and b.parent_id = #{parentId}
@@ -66,6 +71,7 @@
         where menu_id = #{menuId}
     </update>
 
+<!--    根据菜单名查询菜单-->
     <select id="findMenuByName" parameterType="java.lang.String" resultType="TbMenu">
         select * from tb_menu where menu_name = #{menuName}
     </select>
@@ -116,6 +122,7 @@
         </where>
     </delete>
 
+<!--    分页查询角色表-->
     <select id="findRoleByPage" parameterType="java.util.Map" resultType="TbRole">
         select * from tb_role
         <where>
@@ -126,11 +133,49 @@
         limit #{page},#{limit}
     </select>
 
+<!--    查询角色表总数-->
     <select id="findRoleListCount" resultType="java.lang.Integer" parameterType="java.util.Map">
         select count(*) from tb_role
         <where>
             <if test="role != null and role != ''">
                 and role like concat('%',#{role},'%')
+            </if>
+        </where>
+    </select>
+
+<!--    新增角色-->
+    <insert id="addRole" parameterType="java.lang.String">
+        insert into tb_role (role) values(#{role})
+    </insert>
+
+    <select id="selectMaxRoleId" resultType="java.lang.Integer">
+        SELECT MAX(role_id) from tb_role
+    </select>
+
+<!--    批量插入角色关系表-->
+    <insert id="addRoleMenu2" parameterType="java.util.List">
+        insert into tb_role_menu (role_id,menu_id,state) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.roleId},#{item.menuId},#{item.state})
+        </foreach>
+    </insert>
+
+    <select id="findRoleByName" parameterType="java.lang.String" resultType="TbRole">
+        select * from tb_role where role = #{role}
+    </select>
+
+    <delete id="deleteRole" parameterType="java.lang.Integer">
+        delete from tb_role where role_id = #{roleId}
+    </delete>
+
+    <select id="findRoleMenuListById" parameterType="TbRoleMenu" resultType="TbRoleMenu">
+        select * from tb_role_menu
+        <where>
+            <if test="roleId != null and roleId != ''">
+                and role_id = #{roleId}
+            </if>
+            <if test="menuId != null and menuId != ''">
+                and menu_id = #{menuId}
             </if>
         </where>
     </select>

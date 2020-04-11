@@ -1,15 +1,16 @@
 package com.example.carpark.javabean;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component
+@Scope("prototype")
 public class TbRoleMenu {
 
   private long rmId;
   private long roleId;
   private long menuId;
   private long state;
-
 
   public long getRmId() {
     return rmId;
@@ -19,7 +20,6 @@ public class TbRoleMenu {
     this.rmId = rmId;
   }
 
-
   public long getRoleId() {
     return roleId;
   }
@@ -28,7 +28,6 @@ public class TbRoleMenu {
     this.roleId = roleId;
   }
 
-
   public long getMenuId() {
     return menuId;
   }
@@ -36,7 +35,6 @@ public class TbRoleMenu {
   public void setMenuId(long menuId) {
     this.menuId = menuId;
   }
-
 
   public long getState() {
     return state;

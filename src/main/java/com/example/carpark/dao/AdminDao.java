@@ -30,6 +30,13 @@ public interface AdminDao {
     List<TbMenu> findParentMenu(Integer parentId);
 
     /**
+     * 查询所有父级菜单部位给定值的菜单
+     * @param parentId
+     * @return
+     */
+    List<TbMenu> findAllSubmenu(Integer parentId);
+
+    /**
      * 根据父级菜单id和角色id查询子菜单
      * @param map
      * @return
@@ -138,4 +145,45 @@ public interface AdminDao {
      * @return
      */
     Integer findRoleListCount(Map<String,Object> map);
+
+    /**
+     * 新增角色
+     * @param role
+     * @return
+     */
+    Integer addRole(String role);
+
+    /**
+     * 查询新增角色ID
+     * @return
+     */
+    Integer selectMaxRoleId();
+
+    /**
+     *  批量添加角色菜单表
+     * @param list
+     * @return
+     */
+    Integer addRoleMenu2(List<TbRoleMenu> list);
+
+    /**
+     * 根据角色名查询角色表
+     * @param role
+     * @return
+     */
+    TbRole findRoleByName(String role);
+
+    /**
+     * 删除角色
+     * @param roleId
+     * @return
+     */
+    Integer deleteRole(Integer roleId);
+
+    /**
+     *  查询角色菜单关系表
+     * @param tbRoleMenu
+     * @return
+     */
+    List<TbRoleMenu> findRoleMenuListById(TbRoleMenu tbRoleMenu);
 }

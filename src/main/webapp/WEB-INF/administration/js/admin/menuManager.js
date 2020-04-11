@@ -262,8 +262,8 @@ layui.use(['form','laypage','layer','tree','util','table'], function(){
                             type:'post',
                             data:{'menuName':$('#submenuName').val(),'menuUrl':$('#menuUrl').val(),'parentId':tr.find("td").eq(0).text(),'use':$('input[name="use"]:checked').val()},
                             beforeSend:function(){
-                              if($('#submenuName').val() === '' || $('#submenuName').val() === null){
-                                  layer.msg('菜单名不能为空');
+                              if($('#submenuName').val().length < 2 || $('#submenuName').val().length >10){
+                                  layer.msg('菜单名('+$('#submenuName').val()+')长度不在2~10位之间');
                                   return false;
                               }
                               if($('#menuUrl').val() === '' || $('#menuUrl').val() === null){
@@ -282,9 +282,9 @@ layui.use(['form','laypage','layer','tree','util','table'], function(){
                                             curr: obj.curr //重新从当前页开始
                                         }
                                     })
+                                    layer.close(index);
                                 }
                                 layer.msg(msg);
-                                layer.close(index);
                             },
                             error:function (msg) {
                                 layer.msg('网络开小差啦',{icon:5});

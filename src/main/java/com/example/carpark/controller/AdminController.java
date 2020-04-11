@@ -274,4 +274,22 @@ public class AdminController {
         param.put("limit",limit);
         return adminService.findRoleByPage(param);
     }
+
+    /**
+     * 新增角色
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/addRole")
+    public String addRole(@RequestParam Map<String,Object> param){
+        System.out.println("===============新增角色=================");
+        return adminService.addRole(param);
+    }
+
+    @ResponseBody
+    @RequestMapping("/deleteRole")
+    public String deleteRole(Integer roleId){
+        System.out.println("================删除角色===============");
+        return adminService.deleteRole(roleId) > 0 ? "success":"error";
+    }
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -152,6 +153,10 @@ public class AdminServiceImpl implements AdminService {
      */
     @Override
     public Integer addSubmenu(Map<String, Object> map) {
+        TbMenu tbMenu2 = adminDao.findMenuByName(map.get("menuName").toString());//查询该菜单名是否存在
+        if(tbMenu2!=null){
+            return 0;
+        }
         TbMenu tbMenu = ApplicationContextHelper.getBean(TbMenu.class);
         tbMenu.setMenuName(map.get("menuName").toString());
         tbMenu.setMenuUrl(map.get("menuUrl").toString());
@@ -203,8 +208,9 @@ public class AdminServiceImpl implements AdminService {
         }else {
             TbRoleMenu tbRoleMenu = ApplicationContextHelper.getBean(TbRoleMenu.class);
             tbRoleMenu.setMenuId(tbMenu.getMenuId());
+            List<TbRoleMenu> roleMenuList = adminDao.findRoleMenuListById(tbRoleMenu);
             Integer i = adminDao.deleteRoleMenu(tbRoleMenu);
-            if(i >0){
+            if(i == roleMenuList.size()){
                 return adminDao.deleteMenu((int) tbMenu.getMenuId());
             }
         }
@@ -226,5 +232,55 @@ public class AdminServiceImpl implements AdminService {
         System.out.println(rd.toString());
         return rd;
     }
+
+    /**
+     *  新增角色以及给角色赋菜单,并初始化菜单状态
+     * @param map
+     * @return
+     */
+    @Override
+    public String addRole(Map<String, Object> map) {
+        Integer state = map.get("use").toString().equals("yes") ? 1 : 2;//是否开启所有菜单
+        TbRole tbRole = adminDao.findRoleByName(map.get("role").toString());
+        if(tbRole != null){
+            return "角色名已存在";
+        }
+        Integer i = adminDao.addRole(map.get("role").toString());//添加角色表
+        if(i > 0){
+            Integer roleId = adminDao.selectMaxRoleId();//获取最新添加的角色ID
+            List<TbMenu> menuList = adminDao.findAllSubmenu(0);//查询所有子菜单
+            List<TbRoleMenu> roleMenuList = new ArrayList<>();
+            for (TbMenu tbMenu: menuList) {//循环添加所有子菜单到角色菜单关系表
+               TbRoleMenu tbRoleMenu = ApplicationContextHelper.getBean(TbRoleMenu.class);
+               tbRoleMenu.setRoleId(roleId);
+               tbRoleMenu.setMenuId(tbMenu.getMenuId());
+               tbRoleMenu.setState(state);
+               roleMenuList.add(tbRoleMenu);
+            }
+            Integer j = adminDao.addRoleMenu2(roleMenuList);
+            if(j == menuList.size()){
+                return "success";
+            }
+        }
+        return "error";
+    }
+
+    /**
+     * 删除角色以及其关系表
+     * @param roleId
+     * @return
+     */
+    @Override
+    public Integer deleteRole(Integer roleId) {
+        TbRoleMenu tbRoleMenu = ApplicationContextHelper.getBean(TbRoleMenu.class);
+        tbRoleMenu.setRoleId(roleId);
+        List<TbRoleMenu> roleMenuList = adminDao.findRoleMenuListById(tbRoleMenu);
+        Integer i = adminDao.deleteRoleMenu(tbRoleMenu);
+        if(i == roleMenuList.size()){
+            return adminDao.deleteRole(roleId);
+        }
+        return 0;
+    }
+
 
 }
