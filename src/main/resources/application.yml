@@ -6,7 +6,7 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://112.74.72.11:3306/carpark?characterEncoding=UTF-8&serverTimezone=UTC
+    url: jdbc:mysql://112.74.72.11:3306/carpark?characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
     username: carpark
     password: carpark
     type: com.alibaba.druid.pool.DruidDataSource
