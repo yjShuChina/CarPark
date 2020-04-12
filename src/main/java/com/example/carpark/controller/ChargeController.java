@@ -74,17 +74,7 @@ public class ChargeController {
         return "验证码错误";
     }
 
-    @RequestMapping("/demo")
-    public void demo() {
 
-    }
-    @RequestMapping("/uploadTrainPicture")
-    @ResponseBody
-    public void addTrainPicture(@RequestParam("file") MultipartFile file, HttpServletResponse response) throws IOException {
-        System.out.println(file.getOriginalFilename());
-        String str = chargeService.findcarnumber(file);
-        System.out.println("车牌号=" + str);
-    }
     /**
      * 路径跳转
      *
@@ -95,6 +85,51 @@ public class ChargeController {
     public String redirect(@PathVariable(value = "uri") String path) {
         return "/charge/jsp/" + path;
     }
+
+    //收费规则数据查询接口
+    @RequestMapping("/chargePrice")
+    public void chargePrice(HttpServletResponse response) throws IOException {
+        response.getWriter().print(chargeService.chargePrice());
+    }
+
+    //收费规则修改
+    @RequestMapping("/modifyChargePrice")
+    public void modifyChargePrice(TbChargerParameter tbChargerParameter, HttpServletResponse response) throws IOException {
+        System.out.println("传递的参数 = " + new Gson().toJson(tbChargerParameter));
+        int i = chargeService.modifyChargePrice(tbChargerParameter);
+        System.out.println("收费规则修改返回：" + i);
+        if (i == 1) {
+            response.getWriter().print("succeed");
+        }
+    }
+
+    //收费规则添加
+    @RequestMapping("/addChargePrice")
+    public void addChargePrice(TbChargerParameter tbChargerParameter, HttpServletResponse response) throws IOException {
+        int i = chargeService.addChargePrice(tbChargerParameter);
+        if (i == 1) {
+            response.getWriter().print("succeed");
+        }
+    }
+
+    //收费规则删除
+    @RequestMapping("/delChargePrice")
+    public void delChargePrice(TbChargerParameter tbChargerParameter, HttpServletResponse response) throws IOException {
+        int i = chargeService.delChargePrice("" + tbChargerParameter.getCpId());
+        if (i == 1) {
+            response.getWriter().print("succeed");
+        }
+    }
+
+    //图片识别车牌号
+    @RequestMapping("/uploadTrainPicture")
+    @ResponseBody
+    public void addTrainPicture(@RequestParam("file") MultipartFile file, HttpServletResponse response) throws IOException {
+        System.out.println(file.getOriginalFilename());
+        String str = chargeService.findcarnumber(file);
+        System.out.println("车牌号=" + str);
+    }
+
 
     //添加月缴信息
     @RequestMapping("/addMonthlyPayment")
@@ -326,7 +361,7 @@ public class ChargeController {
             tbRefund.setMvrId(tbMonthVip.getMvrId());
             tbRefund.setRefundPrice(Integer.parseInt(price));
             int count2 = monthService.addRefund(tbRefund);
-            if (count2 > 0){
+            if (count2 > 0) {
                 response.getWriter().print("success");
                 System.out.println("月缴退费成功");
             } else {

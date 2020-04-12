@@ -20,4 +20,23 @@
         select * from tb_park_car_info where car_number = #{carNumber}
     </select>
 
+<!--    月卡用户查询-->
+    <select id="userQuery" parameterType="String" resultType="TbUser">
+        select * from tb_user where car_number = #{carNumber}
+    </select>
+    
+<!--    收费规则查询-->
+    <select id="chargePrice" resultType="TbChargerParameter">
+        select * from tb_charger_parameter order by charge_time asc
+    </select>
+
+<!--    收费规则修改-->
+    <update id="modifyChargePrice" parameterType="TbChargerParameter">
+        update tb_charger_parameter set charge_time = #{chargeTime} ,price = #{price} where cp_id = #{cpId}
+    </update>
+
+<!--    收费规则增加-->
+    <insert id="addChargePrice" parameterType="TbChargerParameter">
+        insert into tb_charger_parameter (charge_time, price) values (#{chargeTime},#{price});
+    </insert>
 </mapper>
