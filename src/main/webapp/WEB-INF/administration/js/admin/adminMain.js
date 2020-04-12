@@ -52,7 +52,7 @@ layui.use(['element','layer'], function(){
                 type:'post',
                 success:function (msg) {
                     if(msg === 'success'){
-                        window.location.href = path+"/url/adminLogin";
+                        window.location.href = path+"/url/admin/adminLogin";
                     }
                 },
                 error:function (msg) {
