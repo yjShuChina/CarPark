@@ -55,8 +55,7 @@ public class AdminController {
         System.out.println("===============================管理员登陆=============================");
         String vcode = session.getAttribute("vcode").toString();//获取session上的验证码
         if(vcode.equalsIgnoreCase(param.get("captcha").toString())){
-            String ret = adminService.adminLogin(param,session);//获取service层返回的信息
-            return ret;
+            return adminService.adminLogin(param,session);//获取service层返回的信息
         }
         return "验证码错误";
     }
@@ -202,7 +201,7 @@ public class AdminController {
      * @return
      */
     @ResponseBody
-    @RequestMapping("/addMenu")
+    @RequestMapping(value = "/addMenu",produces = { "application/json;charset=UTF-8"})
     public String addMenu(@RequestParam Map<String,Object> param){
         System.out.println("=================增加菜单===================");
         TbMenu tbMenu = ApplicationContextHelper.getBean(TbMenu.class);
@@ -283,7 +282,7 @@ public class AdminController {
      * @return
      */
     @ResponseBody
-    @RequestMapping("/addRole")
+    @RequestMapping(value = "/addRole",produces = { "application/json;charset=UTF-8"})
     public String addRole(@RequestParam Map<String,Object> param){
         System.out.println("===============新增角色=================");
         return adminService.addRole(param);
@@ -304,7 +303,7 @@ public class AdminController {
     }
 
     @ResponseBody
-    @RequestMapping("/updateRoleMenu")
+    @RequestMapping(value = "/updateRoleMenu",produces = { "application/json;charset=UTF-8"})
     public String updateRoleMenu(String treeDate,Integer roleId){
         System.out.println("============修改权限=============");
         Gson gson = new Gson();
