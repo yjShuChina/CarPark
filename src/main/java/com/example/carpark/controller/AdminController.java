@@ -1,6 +1,7 @@
 package com.example.carpark.controller;
 
 
+import com.example.carpark.aoplog.Log;
 import com.example.carpark.javabean.*;
 import com.example.carpark.service.AdminService;
 import com.example.carpark.util.ApplicationContextHelper;

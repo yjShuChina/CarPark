@@ -1,5 +1,6 @@
 package com.example.carpark.service.impl;
 
+import com.example.carpark.aoplog.Log;
 import com.example.carpark.dao.AdminDao;
 import com.example.carpark.javabean.*;
 import com.example.carpark.service.AdminService;
@@ -33,6 +34,7 @@ public class AdminServiceImpl implements AdminService {
      * @return
      */
     @Override
+    @Log(operationType = "登录", operationName = "管理登录")
     public String adminLogin(Map<String,Object> map, HttpSession session) {
         map.put("adminPwd",MD5.machining(map.get("adminPwd").toString()));//将管理员输入的密码转成MD5加密
         TbAdmin tbAdmin2 = adminDao.adminLogin(map);
