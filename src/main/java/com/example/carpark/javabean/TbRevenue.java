@@ -3,6 +3,8 @@ package com.example.carpark.javabean;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Component
@@ -16,7 +18,7 @@ public class TbRevenue {
     //缴费或支出金额
     private BigDecimal price;
     //缴费时间
-    private Date time;
+    private String time;
     //收入或支出（1为收入/2为支出）
     private Integer revenue;
 
@@ -52,11 +54,11 @@ public class TbRevenue {
         this.price = price;
     }
 
-    public Date getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(Date time) {
+    public void setTime(String time) {
         this.time = time;
     }
 
@@ -66,5 +68,17 @@ public class TbRevenue {
 
     public void setRevenue(Integer revenue) {
         this.revenue = revenue;
+    }
+
+    @Override
+    public String toString() {
+        return "TbRevenue{" +
+                "revenueId=" + revenueId +
+                ", incomeType='" + incomeType + '\'' +
+                ", month=" + month +
+                ", price=" + price +
+                ", time=" + time +
+                ", revenue=" + revenue +
+                '}';
     }
 }

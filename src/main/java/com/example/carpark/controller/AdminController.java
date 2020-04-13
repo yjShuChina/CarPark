@@ -3,6 +3,7 @@ package com.example.carpark.controller;
 
 import com.example.carpark.javabean.*;
 import com.example.carpark.service.AdminService;
+import com.example.carpark.service.RevenueService;
 import com.example.carpark.util.ApplicationContextHelper;
 import com.example.carpark.util.ResponseUtils;
 import com.google.gson.Gson;
@@ -23,6 +24,8 @@ import javax.swing.plaf.LayerUI;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
 
@@ -36,6 +39,9 @@ public class AdminController {
 
     @Autowired
     private AdminService adminService;
+
+    @Resource
+    private RevenueService revenueService;
 
     @Resource
     private Diagis datagridResult;
@@ -279,6 +285,7 @@ public class AdminController {
 
     /**
      * 新增角色
+     * @param param
      * @return
      */
     @ResponseBody
@@ -288,6 +295,11 @@ public class AdminController {
         return adminService.addRole(param);
     }
 
+    /**
+     * 删除角色
+     * @param roleId
+     * @return
+     */
     @ResponseBody
     @RequestMapping("/deleteRole")
     public String deleteRole(Integer roleId){
@@ -295,6 +307,11 @@ public class AdminController {
         return adminService.deleteRole(roleId) > 0 ? "success":"error";
     }
 
+    /**
+     * 根据角色id查询角色菜单关系表
+     * @param roleId
+     * @return
+     */
     @ResponseBody
     @RequestMapping("/findRoleMenu")
     public List<TreeData> findRoleMenu(Integer roleId){
@@ -302,6 +319,12 @@ public class AdminController {
         return adminService.findRoleMenu(roleId);
     }
 
+    /**
+     * 修改权限
+     * @param treeDate
+     * @param roleId
+     * @return
+     */
     @ResponseBody
     @RequestMapping(value = "/updateRoleMenu",produces = { "application/json;charset=UTF-8"})
     public String updateRoleMenu(String treeDate,Integer roleId){
@@ -311,13 +334,52 @@ public class AdminController {
         return adminService.updateRoleMenu(treeDataList,roleId) > 0 ? "修改成功":"修改失败";
     }
 
+    /**
+     * 更新角色表
+     * @param tbRole
+     * @return
+     */
     @ResponseBody
     @RequestMapping("/updateRole")
     public String updateRole(TbRole tbRole){
+        System.out.println("==========更新角色============");
         return adminService.updateRole(tbRole);
     }
 
+    @ResponseBody
+    @RequestMapping("/findRevenueByPage")
+    public ResultDate<TbRevenue> findRevenueByPage(@RequestParam Map<String,Object> param){
+        System.out.println("======================查询收支明细表=========================");
+        Integer page = Integer.valueOf(param.get("page").toString()),
+        limit = Integer.valueOf(param.get("limit").toString());
+        page = (page - 1) * limit;//计算第几页
+        param.put("page",page);
+        param.put("limit",limit);
+        if(param.containsKey("time")&&!"".equals(param.get("time"))){
+            String start = param.get("time").toString().substring(0,param.get("time").toString().indexOf("~")).trim(),
+            end = param.get("time").toString().substring(param.get("time").toString().indexOf("~")+1).trim();
+            param.put("start",start);
+            param.put("end",end);
+        }
+        return revenueService.findRevenueByPage(param);
+    }
 
+    @ResponseBody
+    @RequestMapping("/findMonthParameter")
+    public List<TbMonthChargeParameter> findMonthParameter(){
+        System.out.println("===========查询月缴产品==========");
+        return revenueService.findAllMonthParameter();
+    }
+
+    @ResponseBody
+    @RequestMapping("/addRevenue")
+    public String addRevenue(TbRevenue tbRevenue){
+        System.out.println("==============添加收支明细表=============");
+        if(tbRevenue.getMonth() != 0){
+            tbRevenue.setPrice(revenueService.selectPriceByMonth(tbRevenue.getMonth()));;
+        }
+        return revenueService.addRevenue(tbRevenue);
+    }
 
     //日志查找 4.11
     @ResponseBody

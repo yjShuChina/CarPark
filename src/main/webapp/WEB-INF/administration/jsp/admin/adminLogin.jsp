@@ -77,8 +77,8 @@
                     data: data.field,
                     dataType: "text",
                     success: function (res) {
-                        if(res === '验证成功'){
-                            layer.msg(res,{icon:6, time:2000},function () {
+                        if(res === 'success'){
+                            layer.msg('验证成功，两秒后自动跳转',{icon:6, time:2000},function () {
                                 window.location.href = path+'/url/admin/adminMain';
                             })
                         }else {

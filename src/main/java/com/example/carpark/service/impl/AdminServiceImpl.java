@@ -38,7 +38,7 @@ public class AdminServiceImpl implements AdminService {
         TbAdmin tbAdmin2 = adminDao.adminLogin(map);
         if(tbAdmin2 != null){
             session.setAttribute("tbAdmin",tbAdmin2);//将管理员信息放到session
-            return "验证成功";
+            return "success";
         }
         return "账号或密码错误";
     }

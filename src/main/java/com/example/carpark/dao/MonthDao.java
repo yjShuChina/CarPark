@@ -46,4 +46,7 @@ public interface MonthDao
 
     //添加退费表信息
     public int addRefund(TbRefund tbRefund);
+
+    //根据月缴产品查询价格
+    public Integer selectPriceByMonth(Integer month);
 }

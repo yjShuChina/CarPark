@@ -26,20 +26,15 @@
   </delete>
 
   <insert id="insert" parameterType="TbRevenue">
-    insert into tb_revenue (revenue_id, income_type, month, 
-      price, time, revenue
-      )
-    values (#{revenueId,jdbcType=INTEGER}, #{incomeType,jdbcType=VARCHAR}, #{month,jdbcType=INTEGER}, 
-      #{price,jdbcType=DECIMAL}, #{time,jdbcType=TIMESTAMP}, #{revenue,jdbcType=INTEGER}
-      )
+    insert into tb_revenue (income_type, month,
+      price, time, revenue)
+    values (#{incomeType,jdbcType=VARCHAR}, #{month,jdbcType=INTEGER},
+      #{price,jdbcType=DECIMAL}, #{time,jdbcType=TIMESTAMP}, #{revenue,jdbcType=INTEGER})
   </insert>
 
   <insert id="insertSelective" parameterType="TbRevenue">
     insert into tb_revenue
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="revenueId != null">
-        revenue_id,
-      </if>
       <if test="incomeType != null">
         income_type,
       </if>
@@ -57,9 +52,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="revenueId != null">
-        #{revenueId,jdbcType=INTEGER},
-      </if>
       <if test="incomeType != null">
         #{incomeType,jdbcType=VARCHAR},
       </if>
@@ -109,4 +101,42 @@
       revenue = #{revenue,jdbcType=INTEGER}
     where revenue_id = #{revenueId,jdbcType=INTEGER}
   </update>
+
+<!--  分页查询收支表-->
+  <select id="findRevenueByPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select * from tb_revenue
+    <where>
+        <if test="incomeType != null and incomeType != ''">
+           and income_type = #{incomeType}
+        </if>
+        <if test="month != null and month != ''">
+           and month = #{month}
+        </if>
+        <if test="start != null and start != '' and end != null and end != ''">
+          and time between #{start} and #{end}
+        </if>
+        <if test="revenue != null and revenue != ''">
+          and revenue = #{revenue}
+        </if>
+    </where>
+    limit #{page},#{limit}
+  </select>
+
+  <select id="findRevenueCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+    select count(*) from tb_revenue
+    <where>
+      <if test="incomeType != null and incomeType != ''">
+        and income_type = #{incomeType}
+      </if>
+      <if test="month != null and month != ''">
+        and month = #{month}
+      </if>
+      <if test="start != null and start != '' and end != null and end != ''">
+        and time between #{start} and #{end}
+      </if>
+      <if test="revenue != null and revenue != ''">
+        and revenue = #{revenue}
+      </if>
+    </where>
+  </select>
 </mapper>

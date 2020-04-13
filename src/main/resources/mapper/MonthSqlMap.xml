@@ -69,4 +69,8 @@
         values (#{userId},#{mvrId},(select DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s') from dual),#{refundPrice})
 	</insert>
 
+<!--	通过月份查询价格-->
+	<select id="selectPriceByMonth" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+		select price from tb_month_charge_parameter where month = #{month}
+	</select>
 </mapper>
