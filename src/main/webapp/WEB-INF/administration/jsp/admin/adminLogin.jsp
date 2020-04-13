@@ -22,7 +22,7 @@
 </head>
 <body>
 <input type="hidden" id="path" value="<%=path%>">
-<form class="layui-form" onsubmit="return false;" > <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
+<form class="layui-form" onsubmit="return false;"> <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
     <div style="padding-top: 10%;padding-left: 50%;">
         <div class="layui-form-item">
             <h3 style="align-content: center">智能车牌识别停车场 管理端</h3>
@@ -78,16 +78,16 @@
                     dataType: "text",
                     success: function (res) {
                         if(res === '验证成功'){
-                            layer.alert(res,function () {
+                            layer.msg(res,{icon:6, time:2000},function () {
                                 window.location.href = path+'/url/admin/adminMain';
                             })
                         }else {
-                            layer.alert(res);
+                            layer.msg(res);
                             changeCode();
                         }
                     },
                     error: function () {
-                        layer.msg('网络正忙', {icon: 6});
+                        layer.msg('网络正忙', {icon: 5});
                     }
                 }
             );

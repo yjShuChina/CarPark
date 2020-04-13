@@ -170,7 +170,11 @@ public class AdminServiceImpl implements AdminService {
                 Map<String,Object> rmmap = new HashMap<>();
                 rmmap.put("menuId",menuId);
                 rmmap.put("roleId", tbRole.getRoleId());
-                rmmap.put("state",state);
+                if(tbRole.getRoleId() == 1){//如果是超级管理员，默认启用
+                    rmmap.put("state",1);
+                }else {
+                    rmmap.put("state",state);
+                }
                 Integer j = adminDao.addRoleMenu(rmmap);
                 k ++ ;
             }
@@ -342,6 +346,15 @@ public class AdminServiceImpl implements AdminService {
             return list.size();
         }
         return 0;
+    }
+
+    @Override
+    public String updateRole(TbRole tbRole) {
+        Integer i = adminDao.updateRole(tbRole);
+        if(i > 0){
+            return "success";
+        }
+        return "error";
     }
 
 

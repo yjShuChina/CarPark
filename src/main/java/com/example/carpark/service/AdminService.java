@@ -40,6 +40,8 @@ public interface AdminService {
 
     Integer updateRoleMenu(List<TreeData> list,Integer roleId);
 
+    String updateRole(TbRole tbRole);
+
     //4.11 hyh添加
     Integer findLogCount(HashMap<String, Object> condition);
 

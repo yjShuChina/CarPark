@@ -107,6 +107,51 @@ layui.use(['form','laypage','layer','tree','util','table'], function() {
         ]
     });
 
+    //监听单元格编辑
+    table.on('edit(demotable)', function(obj) {
+        var value = obj.value //得到修改后的值
+            , data = obj.data //得到所在行所有键值
+            , field = obj.field //得到字段
+            , old = $(this).prev().text();//旧值
+        layer.confirm('您确定要修改吗',{
+            btn:['确定','取消']
+            ,btn1:function () {
+                $.ajax({
+                    url:$('#path').val() + '/admin/updateRole',
+                    type:'post',
+                    data:{'roleId':data.roleId,'role':value},
+                    beforeSend:function(){
+                        if(value === '' || value === null){
+                            obj.update({
+                                [field]:old
+                            });
+                            layer.msg("不能为空");
+                            return false;
+                        }
+                    },
+                    success:function (msg) {
+                        if(msg === 'success'){
+                            layer.msg('[角色ID:'+ data.roleId +']' + field + '字段更改为：'+ value);
+                        }else {
+                            layer.msg(msg);
+                        }
+                    },
+                    error:function (msg) {
+                        obj.update({
+                            [field]:old
+                        });
+                        layer.msg('网络开小差',{icon:5});
+                    }
+                })}
+            ,btn2:function (index) {
+                obj.update({
+                    [field]:old
+                });
+                layer.close(index);
+            }
+        })
+    });
+
     table.on('tool(demotable)', function(obj) {
         var data = obj.data;
         //console.log(obj)

@@ -209,6 +209,9 @@
         where role_id =  #{roleId}
     </update>
 
+    <update id="updateRole" parameterType="TbRole">
+        update tb_role set role = #{role} where role_id = #{roleId}
+    </update>
 
     <!--   4.11  hyh  日志查看-->
     <select id="findLog" parameterType="java.util.Map" resultType="com.example.carpark.javabean.TbLog">

@@ -198,6 +198,7 @@ public interface AdminDao {
      */
     Integer resetAllMenu(Map<String,Object> map);
 
+    Integer updateRole(TbRole tbRole);
 
     //查找日志页数
     Integer findLogCount(HashMap<String,Object> condition);

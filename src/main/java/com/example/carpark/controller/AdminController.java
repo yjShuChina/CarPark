@@ -49,7 +49,7 @@ public class AdminController {
      * @param param
      * param说明：param里面有admin_account、admin_pwd、captcha
      */
-    @RequestMapping("/adminLogin")
+    @RequestMapping(value = "/adminLogin",produces = { "application/json;charset=UTF-8"})
     @ResponseBody
     public String adminLogin(@RequestParam Map<String,Object> param, HttpSession session){
         System.out.println("===============================管理员登陆=============================");
@@ -310,6 +310,12 @@ public class AdminController {
         Gson gson = new Gson();
         List<TreeData> treeDataList = gson.fromJson(treeDate,new TypeToken<List<TreeData>>() {}.getType());
         return adminService.updateRoleMenu(treeDataList,roleId) > 0 ? "修改成功":"修改失败";
+    }
+
+    @ResponseBody
+    @RequestMapping("/updateRole")
+    public String updateRole(TbRole tbRole){
+        return adminService.updateRole(tbRole);
     }
 
 
