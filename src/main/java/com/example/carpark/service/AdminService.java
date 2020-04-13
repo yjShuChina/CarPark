@@ -1,5 +1,6 @@
 package com.example.carpark.service;
 
+import com.example.carpark.aoplog.Log;
 import com.example.carpark.javabean.*;
 
 import javax.servlet.http.HttpSession;
