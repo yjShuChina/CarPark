@@ -10,7 +10,7 @@ public class PageBean<T>
 {
     private int code;//code=0为成功，失败为其他值
     private String msg = "";//失败后的提示信息
-    private int count; //数据长度
+    private int count;
     private List<?> data;//传输的数据
 
     public int getCode() {
