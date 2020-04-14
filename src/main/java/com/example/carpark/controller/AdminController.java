@@ -1,10 +1,7 @@
 package com.example.carpark.controller;
 
 
-import com.example.carpark.javabean.DataManagementResult;
-import com.example.carpark.javabean.TbAdmin;
-import com.example.carpark.javabean.TbCashier;
-import com.example.carpark.javabean.TbMenu;
+import com.example.carpark.javabean.*;
 import com.example.carpark.service.AdminService;
 import com.example.carpark.service.RevenueService;
 import com.example.carpark.util.ApplicationContextHelper;

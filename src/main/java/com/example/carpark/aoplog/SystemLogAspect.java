@@ -149,7 +149,7 @@ public class SystemLogAspect {
 	        tbLog.setOperation(operationName);
 	        tbLog.setOperationType(operationType);
 	        tbLog.setOperationTime(Timestamp.valueOf(dateTime.format(formatter)));
-	        tbLog.setUname(user.getAdminName());
+//	        tbLog.setUname(user.getAdminName());
             //保存数据库
             if (operationName!=""){
 //                logService.NLinsertLog(tbLog);

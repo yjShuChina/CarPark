@@ -239,4 +239,69 @@
         </where>
     </select>
 
+    <!-- 林堂星——用户管理 查找  -->
+    <select id="findAll" resultType="com.example.carpark.javabean.TbCashier" >
+        select  * from tb_cashier
+        <where>
+            <if test="cashierName != '' and cashierName !=null">
+                and cashier_name = #{cashierName}
+            </if>
+            <if test="startTime != '' and startTime !=null and endTime != '' and endTime !=null">
+                and cashier_time BETWEEN  #{startTime}  and  #{endTime}
+            </if>
+        </where>
+        ORDER BY cashier_id desc limit #{currentPage},#{pageSize}
+    </select>
+    <!-- 用户管理 查找条数  -->
+    <select id="findCount" resultType="int" >
+        select  count(*) from tb_cashier
+        <where>
+            <if test="cashierName != '' and cashierName !=null">
+                and cashier_name = #{cashierName}
+            </if>
+            <if test="startTime != '' and startTime !=null and endTime != '' and endTime !=null">
+                and cashier_time BETWEEN  #{startTime}  and  #{endTime}
+            </if>
+        </where>
+    </select>
+    <!--  状态禁用  -->
+    <update id="forbiddenState" parameterType="java.util.Map">
+			update tb_cashier
+			set  cashier_state = '0'
+			where cashier_id = #{cashierId}
+	</update>
+    <!--  状态启用  -->
+    <update id="openState" parameterType="java.util.Map">
+			update tb_cashier
+			set  cashier_state = '1'
+			where cashier_id = #{cashierId}
+	</update>
+    <!--  状态离职  -->
+    <update id="resignState" parameterType="java.util.Map">
+			update tb_cashier
+			set  cashier_state = '2'
+			where cashier_id = #{cashierId}
+	</update>
+    <!-- 新增收费员  -->
+    <insert id="addCashier"  parameterType="java.util.Map" >
+		insert into tb_cashier(
+					 cashier_account
+					,cashier_pwd
+					,cashier_name
+					,cashier_state
+					,cashier_phone
+					,cashier_sex
+					,cashier_address
+					,cashier_time
+				)values(
+					 #{cashierAccount}
+					,#{cashierPwd}
+					,#{cashierName}
+					,#{cashierState}
+					,#{cashierPhone}
+					,#{cashierSex}
+					,#{cashierAddress}
+					,CURDATE()
+				)
+	</insert>
 </mapper>
