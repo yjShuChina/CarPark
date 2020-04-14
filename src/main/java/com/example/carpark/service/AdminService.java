@@ -1,5 +1,8 @@
 package com.example.carpark.service;
 
+import com.example.carpark.javabean.TbAdmin;
+import com.example.carpark.javabean.TbCashier;
+import com.example.carpark.javabean.TbMenu;
 import com.example.carpark.aoplog.Log;
 import com.example.carpark.javabean.*;
 
@@ -47,4 +50,14 @@ public interface AdminService {
     Integer findLogCount(HashMap<String, Object> condition);
 
     List<TbLog> findLog(HashMap<String, Object> condition);
+
+    /**
+     *  林堂星——用户管理
+     */
+    List<TbCashier> findAll(String userName, int pageInt, int limitInt,String startTime,String endTime);
+    int findCount(String userName,String startTime,String endTime);
+    int forbiddenState(String stateId);
+    int openState(String stateId);
+	String addCashier(String cashierAccount, String cashierPwd, String cashierName, String cashierSex, String cashierPhone, String cashierAddress, long cashierState);
+    int resignState(String resignId);
 }

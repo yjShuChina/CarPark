@@ -483,4 +483,44 @@ public class AdminController {
 
         return sb.toString();
     }
+
+
+    //林堂星_用户管理
+    @RequestMapping("/test")
+    public String test(){
+        return "administration/jsp/admin/adminManagement";
+    }
+    @RequestMapping("/adminManagement")
+    @ResponseBody
+    public DataManagementResult adminManagement(String page, String limit, String uid, String startTime, String endTime, String stateId, String oId,String resignId)
+    {
+        int pageInt = Integer.valueOf(page);
+        int limitInt = Integer.valueOf(limit);
+        int f = adminService.forbiddenState(stateId);
+        int o = adminService.openState(oId);
+        int r = adminService.resignState(resignId);
+        List<TbCashier> list = adminService.findAll(uid,pageInt,limitInt,startTime,endTime);
+        int count = adminService.findCount(uid,startTime,endTime);
+        DataManagementResult dataManagementResult = new DataManagementResult();
+        dataManagementResult.setCode(0);
+        dataManagementResult.setMsg("");
+        dataManagementResult.setCount(count);
+        dataManagementResult.setData(list);
+        return dataManagementResult;
+    }
+
+    @RequestMapping("/addCashier")
+    @ResponseBody
+    public String addCashier(String cashierAccount, String cashierPwd, String cashierName,String cashierSex,String cashierPhone,String cashierAddress)
+    {
+        long cashierState =1;
+        String flag = adminService.addCashier(cashierAccount,cashierPwd,cashierName,cashierSex,cashierPhone,cashierAddress,cashierState);
+        if (flag.equals("success")){
+            return "新增收费员成功";
+        }
+        else {
+            return "新增收费员失败";
+        }
+    }
+
 }
