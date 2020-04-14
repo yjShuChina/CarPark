@@ -139,4 +139,27 @@
       </if>
     </where>
   </select>
+
+  <select id="queryNearlySevenDays" resultType="CountData" parameterType="java.lang.String">
+      select a.datas,ifnull(b.counts,0) as counts
+        from (
+            SELECT curdate() as datas
+            union all
+            SELECT date_sub(curdate(), interval 1 day) as datas
+            union all
+            SELECT date_sub(curdate(), interval 2 day) as datas
+            union all
+            SELECT date_sub(curdate(), interval 3 day) as datas
+            union all
+            SELECT date_sub(curdate(), interval 4 day) as datas
+            union all
+            SELECT date_sub(curdate(), interval 5 day) as datas
+            union all
+            SELECT date_sub(curdate(), interval 6 day) as datas
+        ) a left join (
+          select date(time) as datas, sum(price) as counts
+          from tb_revenue where revenue != 2 and income_type = #{incomeType}
+          group by date(time)
+        ) b on a.datas = b.datas;
+  </select>
 </mapper>

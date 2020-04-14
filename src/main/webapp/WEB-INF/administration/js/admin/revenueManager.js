@@ -127,6 +127,17 @@ layui.use(['form','layer','util','table','laydate'], function() {
             if(data.value === '0'){
                 $('#price').removeAttr('disabled')
             }else {
+                $.ajax({
+                    url:$('#path').val() + '/admin/selectPriceByMonth',
+                    type:'post',
+                    data:{'month':data.value},
+                    success:function (msg) {
+                        $('#price').val(msg)
+                    },
+                    error:function () {
+                        layer.msg('网络开小差',{icon:5});
+                    }
+                })
                 $('#price').attr('disabled','disabled')
             }
             form.render();

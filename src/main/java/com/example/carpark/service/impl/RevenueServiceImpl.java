@@ -2,6 +2,7 @@ package com.example.carpark.service.impl;
 
 import com.example.carpark.dao.MonthDao;
 import com.example.carpark.dao.RevenueDao;
+import com.example.carpark.javabean.CountData;
 import com.example.carpark.javabean.ResultDate;
 import com.example.carpark.javabean.TbMonthChargeParameter;
 import com.example.carpark.javabean.TbRevenue;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -80,5 +82,14 @@ public class RevenueServiceImpl implements RevenueService {
     @Override
     public String updateRevenue(TbRevenue tbRevenue) {
         return revenueDao.updateByPrimaryKey(tbRevenue) > 0 ? "success":"error";
+    }
+
+    @Override
+    public Map<String, List<CountData>> queryNearlySevenDays() {
+        Map<String,List<CountData>> map = new HashMap<>();
+        map.put("phone",revenueDao.queryNearlySevenDays("phone"));
+        map.put("auto",revenueDao.queryNearlySevenDays("auto"));
+        map.put("manual",revenueDao.queryNearlySevenDays("manual"));
+        return map;
     }
 }

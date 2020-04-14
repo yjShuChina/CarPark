@@ -1,5 +1,6 @@
 package com.example.carpark.dao;
 
+import com.example.carpark.javabean.CountData;
 import com.example.carpark.javabean.TbRevenue;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -24,4 +25,6 @@ public interface RevenueDao {
     List<TbRevenue> findRevenueByPage(Map<String,Object> param);
 
     Integer findRevenueCount(Map<String,Object> map);
+
+    List<CountData> queryNearlySevenDays(String incomeType);
 }

@@ -17,7 +17,7 @@ public class TbRevenue {
     private Integer month;
     //缴费或支出金额
     private BigDecimal price;
-    //缴费时间
+    //缴费时间(yyyy-MM-dd HH:mm:ss)
     private String time;
     //收入或支出（1为收入/2为支出）
     private Integer revenue;
