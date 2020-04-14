@@ -95,9 +95,7 @@ public class ChargeController {
     //收费规则修改
     @RequestMapping("/modifyChargePrice")
     public void modifyChargePrice(TbChargerParameter tbChargerParameter, HttpServletResponse response) throws IOException {
-        System.out.println("传递的参数 = " + new Gson().toJson(tbChargerParameter));
         int i = chargeService.modifyChargePrice(tbChargerParameter);
-        System.out.println("收费规则修改返回：" + i);
         if (i == 1) {
             response.getWriter().print("succeed");
         }
@@ -114,12 +112,15 @@ public class ChargeController {
 
     //收费规则删除
     @RequestMapping("/delChargePrice")
-    public void delChargePrice(TbChargerParameter tbChargerParameter, HttpServletResponse response) throws IOException {
-        int i = chargeService.delChargePrice("" + tbChargerParameter.getCpId());
-        if (i == 1) {
+    public void delChargePrice(String data, HttpServletResponse response) throws IOException {
+        TbChargerParameter[] tbChargerParameter = new Gson().fromJson(data,TbChargerParameter[].class);
+        System.out.println("后台接受数据==="+new Gson().toJson(tbChargerParameter));
+        Integer i = chargeService.delChargePrice(tbChargerParameter);
+        if (i == tbChargerParameter.length) {
             response.getWriter().print("succeed");
         }
     }
+
 
     //图片识别车牌号
     @RequestMapping("/uploadTrainPicture")

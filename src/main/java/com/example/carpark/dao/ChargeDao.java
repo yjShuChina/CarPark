@@ -3,6 +3,7 @@ package com.example.carpark.dao;
 import com.example.carpark.javabean.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
 
 import java.util.List;
 import java.util.Map;
@@ -34,5 +35,20 @@ public interface ChargeDao {
     int addChargePrice(TbChargerParameter tbChargerParameter);
 
     //收费规则删除
-    int delChargePrice(@Param("id")String id);
+    int delChargePrice(List<TbChargerParameter> tbChargerParameters);
+
+    //白名单总数查询
+    int queryWhiteListCount();
+
+    //白名单表查询
+    List<TbWhiteList> queryWhiteList(RowBounds rowBounds);
+
+    //白名单修改
+    int modifyWhiteList(TbWhiteList tbWhiteList);
+
+    //白名单添加
+    int addWhiteList(TbWhiteList tbWhiteList);
+
+    //白名单删除
+    int delWhiteList(List<TbWhiteList> tbWhiteLists);
 }

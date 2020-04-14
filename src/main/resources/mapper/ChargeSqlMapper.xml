@@ -5,38 +5,74 @@
 
 <mapper namespace="com.example.carpark.dao.ChargeDao">
 
-<!--    收费员登录-->
+    <!--    收费员登录-->
     <select id="chargeLogin" parameterType="java.util.Map" resultType="TbCashier">
         select * from tb_cashier where cashier_account = #{cashier_account} and cashier_pwd = #{cashier_pwd}
     </select>
 
-<!--    白名单查询-->
+    <!--    白名单查询-->
     <select id="whitelistQuery" parameterType="String" resultType="TbWhiteList">
         select * from tb_white_list where car_number = #{carNumber}
     </select>
 
-<!--    场内车辆信息查询-->
+    <!--    场内车辆信息查询-->
     <select id="carParkQuery" parameterType="String" resultType="TbParkCarInfo">
         select * from tb_park_car_info where car_number = #{carNumber}
     </select>
 
-<!--    月卡用户查询-->
+    <!--    月卡用户查询-->
     <select id="userQuery" parameterType="String" resultType="TbUser">
         select * from tb_user where car_number = #{carNumber}
     </select>
-    
-<!--    收费规则查询-->
+
+    <!--    收费规则查询-->
     <select id="chargePrice" resultType="TbChargerParameter">
         select * from tb_charger_parameter order by charge_time asc
     </select>
 
-<!--    收费规则修改-->
+    <!--    收费规则修改-->
     <update id="modifyChargePrice" parameterType="TbChargerParameter">
-        update tb_charger_parameter set charge_time = #{chargeTime} ,price = #{price} where cp_id = #{cpId}
+        update tb_charger_parameter set charge_time = #{chargeTime} ,cp_type = #{cpType} ,stack_time = #{stackTime},price = #{price} where cp_id = #{cpId}
     </update>
 
-<!--    收费规则增加-->
+    <!--    收费规则增加-->
     <insert id="addChargePrice" parameterType="TbChargerParameter">
-        insert into tb_charger_parameter (charge_time, price) values (#{chargeTime},#{price});
+        insert into tb_charger_parameter (charge_time,cp_type,stack_time, price) values (#{chargeTime},#{cpType} ,#{stackTime},#{price})
     </insert>
+
+    <!--    收费规则删除-->
+    <delete id="delChargePrice" parameterType="java.util.List">
+        delete from tb_charger_parameter where cp_id in
+        <foreach collection="list" open="(" close=")" item="item" separator=",">
+            #{item.cpId}
+        </foreach>
+    </delete>
+
+    <!--    白名单总数查询-->
+    <select id="queryWhiteListCount" resultType="int">
+        select count(*) from tb_white_list
+    </select>
+
+    <!--    白名单表查询-->
+    <select id="queryWhiteList" resultType="TbWhiteList">
+        select * from tb_white_list
+    </select>
+
+    <!--    白名单修改-->
+    <update id="modifyWhiteList" parameterType="TbWhiteList">
+            update tb_white_list set user_tel = #{userTel} ,car_number = #{carNumber} ,user_name = #{userName} where wl_id = #{wlId}
+        </update>
+
+    <!--    白名单添加-->
+    <insert id="addWhiteList" parameterType="TbWhiteList">
+        insert into tb_white_list (user_tel, car_number, user_name) values (#{userTel} ,#{carNumber} ,#{userName})
+    </insert>
+
+    <!--    白名单删除-->
+    <delete id="delWhiteList" parameterType="java.util.List">
+        delete from tb_white_list where wl_id in
+        <foreach collection="list" open="(" close=")" item="item" separator=",">
+            #{item.wlId}
+        </foreach>
+    </delete>
 </mapper>

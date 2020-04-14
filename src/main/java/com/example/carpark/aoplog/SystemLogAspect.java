@@ -1,27 +1,14 @@
 package com.example.carpark.aoplog;
 
 
-import com.example.carpark.javabean.TbAdmin;
-import com.example.carpark.javabean.TbLog;
-import com.example.carpark.service.CarService;
-import com.example.carpark.service.LogService;
 import org.apache.log4j.Logger;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 
 /**
@@ -37,16 +24,11 @@ public class SystemLogAspect {
     //@Resource  //这里我用resource注解
     //private SystemLogService systemLogService;
 
-	@Resource  //这里我用resource注解
-	private LogService logService;
-//	@Resource
-//	private TbLog tbLog;
-
     //这里的zxtest要和log4j.properties里的配置一致，否则写不到文件中
     private static Logger logger = Logger.getLogger("zxtest");
 
     //Controller层切点
-    @Pointcut("execution (* com.example.carpark.service..*.*(..)) && !execution(* com.example.carpark.service..*.NL*(..)) &&!execution(* com.example.carpark.service.CarService*..*(..))")
+    @Pointcut("execution (* com.example.carpark.service..*.*(..))")
     public void controllerAspect() {
     }
 
@@ -105,17 +87,14 @@ public class SystemLogAspect {
     @After("controllerAspect()")
     public  void after(JoinPoint joinPoint) throws Throwable{
 
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        HttpSession session = request.getSession();
-        //读取session中的用户
-	    TbAdmin user = (TbAdmin) session.getAttribute("tbAdmin");
+//        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+//        HttpSession session = request.getSession();
+//        //读取session中的用户
+//        User user = (User) session.getAttribute("user");
 //        //请求的IP
-        String ip = request.getRemoteAddr();
-        //时间
-	    LocalDateTime dateTime = LocalDateTime.now();
-	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+//        String ip = request.getRemoteAddr();
 
-//        String ip = "127.0.0.1";
+        String ip = "127.0.0.1";
         try {
 
             String targetName = joinPoint.getTarget().getClass().getName();
@@ -131,7 +110,6 @@ public class SystemLogAspect {
                     Annotation annotation = method.getAnnotation(Log.class);
                     System.out.println("annotation-->"+annotation);
                     if (annotation != null&&clazzs.length == arguments.length) {
-                        System.out.println(methodName+"@@@@@@@@@@@"+method);
                         operationType = method.getAnnotation(Log.class).operationType();
                         operationName = method.getAnnotation(Log.class).operationName();
                         break;
@@ -145,24 +123,9 @@ public class SystemLogAspect {
 
             System.out.println("请求IP:" + ip);
             //*========数据库日志=========*//
-	        TbLog tbLog =new TbLog();
-	        tbLog.setOperation(operationName);
-	        tbLog.setOperationType(operationType);
-	        tbLog.setOperationTime(Timestamp.valueOf(dateTime.format(formatter)));
-//	        tbLog.setUname(user.getAdminName());
+
             //保存数据库
-            if (operationName!=""){
-//                logService.NLinsertLog(tbLog);
-	            System.out.println("方法名:"+methodName);
-	            System.out.println("用户名:"+user.getAdminName());
-	            System.out.println("类型:"+operationName);
-	            System.out.println("操作:"+operationType);
-	            System.out.println("时间:"+dateTime.format(formatter));
-            }else{
-            	System.out.println("数据有误 不记录日志 方法："+methodName);
-            }
-
-
+//            systemLogService.insert(log);
             System.out.println("=====service后置通知结束=====");
         }  catch (Exception e) {
             //记录本地异常日志
