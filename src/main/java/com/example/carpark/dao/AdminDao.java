@@ -2,8 +2,7 @@ package com.example.carpark.dao;
 
 import com.example.carpark.javabean.TbAdmin;
 import com.example.carpark.javabean.TbCashier;
-import com.example.carpark.javabean.*;
-import com.example.carpark.javabean.*;
+import com.example.carpark.javabean.TbMenu;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.HashMap;
