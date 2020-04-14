@@ -162,4 +162,16 @@
           group by date(time)
         ) b on a.datas = b.datas;
   </select>
+
+
+  <select id="queryNearlyMonth" parameterType="java.util.Map" resultType="CountData">
+    SELECT
+	SUM( price )
+FROM
+	tb_revenue
+WHERE
+	revenue != 2
+	AND time BETWEEN date_format( '2020-04-13', '%Y-%m-%d' )
+	AND DATE_SUB( date_format( '2020-04-19', '%Y-%m-%d' ), INTERVAL 1 DAY );
+  </select>
 </mapper>
