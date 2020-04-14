@@ -11,9 +11,9 @@ import java.util.Date;
 public class TbRevenue {
     //收支表id
     private Integer revenueId;
-    //收入类型（如果为支出则不填写）
+    //收入类型（phone/auto/manual）
     private String incomeType;
-    //月缴产品（0为临时）
+    //月缴产品（0为临时/月缴产品根据参数表来）
     private Integer month;
     //缴费或支出金额
     private BigDecimal price;

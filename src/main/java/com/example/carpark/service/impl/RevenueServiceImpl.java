@@ -66,4 +66,9 @@ public class RevenueServiceImpl implements RevenueService {
     public BigDecimal selectPriceByMonth(Integer month) {
         return new BigDecimal(monthDao.selectPriceByMonth(month));
     }
+
+    @Override
+    public Integer deleteRevenueById(Integer revenueId) {
+        return revenueDao.deleteByPrimaryKey(revenueId);
+    }
 }

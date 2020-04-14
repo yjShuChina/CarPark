@@ -16,4 +16,6 @@ public interface RevenueService {
     String addRevenue(TbRevenue tbRevenue);
 
     BigDecimal selectPriceByMonth(Integer month);
+
+    Integer deleteRevenueById(Integer revenueId);
 }

@@ -187,4 +187,88 @@ layui.use(['form','layer','util','table','laydate'], function() {
             }
         });
     }
+
+    table.on('tool(demotable)', function(obj) {
+        var data = obj.data;
+        //console.log(obj)
+        var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+        var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
+        var revenueId = tr.find("td").eq(0).text();
+        if(obj.event === 'delete'){
+            layer.confirm('您确定要删除该条记录吗',function () {
+                $.ajax({
+                    url:$('#path').val() + '/admin/deleteRevenueById',
+                    type:'post',
+                    data:{'revenueId':revenueId},
+                    success:function (msg) {
+                        if(msg === 'success'){
+                            obj.del();
+                        }
+                        layer.msg(msg);
+                    },
+                    error:function () {
+                        layer.msg('网络开小差',{icon:5});
+                    }
+                })
+            })
+        }else if(obj.event === 'edit'){
+            $.ajax({
+                url:$('#path').val() + '/admin/findMonthParameter',
+                type:'post',
+                success:function (msg) {
+                    var html = '<form class="layui-form" onsubmit="return false;">'+
+                        '<div class="layui-form-item">'+
+                        '   <label class="layui-form-label">缴费渠道：</label>'+
+                        '   <div class="layui-input-inline">' +
+                        '        <select name="incomeType2" id="incomeType2">' +
+                        '             <option value="phone">手机APP</option>' +
+                        '             <option value="auto">自助缴费机</option>' +
+                        '             <option value="manual">人工收费</option>' +
+                        '        </select>' +
+                        '   </div>'+
+                        '</div>'+
+                        '<div class="layui-form-item">'+
+                        '   <label class="layui-form-label">收入/支出：</label>'+
+                        '   <div class="layui-input-inline">' +
+                        '        <select name="revenue2" id="revenue2">' +
+                        '             <option value="1">收入</option>' +
+                        '             <option value="2">支出</option>' +
+                        '        </select>' +
+                        '    </div>'+
+                        '</div>'+
+                        '<div class="layui-form-item">'+
+                        '   <label class="layui-form-label">月缴产品：</label>'+
+                        '   <div class="layui-input-inline">'+
+                        '       <select name="month2" id="month2" lay-filter = "month2">'+
+                        '           <option value="0">临时用户</option>';
+                    for(var i = 0;i < msg.length;i ++){
+                        html += '<option value="'+msg[i].month+'">'+msg[i].month+'月</option>'
+                    }
+                    html += '</select></div></div>'+
+                        '<div class="layui-form-item">'+
+                        '   <label class="layui-form-label">金额：</label>'+
+                        '   <div class="layui-input-inline">' +
+                        '       <input type="text" name="price" id="price"  placeholder="请输入金额" autocomplete="off" class="layui-input">'+
+                        '   </div>'+
+                        '</div>'+
+                        '<div class="layui-form-item">'+
+                        '   <label class="layui-form-label">发生时间：</label>'+
+                        '   <div class="layui-input-inline">' +
+                        '        <input type="text" name="time2" id="time2" placeholder="yy-MM-dd HH:mm:ss" autocomplete="off" class="layui-input" >'+
+                        '   </div></div></form>';
+                    $('#revenueDiv').empty();
+                    $('#revenueDiv').append(html);
+                    form.render();
+
+                    laydate.render({
+                        elem: '#time2'
+                        ,type: 'datetime'
+                    });
+                },
+                error:function () {
+                    layer.msg('网络开小差',{icon:5});
+                }
+            });
+        }
+    });
 });

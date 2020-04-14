@@ -365,6 +365,10 @@ public class AdminController {
         return revenueService.findRevenueByPage(param);
     }
 
+    /**
+     * 分页查询月缴产品
+     * @return
+     */
     @ResponseBody
     @RequestMapping("/findMonthParameter")
     public List<TbMonthChargeParameter> findMonthParameter(){
@@ -372,6 +376,11 @@ public class AdminController {
         return revenueService.findAllMonthParameter();
     }
 
+    /**
+     * 新增明细表
+     * @param tbRevenue
+     * @return
+     */
     @ResponseBody
     @RequestMapping("/addRevenue")
     public String addRevenue(TbRevenue tbRevenue){
@@ -380,6 +389,12 @@ public class AdminController {
             tbRevenue.setPrice(revenueService.selectPriceByMonth(tbRevenue.getMonth()));;
         }
         return revenueService.addRevenue(tbRevenue);
+    }
+
+    @ResponseBody
+    @RequestMapping("/deleteRevenueById")
+    public String deleteRevenueById(Integer revenueId){
+        return revenueService.deleteRevenueById(revenueId)>0?"success":"error";
     }
 
     //日志查找 4.11
