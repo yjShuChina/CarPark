@@ -5,7 +5,10 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import com.example.carpark.dao.CarDao;
+import com.example.carpark.dao.ChargeDao;
+import com.example.carpark.javabean.TbParkCarInfo;
 import com.example.carpark.javabean.TbUser;
+import com.example.carpark.javabean.TbWhiteList;
 import com.example.carpark.service.CarService;
 import com.example.carpark.util.HttpUtils;
 import org.apache.http.HttpResponse;
@@ -30,6 +33,8 @@ public class CarServiceImpl implements CarService
 
     @Resource
     private CarDao carDao;
+    @Resource
+    private ChargeDao chargeDao;
 
     /*
      * 获取参数的json对象
@@ -147,5 +152,17 @@ public class CarServiceImpl implements CarService
         return tbUser;
     }
 
+    @Override
+    public TbWhiteList findWhite(String carnumber){
+        TbWhiteList tbWhiteList=chargeDao.whitelistQuery(carnumber);
+        return tbWhiteList;
+    }
+
+    @Override
+    public int CarIn(TbParkCarInfo tbParkCarInfo)
+    {
+        int i=carDao.CarIn(tbParkCarInfo);
+        return i;
+    }
 
 }

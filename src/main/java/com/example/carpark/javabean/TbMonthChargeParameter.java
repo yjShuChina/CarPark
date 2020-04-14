@@ -34,4 +34,12 @@ public class TbMonthChargeParameter {
     this.price = price;
   }
 
+  @Override
+  public String toString() {
+    return "TbMonthChargeParameter{" +
+            "mcpId=" + mcpId +
+            ", month=" + month +
+            ", price=" + price +
+            '}';
+  }
 }

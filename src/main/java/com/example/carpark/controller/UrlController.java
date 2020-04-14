@@ -14,8 +14,9 @@ public class UrlController {
      * @param path
      * @return
      */
-    @RequestMapping("/{uri}")
+    @RequestMapping("/admin/{uri}")
     public String redirect(@PathVariable(value = "uri")String path){
         return "/administration/jsp/admin/"+path;
     }
+
 }

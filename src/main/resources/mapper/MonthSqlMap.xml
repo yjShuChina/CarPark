@@ -23,9 +23,9 @@
 		select * from tb_month_charge_parameter
 	</select>
 
-	<!--通过月缴参数id，查询缴交月份-->
-	<select id="findMonthById" resultType="int" parameterType="int">
-		select month from tb_month_charge_parameter where mcp_id = #{mcpId}
+	<!--通过月缴参数id，查询缴交月份表-->
+	<select id="findMonthById" resultType="TbMonthChargeParameter" parameterType="int">
+		select * from tb_month_charge_parameter where mcp_id = #{mcpId}
 	</select>
 
 	<!--通过车牌号，查询用户id-->
@@ -33,4 +33,44 @@
 		select user_id from tb_user where car_number = #{carNumber}
 	</select>
 
+    <!--通过车牌号，查询车牌号是否为月缴VIP-->
+    <select id="findCarNumber" resultType="int" parameterType="java.lang.String">
+		select count(*) from tb_user where car_number = #{carNumber}
+	</select>
+
+    <!--通过车牌号，查询用户信息-->
+    <select id="findUserByCarNumber" resultType="TbUser" parameterType="java.lang.String">
+		select * from tb_user where car_number = #{carNumber}
+	</select>
+
+	<!--通过用户id，查询月缴用户记录信息-->
+	<select id="findMonthVipById" resultType="TbMonthVip" parameterType="int">
+		select * from tb_month_vip where user_id = #{userId}
+	</select>
+
+	<!--通过车牌号，修改用户信息-->
+	<update id="alterUserByCarNumber" parameterType="TbUser">
+		update tb_user set month_vip_begin = #{monthVipBegin},month_vip_deadline = #{monthVipDeadline} where car_number = #{carNumber}
+	</update>
+
+	<!--通过用户id，修改月缴用户记录表-->
+	<update id="alterMonthVipById" parameterType="TbMonthVip">
+		update tb_month_vip set handle_time = (select DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s') from dual),origin_deadline = #{originDeadline},current_deadline = #{currentDeadline},mcp_id = #{mcpId} where user_id = #{userId};
+	</update>
+
+    <!--通过车牌号，重置用户表时间-->
+    <update id="resetTimeByCarNumber" parameterType="java.lang.String">
+		update tb_user set month_vip_begin = '1970-01-01 00:00:00',month_vip_deadline = '1970-01-01 00:00:00' where car_number = #{carNumber}
+	</update>
+
+    <!--添加退费表信息-->
+    <insert id="addRefund" parameterType="TbRefund">
+		insert into tb_refund (user_id,mvr_id,refund_time,refund_price)
+        values (#{userId},#{mvrId},(select DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s') from dual),#{refundPrice})
+	</insert>
+
+<!--	通过月份查询价格-->
+	<select id="selectPriceByMonth" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+		select price from tb_month_charge_parameter where month = #{month}
+	</select>
 </mapper>

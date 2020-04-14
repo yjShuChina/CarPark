@@ -1,10 +1,12 @@
 package com.example.carpark.javabean;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
+@Scope("prototype")
 public class TbMenu {
 
   private long menuId;

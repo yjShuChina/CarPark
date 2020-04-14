@@ -4,7 +4,7 @@ package com.example.carpark.javabean;
 public class TbChargerParameter {
 
   private long cpId;
-  private java.sql.Timestamp chargeTime;
+  private String chargeTime;
   private long price;
 
 
@@ -17,11 +17,11 @@ public class TbChargerParameter {
   }
 
 
-  public java.sql.Timestamp getChargeTime() {
+  public String getChargeTime() {
     return chargeTime;
   }
 
-  public void setChargeTime(java.sql.Timestamp chargeTime) {
+  public void setChargeTime(String chargeTime) {
     this.chargeTime = chargeTime;
   }
 

@@ -1,10 +1,14 @@
 package com.example.carpark.service.impl;
 
+import com.example.carpark.aoplog.Log;
 import com.example.carpark.dao.AdminDao;
 import com.example.carpark.javabean.TbAdmin;
 import com.example.carpark.javabean.TbCashier;
 import com.example.carpark.javabean.TbMenu;
+import com.example.carpark.javabean.*;
 import com.example.carpark.service.AdminService;
+import com.example.carpark.util.ApplicationContextHelper;
+import com.example.carpark.util.MD5;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,11 +38,13 @@ public class AdminServiceImpl implements AdminService {
      * @return
      */
     @Override
+    @Log(operationType = "登录", operationName = "管理登录")
     public String adminLogin(Map<String,Object> map, HttpSession session) {
+        map.put("adminPwd",MD5.machining(map.get("adminPwd").toString()));//将管理员输入的密码转成MD5加密
         TbAdmin tbAdmin2 = adminDao.adminLogin(map);
         if(tbAdmin2 != null){
             session.setAttribute("tbAdmin",tbAdmin2);//将管理员信息放到session
-            return "验证成功";
+            return "success";
         }
         return "账号或密码错误";
     }
@@ -74,6 +81,301 @@ public class AdminServiceImpl implements AdminService {
         return parentMenuList;
     }
 
+    /**
+     * 菜单查询service层
+     * @param map
+     * @return
+     */
+    @Override
+    public ResultDate<TbMenu> findMenuById(Map<String,Object> map) {
+        ResultDate<TbMenu> rd = ApplicationContextHelper.getBean("ResultDate",ResultDate.class);
+        rd.setCode(0);
+        rd.setData(adminDao.findMenuByPage(map));
+        rd.setCount(adminDao.findMenuCount(map));
+        rd.setMsg("");
+        System.out.println(rd.toString());
+        return rd;
+    }
+
+    /**
+     * 根据父级ID查询菜单
+     * @param parentId
+     * @return
+     */
+    @Override
+    public List<TbMenu> findSubmenu(Integer parentId) {
+        return adminDao.findParentMenu(parentId);
+    }
+
+    /**
+     * 新增菜单
+     * @param tbMenu
+     * @return
+     */
+    @Override
+    public Integer addMenu(TbMenu tbMenu) {
+        TbMenu tbMenu2 = adminDao.findMenuByName(tbMenu.getMenuName());//查询该菜单名是否存在
+        if(tbMenu2 == null){
+            return adminDao.addMenu(tbMenu);
+        }
+        return 0;
+    }
+
+    /**
+     * 更新菜单信息
+     * @param param
+     * @return
+     */
+    @Override
+    public Integer updateMenu(Map<String,Object> param) {
+        TbMenu tbMenu = ApplicationContextHelper.getBean(TbMenu.class);
+        tbMenu.setMenuId(Integer.valueOf(param.get("menuId").toString()));
+        if(param.containsKey("menuName")){
+            TbMenu tbMenu2 = adminDao.findMenuByName(param.get("menuName").toString()) ;//判断菜单名是否已经存在
+            if(tbMenu2 != null){
+                return 0;
+            }
+            tbMenu.setMenuName(param.get("menuName").toString());
+        }
+        if(param.containsKey("menuUrl")){
+            TbMenu tbMenu2 = adminDao.findMenuByUrl(param.get("menuUrl").toString()) ;//判断菜单路径是否存在
+            if(tbMenu2 != null){
+                return 0;
+            }
+            tbMenu.setMenuName(param.get("menuUrl").toString());
+        }
+        return adminDao.updateMenu(tbMenu);
+    }
+
+    @Override
+    public Integer updateMenuParentId(Map<String, Object> map) {
+        return adminDao.updateMenuParentId(map);
+    }
+
+    /**
+     * 新增菜单，并判定管理是否给所有角色启用新菜单
+     * @param map
+     * @return
+     */
+    @Override
+    public Integer addSubmenu(Map<String, Object> map) {
+        TbMenu tbMenu2 = adminDao.findMenuByName(map.get("menuName").toString());//查询该菜单名是否存在
+        if(tbMenu2!=null){
+            return 0;
+        }
+        TbMenu tbMenu = ApplicationContextHelper.getBean(TbMenu.class);
+        tbMenu.setMenuName(map.get("menuName").toString());
+        tbMenu.setMenuUrl(map.get("menuUrl").toString());
+        tbMenu.setParentId(Integer.valueOf(map.get("parentId").toString()));
+        Integer i = adminDao.addMenu(tbMenu),k = 0;//k用于计算是否关系表内所有角色都增加了
+        if(i > 0){
+            Integer menuId = adminDao.findMenuMaxId();//查询最新增加的菜单ID
+            Integer state = map.get("use").toString().equals("yes") ? 1 : 2; //判断管理员选是/否
+            List<TbRole> roleList = adminDao.findAllRole();
+            for (TbRole tbRole : roleList) {
+                Map<String,Object> rmmap = new HashMap<>();
+                rmmap.put("menuId",menuId);
+                rmmap.put("roleId", tbRole.getRoleId());
+                if(tbRole.getRoleId() == 1){//如果是超级管理员，默认启用
+                    rmmap.put("state",1);
+                }else {
+                    rmmap.put("state",state);
+                }
+                Integer j = adminDao.addRoleMenu(rmmap);
+                k ++ ;
+            }
+            if(k == roleList.size()){
+                return k;
+            }
+        }
+        return 0;
+    }
+
+    /**
+     * 删除菜单以及菜单角色关联表
+     * @param tbMenu
+     * @return
+     */
+    @Override
+    public Integer deleteMenu(TbMenu tbMenu) {
+        if(tbMenu.getParentId() == 0){//判断是否是父级菜单
+            List<TbMenu> menuList = adminDao.findParentMenu((int) tbMenu.getMenuId());//查询该父级菜单下所有子菜单
+            Integer k = 0;//计算删除字段数
+            for (TbMenu tbMenu2:menuList) {
+                TbRoleMenu tbRoleMenu = ApplicationContextHelper.getBean(TbRoleMenu.class);
+                tbRoleMenu.setMenuId(tbMenu2.getMenuId());
+                Integer i = adminDao.deleteRoleMenu(tbRoleMenu);//删除菜单角色关系表
+                if(i > 0){
+                    k++;
+                }
+            }
+            if(k == menuList.size()){
+                Integer j = adminDao.deleteSubmenu((int) tbMenu.getMenuId());//删除菜单下的子菜单
+                if(j == menuList.size()){
+                    return adminDao.deleteMenu((int) tbMenu.getMenuId());//删除菜单
+                }
+            }
+        }else {
+            TbRoleMenu tbRoleMenu = ApplicationContextHelper.getBean(TbRoleMenu.class);
+            tbRoleMenu.setMenuId(tbMenu.getMenuId());
+            List<TbRoleMenu> roleMenuList = adminDao.findRoleMenuListById(tbRoleMenu);
+            Integer i = adminDao.deleteRoleMenu(tbRoleMenu);
+            if(i == roleMenuList.size()){
+                return adminDao.deleteMenu((int) tbMenu.getMenuId());
+            }
+        }
+        return 0;
+    }
+
+    /**
+     * 分页查询角色表
+     * @param map
+     * @return
+     */
+    @Override
+    public ResultDate<TbRole> findRoleByPage(Map<String, Object> map) {
+        ResultDate<TbRole> rd = ApplicationContextHelper.getBean(ResultDate.class);
+        rd.setCode(0);
+        rd.setData(adminDao.findRoleByPage(map));
+        rd.setCount(adminDao.findRoleListCount(map));
+        rd.setMsg("");
+        System.out.println(rd.toString());
+        return rd;
+    }
+
+    /**
+     *  新增角色以及给角色赋菜单,并初始化菜单状态
+     * @param map
+     * @return
+     */
+    @Override
+    public String addRole(Map<String, Object> map) {
+        Integer state = map.get("use").toString().equals("yes") ? 1 : 2;//是否开启所有菜单
+        TbRole tbRole = adminDao.findRoleByName(map.get("role").toString());
+        if(tbRole != null){
+            return "角色名已存在";
+        }
+        Integer i = adminDao.addRole(map.get("role").toString());//添加角色表
+        if(i > 0){
+            Integer roleId = adminDao.selectMaxRoleId();//获取最新添加的角色ID
+            List<TbMenu> menuList = adminDao.findAllSubmenu(0);//查询所有子菜单
+            List<TbRoleMenu> roleMenuList = new ArrayList<>();
+            for (TbMenu tbMenu: menuList) {//循环添加所有子菜单到角色菜单关系表
+               TbRoleMenu tbRoleMenu = ApplicationContextHelper.getBean(TbRoleMenu.class);
+               tbRoleMenu.setRoleId(roleId);
+               tbRoleMenu.setMenuId(tbMenu.getMenuId());
+               tbRoleMenu.setState(state);
+               roleMenuList.add(tbRoleMenu);
+            }
+            Integer j = adminDao.addRoleMenu2(roleMenuList);
+            if(j == menuList.size()){
+                return "success";
+            }
+        }
+        return "error";
+    }
+
+    /**
+     * 删除角色以及其关系表
+     * @param roleId
+     * @return
+     */
+    @Override
+    public Integer deleteRole(Integer roleId) {
+        TbRoleMenu tbRoleMenu = ApplicationContextHelper.getBean(TbRoleMenu.class);
+        tbRoleMenu.setRoleId(roleId);
+        List<TbRoleMenu> roleMenuList = adminDao.findRoleMenuListById(tbRoleMenu);
+        Integer i = adminDao.deleteRoleMenu(tbRoleMenu);
+        if(i == roleMenuList.size()){
+            return adminDao.deleteRole(roleId);
+        }
+        return 0;
+    }
+
+    /**
+     * 根据角色id生成树形组件的数据
+     * @param roleId
+     * @return
+     */
+    @Override
+    public List<TreeData> findRoleMenu(Integer roleId) {
+        List<TreeData> treeDataList = new ArrayList<>();
+        List<TbMenu> menuList = adminDao.findParentMenu(0);
+        for (TbMenu tbMenu:menuList) {
+            TreeData treeData = ApplicationContextHelper.getBean(TreeData.class);
+            treeData.setId((int)tbMenu.getMenuId());
+            treeData.setTitle(tbMenu.getMenuName());
+            Map<String,Object> map = new HashMap<>();
+            map.put("roleId",roleId);
+            map.put("parentId",tbMenu.getMenuId());
+            List<TbMenu> menuList2 = adminDao.findMenu(map);
+            List<TreeData> treeDataList2 = new ArrayList<>();
+            for (TbMenu tbMenu2:menuList2) {
+                TreeData treeData2 = ApplicationContextHelper.getBean(TreeData.class);
+                treeData2.setId((int) tbMenu2.getMenuId());
+                treeData2.setTitle(tbMenu2.getMenuName());
+                if(tbMenu2.getState() == 1){
+                    treeData2.setChecked(true);
+                }else {
+                    treeData2.setChecked(false);
+                }
+                treeDataList2.add(treeData2);
+            }
+            treeData.setChildren(treeDataList2);
+            treeDataList.add(treeData);
+        }
+        return treeDataList;
+    }
+
+    @Override
+    public Integer updateRoleMenu(List<TreeData> list, Integer roleId) {
+        TbRoleMenu tbRoleMenu = ApplicationContextHelper.getBean(TbRoleMenu.class);
+        tbRoleMenu.setRoleId(roleId);
+        List<TbRoleMenu> roleMenuList = adminDao.findRoleMenuListById(tbRoleMenu);
+        HashMap<String,Object> map = new HashMap<>();
+        map.put("roleId",roleId);
+        map.put("state",2);
+        if(adminDao.resetAllMenu(map) == roleMenuList.size()){
+            if(list.size() > 0){
+                List<TbMenu> menuList = new ArrayList<>();
+                for (TreeData t : list) {
+                    for (TreeData t2:t.getChildren()) {
+                        TbMenu tbMenu = ApplicationContextHelper.getBean(TbMenu.class);
+                        tbMenu.setMenuId(t2.getId());
+                        menuList.add(tbMenu);
+                    }
+                }
+                map.put("list",menuList);
+                map.put("state",1);
+                return adminDao.resetMenuState(map);
+            }
+            return list.size();
+        }
+        return 0;
+    }
+
+    @Override
+    public String updateRole(TbRole tbRole) {
+        Integer i = adminDao.updateRole(tbRole);
+        if(i > 0){
+            return "success";
+        }
+        return "error";
+    }
+
+
+    //查找日志页数 4.11
+    @Override
+    public Integer findLogCount(HashMap<String,Object> condition)
+    {
+        return adminDao.findLogCount(condition);
+    }
+    //查找日志
+    @Override
+    public List<TbLog> findLog(HashMap<String,Object> condition)
+    {
+        return adminDao.findLog(condition);
+    }
 
     /**
      *  林堂星——用户管理

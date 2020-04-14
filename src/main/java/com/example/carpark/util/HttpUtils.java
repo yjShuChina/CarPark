@@ -282,7 +282,7 @@ public class HttpUtils
 
 		return httpClient;
 	}
-
+	@SuppressWarnings("deprecation")//抑制过期方法警告
 	private static void sslClient(HttpClient httpClient) {
 		try {
 			SSLContext ctx = SSLContext.getInstance("TLS");

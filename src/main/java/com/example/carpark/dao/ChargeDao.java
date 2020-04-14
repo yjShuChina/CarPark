@@ -4,6 +4,7 @@ import com.example.carpark.javabean.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,4 +23,16 @@ public interface ChargeDao {
 
     //用户信息查询
     TbUser userQuery(@Param("carNumber") String carNumber);
+
+    //收费规则数据查询接口
+    List<TbChargerParameter> chargePrice();
+
+    //收费规则修改
+    int modifyChargePrice(TbChargerParameter tbChargerParameter);
+
+    //收费规则增加
+    int addChargePrice(TbChargerParameter tbChargerParameter);
+
+    //收费规则删除
+    int delChargePrice(@Param("id")String id);
 }

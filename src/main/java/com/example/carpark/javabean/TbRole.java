@@ -1,6 +1,8 @@
 package com.example.carpark.javabean;
 
+import org.springframework.stereotype.Component;
 
+@Component
 public class TbRole {
 
   private long roleId;

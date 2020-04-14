@@ -31,7 +31,7 @@
 	<div class="layui-form-item">
 		<label class="layui-form-label">车牌号：</label>
 		<div class="layui-input-inline">
-			<input type="text" id="carNumber" name="carNumber" required lay-verify="carNumber" placeholder="请输入车牌号"
+			<input type="text" id="carNumber" name="carNumber" value="${carNumber}" required lay-verify="carNumber" placeholder="请输入车牌号"
 				   autocomplete="off"
 				   class="layui-input">
 		</div>
@@ -63,7 +63,7 @@
 	</div>
 	<div class="layui-form-item">
 		<div class="layui-input-block">
-			<button class="layui-btn" lay-submit lay-filter="userForm">立即提交</button>
+			<button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
 		</div>
 	</div>
 </form>
@@ -95,7 +95,7 @@
 			]
 		});
 		//监听提交
-		form.on('submit(userForm)', function (data) {
+		form.on('submit(formDemo)', function (data) {
 			layer.msg(JSON.stringify(data.field));
 
 			var userName = $("#userName").val();
@@ -111,8 +111,6 @@
 				"monthVipBegin": monthVipBegin
 			};
 			tbUser = JSON.stringify(tbUser);
-			console.log("用户弹窗信息 = " + tbUser);
-			console.log("用户弹窗信息mcpId = " + mcpId);
 
 			$.ajax({
 				url: path + "/charge/addMonthlyPayment",
@@ -123,19 +121,18 @@
 				success: function (msg) {
 
 					if (msg == "success") {
-						alert("新增成功");
+						alert('新增成功！');
 						var index = parent.layer.getFrameIndex(window.name);
 						parent.layer.close(index);//关闭弹出的子页面窗口
 						window.location.reload();
 					} else {
-						alert("新增失败");
+						alert('新增失败！');
 					}
 				},
 				error: function () {
-					alert("网络繁忙！")
+					layer.alert('网络繁忙！', {icon: 7});
 				}
 			});
-
 			return false;
 		});
 	});

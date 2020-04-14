@@ -5,7 +5,7 @@ public class TbParkCarInfo {
 
   private long pciId;
   private String carNumber;
-  private long carIdentity;
+  private String carIdentity;
   private String parkSpaceId;
   private java.sql.Timestamp carTime;
 
@@ -27,15 +27,15 @@ public class TbParkCarInfo {
     this.carNumber = carNumber;
   }
 
-
-  public long getCarIdentity() {
+  public String getCarIdentity()
+  {
     return carIdentity;
   }
 
-  public void setCarIdentity(long carIdentity) {
+  public void setCarIdentity(String carIdentity)
+  {
     this.carIdentity = carIdentity;
   }
-
 
   public String getParkSpaceId() {
     return parkSpaceId;

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.carpark.dao.RevenueDao">
+  <resultMap id="BaseResultMap" type="TbRevenue">
+    <id column="revenue_id" jdbcType="INTEGER" property="revenueId" />
+    <result column="income_type" jdbcType="VARCHAR" property="incomeType" />
+    <result column="month" jdbcType="INTEGER" property="month" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="time" jdbcType="TIMESTAMP" property="time" />
+    <result column="revenue" jdbcType="INTEGER" property="revenue" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    revenue_id, income_type, month, price, time, revenue
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_revenue
+    where revenue_id = #{revenueId,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_revenue
+    where revenue_id = #{revenueId,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="TbRevenue">
+    insert into tb_revenue (income_type, month,
+      price, time, revenue)
+    values (#{incomeType,jdbcType=VARCHAR}, #{month,jdbcType=INTEGER},
+      #{price,jdbcType=DECIMAL}, #{time,jdbcType=TIMESTAMP}, #{revenue,jdbcType=INTEGER})
+  </insert>
+
+  <insert id="insertSelective" parameterType="TbRevenue">
+    insert into tb_revenue
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="incomeType != null">
+        income_type,
+      </if>
+      <if test="month != null">
+        month,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="time != null">
+        time,
+      </if>
+      <if test="revenue != null">
+        revenue,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="incomeType != null">
+        #{incomeType,jdbcType=VARCHAR},
+      </if>
+      <if test="month != null">
+        #{month,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="time != null">
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="revenue != null">
+        #{revenue,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="TbRevenue">
+    update tb_revenue
+    <set>
+      <if test="incomeType != null">
+        income_type = #{incomeType,jdbcType=VARCHAR},
+      </if>
+      <if test="month != null">
+        month = #{month,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="time != null">
+        time = #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="revenue != null">
+        revenue = #{revenue,jdbcType=INTEGER},
+      </if>
+    </set>
+    where revenue_id = #{revenueId,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="TbRevenue">
+    update tb_revenue
+    set income_type = #{incomeType,jdbcType=VARCHAR},
+      month = #{month,jdbcType=INTEGER},
+      price = #{price,jdbcType=DECIMAL},
+      time = #{time,jdbcType=TIMESTAMP},
+      revenue = #{revenue,jdbcType=INTEGER}
+    where revenue_id = #{revenueId,jdbcType=INTEGER}
+  </update>
+
+<!--  分页查询收支表-->
+  <select id="findRevenueByPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select * from tb_revenue
+    <where>
+        <if test="incomeType != null and incomeType != ''">
+           and income_type = #{incomeType}
+        </if>
+        <if test="month != null and month != ''">
+           and month = #{month}
+        </if>
+        <if test="start != null and start != '' and end != null and end != ''">
+          and time between #{start} and #{end}
+        </if>
+        <if test="revenue != null and revenue != ''">
+          and revenue = #{revenue}
+        </if>
+    </where>
+    limit #{page},#{limit}
+  </select>
+
+  <select id="findRevenueCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+    select count(*) from tb_revenue
+    <where>
+      <if test="incomeType != null and incomeType != ''">
+        and income_type = #{incomeType}
+      </if>
+      <if test="month != null and month != ''">
+        and month = #{month}
+      </if>
+      <if test="start != null and start != '' and end != null and end != ''">
+        and time between #{start} and #{end}
+      </if>
+      <if test="revenue != null and revenue != ''">
+        and revenue = #{revenue}
+      </if>
+    </where>
+  </select>
+</mapper>
