@@ -119,27 +119,11 @@ public class AdminServiceImpl implements AdminService {
 
     /**
      * 更新菜单信息
-     * @param param
+     * @param tbMenu
      * @return
      */
     @Override
-    public Integer updateMenu(Map<String,Object> param) {
-        TbMenu tbMenu = ApplicationContextHelper.getBean(TbMenu.class);
-        tbMenu.setMenuId(Integer.valueOf(param.get("menuId").toString()));
-        if(param.containsKey("menuName")){
-            TbMenu tbMenu2 = adminDao.findMenuByName(param.get("menuName").toString()) ;//判断菜单名是否已经存在
-            if(tbMenu2 != null){
-                return 0;
-            }
-            tbMenu.setMenuName(param.get("menuName").toString());
-        }
-        if(param.containsKey("menuUrl")){
-            TbMenu tbMenu2 = adminDao.findMenuByUrl(param.get("menuUrl").toString()) ;//判断菜单路径是否存在
-            if(tbMenu2 != null){
-                return 0;
-            }
-            tbMenu.setMenuName(param.get("menuUrl").toString());
-        }
+    public Integer updateMenu(TbMenu tbMenu) {
         return adminDao.updateMenu(tbMenu);
     }
 

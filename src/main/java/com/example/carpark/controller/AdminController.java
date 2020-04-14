@@ -1,7 +1,6 @@
 package com.example.carpark.controller;
 
 
-import com.example.carpark.aoplog.Log;
 import com.example.carpark.javabean.*;
 import com.example.carpark.service.AdminService;
 import com.example.carpark.service.RevenueService;
@@ -21,12 +20,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.swing.plaf.LayerUI;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.List;
 
@@ -220,14 +218,14 @@ public class AdminController {
 
     /**
      * 更新菜单信息(menuId,menuName,menuUrl)
-     * @param param
+     * @param tbMenu
      * @return
      */
     @ResponseBody
     @RequestMapping("/updateMenu")
-    public String updateMenu(@RequestParam Map<String,Object> param){
+    public String updateMenu(TbMenu tbMenu){
         System.out.println("=================更新菜单信息============");
-        return adminService.updateMenu(param) > 0?"success":"error";
+        return adminService.updateMenu(tbMenu) > 0?"success":"error";
     }
 
     /**
@@ -386,15 +384,46 @@ public class AdminController {
     public String addRevenue(TbRevenue tbRevenue){
         System.out.println("==============添加收支明细表=============");
         if(tbRevenue.getMonth() != 0){
-            tbRevenue.setPrice(revenueService.selectPriceByMonth(tbRevenue.getMonth()));;
+            tbRevenue.setPrice(revenueService.selectPriceByMonth(tbRevenue.getMonth()));
         }
         return revenueService.addRevenue(tbRevenue);
     }
 
+    /**
+     * 根据id删除收支明细表
+     * @param revenueId
+     * @return
+     */
     @ResponseBody
     @RequestMapping("/deleteRevenueById")
     public String deleteRevenueById(Integer revenueId){
+        System.out.println("==================根据"+revenueId+"删除明细表=============");
         return revenueService.deleteRevenueById(revenueId)>0?"success":"error";
+    }
+
+    /**
+     * 根据id查询收支表
+     * @param revenueId
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/findRevenueById")
+    public TbRevenue findRevenueById(Integer revenueId){
+        System.out.println("=================根据"+revenueId+"查询明细表=============");
+        return revenueService.findRevenueById(revenueId);
+    }
+
+    @ResponseBody
+    @RequestMapping("/updateRevenue")
+    public String updateRevenue(TbRevenue tbRevenue){
+        System.out.println("============修改明细表=============");
+        return revenueService.updateRevenue(tbRevenue);
+    }
+
+    @ResponseBody
+    @RequestMapping("/selectPriceByMonth")
+    public BigDecimal selectPriceByMonth(Integer month){
+        return revenueService.selectPriceByMonth(month);
     }
 
     //日志查找 4.11

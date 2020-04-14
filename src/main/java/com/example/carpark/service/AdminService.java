@@ -23,7 +23,7 @@ public interface AdminService {
 
     Integer addMenu(TbMenu tbMenu);
 
-    Integer updateMenu(Map<String,Object> param);
+    Integer updateMenu(TbMenu tbMenu);
 
     Integer updateMenuParentId(Map<String,Object> map);
 

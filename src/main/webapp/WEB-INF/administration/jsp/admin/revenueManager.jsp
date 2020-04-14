@@ -72,7 +72,7 @@
     {{# if (d.month === 0){ }}
     <span>临时用户</span>
     {{# } else{ }}
-    <span>{{ d.month }} 月</span>
+    <span>{{ d.month }}月</span>
     {{#  } }}
 </script>
 <script type="text/html" id="tpl2">

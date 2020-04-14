@@ -71,4 +71,14 @@ public class RevenueServiceImpl implements RevenueService {
     public Integer deleteRevenueById(Integer revenueId) {
         return revenueDao.deleteByPrimaryKey(revenueId);
     }
+
+    @Override
+    public TbRevenue findRevenueById(Integer revenueId) {
+        return revenueDao.selectByPrimaryKey(revenueId);
+    }
+
+    @Override
+    public String updateRevenue(TbRevenue tbRevenue) {
+        return revenueDao.updateByPrimaryKey(tbRevenue) > 0 ? "success":"error";
+    }
 }
