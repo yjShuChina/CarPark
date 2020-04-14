@@ -1,6 +1,7 @@
 package com.example.carpark.dao;
 
 import com.example.carpark.javabean.TbAdmin;
+import com.example.carpark.javabean.TbCashier;
 import com.example.carpark.javabean.TbMenu;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -33,4 +34,15 @@ public interface AdminDao {
      * @return
      */
     List<TbMenu> findMenu(Map<String,Object> map);
+
+
+    /**
+     *  林堂星——用户管理
+     */
+    List<TbCashier> findAll(Map<String, String> parameters);
+    int findCount(Map<String, String> parameters);
+    int forbiddenState(Map<String, String> parameters);
+    int openState(Map<String, String> parameters);
+	boolean addCashier(Map<String, String> parameters);
+	int resignState(Map parameters);
 }

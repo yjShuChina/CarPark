@@ -2,10 +2,12 @@ package com.example.carpark.service.impl;
 
 import com.example.carpark.dao.AdminDao;
 import com.example.carpark.javabean.TbAdmin;
+import com.example.carpark.javabean.TbCashier;
 import com.example.carpark.javabean.TbMenu;
 import com.example.carpark.service.AdminService;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
@@ -71,6 +73,99 @@ public class AdminServiceImpl implements AdminService {
         System.out.println(parentMenuList.toString());
         return parentMenuList;
     }
+
+
+    /**
+     *  林堂星——用户管理
+     */
+    @Override
+    @Transactional
+    public List<TbCashier> findAll(String cashierName, int currentPage, int pageSize,String startTime,String endTime)
+    {
+        Map parameters=new HashMap<>();
+        parameters. put( "cashierName" , cashierName);
+        parameters. put( "currentPage" , (currentPage-1)*pageSize);
+        parameters. put( "pageSize" , pageSize);
+        parameters. put( "startTime" , startTime);
+        parameters. put( "endTime" , endTime);
+        List<TbCashier> list=adminDao.findAll(parameters);
+        return list;
+    }
+    @Override
+    @Transactional
+    public int findCount(String cashierName,String startTime,String endTime)
+    {
+        Map parameters=new HashMap<>();
+        parameters. put( "cashierName" , cashierName);
+        parameters. put( "startTime" , startTime);
+        parameters. put( "endTime" , endTime);
+        int count=adminDao.findCount(parameters);
+        return count;
+    }
+    @Override
+    @Transactional
+    public int forbiddenState(String stateId)
+    {
+        int count=0;
+        if (stateId!=null){
+            Map parameters=new HashMap<>();
+            parameters. put( "cashierId" , stateId);
+            count=adminDao.forbiddenState(parameters);
+        }else {
+            count =2;
+        }
+        return count;
+    }
+    @Override
+    @Transactional
+    public int openState(String stateId)
+    {
+        int count=0;
+        if (stateId!=null){
+            Map parameters=new HashMap<>();
+            parameters. put( "cashierId" , stateId);
+            count=adminDao.openState(parameters);
+        }else {
+            count =2;
+        }
+        return count;
+    }
+
+    @Override
+    @Transactional
+    public int resignState(String resignId)
+    {
+        int count=0;
+        if (resignId!=null){
+            Map parameters=new HashMap<>();
+            parameters. put( "cashierId" , resignId);
+            count=adminDao.resignState(parameters);
+        }else {
+            count =2;
+        }
+        return count;
+    }
+
+    @Override
+    @Transactional
+    public String addCashier(String cashierAccount, String cashierPwd, String cashierName, String cashierSex, String cashierPhone, String cashierAddress, long cashierState)
+    {
+        Map<String, String> parameters=new HashMap<>();
+        parameters. put( "cashierAccount" , cashierAccount);
+        parameters. put( "cashierPwd" , cashierPwd);
+        parameters. put( "cashierName" , cashierName);
+        parameters. put( "cashierSex" , cashierSex);
+        parameters. put( "cashierPhone" , cashierPhone);
+        parameters. put( "cashierAddress" , cashierAddress);
+        parameters. put( "cashierState" , String.valueOf(cashierState));
+        boolean flag = adminDao.addCashier(parameters);
+        if (flag){
+            return "success";
+        }else {
+            return "fail";
+        }
+    }
+
 
 
 }
