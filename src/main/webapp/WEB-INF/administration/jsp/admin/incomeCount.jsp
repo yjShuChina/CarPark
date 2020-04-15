@@ -26,16 +26,16 @@
     <ul class="layui-tab-title">
         <li class="layui-this">近七天收入</li>
         <li>上一月收入</li>
-        <li>本季度收入</li>
-        <li>近半年收入</li>
-        <li>本年度收入</li>
+        <li>本年度收入（月）</li>
+        <li>本年度收入（季度）</li>
+        <li>月缴产品收入</li>
     </ul>
     <div class="layui-tab-content">
-        <div class="layui-tab-item layui-show"><div id="sevenHistogram" style="width: 100%;height: 500px;"></div></div>
-        <div class="layui-tab-item"><div id="preMonthHistogram" style="width:100%;height:500px;"></div></div>
-        <div class="layui-tab-item">内容3</div>
-        <div class="layui-tab-item">内容4</div>
-        <div class="layui-tab-item">内容5</div>
+        <div class="layui-tab-item layui-show"><div id="sevenHistogram" style="width: 1200px;height: 500px;"></div></div>
+        <div class="layui-tab-item"><div id="preMonthHistogram" style="width: 1200px;height: 500px;"></div></div>
+        <div class="layui-tab-item"><div id="curSeasonHistogram" style="width: 1200px;height: 500px;"></div></div>
+        <div class="layui-tab-item"><div id="curYearHistogram" style="width: 1200px;height: 500px;"></div></div>
+        <div class="layui-tab-item"><div id="monthPieChart" style="width: 1200px;height: 500px;"></div></div>
     </div>
 </div>
 </body>

@@ -1,8 +1,15 @@
 package com.example.carpark.javabean;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+import java.math.BigDecimal;
+
+@Component
+@Scope("prototype")
 public class CountData {
     private String datas;
-    private Integer counts;
+    private BigDecimal counts;
 
     public String getDatas() {
         return datas;
@@ -12,11 +19,11 @@ public class CountData {
         this.datas = datas;
     }
 
-    public Integer getCounts() {
+    public BigDecimal getCounts() {
         return counts;
     }
 
-    public void setCounts(Integer counts) {
+    public void setCounts(BigDecimal counts) {
         this.counts = counts;
     }
 }

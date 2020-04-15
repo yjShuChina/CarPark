@@ -330,7 +330,7 @@ public class AdminController {
         System.out.println("============修改权限=============");
         Gson gson = new Gson();
         List<TreeData> treeDataList = gson.fromJson(treeDate,new TypeToken<List<TreeData>>() {}.getType());
-        return adminService.updateRoleMenu(treeDataList,roleId) > 0 ? "修改成功":"修改失败";
+        return adminService.updateRoleMenu(treeDataList,roleId) > 0 ? "success":"error";
     }
 
     /**
@@ -429,10 +429,46 @@ public class AdminController {
         return revenueService.selectPriceByMonth(month);
     }
 
+    /**
+     * 请求近七天统计
+     * @return
+     */
     @ResponseBody
     @RequestMapping("/queryNearlySevenDays")
-    public Map<String,List<CountData>> queryNearlySevenDays(){
+    public Map<String,Object> queryNearlySevenDays(){
         return revenueService.queryNearlySevenDays();
+    }
+
+    /**
+     * 请求上个一个月统计
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/queryNearlyMonth")
+    public Map<String,Object> queryNearlyMonth(){
+        return revenueService.queryNearlyMonth();
+    }
+
+    /**
+     * 请求今天按季度查询收入
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/queryCurYearBySeason")
+    public Map<String,Object> queryCurYearBySeason(){
+        return revenueService.queryCurYearBySeason();
+    }
+
+    @ResponseBody
+    @RequestMapping("/queryCurYearByMonth")
+    public Map<String,Object> queryCurYearByMonth(){
+        return revenueService.queryCurYearByMonth();
+    }
+
+    @ResponseBody
+    @RequestMapping("/queryMonthRevenue")
+    public Map<String,Object> queryMonthRevenue(){
+        return revenueService.queryMonthRevenue();
     }
 
     //日志查找 4.11

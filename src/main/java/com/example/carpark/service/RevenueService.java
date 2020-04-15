@@ -24,5 +24,13 @@ public interface RevenueService {
 
     String updateRevenue(TbRevenue tbRevenue);
 
-    Map<String,List<CountData>> queryNearlySevenDays();
+    Map<String,Object> queryNearlySevenDays();
+
+    Map<String,Object> queryNearlyMonth();
+
+    Map<String,Object> queryCurYearBySeason();
+
+    Map<String,Object> queryCurYearByMonth();
+
+    Map<String,Object> queryMonthRevenue();
 }

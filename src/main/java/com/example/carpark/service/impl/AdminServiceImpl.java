@@ -166,7 +166,9 @@ public class AdminServiceImpl implements AdminService {
                     rmmap.put("state",state);
                 }
                 Integer j = adminDao.addRoleMenu(rmmap);
-                k ++ ;
+                if(j > 0){
+                    k ++ ;
+                }
             }
             if(k == roleList.size()){
                 return k;
@@ -199,6 +201,7 @@ public class AdminServiceImpl implements AdminService {
                     return adminDao.deleteMenu((int) tbMenu.getMenuId());//删除菜单
                 }
             }
+            return 0;
         }else {
             TbRoleMenu tbRoleMenu = ApplicationContextHelper.getBean(TbRoleMenu.class);
             tbRoleMenu.setMenuId(tbMenu.getMenuId());
@@ -207,8 +210,8 @@ public class AdminServiceImpl implements AdminService {
             if(i == roleMenuList.size()){
                 return adminDao.deleteMenu((int) tbMenu.getMenuId());
             }
+            return 0;
         }
-        return 0;
     }
 
     /**
