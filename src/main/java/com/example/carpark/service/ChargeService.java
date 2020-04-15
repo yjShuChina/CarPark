@@ -6,6 +6,7 @@ import com.example.carpark.javabean.TbCashier;
 import com.example.carpark.javabean.TbChargerParameter;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -33,5 +34,5 @@ public interface ChargeService {
     int addChargePrice(TbChargerParameter tbChargerParameter);
 
     //收费规则删除
-    int delChargePrice(String id);
+    int delChargePrice(TbChargerParameter[] tbChargerParameter);
 }

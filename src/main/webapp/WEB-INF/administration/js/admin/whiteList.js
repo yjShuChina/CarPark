@@ -4,54 +4,30 @@ layui.use(['form', 'layer', 'table'], function () {
 
     var path = $("#path").val();
 
-
     var form = layui.form;
 
     //各种基于事件的操作，下面会有进一步介绍
-    form.on('radio(laytype)', function (data) {
 
-        if (data.value == 0) {
-            $("#test5").attr("disabled", true); //禁用
-            cpType = 0;
-        }
-        if (data.value == 1) {
-            $("#test5").attr("disabled", false); //启用
-            cpType = 1;
-        }
-        form.render();
-    });
 
     //执行一个 table 实例
     table.render({
         elem: '#demo'
         , height: 420
-        , url: path + '/charge/chargePrice' //数据接口
-        , title: '收费规则表'
+        , url: path + '/white/query' //数据接口
+        , title: '白名单'
         , toolbar: 'default' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
         , width: 493
+        , page: true //开启分页
         , cols: [[ //表头
             {type: 'checkbox', fixed: 'left'}
-            , {field: 'cpId', title: 'ID', width: 80, hide: true}
-            , {field: 'chargeTime', title: '时间', width: 120}
-            , {field: 'cpType', title: '收费类型', width: 120}
-            , {field: 'stackTime', title: '间隔时间', width: 120}
-            , {field: 'price', title: '金额', width: 80}
+            , {field: 'wlId', title: 'ID', width: 80, hide: true}
+            , {field: 'userTel', title: '联系方式', width: 120}
+            , {field: 'carNumber', title: '车牌号', width: 120}
+            , {field: 'userName', title: '姓名', width: 120}
 
         ]]
         , id: 'demotable'
-        , done: function (res, curr, count) {
 
-            $(".layui-table-box").find("[data-field='cpId']").css("display", "none");
-
-            $("[data-field='cpType']").children().each(function () {
-                if ($(this).text() == '0') {
-                    $(this).text("直接收取")
-                } else if ($(this).text() == '1') {
-                    $(this).text("叠加收取")
-                }
-            });
-            pageCurr = curr;
-        }
     });
 
     //监听头工具栏事件
@@ -85,58 +61,14 @@ layui.use(['form', 'layer', 'table'], function () {
         }
     });
 });
-var chargeTime;
-var stackTime;
-var cpType;
 
 function edit(data) {
     var layer = layui.layer;
     var path = $("#path").val();
 
-    $("#price").val(data.price);
-
-    chargeTime = data.chargeTime;
-    stackTime = data.stackTime;
-    layui.use('laydate', function () {
-        var laydate = layui.laydate;
-
-        //时间段选择
-        laydate.render({
-            elem: '#test4'
-            , type: 'time'
-            , value: data.chargeTime
-            , done: function (value, date, endDate) {
-                chargeTime = value;
-            }
-        });
-        //时间间隔选择
-        laydate.render({
-            elem: '#test5'
-            , type: 'time'
-            , value: data.stackTime
-            , done: function (value, date, endDate) {
-                stackTime = value;
-            }
-        });
-    });
-    layui.use('form', function () {
-        var form = layui.form;
-
-        if (data.cpType == 0) {
-            $("#test5").attr("disabled", true); //禁用
-            $("#diejia").removeAttr("checked");
-            $("#zhijie").attr("checked", "checked");
-
-        }
-        if (data.cpType == 1) {
-            $("#test5").attr("disabled", false); //启用
-            $("#zhijie").removeAttr("checked");
-            $("#diejia").attr("checked", "checked");
-
-        }
-        cpType = data.cpType;
-        form.render();
-    });
+    $("#userTel").val(data.userTel);
+    $("#carNumber").val(data.carNumber);
+    $("#userName").val(data.userName);
 
     layer.open({
         type: 1,
@@ -152,20 +84,41 @@ function edit(data) {
         btn: ['提交', '取消'],
         btn1: function (index, layero) {
 
-            var price = document.getElementById("price").value;
+            var userTel = document.getElementById("userTel").value;
+            var tel_mind = /^1[345789]\d{9}$/;
+            if (!tel_mind.test(userTel)) {
+                layer.msg('请输入正确的手机号码', {icon: 6});
+                setTimeout("$('#userTel').focus()", 1);
+                return false;
+            }
+            var carNumber = document.getElementById("carNumber").value;
+
+            var carNumber_mind = /^(([京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领][A-Z](([0-9]{5}[DF])|([DF]([A-HJ-NP-Z0-9])[0-9]{4})))|([京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领][A-Z][A-HJ-NP-Z0-9]{4}[A-HJ-NP-Z0-9挂学警港澳使领]))$/
+            if (!carNumber_mind.test(carNumber)) {
+                layer.msg('请输入正确的车牌号码', {icon: 6});
+                setTimeout("$('#carNumber').focus()", 1);
+                return false;
+            }
+
+            var userName = document.getElementById("userName").value;
+            if (userName == null || userName == undefined || userName == '') {
+                layer.msg('请输入车主姓名', {icon: 6});
+                setTimeout("$('#userName').focus()", 1);
+                return false;
+            }
+
 
             var usermodify = {
-                "cpId": data.cpId
-                , "chargeTime": chargeTime
-                , "cpType": cpType
-                , "stackTime": stackTime
-                , "price": price
+                "wlId": data.wlId
+                , "userTel": userTel
+                , "carNumber": carNumber
+                , "userName": userName
             };
             // usermodify = JSON.stringify(usermodify);
 
             layer.msg('修改中');
             $.ajax({
-                url: path + "/charge/modifyChargePrice",
+                url: path + "/white/modifyWhiteList",
                 async: "true",
                 type: "Post",
                 data: usermodify,
@@ -213,40 +166,10 @@ function add() {
     var layer = layui.layer;
     var path = $("#path").val();
 
-    $("#price").val("0");
-    chargeTime = "00:00:00";
-    stackTime = "00:00:00";
-    cpType = 0;
 
-    layui.use('laydate', function () {
-        var laydate = layui.laydate;
-
-        //时间选择器
-        laydate.render({
-            elem: '#test4'
-            , type: 'time'
-            , value: '00:00:00'
-            , done: function (value, date, endDate) {
-                chargeTime = value;
-            }
-        });
-
-        //时间间隔选择
-        laydate.render({
-            elem: '#test5'
-            , type: 'time'
-            , value: '00:00:00'
-            , done: function (value, date, endDate) {
-                stackTime = value;
-            }
-        });
-    });
-
-    $("#test5").attr("disabled", true); //禁用
-    $("#diejia").removeAttr("checked");
-    $("#zhijie").attr("checked", "checked");
-
-
+    $("#userTel").val("");
+    $("#carNumber").val("");
+    $("#userName").val("");
 
     layer.open({
         type: 1,
@@ -262,19 +185,37 @@ function add() {
         btn: ['提交', '取消'],
         btn1: function (index, layero) {
 
-            var price = document.getElementById("price").value;
+            var userTel = document.getElementById("userTel").value;
+            var tel_mind = /^1[345789]\d{9}$/;
+            if (!tel_mind.test(userTel)) {
+                layer.msg('请输入正确的手机号码', {icon: 6});
+                setTimeout("$('#userTel').focus()", 1);
+                return false;
+            }
+            var carNumber = document.getElementById("carNumber").value;
+
+            var carNumber_mind = /^(([京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领][A-Z](([0-9]{5}[DF])|([DF]([A-HJ-NP-Z0-9])[0-9]{4})))|([京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领][A-Z][A-HJ-NP-Z0-9]{4}[A-HJ-NP-Z0-9挂学警港澳使领]))$/
+            if (!carNumber_mind.test(carNumber)) {
+                layer.msg('请输入正确的车牌号码', {icon: 6});
+                setTimeout("$('#carNumber').focus()", 1);
+                return false;
+            }
+
+            var userName = document.getElementById("userName").value;
+            if (userName == null || userName == undefined || userName == '') {
+                layer.msg('请输入车主姓名', {icon: 6});
+                setTimeout("$('#userName').focus()", 1);
+                return false;
+            }
 
             var usermodify = {
-                 "chargeTime": chargeTime
-                , "cpType": cpType
-                , "stackTime": stackTime
-                , "price": price
+                 "userTel": userTel
+                , "carNumber": carNumber
+                , "userName": userName
             };
-            // usermodify = JSON.stringify(usermodify);
-
             layer.msg('添加中');
             $.ajax({
-                url: path + "/charge/addChargePrice",
+                url: path + "/white/addWhiteList",
                 async: "true",
                 type: "Post",
                 data: usermodify,
@@ -323,7 +264,7 @@ function del(data) {
     var path = $("#path").val();
     layer.msg('删除中');
     $.ajax({
-        url: path + "/charge/delChargePrice",
+        url: path + "/white/delWhiteList",
         async: "true",
         type: "post",
         data: "data=" + JSON.stringify(data),
