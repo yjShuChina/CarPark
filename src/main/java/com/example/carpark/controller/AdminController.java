@@ -135,7 +135,7 @@ public class AdminController {
     @RequestMapping("/CheckCodeServlet")
     public void CheckCodeServlet(HttpSession session, HttpServletResponse response) throws ServletException, IOException{
         System.out.println("=====================获取验证码=======================");
-        int width = 63;
+        int width = 75;
         int height = 37;
         Random random = new Random();
         //设置response头信息

@@ -186,4 +186,6 @@ WHERE
   <select id="queryMonthRevenue" resultType="CountData" parameterType="java.lang.Integer">
     SELECT #{month} as datas,SUM(price) as counts FROM tb_revenue WHERE  YEAR(time)=YEAR(NOW()) and revenue != 2 and `month` = #{month};
   </select>
+
+
 </mapper>
