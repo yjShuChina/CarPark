@@ -13,4 +13,20 @@
 		values
 		(#{carNumber},#{carIdentity},#{carTime})
 	</insert>
+
+	<select id="findParkSpace" parameterType="java.util.Map" resultType="java.lang.String">
+		select park_space_id from tb_park_space where park_space_state=#{state};
+	</select>
+
+	<select id="findParkSpacenum" resultType="java.lang.Integer"  parameterType="java.lang.Integer">
+		select count(*) from tb_park_space
+		<choose>
+			<when test="_parameter!=null and _parameter !=''">
+				where park_space_state=#{_parameter };
+			</when>
+			<otherwise>
+				where 1=1;
+			</otherwise>
+		</choose>
+	</select>
 </mapper>

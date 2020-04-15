@@ -139,4 +139,51 @@
       </if>
     </where>
   </select>
+
+  <select id="queryNearlySevenDays" resultType="CountData" parameterType="java.lang.String">
+      select a.datas,ifnull(b.counts,0) as counts
+        from (
+            SELECT curdate() as datas
+            union all
+            SELECT date_sub(curdate(), interval 1 day) as datas
+            union all
+            SELECT date_sub(curdate(), interval 2 day) as datas
+            union all
+            SELECT date_sub(curdate(), interval 3 day) as datas
+            union all
+            SELECT date_sub(curdate(), interval 4 day) as datas
+            union all
+            SELECT date_sub(curdate(), interval 5 day) as datas
+            union all
+            SELECT date_sub(curdate(), interval 6 day) as datas
+        ) a left join (
+          select date(time) as datas, sum(price) as counts
+          from tb_revenue where revenue != 2 and income_type = #{incomeType}
+          group by date(time)
+        ) b on a.datas = b.datas;
+  </select>
+
+
+  <select id="queryNearlyMonth" parameterType="java.util.Map" resultType="java.math.BigDecimal">
+    SELECT
+	SUM( price ) as counts
+FROM
+	tb_revenue
+WHERE
+	revenue != 2 and income_type = #{incomeType}
+	AND time BETWEEN date_format( #{start}, '%Y-%m-%d' )
+	AND DATE_ADD( date_format( #{end}, '%Y-%m-%d' ), INTERVAL 1 DAY );
+  </select>
+
+  <select id="queryCurYearBySeason" resultType="CountData" parameterType="java.lang.String">
+    SELECT concat(DATE_FORMAT(time, '%Y'), '年 ', FLOOR((DATE_FORMAT(time, '%m')+2)/3), '季度') as datas, SUM(price) as counts FROM tb_revenue WHERE revenue != 2 and income_type = #{incomeType} GROUP BY datas
+  </select>
+
+  <select id="queryCurYearByMonth" parameterType="java.lang.String" resultType="CountData">
+    select DATE_FORMAT(time,'%Y-%m') datas,sum(price) counts from tb_revenue where revenue != 2 and income_type = #{incomeType} group by datas;
+  </select>
+
+  <select id="queryMonthRevenue" resultType="CountData" parameterType="java.lang.Integer">
+    SELECT #{month} as datas,SUM(price) as counts FROM tb_revenue WHERE  YEAR(time)=YEAR(NOW()) and revenue != 2 and `month` = #{month};
+  </select>
 </mapper>

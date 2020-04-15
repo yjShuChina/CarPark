@@ -71,8 +71,6 @@ layui.use(['form','laypage','layer','tree','util','table'], function() {
                                 })
                                 layer.msg(msg);
                                 layer.close(index);
-                            }else if(msg === '角色名已存在'){
-                                layer.msg(msg);
                             }else {
                                 layer.msg(msg);
                             }

@@ -7,6 +7,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.example.carpark.dao.CarDao;
 import com.example.carpark.dao.ChargeDao;
 import com.example.carpark.javabean.TbParkCarInfo;
+import com.example.carpark.javabean.TbParkSpace;
 import com.example.carpark.javabean.TbUser;
 import com.example.carpark.javabean.TbWhiteList;
 import com.example.carpark.service.CarService;
@@ -20,6 +21,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.apache.tomcat.util.codec.binary.Base64.encodeBase64;
@@ -165,4 +167,16 @@ public class CarServiceImpl implements CarService
         return i;
     }
 
+
+    @Override
+    public List<String> findParkSpace(String state){
+        List<String> carps=carDao.findParkSpace(state);
+        return carps;
+    }
+    //车位数量
+    @Override
+    public Integer findParkSpacenum(Integer spacestate){
+        Integer num=carDao.findParkSpacenum(spacestate);
+        return num;
+    }
 }

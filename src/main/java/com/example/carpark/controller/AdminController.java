@@ -331,7 +331,7 @@ public class AdminController {
         System.out.println("============修改权限=============");
         Gson gson = new Gson();
         List<TreeData> treeDataList = gson.fromJson(treeDate,new TypeToken<List<TreeData>>() {}.getType());
-        return adminService.updateRoleMenu(treeDataList,roleId) > 0 ? "修改成功":"修改失败";
+        return adminService.updateRoleMenu(treeDataList,roleId) > 0 ? "success":"error";
     }
 
     /**
@@ -384,9 +384,6 @@ public class AdminController {
     @RequestMapping("/addRevenue")
     public String addRevenue(TbRevenue tbRevenue){
         System.out.println("==============添加收支明细表=============");
-        if(tbRevenue.getMonth() != 0){
-            tbRevenue.setPrice(revenueService.selectPriceByMonth(tbRevenue.getMonth()));
-        }
         return revenueService.addRevenue(tbRevenue);
     }
 
@@ -414,6 +411,7 @@ public class AdminController {
         return revenueService.findRevenueById(revenueId);
     }
 
+
     @ResponseBody
     @RequestMapping("/updateRevenue")
     public String updateRevenue(TbRevenue tbRevenue){
@@ -421,10 +419,57 @@ public class AdminController {
         return revenueService.updateRevenue(tbRevenue);
     }
 
+    /**
+     * 根据月份查询价格
+     * @param month
+     * @return
+     */
     @ResponseBody
     @RequestMapping("/selectPriceByMonth")
     public BigDecimal selectPriceByMonth(Integer month){
         return revenueService.selectPriceByMonth(month);
+    }
+
+    /**
+     * 请求近七天统计
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/queryNearlySevenDays")
+    public Map<String,Object> queryNearlySevenDays(){
+        return revenueService.queryNearlySevenDays();
+    }
+
+    /**
+     * 请求上个一个月统计
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/queryNearlyMonth")
+    public Map<String,Object> queryNearlyMonth(){
+        return revenueService.queryNearlyMonth();
+    }
+
+    /**
+     * 请求今天按季度查询收入
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/queryCurYearBySeason")
+    public Map<String,Object> queryCurYearBySeason(){
+        return revenueService.queryCurYearBySeason();
+    }
+
+    @ResponseBody
+    @RequestMapping("/queryCurYearByMonth")
+    public Map<String,Object> queryCurYearByMonth(){
+        return revenueService.queryCurYearByMonth();
+    }
+
+    @ResponseBody
+    @RequestMapping("/queryMonthRevenue")
+    public Map<String,Object> queryMonthRevenue(){
+        return revenueService.queryMonthRevenue();
     }
 
     //日志查找 4.11

@@ -1,14 +1,13 @@
 package com.example.carpark.controller;
 
 
-import com.example.carpark.aoplog.Log;
 import com.example.carpark.javabean.TbParkCarInfo;
+import com.example.carpark.javabean.TbParkSpace;
 import com.example.carpark.javabean.TbUser;
 import com.example.carpark.javabean.TbWhiteList;
-import com.example.carpark.service.AdminService;
 import com.example.carpark.service.CarService;
-import com.example.carpark.service.ChargeService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.carpark.util.ResponseUtils;
+import com.google.gson.Gson;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,20 +16,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import javax.imageio.ImageIO;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Map;
-import java.util.Random;
+import java.util.List;
+
 
 /**
  * 车辆控制类
@@ -108,5 +102,32 @@ public class CarController
         }
 
     }
+
+
+
+	@RequestMapping("/findCpmsg")
+	@ResponseBody
+	public void findCpmsg(HttpServletRequest request,HttpServletResponse response)  {
+		int psnum=carService.findParkSpacenum(1);
+		int parking=carService.findParkSpacenum(2);
+		int parkspase=carService.findParkSpacenum(0);
+
+		request.getSession().setAttribute("psnum", psnum);
+		request.getSession().setAttribute("parking", parking);
+		request.getSession().setAttribute("parkspase", parkspase);
+
+	}
+
+	@RequestMapping("/findParking")
+	@ResponseBody
+	public void findParking(HttpServletResponse response) {
+		List<String> PS2 = carService.findParkSpace("2");
+//		System.out.println(PS2);
+		String[] array2 = new String[PS2.size()];
+		PS2.toArray(array2);
+		String [] car = array2;
+		Gson g = new Gson();
+		ResponseUtils.outJson(response, g.toJson(car));
+	}
 
 }

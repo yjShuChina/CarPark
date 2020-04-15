@@ -1,5 +1,6 @@
 package com.example.carpark.service;
 
+import com.example.carpark.javabean.CountData;
 import com.example.carpark.javabean.ResultDate;
 import com.example.carpark.javabean.TbMonthChargeParameter;
 import com.example.carpark.javabean.TbRevenue;
@@ -23,4 +24,13 @@ public interface RevenueService {
 
     String updateRevenue(TbRevenue tbRevenue);
 
+    Map<String,Object> queryNearlySevenDays();
+
+    Map<String,Object> queryNearlyMonth();
+
+    Map<String,Object> queryCurYearBySeason();
+
+    Map<String,Object> queryCurYearByMonth();
+
+    Map<String,Object> queryMonthRevenue();
 }
