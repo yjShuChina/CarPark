@@ -60,4 +60,7 @@ public interface AdminService {
     int openState(String stateId);
 	String addCashier(String cashierAccount, String cashierPwd, String cashierName, String cashierSex, String cashierPhone, String cashierAddress, long cashierState);
     int resignState(String resignId);
+	int resetPwd(String resetId);
+    TbCashier updateCashier(String uid);
+	String toUpdateCashier(String uid, String cashierAccountUpdate, String cashierPwdUpdate, String cashierNameUpdate, String cashierPhoneUpdate, String cashierAddressUpdate);
 }

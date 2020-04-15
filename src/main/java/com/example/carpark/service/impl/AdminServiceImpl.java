@@ -434,6 +434,49 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     @Transactional
+    public int resetPwd(String resetId)
+    {
+        int count=0;
+        if (resetId!=null){
+            Map parameters=new HashMap<>();
+            parameters. put( "cashierId" , resetId);
+            count=adminDao.resetPwd(parameters);
+        }else {
+            count =2;
+        }
+        return count;
+    }
+
+    @Override
+    @Transactional
+    public TbCashier updateCashier(String uid)
+    {
+        Map parameters=new HashMap<>();
+        parameters. put( "cashierId" , uid);
+        TbCashier tbCashier=adminDao.updateCashier(parameters);
+        return tbCashier;
+    }
+
+    @Override
+    public String toUpdateCashier(String uid, String cashierAccountUpdate, String cashierPwdUpdate, String cashierNameUpdate, String cashierPhoneUpdate, String cashierAddressUpdate)
+    {
+        Map<String, String> parameters=new HashMap<>();
+        parameters. put( "cashierAccount" , cashierAccountUpdate);
+        parameters. put( "cashierPwd" , cashierPwdUpdate);
+        parameters. put( "cashierName" , cashierNameUpdate);
+        parameters. put( "cashierPhone" , cashierPhoneUpdate);
+        parameters. put( "cashierAddress" , cashierAddressUpdate);
+        parameters. put( "cashierId" , uid);
+        boolean flag = adminDao.toUpdateCashier(parameters);
+        if (flag){
+            return "success";
+        }else {
+            return "fail";
+        }
+    }
+
+    @Override
+    @Transactional
     public String addCashier(String cashierAccount, String cashierPwd, String cashierName, String cashierSex, String cashierPhone, String cashierAddress, long cashierState)
     {
         Map<String, String> parameters=new HashMap<>();

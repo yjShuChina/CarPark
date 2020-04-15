@@ -53,7 +53,9 @@ public interface AdminDao {
     int openState(Map<String, String> parameters);
 	boolean addCashier(Map<String, String> parameters);
 	int resignState(Map parameters);
-
+    int resetPwd(Map parameters);
+    TbCashier updateCashier(Map parameters);
+    boolean toUpdateCashier(Map<String, String> parameters);
     /**
      * 根据父级ID\菜单名称\page\limit查询菜单
      * @param map
@@ -218,4 +220,7 @@ public interface AdminDao {
 
     //查找日志信息
     List<TbLog> findLog(HashMap<String,Object> condition);
+
+
+
 }

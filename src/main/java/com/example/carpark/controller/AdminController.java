@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -492,13 +493,14 @@ public class AdminController {
     }
     @RequestMapping("/adminManagement")
     @ResponseBody
-    public DataManagementResult adminManagement(String page, String limit, String uid, String startTime, String endTime, String stateId, String oId,String resignId)
+    public DataManagementResult adminManagement(String page, String limit, String uid, String startTime, String endTime, String stateId, String oId,String resignId,String resetId)
     {
         int pageInt = Integer.valueOf(page);
         int limitInt = Integer.valueOf(limit);
-        int f = adminService.forbiddenState(stateId);
-        int o = adminService.openState(oId);
-        int r = adminService.resignState(resignId);
+        int forbidden = adminService.forbiddenState(stateId);
+        int open = adminService.openState(oId);
+        int resign = adminService.resignState(resignId);
+	    int rest = adminService.resetPwd(resetId);
         List<TbCashier> list = adminService.findAll(uid,pageInt,limitInt,startTime,endTime);
         int count = adminService.findCount(uid,startTime,endTime);
         DataManagementResult dataManagementResult = new DataManagementResult();
@@ -522,5 +524,24 @@ public class AdminController {
             return "新增收费员失败";
         }
     }
-
+    @RequestMapping("/updateCashier")
+    @ResponseBody
+    public TbCashier updateCashier(String uid, HttpSession session)
+    {
+        TbCashier tbCashier = adminService.updateCashier(uid);
+        session.setAttribute("tbCashier", tbCashier);
+        return tbCashier;
+    }
+    @RequestMapping("/toUpdateCashier")
+    @ResponseBody
+    public String toUpdateCashier(String uid,String cashierAccountUpdate,String cashierPwdUpdate,String cashierNameUpdate,String cashierPhoneUpdate,String cashierAddressUpdate)
+    {
+        String flag = adminService.toUpdateCashier(uid,cashierAccountUpdate,cashierPwdUpdate,cashierNameUpdate,cashierPhoneUpdate,cashierAddressUpdate);
+        if (flag.equals("success")){
+            return "修改成功";
+        }
+        else {
+            return "修改失败";
+        }
+    }
 }

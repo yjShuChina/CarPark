@@ -28,6 +28,7 @@
 	}
 </style>
 <body>
+
 <form class="layui-form" lay-filter="component-form-group" id="search_submits" onsubmit="return false">
 	<div class="layui-form-item">
 		<div class="layui-inline">
@@ -61,7 +62,7 @@
 <div style="display: none;" id="gb">
 	<form class="layui-form" action="">
 		<div class="layui-form-item">
-			<label class="layui-form-label">账户</label>
+			<label class="layui-form-label">账号</label>
 			<div class="layui-input-inline">
 				<input type="text" name="cashierAccount" required lay-verify="required" placeholder="请输入账号" autocomplete="off" class="layui-input">
 			</div>
@@ -123,6 +124,7 @@
 	<a class="layui-btn layui-btn layui-btn-xs" lay-event="resign">离职</a>
 </script>
 <script>
+	var path = $("#path").val();
 	layui.use(['table', 'form','laydate'], function(){
 		var table =layui.table
 			,form = layui.form
@@ -131,7 +133,7 @@
 		table.render({
 			elem:'#test',
 			height:321,
-			url: "../admin/adminManagement",
+			url: "${pageContext.request.contextPath}/admin/adminManagement",
 			type:'get',
 			dataType:"json",
 			id:'one',
@@ -141,7 +143,6 @@
 				{field:'cashierId', title: 'ID' , align: 'center'},
 				{field:'cashierTime', title: '新增时间' , align: 'center'},
 				{field:'cashierAccount', title: '收费员账号' , align: 'center'},
-				{field:'cashierPwd', title: '收费员密码' , align: 'center'},
 				{field:'cashierName', title: '收费员姓名' , align: 'center'},
 				{field:'cashierSex', title: '性别' , align: 'center'},
 				{field:'cashierPhone', title: '手机号' , align: 'center'},
@@ -194,7 +195,8 @@
 					layer.msg('禁用成功！');
 					layer.close(index);
 				});
-				} else if(obj.event === 'open'){
+				}
+			else if(obj.event === 'open'){
 				layer.confirm('确定要启用?', {icon: 1, title:'提示'}, function(index) {
 				var table =layui.table, $=layui.jquery;
 				var uid = $("#uid").val();
@@ -266,15 +268,65 @@
 							'endTime':endTime,
 							'oId':oId,
 							'stateId':stateId,
+							'resignId':resignId,
+							'resetId':resetId
+						},
+						page:{
+							page:1
+						}
+					});
+					layer.msg('重置密码成功！');
+					layer.close(index);
+				});
+			}
+			else if(obj.event === 'open'){
+				layer.confirm('确定要启用?', {icon: 1, title:'提示'}, function(index) {
+					var table =layui.table, $=layui.jquery;
+					var uid = $("#uid").val();
+					var startTime = $("#startTime").val();
+					var endTime = $("#endTime").val();
+					var oId = obj.data.cashierId;
+					var stateId = null;
+					var resignId = null;
+					table.reload('one',{
+						method:'post',
+						where:{
+							'uid':uid,
+							'startTime':startTime,
+							'endTime':endTime,
+							'oId':oId,
+							'stateId':stateId,
 							'resignId':resignId
 						},
 						page:{
 							page:1
 						}
 					});
-					layer.msg('离职成功！');
+					layer.msg('启用成功！');
 					layer.close(index);
 				});
+			}
+			else if(obj.event === 'edit'){
+				var uid = obj.data.cashierId;
+				$.ajax({
+					url:"${pageContext.request.contextPath}/admin/updateCashier",
+					type:'post',
+					data: {'uid':uid},
+					dataType:"json",
+					success:function(data){
+						// setTimeout('window.location.reload()', 1);
+					}
+				});
+				layer.confirm('确定要编辑?', {icon: 1, title:'提示'}, function(index) {
+					layer.open({
+						type: 2,
+						area: ['700px', '450px'],
+						fixed: false, //不固定
+						maxmin: true,
+						content: '${pageContext.request.contextPath}/url/admin/adminManagementEdit'
+					});
+				});
+				form.render();
 			}
 		});
 		//搜索
@@ -356,7 +408,7 @@
 		//新增收费员
 		form.on('submit(formDemo2)', function(data){
 			$.ajax({
-				url:"../admin/addCashier",
+				url:"${pageContext.request.contextPath}/admin/addCashier",
 				type:'post',
 				data: data.field,
 				success:function(data){
