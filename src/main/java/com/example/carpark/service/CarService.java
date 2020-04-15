@@ -1,8 +1,11 @@
 package com.example.carpark.service;
 
 import com.example.carpark.javabean.TbParkCarInfo;
+import com.example.carpark.javabean.TbParkSpace;
 import com.example.carpark.javabean.TbUser;
 import com.example.carpark.javabean.TbWhiteList;
+
+import java.util.List;
 
 /**
  * 车辆service接口类
@@ -21,4 +24,8 @@ public interface CarService
     TbWhiteList findWhite(String carnumber);
     //添加入库信息
     int CarIn(TbParkCarInfo tbParkCarInfo);
+    //空车位
+    List<String> findParkSpace(String state);
+    //车位数量
+    Integer findParkSpacenum(Integer spacestate);
 }

@@ -17,9 +17,11 @@ public class MyMvcConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/layui/**").addResourceLocations("/WEB-INF/" + "/layui/");
         registry.addResourceHandler("/administration/**").addResourceLocations("/WEB-INF/" + "/administration/");
         registry.addResourceHandler("/charge/**").addResourceLocations("/WEB-INF/" + "/charge/");
+        registry.addResourceHandler("/gate/**").addResourceLocations("/WEB-INF/" + "/gate/");
         registry.addResourceHandler("/control/**").addResourceLocations("/WEB-INF/" + "/control/");
         registry.addResourceHandler("/driver/**").addResourceLocations("/WEB-INF/" + "/driver/");
         registry.addResourceHandler("/js/**").addResourceLocations("/WEB-INF/" + "/js/");
+        registry.addResourceHandler("/esmap/**").addResourceLocations("/WEB-INF/" + "/esmap/");
     }
 
 //    @Override
