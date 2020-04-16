@@ -112,8 +112,8 @@ public class CarController
 		int Aparking=carService.findParkSpacenum("2","A");
 		int Bpsnum=carService.findParkSpacenum("1","B");
 		int Bparking=carService.findParkSpacenum("2","B");
-		int parkspase=carService.findParkSpacenum("","");
-		int allps=carService.findParkSpacenum("1","");
+		int parkspase=carService.findParkSpacenum("1","");
+		int allps=carService.findParkSpacenum("","");
 
 		request.getSession().setAttribute("Apsnum", Apsnum);
 		request.getSession().setAttribute("Aparking", Aparking);
