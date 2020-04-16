@@ -108,13 +108,19 @@ public class CarController
 	@RequestMapping("/findCpmsg")
 	@ResponseBody
 	public void findCpmsg(HttpServletRequest request,HttpServletResponse response)  {
-		int psnum=carService.findParkSpacenum(1);
-		int parking=carService.findParkSpacenum(2);
-		int parkspase=carService.findParkSpacenum(0);
+		int Apsnum=carService.findParkSpacenum("1","A");
+		int Aparking=carService.findParkSpacenum("2","A");
+		int Bpsnum=carService.findParkSpacenum("1","B");
+		int Bparking=carService.findParkSpacenum("2","B");
+		int parkspase=carService.findParkSpacenum("","");
+		int allps=carService.findParkSpacenum("1","");
 
-		request.getSession().setAttribute("psnum", psnum);
-		request.getSession().setAttribute("parking", parking);
+		request.getSession().setAttribute("Apsnum", Apsnum);
+		request.getSession().setAttribute("Aparking", Aparking);
+		request.getSession().setAttribute("Bpsnum", Bpsnum);
+		request.getSession().setAttribute("Bparking", Bparking);
 		request.getSession().setAttribute("parkspase", parkspase);
+		request.getSession().setAttribute("allps", allps);
 
 	}
 

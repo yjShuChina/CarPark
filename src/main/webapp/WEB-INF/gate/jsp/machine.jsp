@@ -12,7 +12,7 @@
 	<title>车闸</title>
 	<%String path = request.getContextPath();%>
 	<script rel="script" src=<%=path + "/js/jquery-3.4.1.js"%>></script>
-	<script src=<%=path + "/js/esmap-1.6.min.js"%> > </script >
+	<script src=<%=path + "/esmap/lib/esmap-1.6.min.js"%> > </script >
 	<script src=<%=path + "/js/json2.js"%>></script>
 </head>
 <style>
@@ -119,6 +119,88 @@
 
 
 	map.on("loadComplete", function () {
+		//初始化导航对象
+		var navi = new esmap.ESNavigation({
+			map: map,
+			locationMarkerUrl: 'image/pointer.png',   //定位标注图片地址
+			locationMarkerSize: 150,    //定位标注尺寸大小
+			speed: 5,   //模拟导航速度
+			followAngle: true,  //地图是否跟随旋转
+			followPosition: true,  //地图视角是否跟随位置
+			followGap:3,      //导航视角跟随间隔(单位:/s)
+			tiltAngle: 30,   //模拟导航时的倾斜角
+			audioPlay:true,  //是否开启语音播报
+			// scaleLevel:0,   //模拟导航时的放大等级
+			// mode:2,         //mode=1:人行(默认),mode=2：车行
+			offsetHeight: 1,    //定位标注的高度
+			ladderType:1,  //跨层方案选择。1:距离最近(默认),2:电梯 3.楼梯 4.扶梯
+			lineStyle: {   //路径规划线样式配置
+				color: '#33cc61',
+				//设置线为导航线样式
+				// lineType: esmap.ESLineType.ESARROW,
+				lineType: esmap.ESLineType.FULL,
+				lineWidth: 6,		// 设置导航线的宽度
+				offsetHeight: 0.5,	// 设置导航线的高度
+				smooth: true,		// 设置导航线的转角线平滑效果
+				seeThrough: false,	// 设置导航线的穿透楼层地板总是显示的效果
+				noAnimate: false	// 设置导航线的动画效果
+				//设置边线的颜色
+				// godEdgeColor: '#920000'
+				//设置箭头颜色
+				// godArrowColor: "#ff0000"
+			},
+		});
+
+		//确定起点
+		//初始化导航对象
+		var navi = new esmap.ESNavigation({
+			map: map,
+			locationMarkerUrl: 'image/pointer.png',   //定位标注图片地址
+			locationMarkerSize: 150,    //定位标注尺寸大小
+			speed: 5,   //模拟导航速度
+			followAngle: true,  //地图是否跟随旋转
+			followPosition: true,  //地图视角是否跟随位置
+			followGap:3,      //导航视角跟随间隔(单位:/s)
+			tiltAngle: 30,   //模拟导航时的倾斜角
+			audioPlay:false,  //是否开启语音播报
+			// scaleLevel:0,   //模拟导航时的放大等级
+			// mode:2,         //mode=1:人行(默认),mode=2：车行
+			offsetHeight: 1,    //定位标注的高度
+			ladderType:1,  //跨层方案选择。1:距离最近(默认),2:电梯 3.楼梯 4.扶梯
+			lineStyle: {   //路径规划线样式配置
+				color: '#33cc61',
+				//设置线为导航线样式
+				lineType: esmap.ESLineType.ESARROW,
+				// lineType: esmap.ESLineType.FULL,
+				lineWidth: 6,		// 设置导航线的宽度
+				offsetHeight: 0.5,	// 设置导航线的高度
+				smooth: true,		// 设置导航线的转角线平滑效果
+				seeThrough: false,	// 设置导航线的穿透楼层地板总是显示的效果
+				noAnimate: false	// 设置导航线的动画效果
+				//设置边线的颜色
+				// godEdgeColor: '#920000'
+				//设置箭头颜色
+				// godArrowColor: "#ff0000"
+			},
+		});
+
+		navi.setStartPoint({
+			x: 12958009.622,
+			y: 4858217.788,
+			fnum: 1,
+			height: 1,
+			url: 'image/start.png',
+			size: 64
+		});
+//确定终点
+		navi.setEndPoint({
+			x: 12958024.317,
+			y: 4858244.442,
+			fnum: 1,
+			height: 1,
+			url: 'image/end.png',
+			size: 64
+		});
 
 		parking();//以停车位
 		parkmsg();//车位数
@@ -128,7 +210,8 @@
 		});
 
 		// 每十秒刷新一次；
-		setTimeout('myrefresh()',10000); //指定10秒刷新一次
+		// setTimeout('myrefresh()',10000); //指定10秒刷新一次
+		navi.drawNaviLine();
 	});
 	//刷新
 	function myrefresh() {

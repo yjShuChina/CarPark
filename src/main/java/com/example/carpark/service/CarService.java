@@ -27,5 +27,5 @@ public interface CarService
     //空车位
     List<String> findParkSpace(String state);
     //车位数量
-    Integer findParkSpacenum(Integer spacestate);
+    Integer findParkSpacenum(String state,String area);
 }
