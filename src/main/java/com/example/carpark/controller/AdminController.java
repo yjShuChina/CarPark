@@ -580,9 +580,9 @@ public class AdminController {
     }
     @RequestMapping("/toUpdateCashier")
     @ResponseBody
-    public String toUpdateCashier(String uid,String cashierAccountUpdate,String cashierPwdUpdate,String cashierNameUpdate,String cashierPhoneUpdate,String cashierAddressUpdate)
+    public String toUpdateCashier(String uid,String cashierAccountUpdate,String cashierNameUpdate,String cashierPhoneUpdate,String cashierAddressUpdate)
     {
-        String flag = adminService.toUpdateCashier(uid,cashierAccountUpdate,cashierPwdUpdate,cashierNameUpdate,cashierPhoneUpdate,cashierAddressUpdate);
+        String flag = adminService.toUpdateCashier(uid,cashierAccountUpdate,cashierNameUpdate,cashierPhoneUpdate,cashierAddressUpdate);
         if (flag.equals("success")){
             return "修改成功";
         }

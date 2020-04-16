@@ -461,11 +461,10 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public String toUpdateCashier(String uid, String cashierAccountUpdate, String cashierPwdUpdate, String cashierNameUpdate, String cashierPhoneUpdate, String cashierAddressUpdate)
+    public String toUpdateCashier(String uid, String cashierAccountUpdate, String cashierNameUpdate, String cashierPhoneUpdate, String cashierAddressUpdate)
     {
         Map<String, String> parameters=new HashMap<>();
         parameters. put( "cashierAccount" , cashierAccountUpdate);
-        parameters. put( "cashierPwd" , cashierPwdUpdate);
         parameters. put( "cashierName" , cashierNameUpdate);
         parameters. put( "cashierPhone" , cashierPhoneUpdate);
         parameters. put( "cashierAddress" , cashierAddressUpdate);

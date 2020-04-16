@@ -301,7 +301,6 @@
     <update id="toUpdateCashier" parameterType="java.util.Map">
 			update tb_cashier
 			set  cashier_account = #{cashierAccount}
-           ,cashier_pwd = #{cashierPwd}
            ,cashier_name = #{cashierName}
            ,cashier_phone = #{cashierPhone}
            ,cashier_address = #{cashierAddress}

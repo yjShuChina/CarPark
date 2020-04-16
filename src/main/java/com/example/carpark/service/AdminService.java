@@ -62,5 +62,5 @@ public interface AdminService {
     int resignState(String resignId);
 	int resetPwd(String resetId);
     TbCashier updateCashier(String uid);
-	String toUpdateCashier(String uid, String cashierAccountUpdate, String cashierPwdUpdate, String cashierNameUpdate, String cashierPhoneUpdate, String cashierAddressUpdate);
+	String toUpdateCashier(String uid, String cashierAccountUpdate, String cashierNameUpdate, String cashierPhoneUpdate, String cashierAddressUpdate);
 }

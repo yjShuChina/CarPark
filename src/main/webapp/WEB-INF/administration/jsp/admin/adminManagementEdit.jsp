@@ -35,12 +35,6 @@
 		</div>
 	</div>
 	<div class="layui-form-item">
-		<label class="layui-form-label">密码</label>
-		<div class="layui-input-inline">
-			<input type="text" name="cashierPwdUpdate" required lay-verify="pwd" placeholder="请输入密码" autocomplete="off" class="layui-input" id="passUpdate" value="${sessionScope.tbCashier.cashierPwd}">
-		</div>
-	</div>
-	<div class="layui-form-item">
 		<label class="layui-form-label">姓名</label>
 		<div class="layui-input-inline">
 			<input type="text" name="cashierNameUpdate" required lay-verify="name" placeholder="请输入姓名" autocomplete="off" class="layui-input" value="${sessionScope.tbCashier.cashierName}">
@@ -72,19 +66,22 @@
 			, $=layui.jquery;
 		//编辑
 		form.on('submit(update)', function(data){
+			var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
 			$.ajax({
 				url:"${pageContext.request.contextPath}/admin/toUpdateCashier",
 				type:'post',
 				data: data.field,
 				success:function(data){
 					if (data==='修改成功') {
-						layer.msg(data);
+						// layer.msg(data);
+						parent.layer.msg(data);
 					}
 					else {
-						layer.msg(data);
+						parent.layer.msg(data);
 					}
-					layer.closeAll('iframe');
-					setTimeout('window.location.reload()', 3000);
+					parent.layer.close(index);
+					window.location.reload();
+					// setTimeout('window.location.reload()', 3000);
 				}
 			});
 			return false;//阻止表单跳转

@@ -325,6 +325,7 @@
 						maxmin: true,
 						content: '${pageContext.request.contextPath}/url/admin/adminManagementEdit'
 					});
+					layer.close(index);
 				});
 				form.render();
 			}
