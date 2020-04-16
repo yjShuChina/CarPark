@@ -320,39 +320,43 @@ public class AlipayController {
             //通过订单号，查询自助收费记录表
             TbReceivable tbReceivable = alipayService.findReceivableById(out_trade_no);
 
-            String carNumber = tbReceivable.getCarNumber();//车牌号
-            Timestamp monthVipBegin = tbReceivable.getMonthVipBegin();//新的生效时间
-            int mcpId = (int) tbReceivable.getMcpId();
-            TbMonthChargeParameter tbmcp = monthService.findMonthById(mcpId);
-            int month = (int) tbmcp.getMonth();//续费办理的月份
-            TbUser tbUser = monthService.findUserByCarNumber(carNumber);
-            String oldMonthVipBegin = tbUser.getMonthVipBegin().toString();//原先的生效时间
-            String oldMonthVipDeadline = tbUser.getMonthVipDeadline().toString();//原先的到期时间
-            int result = oldMonthVipBegin.compareTo(today);//result大于等于0，则月缴未到期
-            String monthVipDeadline = null;
-            if (result >= 0) {
-                //未到期逻辑
-                monthVipDeadline = timeFactory(oldMonthVipDeadline, month);//续费后，新的到期时间
-            } else {
-                //到期逻辑
-                tbUser.setMonthVipBegin(monthVipBegin);//新的生效时间
-                monthVipDeadline = timeFactory(monthVipBegin.toString(), month);//续费后，新的到期时间
-            }
-            DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-            format.setLenient(false);
-            Timestamp newMonthVipDeadline = new Timestamp(format.parse(monthVipDeadline).getTime());//到期时间转换格式
-            tbUser.setMonthVipDeadline(newMonthVipDeadline);//修改到期日期
+            //处理自助月缴续费的返回逻辑
+            if (tbReceivable.getSubject().equals("月缴续费")) {
 
-            int count1 = monthService.alterUserByCarNumber(tbUser);//修改用户表日期信息
-            //通过用户id，查询月缴用户记录信息
-            TbMonthVip tbMonthVip = monthService.findMonthVipById((int) tbUser.getUserId());
-            tbMonthVip.setMcpId(mcpId);
-            tbMonthVip.setOriginDeadline(tbUser.getMonthVipDeadline());
-            tbMonthVip.setCurrentDeadline(tbUser.getMonthVipDeadline());
-            int count2 = monthService.alterMonthVipById(tbMonthVip);
-            if (count1 != 0 && count2 != 0) {
-                //支付成功，修复支付状态
-            alipayService.alterReceivableById(out_trade_no);
+                String carNumber = tbReceivable.getCarNumber();//车牌号
+                Timestamp monthVipBegin = tbReceivable.getMonthVipBegin();//新的生效时间
+                int mcpId = (int) tbReceivable.getMcpId();
+                TbMonthChargeParameter tbmcp = monthService.findMonthById(mcpId);
+                int month = (int) tbmcp.getMonth();//续费办理的月份
+                TbUser tbUser = monthService.findUserByCarNumber(carNumber);
+                String oldMonthVipBegin = tbUser.getMonthVipBegin().toString();//原先的生效时间
+                String oldMonthVipDeadline = tbUser.getMonthVipDeadline().toString();//原先的到期时间
+                int result = oldMonthVipBegin.compareTo(today);//result大于等于0，则月缴未到期
+                String monthVipDeadline = null;
+                if (result >= 0) {
+                    //未到期逻辑
+                    monthVipDeadline = timeFactory(oldMonthVipDeadline, month);//续费后，新的到期时间
+                } else {
+                    //到期逻辑
+                    tbUser.setMonthVipBegin(monthVipBegin);//新的生效时间
+                    monthVipDeadline = timeFactory(monthVipBegin.toString(), month);//续费后，新的到期时间
+                }
+                DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                format.setLenient(false);
+                Timestamp newMonthVipDeadline = new Timestamp(format.parse(monthVipDeadline).getTime());//到期时间转换格式
+                tbUser.setMonthVipDeadline(newMonthVipDeadline);//修改到期日期
+
+                int count1 = monthService.alterUserByCarNumber(tbUser);//修改用户表日期信息
+                //通过用户id，查询月缴用户记录信息
+                TbMonthVip tbMonthVip = monthService.findMonthVipById((int) tbUser.getUserId());
+                tbMonthVip.setMcpId(mcpId);
+                tbMonthVip.setOriginDeadline(tbUser.getMonthVipDeadline());
+                tbMonthVip.setCurrentDeadline(tbUser.getMonthVipDeadline());
+                int count2 = monthService.alterMonthVipById(tbMonthVip);
+                if (count1 != 0 && count2 != 0) {
+                    //支付成功，修复支付状态
+                    alipayService.alterReceivableById(out_trade_no);
+                }
             }
             return "alipay/jsp/ok";//跳转付款成功页面
         } else {
