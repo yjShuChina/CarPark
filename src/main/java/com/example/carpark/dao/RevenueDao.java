@@ -37,4 +37,8 @@ public interface RevenueDao {
     List<CountData> queryCurYearByMonth(String incomeType);
     //查询不同月缴产品
     CountData queryMonthRevenue(Integer month);
+
+    BigDecimal selectTotalIncome();
+
+    BigDecimal selectTodayIncome();
 }

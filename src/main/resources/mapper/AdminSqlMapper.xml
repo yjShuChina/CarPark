@@ -328,4 +328,12 @@
 					,CURDATE()
 				)
 	</insert>
+
+    <select id="selectTodayUser" resultType="java.lang.Integer">
+        SELECT count(*) from tb_user where TO_DAYS(month_vip_begin) = TO_DAYS(NOW())
+    </select>
+
+    <select id="selectTotalUser" resultType="java.lang.Integer">
+        SELECT count(*) from tb_user where TO_DAYS(month_vip_deadline) >= TO_DAYS(NOW())
+    </select>
 </mapper>

@@ -186,4 +186,12 @@ WHERE
   <select id="queryMonthRevenue" resultType="CountData" parameterType="java.lang.Integer">
     SELECT #{month} as datas,SUM(price) as counts FROM tb_revenue WHERE  YEAR(time)=YEAR(NOW()) and revenue != 2 and `month` = #{month};
   </select>
+
+<select id="selectTotalIncome" resultType="java.math.BigDecimal">
+  SELECT (a.price-b.price) from (SELECT IFNULL(sum(price),0) price from tb_revenue where revenue = 1) a,(SELECT IFNULL(sum(price),0) price from tb_revenue where revenue = 2) b
+</select>
+
+  <select id="selectTodayIncome" resultType="java.math.BigDecimal">
+    SELECT (a.price-b.price) from (SELECT IFNULL(sum(price),0) price from tb_revenue where revenue = 1 and to_days(time) = to_days(now())) a,(SELECT IFNULL(sum(price),0) price from tb_revenue where revenue = 2 and to_days(time) = to_days(now())) b
+  </select>
 </mapper>

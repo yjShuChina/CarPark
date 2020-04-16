@@ -5,6 +5,7 @@ import com.example.carpark.javabean.*;
 import com.example.carpark.service.AdminService;
 import com.example.carpark.service.RevenueService;
 import com.example.carpark.util.ApplicationContextHelper;
+import com.example.carpark.util.MD5;
 import com.example.carpark.util.ResponseUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -135,7 +136,7 @@ public class AdminController {
     @RequestMapping("/CheckCodeServlet")
     public void CheckCodeServlet(HttpSession session, HttpServletResponse response) throws ServletException, IOException{
         System.out.println("=====================获取验证码=======================");
-        int width = 63;
+        int width = 75;
         int height = 37;
         Random random = new Random();
         //设置response头信息
@@ -168,7 +169,7 @@ public class AdminController {
             String rand = String.valueOf(codeSequence[random.nextInt(codeSequence.length)]);
             strCode = strCode + rand;
             g.setColor(new Color(20+random.nextInt(110),20+random.nextInt(110),20+random.nextInt(110)));
-            g.drawString(rand, 13*i+6, 28);
+            g.drawString(rand, 15*i+6, 28);
         }
         //将字符保存到session中用于前端的验证
         session.setAttribute("vcode", strCode.toLowerCase());
@@ -208,14 +209,14 @@ public class AdminController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/addMenu",produces = { "application/json;charset=UTF-8"})
+    @RequestMapping("/addMenu")
     public String addMenu(@RequestParam Map<String,Object> param){
         System.out.println("=================增加菜单===================");
         TbMenu tbMenu = ApplicationContextHelper.getBean(TbMenu.class);
         tbMenu.setMenuName(param.get("menuName").toString());
         tbMenu.setMenuUrl(param.get("menuUrl").toString());
         tbMenu.setParentId(Integer.valueOf(param.get("parentId").toString()));
-        return adminService.addMenu(tbMenu) > 0?"增加成功":"菜单名已存在";//如果返回值大于1则添加成功，否则添加失败
+        return adminService.addMenu(tbMenu) > 0?"success":"existed";//如果返回值大于1则添加成功，否则添加失败
     }
 
     /**
@@ -290,7 +291,7 @@ public class AdminController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/addRole",produces = { "application/json;charset=UTF-8"})
+    @RequestMapping(value = "/addRole")
     public String addRole(@RequestParam Map<String,Object> param){
         System.out.println("===============新增角色=================");
         return adminService.addRole(param);
@@ -327,7 +328,7 @@ public class AdminController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/updateRoleMenu",produces = { "application/json;charset=UTF-8"})
+    @RequestMapping(value = "/updateRoleMenu")
     public String updateRoleMenu(String treeDate,Integer roleId){
         System.out.println("============修改权限=============");
         Gson gson = new Gson();
@@ -471,6 +472,47 @@ public class AdminController {
     @RequestMapping("/queryMonthRevenue")
     public Map<String,Object> queryMonthRevenue(){
         return revenueService.queryMonthRevenue();
+    }
+
+    /**
+     * 获取停车场实时状态
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/getData")
+    public Map<String,Object> getData(){
+        return adminService.getData();
+    }
+
+    @ResponseBody
+    @RequestMapping("/findSysParamByPage")
+    public ResultDate<TbSystemParameter> findSysParamByPage(@RequestParam Map<String,Object> param){
+        System.out.println("=============分页查询参数表=============");
+        Integer page = Integer.valueOf(param.get("page").toString()),
+                limit = Integer.valueOf(param.get("limit").toString());
+        page = (page - 1) * limit;//计算第几页
+        param.put("page",page);
+        param.put("limit",limit);
+        return adminService.findSysParamByPage(param);
+    }
+
+    /**
+     * 添加参数
+     * @param tbSystemParameter
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/addSysParam")
+    public String addSysParam(TbSystemParameter tbSystemParameter){ return adminService.addSysParam(tbSystemParameter); }
+
+    @ResponseBody
+    @RequestMapping("/deleteSysParam")
+    public String deleteSysParam(Integer parameterId){return adminService.deleteSysParam(parameterId);}
+
+    @ResponseBody
+    @RequestMapping("/updateSysParam")
+    public String updateSysParam(TbSystemParameter tbSystemParameter){
+        return adminService.updateSysParam(tbSystemParameter);
     }
 
     //日志查找 4.11

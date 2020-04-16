@@ -125,6 +125,12 @@ layui.use(['form','laypage','layer','tree','util','table'], function() {
                             });
                             layer.msg("不能为空");
                             return false;
+                        }else if(value.length > 16){
+                            obj.update({
+                                [field]:old
+                            });
+                            layer.msg("角色名过长");
+                            return false;
                         }
                     },
                     success:function (msg) {

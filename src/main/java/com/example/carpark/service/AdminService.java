@@ -46,10 +46,21 @@ public interface AdminService {
 
     String updateRole(TbRole tbRole);
 
+    Map<String,Object> getData();
+
+    ResultDate<TbSystemParameter> findSysParamByPage(Map<String,Object> param);
+
+    String addSysParam(TbSystemParameter tbSystemParameter);
+
+    String deleteSysParam(Integer parameterId);
+
+    String updateSysParam(TbSystemParameter tbSystemParameter);
+
     //4.11 hyh添加
     Integer findLogCount(HashMap<String, Object> condition);
 
     List<TbLog> findLog(HashMap<String, Object> condition);
+
 
     /**
      *  林堂星——用户管理
