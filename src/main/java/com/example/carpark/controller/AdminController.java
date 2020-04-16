@@ -208,14 +208,14 @@ public class AdminController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/addMenu",produces = { "application/json;charset=UTF-8"})
+    @RequestMapping("/addMenu")
     public String addMenu(@RequestParam Map<String,Object> param){
         System.out.println("=================增加菜单===================");
         TbMenu tbMenu = ApplicationContextHelper.getBean(TbMenu.class);
         tbMenu.setMenuName(param.get("menuName").toString());
         tbMenu.setMenuUrl(param.get("menuUrl").toString());
         tbMenu.setParentId(Integer.valueOf(param.get("parentId").toString()));
-        return adminService.addMenu(tbMenu) > 0?"增加成功":"菜单名已存在";//如果返回值大于1则添加成功，否则添加失败
+        return adminService.addMenu(tbMenu) > 0?"success":"existed";//如果返回值大于1则添加成功，否则添加失败
     }
 
     /**
@@ -290,7 +290,7 @@ public class AdminController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/addRole",produces = { "application/json;charset=UTF-8"})
+    @RequestMapping(value = "/addRole")
     public String addRole(@RequestParam Map<String,Object> param){
         System.out.println("===============新增角色=================");
         return adminService.addRole(param);
@@ -327,7 +327,7 @@ public class AdminController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/updateRoleMenu",produces = { "application/json;charset=UTF-8"})
+    @RequestMapping(value = "/updateRoleMenu")
     public String updateRoleMenu(String treeDate,Integer roleId){
         System.out.println("============修改权限=============");
         Gson gson = new Gson();
@@ -471,6 +471,12 @@ public class AdminController {
     @RequestMapping("/queryMonthRevenue")
     public Map<String,Object> queryMonthRevenue(){
         return revenueService.queryMonthRevenue();
+    }
+
+    @ResponseBody
+    @RequestMapping("/getData")
+    public Map<String,Object> getData(){
+        return null;
     }
 
     //日志查找 4.11

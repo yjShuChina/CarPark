@@ -102,7 +102,7 @@ layui.use(['form','laypage','layer','tree','util','table'], function(){
                 },
                 success:function (msg) {
                     layer.msg(msg);
-                    if(msg === '增加成功'){
+                    if(msg === 'success'){
                         table.reload('demotable', {
                             url:$('#path').val()+'/admin/findMenuById'
                             ,where:{
@@ -112,12 +112,11 @@ layui.use(['form','laypage','layer','tree','util','table'], function(){
                                 curr: 1 //重新从第 1 页开始
                             }
                         })
+                        layer.close(index);
                     }
-                    layer.close(index);
                 },
-                error:function (msg) {
+                error:function () {
                     layer.msg('网络开小差啦',{icon:5});
-                    layer.close(index);
                 }
             })
         });
@@ -198,12 +197,11 @@ layui.use(['form','laypage','layer','tree','util','table'], function(){
                                             obj.update({
                                                 parentId:$('#parentId').val()
                                             });
+                                            layer.close(index);
                                         }
-                                        layer.close(index);
                                     },
                                     error:function (msg) {
                                         layer.msg('网络开小差啦',{icon:5});
-                                        layer.close(index);
                                     }
                                 })
                             })

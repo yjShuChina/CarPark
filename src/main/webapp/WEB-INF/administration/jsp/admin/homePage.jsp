@@ -74,7 +74,7 @@
 </div>
 </body>
 <script>
-layui.user(['layer'],function () {
+layui.use(['layer'],function () {
     var layer = layui.layer,time;
 
     $(document).ready(function () {
