@@ -28,9 +28,7 @@
         <div class="layui-logo">智能停车场后台管理系统</div>
         <!-- 头部区域（可配合layui已有的水平导航） -->
         <ul class="layui-nav layui-layout-left ">
-            <li class="layui-nav-item"><a href=<%=path+"/url/admin/homePage"%>>控制台</a></li>
-            <li class="layui-nav-item"><a href="javascript:;">商品管理</a></li>
-            <li class="layui-nav-item"><a href="javascript:;">用户</a></li>
+            <li class="layui-nav-item"><a href="javascript:;" onclick="changePath(this)" title="/url/admin/homePage">控制台</a></li>
             <li class="layui-nav-item">
                 <a href="javascript:;">其它系统</a>
                 <dl class="layui-nav-child">

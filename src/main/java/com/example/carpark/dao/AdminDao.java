@@ -219,6 +219,7 @@ public interface AdminDao {
     //查找日志信息
     List<TbLog> findLog(HashMap<String,Object> condition);
 
+    Integer selectTodayUser();
 
-
+    Integer selectTotalUser();
 }

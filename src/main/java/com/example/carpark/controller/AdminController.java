@@ -5,6 +5,7 @@ import com.example.carpark.javabean.*;
 import com.example.carpark.service.AdminService;
 import com.example.carpark.service.RevenueService;
 import com.example.carpark.util.ApplicationContextHelper;
+import com.example.carpark.util.MD5;
 import com.example.carpark.util.ResponseUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -168,7 +169,7 @@ public class AdminController {
             String rand = String.valueOf(codeSequence[random.nextInt(codeSequence.length)]);
             strCode = strCode + rand;
             g.setColor(new Color(20+random.nextInt(110),20+random.nextInt(110),20+random.nextInt(110)));
-            g.drawString(rand, 13*i+6, 28);
+            g.drawString(rand, 15*i+6, 28);
         }
         //将字符保存到session中用于前端的验证
         session.setAttribute("vcode", strCode.toLowerCase());
@@ -473,10 +474,45 @@ public class AdminController {
         return revenueService.queryMonthRevenue();
     }
 
+    /**
+     * 获取停车场实时状态
+     * @return
+     */
     @ResponseBody
     @RequestMapping("/getData")
     public Map<String,Object> getData(){
-        return null;
+        return adminService.getData();
+    }
+
+    @ResponseBody
+    @RequestMapping("/findSysParamByPage")
+    public ResultDate<TbSystemParameter> findSysParamByPage(@RequestParam Map<String,Object> param){
+        System.out.println("=============分页查询参数表=============");
+        Integer page = Integer.valueOf(param.get("page").toString()),
+                limit = Integer.valueOf(param.get("limit").toString());
+        page = (page - 1) * limit;//计算第几页
+        param.put("page",page);
+        param.put("limit",limit);
+        return adminService.findSysParamByPage(param);
+    }
+
+    /**
+     * 添加参数
+     * @param tbSystemParameter
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/addSysParam")
+    public String addSysParam(TbSystemParameter tbSystemParameter){ return adminService.addSysParam(tbSystemParameter); }
+
+    @ResponseBody
+    @RequestMapping("/deleteSysParam")
+    public String deleteSysParam(Integer parameterId){return adminService.deleteSysParam(parameterId);}
+
+    @ResponseBody
+    @RequestMapping("/updateSysParam")
+    public String updateSysParam(TbSystemParameter tbSystemParameter){
+        return adminService.updateSysParam(tbSystemParameter);
     }
 
     //日志查找 4.11

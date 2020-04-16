@@ -32,10 +32,10 @@
                     <span class="layui-badge layui-bg-blue layuiadmin-badge" style="margin-left: 70%">今日</span>
                 </div>
                 <div class="layui-card-body layuiadmin-card-list">
-                    <h1 id="restPosition">55</h1>
+                    <h1 id="restSpace"></h1>
                     <p>
                         总车位数
-                        <span class="layuiadmin-span-color" id="totalPosition" style="float: right">100<i class="layui-inline layui-icon layui-icon-flag" ></i></span>
+                        <span class="layuiadmin-span-color" id="totalSpace" style="float: right"></span>
                     </p>
                 </div>
             </div>
@@ -47,10 +47,10 @@
                     <span class="layui-badge layui-bg-blue layuiadmin-badge" style="margin-left: 65%">今日</span>
                 </div>
                 <div class="layui-card-body layuiadmin-card-list">
-                    <h1 id="newUser">5</h1>
+                    <h1 id="todayUser"></h1>
                     <p>
                         月缴用户总数
-                        <span class="layuiadmin-span-color" id="totalUser" style="float: right">100<i class="layui-inline layui-icon layui-icon-flag" ></i></span>
+                        <span class="layuiadmin-span-color" id="totalUser" style="float: right"></span>
                     </p>
                 </div>
             </div>
@@ -62,10 +62,10 @@
                     <span class="layui-badge layui-bg-green layuiadmin-badge" style="margin-left: 70%">今日</span>
                 </div>
                 <div class="layui-card-body layuiadmin-card-list">
-                    <h1  id="newIncome">1000</h1>
+                    <h1  id="todayIncome"></h1>
                     <p>
                         总收入
-                        <span class="layuiadmin-span-color" id="totalIncome" style="float: right">10000<i class="layui-inline layui-icon layui-icon-dollar"></i></span>
+                        <span class="layuiadmin-span-color" id="totalIncome" style="float: right"></span>
                     </p>
                 </div>
             </div>
@@ -79,7 +79,7 @@ layui.use(['layer'],function () {
 
     $(document).ready(function () {
         getData();
-        time = setInterval(getData,600000);
+        time = setInterval(getData,10000);
     })
 
 
@@ -88,7 +88,12 @@ layui.use(['layer'],function () {
             url:$('#path').val() + '/admin/getData',
             type:'post',
             success:function (msg) {
-
+                $('#restSpace').html(msg['restSpace']);
+                $('#totalSpace').html(msg['totalSpace']+'<i class="layui-inline layui-icon layui-icon-flag" ></i>');
+                $('#todayIncome').html(msg['todayIncome']);
+                $('#totalIncome').html(msg['totalIncome']+'<i class="layui-inline layui-icon layui-icon-dollar"></i>');
+                $('#todayUser').html(msg['todayUser']);
+                $('#totalUser').html(msg['totalUser']+'<i class="layui-inline layui-icon layui-icon-username" ></i>');
             },
             error:function () {
                 layer.msg('网络开小差',{icon:5});

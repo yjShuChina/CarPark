@@ -59,13 +59,25 @@ layui.use(['form','laypage','layer','tree','util','table'], function(){
                             });
                             layer.msg("不能为空");
                             return false;
+                        }else if(field === 'menuUrl' && value.length > 50){
+                            obj.update({
+                                [field]:old
+                            });
+                            layer.msg("路径过长");
+                            return false;
+                        }else if(field === 'menuName' && value.length > 16){
+                            obj.update({
+                                [field]:old
+                            });
+                            layer.msg("菜单名过长");
+                            return false;
                         }
                     },
                     success:function (msg) {
                         if(msg === 'success'){
                             layer.msg('[菜单ID: '+ data.menuId +'] ' + field + ' 字段更改为：'+ value);
                         }else {
-                            layer.msg('菜单路径或菜单名重复');
+                            layer.msg('发生了某种错误');
                             obj.update({
                                 [field]:old
                             });
@@ -97,6 +109,9 @@ layui.use(['form','laypage','layer','tree','util','table'], function(){
                 data:{'menuName':pass,'menuUrl':'null','parentId':0},
                 beforeSend:function(){
                     if(pass === '' || pass === null){//判定下是否为空
+                        return false;
+                    }else if(pass.length > 16){
+                        layer.msg('名字过长');
                         return false;
                     }
                 },
@@ -266,6 +281,9 @@ layui.use(['form','laypage','layer','tree','util','table'], function(){
                               }
                               if($('#menuUrl').val() === '' || $('#menuUrl').val() === null){
                                   layer.msg('菜单路径不能为空');
+                                  return false;
+                              }else if($('#menuUrl').val().length > 50){
+                                  layer.msg('菜单路径过长');
                                   return false;
                               }
                             },

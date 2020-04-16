@@ -2,6 +2,9 @@ package com.example.carpark.service.impl;
 
 import com.example.carpark.aoplog.Log;
 import com.example.carpark.dao.AdminDao;
+import com.example.carpark.dao.CarDao;
+import com.example.carpark.dao.RevenueDao;
+import com.example.carpark.dao.SystemParameterDao;
 import com.example.carpark.javabean.TbAdmin;
 import com.example.carpark.javabean.TbCashier;
 import com.example.carpark.javabean.TbMenu;
@@ -30,6 +33,12 @@ public class AdminServiceImpl implements AdminService {
 
     @Resource
     private AdminDao adminDao;
+    @Resource
+    private CarDao carDao;
+    @Resource
+    private SystemParameterDao systemParameterDao;
+    @Resource
+    private RevenueDao revenueDao;
 
     /**
      * 将登陆账号密码拿去数据库验证
@@ -108,7 +117,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     /**
-     * 新增菜单
+     * 新增一级菜单
      * @param tbMenu
      * @return
      */
@@ -362,6 +371,46 @@ public class AdminServiceImpl implements AdminService {
     public List<TbLog> findLog(HashMap<String,Object> condition)
     {
         return adminDao.findLog(condition);
+    }
+
+    @Override
+    public Map<String, Object> getData() {
+        Map<String,Object> map = new HashMap<>();
+        map.put("restSpace",carDao.findParkSpacenum(1));
+        map.put("totalSpace",carDao.findParkSpacenum(null));
+        map.put("todayIncome",revenueDao.selectTodayIncome());
+        map.put("totalIncome",revenueDao.selectTotalIncome());
+        map.put("todayUser",adminDao.selectTodayUser());
+        map.put("totalUser",adminDao.selectTotalUser());
+        return map;
+    }
+
+    @Override
+    public ResultDate<TbSystemParameter> findSysParamByPage(Map<String, Object> param) {
+        ResultDate<TbSystemParameter> rd = ApplicationContextHelper.getBean(ResultDate.class);
+        rd.setCode(0);
+        rd.setMsg("");
+        rd.setData(systemParameterDao.findSysParamByPage(param));
+        rd.setCount(systemParameterDao.findSysParamCount(param));
+        return rd;
+    }
+
+    @Override
+    public String addSysParam(TbSystemParameter tbSystemParameter) {
+        if(systemParameterDao.selectByName(tbSystemParameter.getParameterName())!=null){
+            return "exist";
+        }
+        return systemParameterDao.insert(tbSystemParameter) > 0 ? "success":"error";
+    }
+
+    @Override
+    public String deleteSysParam(Integer parameterId) {
+        return systemParameterDao.deleteByPrimaryKey(parameterId) > 0 ? "success":"error";
+    }
+
+    @Override
+    public String updateSysParam(TbSystemParameter tbSystemParameter) {
+        return systemParameterDao.updateByPrimaryKeySelective(tbSystemParameter) > 0 ? "success":"error";
     }
 
     /**
