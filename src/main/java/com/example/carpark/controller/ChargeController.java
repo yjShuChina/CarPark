@@ -1,7 +1,6 @@
 package com.example.carpark.controller;
 
 import com.example.carpark.javabean.*;
-import com.example.carpark.service.AdminService;
 import com.example.carpark.service.ChargeService;
 import com.example.carpark.service.MonthService;
 import com.example.carpark.util.MD5;
@@ -18,7 +17,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
@@ -184,7 +182,7 @@ public class ChargeController {
             request.setAttribute("carNumber", carNumber);//判断用户为新用户，在弹窗中显示车牌号
         }
         request.setAttribute("monthChargeParameterList", monthChargeParameterList);
-        return "/charge/jsp/addPaymentPopup";
+        return "charge/jsp/addPaymentPopup";
     }
 
     //封装用户VIP到期时间

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.carpark.dao.AlipayDao">
+
+	<!--添加收费表信息-->
+	<insert id="addReceivable" parameterType="TbReceivable">
+		insert into tb_receivable (receivable_time,price,out_trade_no,subject,car_number,month_vip_begin,mcp_id,trade_status)
+		values
+		((select DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s') from dual),#{price},#{outTradeNo},#{subject},#{carNumber},#{monthVipBegin},#{mcpId},'TRADE_BEGIN')
+	</insert>
+
+	<!--通过订单号，查询自助收费记录表-->
+	<select id="findReceivableById" resultType="TbReceivable" parameterType="java.lang.String">
+		select * from tb_receivable where out_trade_no = #{outTradeNo}
+	</select>
+
+	<!--通过订单号，修改收费记录状态-->
+	<update id="alterReceivableById" parameterType="java.lang.String">
+		update tb_receivable set  trade_status = 'TRADE_SUCCESS' where out_trade_no = #{outTradeNo}
+	</update>
+</mapper>

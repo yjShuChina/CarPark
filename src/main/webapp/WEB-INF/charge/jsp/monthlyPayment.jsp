@@ -21,7 +21,7 @@
         <div class="layui-form-item" style="font-size: 30px;text-align: center;padding-top: 10px">月缴办理</div>
     </div>
     <div class="layui-form-item" style="margin-top: 200px;">
-        <div class="layui-input-block" style="padding-left: 10%;">
+        <div class="layui-input-block">
             <label class="layui-form-label" style="display: inline-block;">车牌号：</label>
             <form class="layui-form" action="">
                 <div class="layui-input-inline" style="display: inline-block;">
