@@ -60,6 +60,7 @@ public class AdminController {
     public String adminLogin(@RequestParam Map<String,Object> param, HttpSession session){
         System.out.println("===============================管理员登陆=============================");
         String vcode = session.getAttribute("vcode").toString();//获取session上的验证码
+        System.out.println("验证码："+vcode);
         if(vcode.equalsIgnoreCase(param.get("captcha").toString())){
             return adminService.adminLogin(param,session);//获取service层返回的信息
         }

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.carpark.dao.ManageMonthDao">
+
+    <!--月缴参数表查询-->
+    <select id="findMonthByPage" resultType="TbMonthChargeParameter" parameterType="java.util.Map">
+        select * from tb_month_charge_parameter limit #{page},#{limit}
+    </select>
+
+    <!--月缴参数表分页数量-->
+    <select id="findMonthCount" resultType="int" parameterType="java.util.Map">
+        select count(*) from tb_month_charge_parameter
+    </select>
+
+    <!--增加月缴参数-->
+    <insert id="addMonth" parameterType="TbMonthChargeParameter">
+        insert into tb_month_charge_parameter (month, price) values (#{month}, #{price})
+    </insert>
+
+    <!--删除月缴参数-->
+    <delete id="delMonthById" parameterType="int">
+        delete from tb_month_charge_parameter where mcp_id = #{mcpId}
+    </delete>
+
+    <!--修改月缴参数-->
+    <update id="alterMonth" parameterType="TbMonthChargeParameter">
+        update tb_month_charge_parameter set month = #{month}, price = #{price} where mcp_id = #{mcpId}
+    </update>
+
+</mapper>
