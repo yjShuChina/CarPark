@@ -20,33 +20,65 @@
         String path = request.getContextPath();
     %>
 </head>
+<style>
+    a {
+        font-size: 19px;
+        margin-left: 20px;
+    }
+
+    h1 {
+        color: white;
+    }
+</style>
 <body>
 <input type="hidden" id="path" value="<%=path%>">
 <form class="layui-form" action="" lay-filter="example">
-    <div class="layadmin-user-login-box layadmin-user-login-header">
-        <h2></h2>
+    <div style="height: 100%;width: 19%;float: left;border: 1px solid #92B8B1">
+        <img src="https://i.loli.net/2020/04/09/2SBdcZ6i1GIgDMT.png" style="width: 100%;" >
+        <div style="width: 100%;text-align:center;">
+            <br><br>
+            <br><br>
+            <a>XXX智能停车场</a><br><br>
+            <a>欢迎您下次光临</a>
+        </div>
     </div>
-    <div class="layui-inline" style="width:500px;">
-        <hr>
-    </div>
-    <div class="layadmin-user-login-box layadmin-user-login-header">
-        <div style="padding-bottom: 10px;">
+
+
+    <div class="layadmin-user-login-box layadmin-user-login-header" style="height: 100%;width: 80%;float:right;background:white">
+        <div style="padding-bottom: 10px;margin: 0 auto;width: 70%;height: 40%;background:white;margin-top: 30px">
             <div class="layui-upload">
                 <button type="button" class="layui-btn layui-btn-normal" name="fileaot" id="fileaot">选择图片</button>
+                <button type="button" class="layui-btn" id="test9">确定</button>
+                <img src="" id="imgPre" style="width: 100%;height: 400px;margin-top: 10px">
             </div>
+        </div>
+        <div id="msg" style="margin: 0 auto;width: 70%;height: 40%;background:white;border:1px solid cornflowerblue">
+            <div style="width: 20%;height: 100%;background: chocolate;float: left">
+                <div style="margin: 0 auto;width: 30%;height: 100%">
+                    <h1>用</h1>
+                    <h1>户</h1>
+                    <h1>信</h1>
+                    <h1>息</h1>
+                </div>
+            </div>
+            <a>车辆牌照：</a><a id="carnumber"></a><br>
+            <a>入场时间：</a><a id="timej"></a><br>
+            <a>出场时间：</a><a id="timeC"></a><br>
+            <a>停放时长：</a><a id="timeData"></a><br>
+            <a>应缴费用：</a><a id="money"></a><br>
+            <a>车辆情况：</a><a id="state"></a><br>
         </div>
         <div class="demoTable">
             <div style="padding-bottom: 10px;">
                 <div class="layui-upload">
-                    <button type="button" class="layui-btn" id="test9">确定</button>
+
                 </div>
             </div>
         </div>
-    </div>
-    <%--    <input type="text" value="1" name="test" id="test">--%>
 
+    </div>
 </form>
-<img src="" id="imgPre" style="width: 500px;height: 500px;">
+
 <script>
     // function preImg(sourceId, targetId) {
     //     alert("zhixig");
@@ -66,8 +98,16 @@
             , bindAction: '#test9'
             , done: function (res) {
 
+                console.log(res);
+                document.getElementById("carnumber").innerHTML = res.carnumber;
+                document.getElementById("timej").innerHTML = res.timej;
+                document.getElementById("timeC").innerHTML = res.timeC;
+                document.getElementById("timeData").innerHTML = res.timeData;
+                document.getElementById("money").innerHTML = res.money;
+                document.getElementById("state").innerHTML = res.state;
+
                 document.getElementById("imgPre").src = path + res.url;
-                layer.msg("上传成功！" + res);
+
             }
             , error: function () {
                 //请求异常回调

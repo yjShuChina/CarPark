@@ -137,7 +137,7 @@ public class ChargeController {
         //获取车牌号
         String car = chargeService.findcarnumber(file);
         System.out.println("车牌号=" + car);
-        map.put("car", car);
+        map.put("carnumber", car);
 
         //出场时间
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
@@ -179,18 +179,18 @@ public class ChargeController {
         if (type > 0){
             //获取应缴费用
             money = costCalculationService.timeDifferenceCount(type);
-            map.put("type","月缴过期");
+            map.put("state","月缴过期");
         }
         if (type == -2){
             //获取应缴费用
             money = costCalculationService.carCount(timej,timeC);
-            map.put("type","临时车辆");
+            map.put("state","临时车辆");
         }
         if (type == -1){
-            map.put("type","月缴车辆");
+            map.put("state","月缴车辆");
         }
         if (type == 0){
-            map.put("type","高级VIP");
+            map.put("state","高级VIP");
         }
         map.put("money",""+money);
 
