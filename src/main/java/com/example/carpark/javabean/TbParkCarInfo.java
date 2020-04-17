@@ -8,6 +8,7 @@ public class TbParkCarInfo {
   private String carIdentity;
   private String parkSpaceId;
   private java.sql.Timestamp carTime;
+  private String imgUrl;
 
 
   public long getPciId() {
@@ -54,4 +55,13 @@ public class TbParkCarInfo {
     this.carTime = carTime;
   }
 
+  public String getImgUrl()
+  {
+    return imgUrl;
+  }
+
+  public void setImgUrl(String imgUrl)
+  {
+    this.imgUrl = imgUrl;
+  }
 }

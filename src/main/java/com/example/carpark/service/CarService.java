@@ -31,4 +31,6 @@ public interface CarService
     //车位信息
     TbParkSpace findcarmsg(String carnum);
     TbParkCarInfo findmsg(String carnum);
+    //改变车位属性
+    Integer changestate(String state,String ps);
 }

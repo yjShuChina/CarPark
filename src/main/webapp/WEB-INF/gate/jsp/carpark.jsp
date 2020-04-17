@@ -9,7 +9,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
-	<title>车闸</title>
+	<title>停车场鸟瞰图</title>
 	<%String path = request.getContextPath();%>
 	<script rel="script" src=<%=path + "/js/jquery-3.4.1.js"%>></script>
 	<script src=<%=path + "/js/esmap-1.6.min.js"%> > </script >

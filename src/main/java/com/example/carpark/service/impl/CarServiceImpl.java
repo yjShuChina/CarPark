@@ -190,4 +190,9 @@ public class CarServiceImpl implements CarService
         TbParkCarInfo tbps=carDao.findmsg(carnum);
         return tbps;
     }
+    @Override
+    public Integer changestate(String state,String ps){
+        Integer i =carDao.changestate(state,ps);
+        return i;
+    }
 }

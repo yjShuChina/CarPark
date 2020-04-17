@@ -9,9 +9,9 @@
 	</select>
 
 	<insert id="CarIn" parameterType="com.example.carpark.javabean.TbParkCarInfo">
-		insert into tb_park_car_info (car_number,car_identity,car_time)
+		insert into tb_park_car_info (car_number,car_identity,car_time,img_url,park_space_id)
 		values
-		(#{carNumber},#{carIdentity},#{carTime})
+		(#{carNumber},#{carIdentity},#{carTime},#{imgUrl},#{parkSpaceId})
 	</insert>
 
 	<select id="findParkSpace" parameterType="java.util.Map" resultType="java.lang.String">
@@ -50,4 +50,7 @@
 	</select>
 
 
+	<update id="changestate" parameterType="java.lang.String">
+		update tb_park_space SET park_space_state=#{state} where park_space_id=#{ps}
+	</update>
 </mapper>
