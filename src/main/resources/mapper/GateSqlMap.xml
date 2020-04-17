@@ -37,4 +37,17 @@
 			</otherwise>
 		</choose>
 	</select>
+
+
+	<select id="findcarmsg" resultType="com.example.carpark.javabean.TbParkSpace" parameterType="java.lang.String">
+		select * from tb_park_space where park_space_id=
+		(select park_space_id from tb_park_car_info where car_number=#{carnum})
+	</select>
+
+
+	<select id="findmsg" resultType="com.example.carpark.javabean.TbParkCarInfo" parameterType="java.lang.String">
+		select * from tb_park_car_info where car_number=#{carnum}
+	</select>
+
+
 </mapper>

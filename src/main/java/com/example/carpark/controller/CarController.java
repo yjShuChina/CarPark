@@ -9,15 +9,13 @@ import com.example.carpark.service.CarService;
 import com.example.carpark.util.ResponseUtils;
 import com.google.gson.Gson;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.websocket.Session;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -136,5 +134,31 @@ public class CarController
 		Gson g = new Gson();
 		ResponseUtils.outJson(response, g.toJson(car));
 	}
+
+	@RequestMapping("/findcarmsg")
+	@ResponseBody
+	public String findcarmsg(HttpServletRequest request,HttpServletResponse response) {
+		String carnum=request.getParameter("carnum");
+		TbParkSpace tbParkSpace=carService.findcarmsg(carnum);
+		TbParkCarInfo tbParkCarInfo=carService.findmsg(carnum);
+		request.getSession().setAttribute("Ctime", tbParkCarInfo.getCarTime());
+		request.getSession().setAttribute("Identity", tbParkCarInfo.getCarIdentity());
+		request.getSession().setAttribute("Cnum", tbParkCarInfo.getCarNumber());
+		request.getSession().setAttribute("Cps", tbParkCarInfo.getParkSpaceId());
+
+		if (tbParkSpace!=null){
+//			return "yes";
+			return tbParkSpace.getY()+","+tbParkSpace.getX();
+		}else {
+			return "no";
+		}
+	}
+
+//	@RequestMapping("/removemsg")
+//	@ResponseBody
+//	public void msgremove(HttpServletRequest request,HttpServletResponse response) {
+//		request.getSession().removeAttribute("x");
+//		request.getSession().removeAttribute("y");
+//	}
 
 }

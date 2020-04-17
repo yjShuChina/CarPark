@@ -22,4 +22,7 @@ public interface CarDao
     List<String> findParkSpace(String state);
     //车位数量
     Integer findParkSpacenum(String state,String area);
+    //车位信息
+    TbParkSpace findcarmsg(String carnum);
+    TbParkCarInfo findmsg(String carnum);
 }

@@ -179,4 +179,15 @@ public class CarServiceImpl implements CarService
         Integer num=carDao.findParkSpacenum(state,area);
         return num;
     }
+    //车位信息
+    @Override
+    public TbParkSpace findcarmsg(String carnum){
+        TbParkSpace tbps=carDao.findcarmsg(carnum);
+        return tbps;
+    }
+    @Override
+    public TbParkCarInfo findmsg(String carnum){
+        TbParkCarInfo tbps=carDao.findmsg(carnum);
+        return tbps;
+    }
 }
