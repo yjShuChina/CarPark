@@ -52,8 +52,11 @@ public class AdminServiceImpl implements AdminService {
         map.put("adminPwd",MD5.machining(map.get("adminPwd").toString()));//将管理员输入的密码转成MD5加密
         TbAdmin tbAdmin2 = adminDao.adminLogin(map);
         if(tbAdmin2 != null){
-            session.setAttribute("tbAdmin",tbAdmin2);//将管理员信息放到session
-            return "success";
+            if(tbAdmin2.getAdminState() == 1){
+                session.setAttribute("tbAdmin",tbAdmin2);//将管理员信息放到session
+                return "success";
+            }
+            return "您已被禁止登陆！";
         }
         return "账号或密码错误";
     }
@@ -323,6 +326,12 @@ public class AdminServiceImpl implements AdminService {
         return treeDataList;
     }
 
+    /**
+     * 权限修改
+     * @param list
+     * @param roleId
+     * @return
+     */
     @Override
     public Integer updateRoleMenu(List<TreeData> list, Integer roleId) {
         TbRoleMenu tbRoleMenu = ApplicationContextHelper.getBean(TbRoleMenu.class);
@@ -350,6 +359,11 @@ public class AdminServiceImpl implements AdminService {
         return 0;
     }
 
+    /**
+     * 更新角色表
+     * @param tbRole
+     * @return
+     */
     @Override
     public String updateRole(TbRole tbRole) {
         Integer i = adminDao.updateRole(tbRole);
@@ -385,6 +399,11 @@ public class AdminServiceImpl implements AdminService {
         return map;
     }
 
+    /**
+     * 分页查询系统参数表
+     * @param param
+     * @return
+     */
     @Override
     public ResultDate<TbSystemParameter> findSysParamByPage(Map<String, Object> param) {
         ResultDate<TbSystemParameter> rd = ApplicationContextHelper.getBean(ResultDate.class);
@@ -395,6 +414,11 @@ public class AdminServiceImpl implements AdminService {
         return rd;
     }
 
+    /**
+     * 新增系统参数
+     * @param tbSystemParameter
+     * @return
+     */
     @Override
     public String addSysParam(TbSystemParameter tbSystemParameter) {
         if(systemParameterDao.selectByName(tbSystemParameter.getParameterName())!=null){
@@ -403,14 +427,38 @@ public class AdminServiceImpl implements AdminService {
         return systemParameterDao.insert(tbSystemParameter) > 0 ? "success":"error";
     }
 
+    /**
+     * 删除系统参数
+     * @param parameterId
+     * @return
+     */
     @Override
     public String deleteSysParam(Integer parameterId) {
         return systemParameterDao.deleteByPrimaryKey(parameterId) > 0 ? "success":"error";
     }
 
+    /**
+     * 更改系统参数
+     * @param tbSystemParameter
+     * @return
+     */
     @Override
     public String updateSysParam(TbSystemParameter tbSystemParameter) {
         return systemParameterDao.updateByPrimaryKeySelective(tbSystemParameter) > 0 ? "success":"error";
+    }
+
+    @Override
+    public String resetAdminPassword(String oldPassword, String newPassword,HttpSession session) {
+        TbAdmin tbAdmin = (TbAdmin) session.getAttribute("tbAdmin");
+        if(tbAdmin.getAdminPwd().equals(MD5.machining(oldPassword))){
+            tbAdmin.setAdminPwd(MD5.machining(newPassword));
+            if(adminDao.resetAdminPwd(tbAdmin) > 0){
+                session.setAttribute("tbAdmin",tbAdmin);
+                return "success";
+            }
+            return "修改时发生了错误";
+        }
+        return "原密码不正确";
     }
 
     /**

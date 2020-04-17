@@ -505,14 +505,30 @@ public class AdminController {
     @RequestMapping("/addSysParam")
     public String addSysParam(TbSystemParameter tbSystemParameter){ return adminService.addSysParam(tbSystemParameter); }
 
+    /**
+     * 删除参数
+     * @param parameterId
+     * @return
+     */
     @ResponseBody
     @RequestMapping("/deleteSysParam")
     public String deleteSysParam(Integer parameterId){return adminService.deleteSysParam(parameterId);}
 
+    /**
+     * 修改参数
+     * @param tbSystemParameter
+     * @return
+     */
     @ResponseBody
     @RequestMapping("/updateSysParam")
     public String updateSysParam(TbSystemParameter tbSystemParameter){
         return adminService.updateSysParam(tbSystemParameter);
+    }
+
+    @ResponseBody
+    @RequestMapping("/resetAdminPassword")
+    public String resetAdminPassword(String oldPassword,String newPassword,HttpSession session){
+        return adminService.resetAdminPassword(oldPassword,newPassword,session);
     }
 
     //日志查找 4.11

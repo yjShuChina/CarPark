@@ -56,6 +56,8 @@ public interface AdminService {
 
     String updateSysParam(TbSystemParameter tbSystemParameter);
 
+    String resetAdminPassword(String oldPassword,String newPassword,HttpSession session);
+
     //4.11 hyh添加
     Integer findLogCount(HashMap<String, Object> condition);
 

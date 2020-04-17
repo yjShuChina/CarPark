@@ -428,4 +428,8 @@
     <select id="selectTotalUser" resultType="java.lang.Integer">
         SELECT count(*) from tb_user where TO_DAYS(month_vip_deadline) >= TO_DAYS(NOW())
     </select>
+
+    <update id="resetAdminPwd"  parameterType="TbAdmin">
+        update tb_admin set admin_pwd = #{adminPwd} where admin_id = #{adminId}
+    </update>
 </mapper>

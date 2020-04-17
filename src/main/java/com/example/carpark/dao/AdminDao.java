@@ -43,7 +43,7 @@ public interface AdminDao {
 
 
     /**
-     *  林堂星——用户管理——收费员
+     *  林堂星——用户管理
      */
     List<TbCashier> findAll(Map<String, String> parameters);
     int findCount(Map<String, String> parameters);
@@ -234,6 +234,8 @@ public interface AdminDao {
     Integer selectTodayUser();
 
     Integer selectTotalUser();
+
+    Integer resetAdminPwd(TbAdmin tbAdmin);
 
 
 

@@ -162,7 +162,6 @@ layui.use(['form','laypage','layer','tree','util','table'], function() {
         var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
         var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
         var roleId = tr.find("td").eq(0).text();
-
         if(obj.event === 'search'){
             $.ajax({
                 url:$('#path').val()+'/admin/findRoleMenu',
@@ -222,6 +221,12 @@ layui.use(['form','laypage','layer','tree','util','table'], function() {
                                     url:$('#path').val()+'/admin/updateRoleMenu',
                                     type:'post',
                                     data:{'treeDate':JSON.stringify(tree.getChecked('treeNode')),'roleId':roleId},
+                                    beforeSend:function(){
+                                        if(tree.getChecked('treeNode').length < 1 || tree.getChecked('treeNode') === null || tree.getChecked('treeNode') === ''){
+                                            layer.msg('请给角色赋予至少一种权限');
+                                            return false;
+                                        }
+                                    },
                                     success:function (msg) {
                                         layer.alert(msg);
                                         layer.close(index);

@@ -46,7 +46,7 @@
                 </a>
                 <dl class="layui-nav-child">
                     <dd><a href="">基本资料</a></dd>
-                    <dd><a href="">安全设置</a></dd>
+                    <dd><a href="javascript:;" title="/url/admin/password" onclick="changePath(this)">安全设置</a></dd>
                 </dl>
             </li>
             <li class="layui-nav-item"><a href="javascript:;" id="exit">注销</a></li>
@@ -61,12 +61,10 @@
             </ul>
         </div>
     </div>
-
     <div class="layui-body" style="overflow: hidden;">
         <!-- 内容主体区域 -->
         <iframe src=<%=path+"/url/admin/homePage"%> frameborder="0" name="manager" style="width: 100%;height: 100%;"></iframe>
     </div>
-
     <div class="layui-footer">
         <!-- 底部固定区域 -->
         © cykjgroup.com - 福建厦门
