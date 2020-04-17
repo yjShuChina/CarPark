@@ -2,16 +2,19 @@ package com.example.carpark.controller;
 
 import com.example.carpark.javabean.*;
 import com.example.carpark.service.ChargeService;
+import com.example.carpark.service.CostCalculationService;
 import com.example.carpark.service.MonthService;
 import com.example.carpark.util.MD5;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.util.ClassUtils;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -32,8 +35,11 @@ import java.util.*;
 @RequestMapping("/charge")
 public class ChargeController {
 
-    @Autowired
+    @Resource
     private ChargeService chargeService;
+
+    @Resource
+    private CostCalculationService costCalculationService;
 
     @Resource
     private MonthService monthService;
@@ -111,8 +117,8 @@ public class ChargeController {
     //收费规则删除
     @RequestMapping("/delChargePrice")
     public void delChargePrice(String data, HttpServletResponse response) throws IOException {
-        TbChargerParameter[] tbChargerParameter = new Gson().fromJson(data,TbChargerParameter[].class);
-        System.out.println("后台接受数据==="+new Gson().toJson(tbChargerParameter));
+        TbChargerParameter[] tbChargerParameter = new Gson().fromJson(data, TbChargerParameter[].class);
+        System.out.println("后台接受数据===" + new Gson().toJson(tbChargerParameter));
         Integer i = chargeService.delChargePrice(tbChargerParameter);
         if (i == tbChargerParameter.length) {
             response.getWriter().print("succeed");
@@ -120,13 +126,79 @@ public class ChargeController {
     }
 
 
-    //图片识别车牌号
+    //车辆出场图片识别车牌号
     @RequestMapping("/uploadTrainPicture")
     @ResponseBody
-    public void addTrainPicture(@RequestParam("file") MultipartFile file, HttpServletResponse response) throws IOException {
+    public void addTrainPicture(@RequestParam("file") MultipartFile file, HttpServletResponse response, HttpServletRequest request) throws IOException {
+
         System.out.println(file.getOriginalFilename());
-        String str = chargeService.findcarnumber(file);
-        System.out.println("车牌号=" + str);
+
+        Map<String, String> map = new HashMap<>();
+        //获取车牌号
+        String car = chargeService.findcarnumber(file);
+        System.out.println("车牌号=" + car);
+        map.put("car", car);
+
+        //出场时间
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+        String timeC = sdf.format(new Date());
+        map.put("timeC", timeC);
+
+        //场内信息查询
+        TbParkCarInfo tbParkCarInfo = costCalculationService.carInfo(car);
+
+        String timej = "未找到";
+        String timeData = "无法计算";
+        if (tbParkCarInfo != null) {
+            timej = "" + tbParkCarInfo.getCarTime();
+
+            //获取停放时长
+            timeData = costCalculationService.getTimeDifference(timej,timeC);
+
+        }
+        map.put("timej", timej);
+        map.put("timeData", timeData);
+
+        // new Date()为获取当前系统时间
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH.mm.ss");//设置日期格式
+        String timeDate = df.format(new Date());
+        System.out.println(timeDate);
+        //获取图片url
+        String url = chargeService.uploadImage(file, timeDate + car);
+        map.put("url", url);
+
+        /*
+         * 车辆状态查询
+         *  0 :白名单
+         *  -1 :包月车
+         *  -2 :临时车
+         *  >0 :包月时间包含停车时间的特殊车辆
+         */
+        long type = costCalculationService.chargeCalculation(car);
+        int money = 0;
+        if (type > 0){
+            //获取应缴费用
+            money = costCalculationService.timeDifferenceCount(type);
+            map.put("type","月缴过期");
+        }
+        if (type == -2){
+            //获取应缴费用
+            money = costCalculationService.carCount(timej,timeC);
+            map.put("type","临时车辆");
+        }
+        if (type == -1){
+            map.put("type","月缴车辆");
+        }
+        if (type == 0){
+            map.put("type","高级VIP");
+        }
+        map.put("money",""+money);
+
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json; charset=utf-8");
+        String str = new Gson().toJson(map);
+        System.out.println(str);
+        response.getWriter().print(str);
     }
 
 

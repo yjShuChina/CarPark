@@ -24,6 +24,9 @@ public interface ChargeService {
     //车牌识别
     String findcarnumber(MultipartFile file);
 
+    //图片存蓄
+    String uploadImage(MultipartFile file, String name);
+
     //收费规则数据查询接口
     String chargePrice();
 

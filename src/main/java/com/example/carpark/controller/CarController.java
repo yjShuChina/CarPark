@@ -41,6 +41,7 @@ public class CarController
      */
     @RequestMapping("/cn/{uri}")
     public String redirect(@PathVariable(value = "uri") String path) {
+//        response.setHeader("Access-Control-Allow-Origin", "*");
         return "/gate/jsp/" + path;
     }
 
