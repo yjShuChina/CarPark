@@ -43,7 +43,7 @@ public interface AdminDao {
 
 
     /**
-     *  林堂星——用户管理
+     *  林堂星——用户管理——收费员
      */
     List<TbCashier> findAll(Map<String, String> parameters);
     int findCount(Map<String, String> parameters);
@@ -54,6 +54,18 @@ public interface AdminDao {
     int resetPwd(Map parameters);
     TbCashier updateCashier(Map parameters);
     boolean toUpdateCashier(Map<String, String> parameters);
+    /**
+     *  林堂星——用户管理——管理员
+     */
+    List<TbAdmin> findAllAdmin(Map parameters);
+    int findCountAdmin(Map parameters);
+    int forbiddenStateAdmin(Map parameters);
+    int resetPwdAdmin(Map parameters);
+    int resignStateAdmin(Map parameters);
+    int openStateAdmin(Map parameters);
+    TbAdmin updateAdmin(Map parameters);
+    boolean toUpdateAdmin(Map<String, String> parameters);
+    boolean addAdmin(Map<String, String> parameters);
     /**
      * 根据父级ID\菜单名称\page\limit查询菜单
      * @param map
@@ -222,4 +234,7 @@ public interface AdminDao {
     Integer selectTodayUser();
 
     Integer selectTotalUser();
+
+
+
 }

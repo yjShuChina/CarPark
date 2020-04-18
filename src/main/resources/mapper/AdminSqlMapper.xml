@@ -239,7 +239,7 @@
         </where>
     </select>
 
-    <!-- 林堂星——用户管理 查找  -->
+    <!-- 林堂星——用户管理 查找  收费员 -->
     <select id="findAll" resultType="com.example.carpark.javabean.TbCashier" >
         select  * from tb_cashier
         <where>
@@ -252,7 +252,7 @@
         </where>
         ORDER BY cashier_id desc limit #{currentPage},#{pageSize}
     </select>
-    <!-- 用户管理 查找条数  -->
+    <!-- 用户管理 查找条数  收费员 -->
     <select id="findCount" resultType="int" >
         select  count(*) from tb_cashier
         <where>
@@ -264,31 +264,31 @@
             </if>
         </where>
     </select>
-    <!--  状态禁用  -->
+    <!--  状态禁用 收费员  -->
     <update id="forbiddenState" parameterType="java.util.Map">
 			update tb_cashier
 			set  cashier_state = '0'
 			where cashier_id = #{cashierId}
 	</update>
-    <!--  状态启用  -->
+    <!--  状态启用  收费员 -->
     <update id="openState" parameterType="java.util.Map">
 			update tb_cashier
 			set  cashier_state = '1'
 			where cashier_id = #{cashierId}
 	</update>
-    <!--  状态离职  -->
+    <!--  状态离职  收费员 -->
     <update id="resignState" parameterType="java.util.Map">
 			update tb_cashier
 			set  cashier_state = '2'
 			where cashier_id = #{cashierId}
 	</update>
-    <!--  重置密码  -->
+    <!--  重置密码 收费员  -->
     <update id="resetPwd" parameterType="java.util.Map">
 			update tb_cashier
-			set  cashier_pwd = 'e10adc3949ba59abbe56e057f20f883e'
+			set  cashier_pwd = (select parameter_value from tb_system_parameter where parameter_id = 3)
 			where cashier_id = #{cashierId}
 	</update>
-    <!--  编辑  -->
+    <!--  编辑  收费员  -->
     <select id="updateCashier" resultType="com.example.carpark.javabean.TbCashier" parameterType="java.util.Map">
         select  * from tb_cashier
         <where>
@@ -297,7 +297,7 @@
             </if>
         </where>
     </select>
-    <!--  编辑  -->
+    <!--  编辑  收费员 -->
     <update id="toUpdateCashier" parameterType="java.util.Map">
 			update tb_cashier
 			set  cashier_account = #{cashierAccount}
@@ -306,7 +306,7 @@
            ,cashier_address = #{cashierAddress}
 			where cashier_id = #{cashierId}
 	</update>
-    <!-- 新增收费员  -->
+    <!-- 新增   收费员  -->
     <insert id="addCashier"  parameterType="java.util.Map" >
 		insert into tb_cashier(
 					 cashier_account
@@ -328,6 +328,98 @@
 					,CURDATE()
 				)
 	</insert>
+    <!-- 林堂星——用户管理 查找 管理员  -->
+    <select id="findAllAdmin" resultType="com.example.carpark.javabean.TbAdmin" >
+        select  * from (select * from tb_admin where role_id = 2) a
+        <where>
+            <if test="adminName != '' and adminName !=null">
+                and a.admin_name = #{adminName}
+            </if>
+            <if test="startTime != '' and startTime !=null and endTime != '' and endTime !=null">
+                and a.admin_time BETWEEN  #{startTime}  and  #{endTime}
+            </if>
+        </where>
+        ORDER BY a.admin_id desc limit #{currentPage},#{pageSize}
+    </select>
+    <!-- 用户管理 查找条数  管理员-->
+    <select id="findCountAdmin" resultType="int" >
+        select  count(*) from (select * from tb_admin where role_id = 1) a
+        <where>
+            <if test="adminName != '' and adminName !=null">
+                and a.admin_name = #{adminName}
+            </if>
+            <if test="startTime != '' and startTime !=null and endTime != '' and endTime !=null">
+                and a.admin_time BETWEEN  #{startTime}  and  #{endTime}
+            </if>
+        </where>
+    </select>
+    <!--  状态禁用  管理员-->
+    <update id="forbiddenStateAdmin" parameterType="java.util.Map">
+			update tb_admin
+			set  admin_state = '0'
+			where admin_id = #{adminId}
+	</update>
+    <!--  状态启用  管理员-->
+    <update id="openStateAdmin" parameterType="java.util.Map">
+			update tb_admin
+			set  admin_state = '1'
+			where admin_id = #{adminId}
+	</update>
+    <!--  状态离职  管理员-->
+    <update id="resignStateAdmin" parameterType="java.util.Map">
+			update tb_admin
+			set  admin_state = '2'
+			where admin_id = #{adminId}
+	</update>
+    <!--  重置密码  管理员-->
+    <update id="resetPwdAdmin" parameterType="java.util.Map">
+			update tb_admin
+			set  admin_pwd = (select parameter_value from tb_system_parameter where parameter_id = 2)
+			where admin_id = #{adminId}
+	</update>
+    <!--  编辑  管理员-->
+    <select id="updateAdmin" resultType="com.example.carpark.javabean.TbAdmin" parameterType="java.util.Map">
+        select  * from tb_admin
+        <where>
+            <if test="adminId != '' and adminId !=null">
+                and admin_id = #{adminId}
+            </if>
+        </where>
+    </select>
+    <!--  编辑  管理员-->
+    <update id="toUpdateAdmin" parameterType="java.util.Map">
+			update tb_admin
+			set  admin_account = #{adminAccount}
+           ,admin_name = #{adminName}
+           ,admin_phone = #{adminPhone}
+           ,admin_address = #{adminAddress}
+			where admin_id = #{adminId}
+	</update>
+    <!-- 新增管理员  管理员-->
+    <insert id="addAdmin"  parameterType="java.util.Map" >
+		insert into tb_admin(
+					 admin_account
+					,admin_pwd
+					,admin_name
+					,admin_state
+					,admin_phone
+					,admin_sex
+					,admin_address
+					,admin_time
+					,role_id
+				)values(
+					 #{adminAccount}
+					,#{adminPwd}
+					,#{adminName}
+					,#{adminState}
+					,#{adminPhone}
+					,#{adminSex}
+					,#{adminAddress}
+					,CURDATE()
+					,1
+				)
+	</insert>
+
 
     <select id="selectTodayUser" resultType="java.lang.Integer">
         SELECT count(*) from tb_user where TO_DAYS(month_vip_begin) = TO_DAYS(NOW())

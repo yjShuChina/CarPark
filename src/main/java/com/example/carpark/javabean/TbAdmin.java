@@ -9,6 +9,10 @@ public class TbAdmin {
   private String adminName;
   private long roleId;
   private long adminState;
+  private String adminSex;
+  private String adminPhone;
+  private String adminAddress;
+  private String adminTime;
 
 
   public long getAdminId() {
@@ -64,4 +68,43 @@ public class TbAdmin {
     this.adminState = adminState;
   }
 
+  public String getAdminSex()
+  {
+    return adminSex;
+  }
+
+  public void setAdminSex(String adminSex)
+  {
+    this.adminSex = adminSex;
+  }
+
+  public String getAdminPhone()
+  {
+    return adminPhone;
+  }
+
+  public void setAdminPhone(String adminPhone)
+  {
+    this.adminPhone = adminPhone;
+  }
+
+  public String getAdminAddress()
+  {
+    return adminAddress;
+  }
+
+  public void setAdminAddress(String adminAddress)
+  {
+    this.adminAddress = adminAddress;
+  }
+
+  public String getAdminTime()
+  {
+    return adminTime;
+  }
+
+  public void setAdminTime(String adminTime)
+  {
+    this.adminTime = adminTime;
+  }
 }

@@ -9,7 +9,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>用户管理——收费员</title>
+	<title>用户管理——管理员</title>
 	<meta name="renderer" content="webkit">
 	<%String path = request.getContextPath();%>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -32,7 +32,7 @@
 <form class="layui-form" lay-filter="component-form-group" id="search_submits" onsubmit="return false">
 	<div class="layui-form-item">
 		<div class="layui-inline">
-			<label class="layui-form-label">收费员姓名</label>
+			<label class="layui-form-label">管理员姓名</label>
 			<div class="layui-input-inline">
 				<input type="text" name="password" id="uid"  placeholder="请输入用户名" autocomplete="off" class="layui-input">
 			</div>
@@ -64,13 +64,13 @@
 		<div class="layui-form-item">
 			<label class="layui-form-label">账号</label>
 			<div class="layui-input-inline">
-				<input type="text" name="cashierAccount" required lay-verify="required" placeholder="请输入账号" autocomplete="off" class="layui-input">
+				<input type="text" name="adminAccount" required lay-verify="required" placeholder="请输入账号" autocomplete="off" class="layui-input">
 			</div>
 		</div>
 		<div class="layui-form-item">
 			<label class="layui-form-label">密码</label>
 			<div class="layui-input-inline">
-				<input type="password" name="cashierPwd" lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+				<input type="password" name="adminPwd" lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
 			</div>
 		</div>
 		<div class="layui-form-item">
@@ -82,27 +82,27 @@
 		<div class="layui-form-item">
 			<label class="layui-form-label">姓名</label>
 			<div class="layui-input-inline">
-				<input type="text" name="cashierName" required lay-verify="name" placeholder="请输入姓名" autocomplete="off" class="layui-input">
+				<input type="text" name="adminName" required lay-verify="name" placeholder="请输入姓名" autocomplete="off" class="layui-input">
 			</div>
 		</div>
 		<div class="layui-form-item">
 			<label class="layui-form-label">性别</label>
 			<div class="layui-input-block">
-				<input type="radio" name="cashierSex" value="男" title="男" checked>
-				<input type="radio" name="cashierSex" value="女" title="女">
+				<input type="radio" name="adminSex" value="男" title="男" checked>
+				<input type="radio" name="adminSex" value="女" title="女">
 			</div>
 		</div>
 		<div class="layui-form-item">
 			<label class="layui-form-label">手机号</label>
 			<div class="layui-input-inline">
-				<input type="tel" name="cashierPhone" lay-verify="required|phone" placeholder="请输入手机号" autocomplete="off" class="layui-input">
+				<input type="tel" name="adminPhone" lay-verify="required|phone" placeholder="请输入手机号" autocomplete="off" class="layui-input">
 <%--				<input type="text" name="cashierPhone" required lay-verify="phones" placeholder="请输入手机号" autocomplete="off" class="layui-input">--%>
 			</div>
 		</div>
 		<div class="layui-form-item">
 			<label class="layui-form-label">居住地址</label>
 			<div class="layui-input-inline">
-				<input type="text" name="cashierAddress" required lay-verify="required" placeholder="请输入居住地址" autocomplete="off" class="layui-input">
+				<input type="text" name="adminAddress" required lay-verify="required" placeholder="请输入居住地址" autocomplete="off" class="layui-input">
 			</div>
 		</div>
 		<div class="layui-form-item">
@@ -115,10 +115,10 @@
 </div>
 <script type="text/html" id="barDemo">
 	<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit">修改</a>
-	{{#  if(d.cashierState == "1"){ }}
+	{{#  if(d.adminState == "1"){ }}
 	<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="forbidden">禁用</a>
 	{{#  } }}
-	{{#  if(d.cashierState == "0"){ }}
+	{{#  if(d.adminState == "0"){ }}
 	<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="open">启用</a>
 	{{#  } }}
 	<a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="reset">重置密码</a>
@@ -134,27 +134,27 @@
 		table.render({
 			elem:'#test',
 			height:321,
-			url: "${pageContext.request.contextPath}/admin/adminManagement",
+			url: "${pageContext.request.contextPath}/admin/adminManagementDirector",
 			type:'get',
 			dataType:"json",
 			id:'one',
 			page:true,
 			cellMinWidth: 80,
 			cols: [[
-				{field:'cashierId', title: 'ID' , align: 'center'},
-				{field:'cashierTime', title: '新增时间' , align: 'center'},
-				{field:'cashierAccount', title: '收费员账号' , align: 'center'},
-				{field:'cashierName', title: '收费员姓名' , align: 'center'},
-				{field:'cashierSex', title: '性别' , align: 'center'},
-				{field:'cashierPhone', title: '手机号' , align: 'center'},
-				{field:'cashierAddress', title: '居住地址' , align: 'center'},
-				{field:'cashierState', title: '状态',align: 'center'},
+				{field:'adminId', title: 'ID' , align: 'center'},
+				{field:'adminTime', title: '新增时间' , align: 'center'},
+				{field:'adminAccount', title: '管理员账号' , align: 'center'},
+				{field:'adminName', title: '管理员姓名' , align: 'center'},
+				{field:'adminSex', title: '性别' , align: 'center'},
+				{field:'adminPhone', title: '手机号' , align: 'center'},
+				{field:'adminAddress', title: '居住地址' , align: 'center'},
+				{field:'adminState', title: '状态',align: 'center'},
 				{fixed: 'right', title:'操作', toolbar: '#barDemo', width:250,align: 'center'}
 			]],
 			done: function(res, curr, count){
 				//如果是异步请求数据方式，res即为你接口返回的信息。
 				//如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
-				$("[data-field='cashierState']").children().each(function(){
+				$("[data-field='adminState']").children().each(function(){
 					if($(this).text()=='1'){
 						$(this).text("启用")
 					}else if($(this).text()=='0'){
@@ -176,7 +176,7 @@
 				var uid = $("#uid").val();
 				var startTime = $("#startTime").val();
 				var endTime = $("#endTime").val();
-				var stateId = obj.data.cashierId;
+				var stateId = obj.data.adminId;
 				var oId = null;
 				var resignId = null;
 				table.reload('one',{
@@ -203,7 +203,7 @@
 				var uid = $("#uid").val();
 				var startTime = $("#startTime").val();
 				var endTime = $("#endTime").val();
-				var oId = obj.data.cashierId;
+				var oId = obj.data.adminId;
 				var stateId = null;
 				var resignId = null;
 				table.reload('one',{
@@ -232,7 +232,7 @@
 					var endTime = $("#endTime").val();
 					var oId = null;
 					var stateId = null;
-					var resignId = obj.data.cashierId;
+					var resignId = obj.data.adminId;
 					table.reload('one',{
 						method:'post',
 						where:{
@@ -260,7 +260,7 @@
 					var oId = null;
 					var stateId = null;
 					var resignId = null;
-					var resetId = obj.data.cashierId;
+					var resetId = obj.data.adminId;
 					table.reload('one',{
 						method:'post',
 						where:{
@@ -281,9 +281,9 @@
 				});
 			}
 			else if(obj.event === 'edit'){
-				var uid = obj.data.cashierId;
+				var uid = obj.data.adminId;
 				$.ajax({
-					url:"${pageContext.request.contextPath}/admin/updateCashier",
+					url:"${pageContext.request.contextPath}/admin/updateAdmin",
 					type:'post',
 					data: {'uid':uid},
 					dataType:"json",
@@ -293,12 +293,12 @@
 				});
 				layer.confirm('确定要编辑?', {icon: 1, title:'提示'}, function(index) {
 					layer.open({
-						title: ['编辑收费员', 'font-size:18px;'],
+						title: ['编辑管理员', 'font-size:18px;'],
 						type: 2,
 						area: ['700px', '450px'],
 						fixed: false, //不固定
 						maxmin: true,
-						content: '${pageContext.request.contextPath}/url/admin/adminManagementEdit'
+						content: '${pageContext.request.contextPath}/url/admin/adminManagementEditDirector'
 					});
 					layer.close(index);
 				});
@@ -362,11 +362,11 @@
 
 			}
 		});
-		//新增收费员
+		//新增管理员
 		$("#res").click(function() {
 			var index=layer.open({
 				type: 1,
-				title: "新增收费员",
+				title: "新增管理员",
 				area: ['600px', '550px'],
 				offset: '20px',
 				content: $("#gb"),
@@ -381,10 +381,10 @@
 			});
 			form.render();
 		});
-		//新增收费员
+		//新增管理员
 		form.on('submit(formDemo2)', function(data){
 			$.ajax({
-				url:"${pageContext.request.contextPath}/admin/addCashier",
+				url:"${pageContext.request.contextPath}/admin/addAdmin",
 				type:'post',
 				data: data.field,
 				success:function(data){
@@ -413,7 +413,7 @@
 		// 校验两次密码是否一致
 		form.verify({
 			confirmPass:function(value){
-				if($('input[name=cashierPwd]').val() !== value)
+				if($('input[name=adminPwd]').val() !== value)
 					return '两次密码输入不一致！';
 			}
 		});

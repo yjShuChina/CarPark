@@ -11,7 +11,7 @@
 	<title>Title</title>
 </head>
 <meta charset="utf-8">
-<title>用户管理——收费员编辑</title>
+<title>用户管理——管理员编辑</title>
 <meta name="renderer" content="webkit">
 <%String path = request.getContextPath();%>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -25,32 +25,32 @@
 	<div class="layui-form-item">
 		<label class="layui-form-label">id</label>
 		<div class="layui-input-inline">
-			<input type="text" name="uid" readonly = "readonly" class="layui-input" value="${sessionScope.tbCashier.cashierId}">
+			<input type="text" name="uid" readonly = "readonly" class="layui-input" value="${sessionScope.tbAdmin.adminId}">
 		</div>
 	</div>
 	<div class="layui-form-item">
 		<label class="layui-form-label">账号</label>
 		<div class="layui-input-inline">
-			<input type="text" name="cashierAccountUpdate" required lay-verify="required" placeholder="请输入账号" autocomplete="off" class="layui-input" value="${sessionScope.tbCashier.cashierAccount}">
+			<input type="text" name="adminAccountUpdate" required lay-verify="required" placeholder="请输入账号" autocomplete="off" class="layui-input" value="${sessionScope.tbAdmin.adminAccount}">
 		</div>
 	</div>
 	<div class="layui-form-item">
 		<label class="layui-form-label">姓名</label>
 		<div class="layui-input-inline">
-			<input type="text" name="cashierNameUpdate" required lay-verify="name" placeholder="请输入姓名" autocomplete="off" class="layui-input" value="${sessionScope.tbCashier.cashierName}">
+			<input type="text" name="adminNameUpdate" required lay-verify="name" placeholder="请输入姓名" autocomplete="off" class="layui-input" value="${sessionScope.tbAdmin.adminName}">
 		</div>
 	</div>
 	<div class="layui-form-item">
 		<label class="layui-form-label">手机号</label>
 		<div class="layui-input-inline">
-			<input type="tel" name="cashierPhoneUpdate" lay-verify="required|phone" placeholder="请输入手机号" autocomplete="off" class="layui-input" value="${sessionScope.tbCashier.cashierPhone}">
-<%--			<input type="text" name="cashierPhoneUpdate" required lay-verify="phones" placeholder="请输入手机号" autocomplete="off" class="layui-input" value="${sessionScope.tbCashier.cashierPhone}">--%>
+			<input type="tel" name="adminPhoneUpdate" lay-verify="required|phone" placeholder="请输入手机号" autocomplete="off" class="layui-input" value="${sessionScope.tbAdmin.adminPhone}">
+<%--			<input type="text" name="cashierPhoneUpdate" required lay-verify="phones" placeholder="请输入手机号" autocomplete="off" class="layui-input" value="${sessionScope.tbAdmin.adminPhone}">--%>
 		</div>
 	</div>
 	<div class="layui-form-item">
 		<label class="layui-form-label">居住地址</label>
 		<div class="layui-input-inline">
-			<input type="text" name="cashierAddressUpdate" required lay-verify="required" placeholder="请输入居住地址" autocomplete="off" class="layui-input" value="${sessionScope.tbCashier.cashierAddress}">
+			<input type="text" name="adminAddressUpdate" required lay-verify="required" placeholder="请输入居住地址" autocomplete="off" class="layui-input" value="${sessionScope.tbAdmin.adminAddress}">
 		</div>
 	</div>
 	<div class="layui-form-item">
@@ -69,13 +69,14 @@
 		form.on('submit(update)', function(data){
 			var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
 			$.ajax({
-				url:"${pageContext.request.contextPath}/admin/toUpdateCashier",
+				url:"${pageContext.request.contextPath}/admin/toUpdateAdmin",
 				type:'post',
 				data: data.field,
 				success:function(data){
 					if (data==='修改成功') {
 						// layer.msg(data);
 						parent.layer.msg(data);
+						window.location.reload();
 					}
 					else {
 						parent.layer.msg(data);

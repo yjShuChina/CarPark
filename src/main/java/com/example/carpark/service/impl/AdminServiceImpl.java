@@ -414,7 +414,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     /**
-     *  林堂星——用户管理
+     *  林堂星——用户管理——收费员
      */
     @Override
     @Transactional
@@ -510,6 +510,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    @Transactional
     public String toUpdateCashier(String uid, String cashierAccountUpdate, String cashierNameUpdate, String cashierPhoneUpdate, String cashierAddressUpdate)
     {
         Map<String, String> parameters=new HashMap<>();
@@ -546,6 +547,138 @@ public class AdminServiceImpl implements AdminService {
         }
     }
 
+    /**
+     *  林堂星——用户管理——管理员
+     */
+    @Override
+    @Transactional
+    public List<TbAdmin> findAllAdmin(String adminName, int currentPage, int pageSize,String startTime,String endTime)
+    {
+        Map parameters=new HashMap<>();
+        parameters. put( "adminName" , adminName);
+        parameters. put( "currentPage" , (currentPage-1)*pageSize);
+        parameters. put( "pageSize" , pageSize);
+        parameters. put( "startTime" , startTime);
+        parameters. put( "endTime" , endTime);
+        List<TbAdmin> list=adminDao.findAllAdmin(parameters);
+        return list;
+    }
+    @Override
+    @Transactional
+    public int findCountAdmin(String adminName,String startTime,String endTime)
+    {
+        Map parameters=new HashMap<>();
+        parameters. put( "adminName" , adminName);
+        parameters. put( "startTime" , startTime);
+        parameters. put( "endTime" , endTime);
+        int count=adminDao.findCountAdmin(parameters);
+        return count;
+    }
+    @Override
+    @Transactional
+    public int forbiddenStateAdmin(String stateId)
+    {
+        int count=0;
+        if (stateId!=null){
+            Map parameters=new HashMap<>();
+            parameters. put( "adminId" , stateId);
+            count=adminDao.forbiddenStateAdmin(parameters);
+        }else {
+            count =2;
+        }
+        return count;
+    }
+    @Override
+    @Transactional
+    public int openStateAdmin(String stateId)
+    {
+        int count=0;
+        if (stateId!=null){
+            Map parameters=new HashMap<>();
+            parameters. put( "adminId" , stateId);
+            count=adminDao.openStateAdmin(parameters);
+        }else {
+            count =2;
+        }
+        return count;
+    }
 
+    @Override
+    @Transactional
+    public int resignStateAdmin(String resignId)
+    {
+        int count=0;
+        if (resignId!=null){
+            Map parameters=new HashMap<>();
+            parameters. put( "adminId" , resignId);
+            count=adminDao.resignStateAdmin(parameters);
+        }else {
+            count =2;
+        }
+        return count;
+    }
+
+    @Override
+    @Transactional
+    public int resetPwdAdmin(String resetId)
+    {
+        int count=0;
+        if (resetId!=null){
+            Map parameters=new HashMap<>();
+            parameters. put( "adminId" , resetId);
+            count=adminDao.resetPwdAdmin(parameters);
+        }else {
+            count =2;
+        }
+        return count;
+    }
+
+    @Override
+    @Transactional
+    public TbAdmin updateAdmin(String uid)
+    {
+        Map parameters=new HashMap<>();
+        parameters. put( "adminId" , uid);
+        TbAdmin tbAdmin=adminDao.updateAdmin(parameters);
+        return tbAdmin;
+    }
+
+    @Override
+    @Transactional
+    public String toUpdateAdmin(String uid, String adminAccountUpdate, String adminNameUpdate, String adminPhoneUpdate, String adminAddressUpdate)
+    {
+        Map<String, String> parameters=new HashMap<>();
+        parameters. put( "adminAccount" , adminAccountUpdate);
+        parameters. put( "adminName" , adminNameUpdate);
+        parameters. put( "adminPhone" , adminPhoneUpdate);
+        parameters. put( "adminAddress" , adminAddressUpdate);
+        parameters. put( "adminId" , uid);
+        boolean flag = adminDao.toUpdateAdmin(parameters);
+        if (flag){
+            return "success";
+        }else {
+            return "fail";
+        }
+    }
+
+    @Override
+    @Transactional
+    public String addAdmin(String adminAccount, String adminPwd, String adminName, String adminSex, String adminPhone, String adminAddress, long adminState)
+    {
+        Map<String, String> parameters=new HashMap<>();
+        parameters. put( "adminAccount" , adminAccount);
+        parameters. put( "adminPwd" , adminPwd);
+        parameters. put( "adminName" , adminName);
+        parameters. put( "adminSex" , adminSex);
+        parameters. put( "adminPhone" , adminPhone);
+        parameters. put( "adminAddress" , adminAddress);
+        parameters. put( "adminState" , String.valueOf(adminState));
+        boolean flag = adminDao.addAdmin(parameters);
+        if (flag){
+            return "success";
+        }else {
+            return "fail";
+        }
+    }
 
 }

@@ -574,7 +574,7 @@ public class AdminController {
     }
 
 
-    //林堂星_用户管理
+    //林堂星_用户管理_收费员
     @RequestMapping("/test")
     public String test(){
         return "administration/jsp/admin/adminManagement";
@@ -604,7 +604,8 @@ public class AdminController {
     public String addCashier(String cashierAccount, String cashierPwd, String cashierName,String cashierSex,String cashierPhone,String cashierAddress)
     {
         long cashierState =1;
-        String flag = adminService.addCashier(cashierAccount,cashierPwd,cashierName,cashierSex,cashierPhone,cashierAddress,cashierState);
+	    String cashierPwdMD5 = MD5.machining(cashierPwd);
+        String flag = adminService.addCashier(cashierAccount,cashierPwdMD5,cashierName,cashierSex,cashierPhone,cashierAddress,cashierState);
         if (flag.equals("success")){
             return "新增收费员成功";
         }
@@ -632,4 +633,59 @@ public class AdminController {
             return "修改失败";
         }
     }
+	//林堂星_用户管理_管理员
+	@RequestMapping("/adminManagementDirector")
+	@ResponseBody
+	public DataManagementResult adminManagementDirector(String page, String limit, String uid, String startTime, String endTime, String stateId, String oId,String resignId,String resetId)
+	{
+		int pageInt = Integer.valueOf(page);
+		int limitInt = Integer.valueOf(limit);
+		int forbidden = adminService.forbiddenStateAdmin(stateId);
+		int open = adminService.openStateAdmin(oId);
+		int resign = adminService.resignStateAdmin(resignId);
+		int rest = adminService.resetPwdAdmin(resetId);
+		List<TbAdmin> list = adminService.findAllAdmin(uid,pageInt,limitInt,startTime,endTime);
+		int count = adminService.findCountAdmin(uid,startTime,endTime);
+		DataManagementResult dataManagementResult = new DataManagementResult();
+		dataManagementResult.setCode(0);
+		dataManagementResult.setMsg("");
+		dataManagementResult.setCount(count);
+		dataManagementResult.setData(list);
+		return dataManagementResult;
+	}
+
+	@RequestMapping("/addAdmin")
+	@ResponseBody
+	public String addAdmin(String adminAccount, String adminPwd, String adminName,String adminSex,String adminPhone,String adminAddress)
+	{
+		long adminState =1;
+		String adminPwdMD5 = MD5.machining(adminPwd);
+		String flag = adminService.addAdmin(adminAccount,adminPwdMD5,adminName,adminSex,adminPhone,adminAddress,adminState);
+		if (flag.equals("success")){
+			return "新增管理员成功";
+		}
+		else {
+			return "新增收管理员失败";
+		}
+	}
+	@RequestMapping("/updateAdmin")
+	@ResponseBody
+	public TbAdmin updateAdmin(String uid, HttpSession session)
+	{
+		TbAdmin tbAdmin = adminService.updateAdmin(uid);
+		session.setAttribute("tbAdmin", tbAdmin);
+		return tbAdmin;
+	}
+	@RequestMapping("/toUpdateAdmin")
+	@ResponseBody
+	public String toUpdateAdmin(String uid,String adminAccountUpdate,String adminNameUpdate,String adminPhoneUpdate,String adminAddressUpdate)
+	{
+		String flag = adminService.toUpdateAdmin(uid,adminAccountUpdate,adminNameUpdate,adminPhoneUpdate,adminAddressUpdate);
+		if (flag.equals("success")){
+			return "修改成功";
+		}
+		else {
+			return "修改失败";
+		}
+	}
 }
