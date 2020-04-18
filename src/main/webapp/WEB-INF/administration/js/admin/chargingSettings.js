@@ -28,7 +28,7 @@ layui.use(['form', 'layer', 'table'], function () {
         , url: path + '/charge/chargePrice' //数据接口
         , title: '收费规则表'
         , toolbar: 'default' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
-        , width: 493
+        , width: 494
         , cols: [[ //表头
             {type: 'checkbox', fixed: 'left'}
             , {field: 'cpId', title: 'ID', width: 80, hide: true}

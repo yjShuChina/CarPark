@@ -376,8 +376,8 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public Map<String, Object> getData() {
         Map<String,Object> map = new HashMap<>();
-        map.put("restSpace",carDao.findParkSpacenum(1));
-        map.put("totalSpace",carDao.findParkSpacenum(null));
+        map.put("restSpace",carDao.findParkSpacenum("1",""));
+        map.put("totalSpace",carDao.findParkSpacenum("",""));
         map.put("todayIncome",revenueDao.selectTodayIncome());
         map.put("totalIncome",revenueDao.selectTotalIncome());
         map.put("todayUser",adminDao.selectTodayUser());

@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ClassUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -156,6 +157,38 @@ public class ChargeServiceImpl implements ChargeService {
         }
         delteTempFile(file);
         return carnumber;
+    }
+
+    //图片存储返回url
+    @Override
+    public String uploadImage(MultipartFile file, String name) {
+
+        String staticPath = ClassUtils.getDefaultClassLoader().getResource("static").getPath();
+        String fileName = file.getOriginalFilename();  //获取文件名
+        String fileTyle = fileName.substring(fileName.lastIndexOf("."), fileName.length());
+        System.out.println("后缀名：" + fileTyle);
+
+
+        // 图片存储目录及图片名称
+        String url_path = "images" + File.separator + name + fileTyle;
+        //图片保存路径
+        String savePath = staticPath + File.separator + url_path;
+        System.out.println("图片保存地址：" + savePath);
+        // 访问路径=静态资源路径+文件目录路径
+        String visitPath = "src/main/static/" + url_path;
+        System.out.println("图片访问uri：" + visitPath);
+
+        File saveFile = new File(savePath);
+        if (!saveFile.exists()) {
+            saveFile.mkdirs();
+        }
+        try {
+            file.transferTo(saveFile);  //将临时存储的文件移动到真实存储路径下
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return visitPath;
     }
 
     //收费规则数据查询接口

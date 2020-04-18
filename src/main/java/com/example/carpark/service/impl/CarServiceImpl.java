@@ -175,8 +175,24 @@ public class CarServiceImpl implements CarService
     }
     //车位数量
     @Override
-    public Integer findParkSpacenum(Integer spacestate){
-        Integer num=carDao.findParkSpacenum(spacestate);
+    public Integer findParkSpacenum(String state,String area){
+        Integer num=carDao.findParkSpacenum(state,area);
         return num;
+    }
+    //车位信息
+    @Override
+    public TbParkSpace findcarmsg(String carnum){
+        TbParkSpace tbps=carDao.findcarmsg(carnum);
+        return tbps;
+    }
+    @Override
+    public TbParkCarInfo findmsg(String carnum){
+        TbParkCarInfo tbps=carDao.findmsg(carnum);
+        return tbps;
+    }
+    @Override
+    public Integer changestate(String state,String ps){
+        Integer i =carDao.changestate(state,ps);
+        return i;
     }
 }

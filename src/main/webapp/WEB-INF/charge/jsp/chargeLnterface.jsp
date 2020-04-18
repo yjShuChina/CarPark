@@ -32,41 +32,7 @@
 收费啊收费端
 <form class="layui-form" onsubmit="return false;"> <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
     <div style="padding-top: 10%;padding-left: 50%;">
-<%--        <div class="layui-form-item">--%>
-<%--            <label class="layui-form-label">帐号：</label>--%>
-<%--            <div class="layui-input-inline">--%>
-<%--                <input type="text" name="cashier_account" placeholder="请输入帐号" required lay-verify="required" autocomplete="off"--%>
-<%--                       class="layui-input">--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--        <div class="layui-form-item">--%>
-<%--            <label class="layui-form-label">密码：</label>--%>
-<%--            <div class="layui-input-inline">--%>
-<%--                <input type="password" name="cashier_pwd" required lay-verify="required" placeholder="请输入密码"--%>
-<%--                       autocomplete="off" class="layui-input">--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--        <div class="layui-form-item">--%>
-<%--            <label class="layui-form-label"></label>--%>
-<%--            <div class="layui-input-inline">--%>
-<%--                <img title="点击更换" id="img" src="${pageContext.request.contextPath}/admin/CheckCodeServlet"--%>
-<%--                     onclick="changeCode(this)">--%>
-<%--            </div>--%>
-<%--            <div></div>--%>
-<%--        </div>--%>
-<%--        <div class="layui-form-item">--%>
-<%--            <label class="layui-form-label">验证码：</label>--%>
-<%--            <div class="layui-input-inline">--%>
-<%--                <input type="text" name="captcha" placeholder="请输入验证码" required lay-verify="required" autocomplete="off"--%>
-<%--                       class="layui-input">--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--        <div class="layui-form-item">--%>
-<%--            <div class="layui-input-block">--%>
-<%--                <button class="layui-btn" lay-submit lay-filter="login">登录</button>--%>
-<%--                <button type="button" class="layui-btn layui-btn-primary" onclick="register()">注册</button>--%>
-<%--            </div>--%>
-<%--        </div>--%>
+
     </div>
 </form>
 <script src=<%=path + "/layui/layui.js"%>></script>
@@ -106,6 +72,28 @@
             return false;
         });
     });
+</script>
+<script type="text/javascript">
+    var websocket = new WebSocket("ws://localhost:8080");
+    // 引入websocket
+    websocket.onopen = function(){
+        console.log('websocket open');
+        document.getElementById("recv").innerHTML = "Connected";
+    }
+    // 结束websocket
+    websocket.onclose = function(){
+        console.log('websocket close');
+    }
+    // 接受到信息
+    websocket.onmessage = function(e){
+        console.log(e.data);
+        document.getElementById("recv").innerHTML = e.data;
+    }
+    // 点击发送webscoket
+    document.getElementById("sendBtn").onclick = function(){
+        var txt = document.getElementById("sendTxt").value;
+        websocket.send(txt);
+    }
 </script>
 </body>
 </html>

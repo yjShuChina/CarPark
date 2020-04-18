@@ -9,9 +9,9 @@
 	</select>
 
 	<insert id="CarIn" parameterType="com.example.carpark.javabean.TbParkCarInfo">
-		insert into tb_park_car_info (car_number,car_identity,car_time)
+		insert into tb_park_car_info (car_number,car_identity,car_time,img_url,park_space_id)
 		values
-		(#{carNumber},#{carIdentity},#{carTime})
+		(#{carNumber},#{carIdentity},#{carTime},#{imgUrl},#{parkSpaceId})
 	</insert>
 
 	<select id="findParkSpace" parameterType="java.util.Map" resultType="java.lang.String">
@@ -21,12 +21,36 @@
 	<select id="findParkSpacenum" resultType="java.lang.Integer"  parameterType="java.lang.Integer">
 		select count(*) from tb_park_space
 		<choose>
-			<when test="_parameter!=null and _parameter !=''">
-				where park_space_state=#{_parameter };
+			<when test="state!=null and state !=''">
+				where park_space_state=#{state}
 			</when>
 			<otherwise>
-				where 1=1;
+				where 1=1
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="area!='' and area !=null">
+				and park_space_id LIKE "%"#{area}"%";
+			</when>
+			<otherwise>
+				and 1=1;
 			</otherwise>
 		</choose>
 	</select>
+
+
+	<select id="findcarmsg" resultType="com.example.carpark.javabean.TbParkSpace" parameterType="java.lang.String">
+		select * from tb_park_space where park_space_id=
+		(select park_space_id from tb_park_car_info where car_number=#{carnum})
+	</select>
+
+
+	<select id="findmsg" resultType="com.example.carpark.javabean.TbParkCarInfo" parameterType="java.lang.String">
+		select * from tb_park_car_info where car_number=#{carnum}
+	</select>
+
+
+	<update id="changestate" parameterType="java.lang.String">
+		update tb_park_space SET park_space_state=#{state} where park_space_id=#{ps}
+	</update>
 </mapper>

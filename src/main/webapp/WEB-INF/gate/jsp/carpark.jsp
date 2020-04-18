@@ -9,18 +9,18 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
-	<title>车闸</title>
+	<title>停车场鸟瞰图</title>
 	<%String path = request.getContextPath();%>
 	<script rel="script" src=<%=path + "/js/jquery-3.4.1.js"%>></script>
-	<script src=<%=path + "/js/esmapmin.js"%> > </script >
+	<script src=<%=path + "/js/esmap-1.6.min.js"%> > </script >
 	<script src=<%=path + "/js/json2.js"%>></script>
 </head>
 <style>
-	#p{
+	.p{
 		 content:".";
 		 color:palevioletred;
 	 }
-	#w{
+	.w{
 		content:".";
 		color:white;
 	}
@@ -34,32 +34,49 @@
 
 <div id="map-container" style="margin: 0 auto;width: 100%;height: 100%">
 </div>
-<div style="margin-top: -200px">
-	<div class="parking fix" id="parking"><span id="carid">车位情况：</span></div>
+
+<div style="margin-top: -300px">
+	<button id="btn2D" class="btn btn-default">2D</button>
+	<button id="btn3D" class="btn btn-default">3D</button>
+
+	<div class="parking fix" id="parking"><span id="carid">A区车位情况：</span></div>
 	<div class="codition fix">
 		<ul>
-			<li id="p"><span class="codition-first">占用车位:</span>
-				<%out.write("<span>"+request.getSession().getAttribute("parking")+'个'+"</span>");%>
+			<li class="p"><span class="codition-first">占用车位:</span>
+				<%out.write("<span>"+request.getSession().getAttribute("Aparking")+'个'+"</span>");%>
 			</li>
-			<li id="w"><span class="codition-second">空闲车位:</span>
-				<%out.write("<span>"+request.getSession().getAttribute("psnum")+'个'+"</span>");%>
+			<li class="w"><span class="codition-second">空闲车位:</span>
+				<%out.write("<span>"+request.getSession().getAttribute("Apsnum")+'个'+"</span>");%>
+			</li>
+		</ul>
+	</div>
+
+	<div class="parking fix" ><span >B区车位情况：</span></div>
+	<div class="codition fix">
+		<ul>
+			<li class="p"><span class="codition-first">占用车位:</span>
+				<%out.write("<span>"+request.getSession().getAttribute("Bparking")+'个'+"</span>");%>
+			</li>
+			<li class="w"><span class="codition-second">空闲车位:</span>
+				<%out.write("<span>"+request.getSession().getAttribute("Bpsnum")+'个'+"</span>");%>
 			</li>
 		</ul>
 	</div>
 	<div class="i-test-tip fix" id="i-test-tip">
 		<div class="test-tip">
-			<%out.write("<span>"+"停车场车位总数："+request.getSession().getAttribute("parkspase")+'个'+"</span>");%>
-			<%out.write("<span>"+"，当前剩余车位数 "+request.getSession().getAttribute("psnum")+'个'+"</span>");%>。
+			<%out.write("<span>"+"停车场车位总数："+request.getSession().getAttribute("allps")+'个'+"</span>");%>
+			<%out.write("<span>"+"，当前剩余车位数 "+request.getSession().getAttribute("parkspase")+'个'+"</span>");%>。
 		</div>
 	</div>
 </div>
+
 </body>
 <script>
 	var path = $("#path").val();
 
 	var map;
 	//定义全局map变量
-	var esmapID = 10005;
+	var esmapID = 'gate';
 	//定义选用的地图id
 	var styleid = 1004;
 	//选用的style的id
@@ -68,7 +85,7 @@
 	map = new esmap.ESMap({
 		container: $("#map-container")[0], // 渲染dom
 		// 	container:document.getElementById('map-container'),
-		token:"rujiu12138",
+		token:"rujiu2333",
 		mapDataSrc: path+"/esmap", //地图数据位置
 		mapThemeSrc:path+"/esmap/theme/", //主题数据位置
 		focusAlphaMode: true, // 对不可见图层启用透明设置 默认为true
@@ -78,8 +95,20 @@
 		// visibleFloors: "all",
 		themeID: styleid //自定义样式主题ID
 	});
+
+
+
 	map.openMapById(esmapID); //打开地图
 	map.showCompass = true; //显示指南针
+
+	$('#btn2D').on('click', function () {
+		map.viewMode = esmap.ESViewMode.MODE_2D;//2维模式
+	});
+
+	//3维模式
+	$('#btn3D').on('click', function () {
+		map.viewMode = esmap.ESViewMode.MODE_3D;; //3维模式
+	});
 
 
 	var queryFloors = "all"
@@ -89,8 +118,8 @@
 	};
 
 
-
 	map.on("loadComplete", function () {
+
 		parking();//以停车位
 		parkmsg();//车位数
 		//查看车位
@@ -129,7 +158,7 @@
 				success: function (res) {
 					parking =res;
 					console.log(res);
-					map.changeModelColor({name:parking,color:'#Fb7777'})
+					map.changeModelColor({name:parking,color:'#Fb7999'})
 				},
 				error: function () {
 					console.log("!!!")
@@ -137,5 +166,7 @@
 			}
 		);
 	}
+
+
 </script>
 </html>

@@ -2,10 +2,7 @@ package com.example.carpark.util;
 
 import com.example.carpark.Interceptor.LoginInterceptor;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.*;
 
 @Configuration
 public class MyMvcConfig implements WebMvcConfigurer {
@@ -39,5 +36,6 @@ public class MyMvcConfig implements WebMvcConfigurer {
 //                "/**/*.ttf"
 //        );
 //    }
+
 }
 
