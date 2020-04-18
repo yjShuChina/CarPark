@@ -9,7 +9,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
-	<title>自助查询（一号）</title>
+	<title>自助查询(二号)</title>
 	<%String path = request.getContextPath();%>
 	<script rel="script" src=<%=path + "/js/jquery-3.4.1.js"%>></script>
 	<script src=<%=path + "/js/esmap-1.6.min.js"%> > </script >
@@ -61,12 +61,11 @@
 
 	var map;
 	//定义全局map变量
-	var esmapID = 'machine1';
+	var esmapID = 'machine2';
 	//定义选用的地图id
 	var styleid = 1004;
 	//选用的style的id
 	var floorControl;
-
 	map = new esmap.ESMap({
 		container: $("#map-container")[0], // 渲染dom
 		// 	container:document.getElementById('map-container'),
@@ -168,11 +167,11 @@
 			});
 
 			navi.setStartPoint({
-				x: 12958009.622,
-				y: 4858217.788,
+				x: 12958010.812,
+				y: 4858233.242,
 				fnum: 1,
 				height: 1,
-				url: '',
+				url: 'image/start.png',
 				size: 64
 			});
 			//确定终点
@@ -181,7 +180,7 @@
 				y:y,
 				fnum: 1,
 				height: 1,
-				url: 'https://i.loli.net/2020/04/18/tNJOEPphUar1jS6.png',
+				url: 'image/end.png',
 				size: 64
 			});
 			console.log("!!!")

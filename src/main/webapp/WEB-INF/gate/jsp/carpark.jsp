@@ -73,7 +73,6 @@
 </body>
 <script>
 	var path = $("#path").val();
-
 	var map;
 	//定义全局map变量
 	var esmapID = 'gate';
@@ -81,8 +80,7 @@
 	var styleid = 1004;
 	//选用的style的id
 	var floorControl;
-
-	map = new esmap.ESMap({
+	map= new esmap.ESMap({
 		container: $("#map-container")[0], // 渲染dom
 		// 	container:document.getElementById('map-container'),
 		token:"rujiu2333",
