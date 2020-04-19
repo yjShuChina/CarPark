@@ -18,82 +18,146 @@
     <link rel="stylesheet" href=<%=path+"/layui/css/layui.css"%>>
     <script src=<%=path + "/js/jquery-3.4.1.js"%>></script>
     <script src=<%=path + "/js/json2.js"%>></script>
+    <script src=<%=path + "/layui/layui.js"%>></script>
 
 </head>
 <style>
-    /*body {*/
-    /*	background-image: linear-gradient(#8b8a8c, #8B8A8C);*/
-    /*	background-size: 100% 100%;*/
-    /*	background-attachment: fixed;*/
-    /*}*/
+    a {
+        color: #ffffff
+    }
 </style>
 <body>
 <input type="hidden" id="path" value="<%=path%>">
-收费啊收费端
-<form class="layui-form" onsubmit="return false;"> <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
-    <div style="padding-top: 10%;padding-left: 50%;">
+<form class="layui-form"> <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
+    <div style="height: 700px;width: 1080px;margin: 0 auto;padding-top:20px;">
+        <div style="height: 50px;width: 1080px;margin: 0 auto;background:#393D49">
+            <h2 style="color:#009688;padding-top:10px;padding-left: 10px">智能停车场收费端</h2>
+        </div>
+
+        <div style="height: 670px;width: 450px;float: left;background:#393D49">
+
+            <div style="height: 360px;width: 440px;padding-left:10px;">
+                <div style="height: 20px;width: 440px;margin: 0 auto;background:#2F4056">
+                    <h6 style="color:#ffffff;padding-top:1px;padding-left: 10px">入口</h6>
+                </div>
+                <img src="https://i.loli.net/2020/04/19/eGCm64ihjyKkDBp.jpg" id="imgPreJ"
+                     style="width: 440px;height: 300px;background:#e2e2e2">
+                <div style="height: 40px;width: 440px;margin: 0 auto" class="layui-bg-cyan">
+                    <h6 style="color:#ffffff;padding-top:10px;padding-left: 10px">
+                        入库时间：2020-04-20 23:56:23 车牌：闽X88888 月缴车辆
+                    </h6>
+                </div>
+            </div>
+
+            <div style="height: 290px;width: 450px;padding-left:10px;padding-top:10px">
+                <div style="height: 290px;width: 450px;background:#2F4056">
+                    <table id="changnei" lay-filter="test"></table>
+                </div>
+            </div>
+        </div>
+
+
+        <div style="height: 670px;width: 450px;float: left;background:#393D49">
+
+            <div style="height: 360px;width: 440px;float: left;padding-left:10px;">
+                <div style="height: 20px;width: 440px;margin: 0 auto;background:#2F4056">
+                    <h6 style="color:#ffffff;padding-top:1px;padding-left: 10px">出口</h6>
+                </div>
+                <img src="https://i.loli.net/2020/04/19/eGCm64ihjyKkDBp.jpg" id="imgPreC"
+                     style="width: 440px;height: 300px;">
+                <div style="height: 40px;width: 440px;margin: 0 auto;background:#2F4056">
+                    <h6 style="color:#ffffff;padding-top:1px;padding-left: 10px">
+                        <a>入库时间:</a><a id="timer">2020-04-20 23:56:23</a>
+
+                        <a style="padding-left: 10px">车牌:</a><a id="car">闽X88888</a>
+                        <a id="" style="padding-left: 10px">月缴车辆</a><br>
+
+                        <a>出库时间:</a><a>2020-04-20 23:56:23</a>
+                        <a style="padding-left: 10px">停车时长:</a>1天23小时02分30秒
+
+                    </h6>
+                </div>
+            </div>
+
+            <div style="height: 330px;width: 440px;float: left;padding-left:10px;padding-top:10px">
+                <div style="height: 290px;width: 440px;background:#2F4056">
+                    <table id="chuchang" lay-filter="test"></table>
+                </div>
+            </div>
+        </div>
+
+        <div style="height: 670px;width: 170px;float: left;background:#393D49;padding-left:10px;">
+            <div style="background:#2F4056;height: 180px;width: 160px;padding-top:20px;">
+                <div style="padding-left:30px;">
+                    <button type="button" style="height: 40px;width: 100px;" class="layui-btn">换班
+                    </button>
+                </div>
+                <div style="padding-left:30px;padding-top:20px">
+                    <button type="button" style="height: 40px;width: 100px;" class="layui-btn">月缴办理
+                    </button>
+                </div>
+            </div>
+            <div style="background:#2F4056;height: 120px;width: 160px;padding-top:20px;">
+                <h6>停车场信息</h6>
+                <div style="padding-left:10px;padding-top:20px">
+                <a>场内停车位:</a><a >230</a><br>
+                <a>剩余停车位:</a><a >100</a>
+                </div>
+            </div>
+            <div style="background:#2F4056;height: 120px;width: 160px;padding-top:20px;">
+                <h6>收费员信息</h6>
+                <div style="padding-left:10px;padding-top:20px">
+                    <a>收费人员:</a><a >老王</a><br>
+                    <a>上班时间:</a><br>
+                    <a >2020-04-20 23:56:23</a>
+                </div>
+            </div>
+        </div>
 
     </div>
 </form>
-<script src=<%=path + "/layui/layui.js"%>></script>
+
 
 <script>
-    function changeCode(msg) {//验证码
-        var path = $("#path").val();
-        msg.src = path + "/admin/CheckCodeServlet?num=" + Math.random() + 1;
+    var websocket = null;
+    if ('WebSocket' in window) {
+        websocket = new WebSocket("ws://127.0.0.1:8080/Carpark/websocket/1");
+    } else {
+        alert("您的浏览器不支持websocket");
+    }
+    websocket.onerror = function () {
+        setMessageInHtml("send error！");
+    }
+    websocket.onopen = function () {
+        setMessageInHtml("connection success！")
+    }
+    websocket.onmessage = function (event) {
+        setMessageInHtml(event.data);
+        console.log(event);
+    }
+    websocket.onclose = function () {
+        setMessageInHtml("closed websocket!")
+    }
+    window.onbeforeunload = function () {
+        clos();
     }
 
-    layui.use('form', function () {
-        var form = layui.form;
-        //监听提交
-        form.on('submit(login)', function (data) {
-            var path = $("#path").val();
-            $.ajax({
-                    url: path + "/charge/chargeLogin",
-                    async: "true",
-                    type: "Post",
-                    data: data.field,
-                    dataType: "text",
-                    success: function (res) {
-                        if ("success" == res) {
-                            layer.msg('登录成功', {icon: 6});
-                            window.location = path + "/admin/BackMain";
-                        } else if ("captchaerror" == res) {
-                            layer.msg('验证码错误', {icon: 5});
-                        } else {
-                            layer.msg('帐号或密码错误', {icon: 5});
-                        }
-                    },
-                    error: function () {
-                        layer.msg('网络正忙', {icon: 6});
-                    }
-                }
-            );
-            return false;
-        });
-    });
-</script>
-<script type="text/javascript">
-    var websocket = new WebSocket("ws://localhost:8080");
-    // 引入websocket
-    websocket.onopen = function(){
-        console.log('websocket open');
-        document.getElementById("recv").innerHTML = "Connected";
+    // 接收信息
+    function setMessageInHtml(message) {
+        document.getElementById('message').innerHTML += message;
     }
-    // 结束websocket
-    websocket.onclose = function(){
-        console.log('websocket close');
+
+    //关闭连接
+    function clos() {
+        websocket.close(3000, "强制关闭");
     }
-    // 接受到信息
-    websocket.onmessage = function(e){
-        console.log(e.data);
-        document.getElementById("recv").innerHTML = e.data;
-    }
-    // 点击发送webscoket
-    document.getElementById("sendBtn").onclick = function(){
-        var txt = document.getElementById("sendTxt").value;
-        websocket.send(txt);
+
+    //发送信息
+    function send() {
+        var msg = document.getElementById('text').value;
+        websocket.send(msg);
     }
 </script>
+
 </body>
 </html>

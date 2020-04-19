@@ -52,7 +52,7 @@
                 <img src="" id="imgPre" style="width: 100%;height: 400px;margin-top: 10px">
             </div>
         </div>
-        <div id="msg" style="margin: 0 auto;width: 70%;height: 40%;background:white;border:1px solid cornflowerblue">
+        <div id="msg" style="margin: 0 auto;width: 70%;height: 40%;background:white;border:1px solid cornflowerblue" >
             <div style="width: 20%;height: 100%;background: chocolate;float: left">
                 <div style="margin: 0 auto;width: 30%;height: 100%">
                     <h1>用</h1>
@@ -106,7 +106,7 @@
                 document.getElementById("money").innerHTML = res.money;
                 document.getElementById("state").innerHTML = res.state;
 
-                document.getElementById("imgPre").src = path + res.url;
+                document.getElementById("imgPre").src = "data:image/png;base64," + res.url;
 
             }
             , error: function () {

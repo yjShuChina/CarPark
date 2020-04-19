@@ -11,12 +11,17 @@ import com.google.gson.Gson;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import static org.apache.commons.codec.binary.Base64.encodeBase64;
 
 //费用计算
 @Service
@@ -211,59 +216,18 @@ public class CostCalculationServiceImpl implements CostCalculationService {
     public static void main(String[] args) {
 
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//这个是你要转成后的时间的格式
-
-        //计费规则获取
-        String str = "[{'cpId':8,'chargeTime':'1800000','cpType':0,'stackTime':'0','price':10},{'cpId':6,'chargeTime':'10800000','cpType':1,'stackTime':'3600000','price':5},{'cpId':2,'chargeTime':'18000000','cpType':1,'stackTime':'3600000','price':10},{'cpId':1,'chargeTime':'28800000','cpType':0,'stackTime':'0','price':80}]";
-        TbChargerParameter[] tbChargerParameter = new Gson().fromJson(str, TbChargerParameter[].class);
-        List<TbChargerParameter> rule = new ArrayList<>();
-        for (int i = 0; i < tbChargerParameter.length; i++) {
-            rule.add(tbChargerParameter[i]);
-            System.out.println(new Gson().toJson(rule.get(i)));
-        }
-
+        String imgBase64 = "";
         try {
-            long j = sdf.parse(sdf.format(new Date())).getTime();
-            long c = sdf.parse("2020-04-13 18:00:00").getTime();
-            System.out.println();
-            long suan = c - j;
-            System.out.println("停车时间等于：" + suan);
-            int money = 0;
-
-            //辅助计算
-            int time = 0;
-            for (int i = 0; i < rule.size(); i++) {
-                if (rule.get(i).getCpType() == 0) {
-                    if (suan > Integer.parseInt(rule.get(i).getChargeTime())) {
-                        money = (int) rule.get(i).getPrice();
-                    } else {
-                        break;
-                    }
-                } else {
-                    if (suan > Integer.parseInt(rule.get(i).getChargeTime())) {
-                        time = Integer.parseInt(rule.get(i).getChargeTime());
-                        boolean flag = (i < rule.size() - 1);
-                        while (true) {
-                            money += (int) rule.get(i).getPrice();
-                            time += Integer.parseInt(rule.get(i).getStackTime());
-                            if (flag) {
-                                if (time >= Integer.parseInt(rule.get(i + 1).getChargeTime()) || time >= suan) {
-                                    break;
-                                }
-                            } else if (time >= suan) {
-                                break;
-                            }
-                        }
-                    } else {
-                        break;
-                    }
-                }
-            }
-            System.out.println("计算最终费用等于" + money);
-        } catch (
-                ParseException e) {
+            File file = new File("target/classes/static/images/IMG_20160704_093231.jpg");
+            byte[] content = new byte[(int) file.length()];
+            FileInputStream finputstream = new FileInputStream(file);
+            finputstream.read(content);
+            finputstream.close();
+            imgBase64 = new String(encodeBase64(content));
+        } catch (IOException e) {
             e.printStackTrace();
         }
+        System.out.println(imgBase64);
 
     }
 

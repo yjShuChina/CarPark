@@ -2,6 +2,8 @@ package com.example.carpark.websocket;
 
 
 
+import com.example.carpark.javabean.TbAdmin;
+import com.google.gson.Gson;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
@@ -78,7 +80,7 @@ public class WebSocket {
      */
     @OnError
     public void onError(Session session, Throwable error) {
-        System.out.println("发生错误");;
+        System.out.println("发生错误");
     }
 }
 

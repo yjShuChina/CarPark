@@ -20,6 +20,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
@@ -27,6 +29,8 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+
+import static org.apache.commons.codec.binary.Base64.encodeBase64;
 
 /**
  * 收费员控制类
@@ -165,7 +169,20 @@ public class ChargeController {
         System.out.println(timeDate);
         //获取图片url
         String url = chargeService.uploadImage(file, timeDate + car);
-        map.put("url", url);
+        String imgBase64 = "";
+
+        try {
+            File files = new File(url);
+            byte[] content = new byte[(int) files.length()];
+            FileInputStream finputstream = new FileInputStream(files);
+            finputstream.read(content);
+            finputstream.close();
+            imgBase64 = new String(encodeBase64(content));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println(imgBase64);
+        map.put("url", imgBase64);
 
         /*
          * 车辆状态查询
@@ -201,7 +218,74 @@ public class ChargeController {
         response.getWriter().print(str);
     }
 
+    //临时车自助缴费数据获取
+    @RequestMapping("/temporaryPayment")
+    @ResponseBody
+    public void temporaryPayment (String car , HttpServletResponse response, HttpServletRequest request) throws IOException {
 
+        Map<String, String> map = new HashMap<>();
+        //车牌号
+        System.out.println("车牌号=" + car);
+        map.put("carnumber", car);
+
+        //出场时间
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+        String timeC = sdf.format(new Date());
+        map.put("timeC", timeC);
+
+        //场内信息查询
+        TbParkCarInfo tbParkCarInfo = costCalculationService.carInfo(car);
+
+        String timej = "未找到";
+        String timeData = "无法计算";
+        if (tbParkCarInfo != null) {
+            timej = "" + tbParkCarInfo.getCarTime();
+
+            //获取停放时长
+            timeData = costCalculationService.getTimeDifference(timej,timeC);
+
+        }
+        map.put("timej", timej);
+        map.put("timeData", timeData);
+
+        // new Date()为获取当前系统时间
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH.mm.ss");//设置日期格式
+        String timeDate = df.format(new Date());
+        System.out.println(timeDate);
+
+        /*
+         * 车辆状态查询
+         *  0 :白名单
+         *  -1 :包月车
+         *  -2 :临时车
+         *  >0 :包月时间包含停车时间的特殊车辆
+         */
+        long type = costCalculationService.chargeCalculation(car);
+        int money = 0;
+        if (type > 0){
+            //获取应缴费用
+            money = costCalculationService.timeDifferenceCount(type);
+            map.put("state","月缴过期");
+        }
+        if (type == -2){
+            //获取应缴费用
+            money = costCalculationService.carCount(timej,timeC);
+            map.put("state","临时车辆");
+        }
+        if (type == -1){
+            map.put("state","月缴车辆");
+        }
+        if (type == 0){
+            map.put("state","高级VIP");
+        }
+        map.put("money",""+money);
+
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json; charset=utf-8");
+        String str = new Gson().toJson(map);
+        System.out.println(str);
+        response.getWriter().print(str);
+    }
     //添加月缴信息
     @RequestMapping("/addMonthlyPayment")
     public void addMonthlyPayment(HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException {

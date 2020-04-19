@@ -37,6 +37,7 @@
     }
     websocket.onmessage  = function(event){
         setMessageInHtml(event.data);
+        console.log(event);
     }
     websocket.onclose = function(){
         setMessageInHtml("closed websocket!")
@@ -44,12 +45,18 @@
     window.onbeforeunload = function(){
         clos();
     }
+
+    // 接收信息
     function setMessageInHtml(message){
         document.getElementById('message').innerHTML += message;
     }
+
+    //关闭连接
     function clos(){
         websocket.close(3000,"强制关闭");
     }
+
+    //发送信息
     function send(){
         var msg = document.getElementById('text').value;
         websocket.send(msg);
