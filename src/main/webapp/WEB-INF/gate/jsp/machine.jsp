@@ -21,21 +21,24 @@
 		color:white;
 	}
 	span{
-		color:white;;
+		color:white;
+	}
+	button{
+		font-size: 15px;
 	}
 </style>
 <body>
 <input type="hidden" id="path" value="<%=path%>">
-<input type="hidden" id="x" value="null">
-<input type="hidden" id="y" value="null">
+<input type="hidden" id="area" value='<%=session.getAttribute("Area")%>'>
 <%out.write("<input type='hidden' id='Cnum' value='"+request.getSession().getAttribute("Cps")+"'>");%>
 <div id="map-container" style="margin: 0 auto;width: 100%;height: 100%">
 </div>
 
-<div style="margin-top: -300px">
+<div style="margin-top: -300px;float: top">
 	<button id="btn2D" class="btn btn-default">2D</button>
-	<button id="btn3D" class="btn btn-default">3D</button>
+	<button id="btn3D" class="btn btn-default">3D</button><br>
 	<button onclick="prom()">查询车辆信息</button>
+	<button onclick="pay()">自助缴费办理</button>
 	<div class="parking fix" id="parking"><span id="carid">车辆情况：</span></div>
 	<div class="codition fix">
 		<ul>
@@ -54,11 +57,14 @@
 		</ul>
 	</div>
 </div>
-
+<br>
+<br>
+<button style="float:end;width: 120px;font-size:13px" onclick="pwd()">设备编号修改</button><br>
 </body>
 <script>
-	var path = $("#path").val();
+	area();//设备编号
 
+	var path = $("#path").val();
 	var map;
 	//定义全局map变量
 	var esmapID = 'machine1';
@@ -66,7 +72,6 @@
 	var styleid = 1004;
 	//选用的style的id
 	var floorControl;
-
 	map = new esmap.ESMap({
 		container: $("#map-container")[0], // 渲染dom
 		// 	container:document.getElementById('map-container'),
@@ -102,40 +107,16 @@
 		typeID : 40003
 	};
 
-	function prom() {
-		var carnum = prompt("请输入您的车牌号", ""); //将输入的内容赋给变量 name ，
 
-		//这里需要注意的是，prompt有两个参数，前面是提示的话，后面是当对话框出来后，在对话框里的默认值
-		if (carnum)//如果返回的有内容
-		{
-			$.ajax({
-					url: path + "/gate/findcarmsg",
-					async: "true",
-					type: "Post",
-					data: {"carnum":carnum},
-					dataType: "text",
-					success: function (res) {
-						if(res!='no'){
-							$("#x").val(res.split(",")[1]);
-							$("#y").val(res.split(",")[0]);
-							myrefresh()
-						}else {
-							alert("输入车牌有误，请重试")
-						}
-					}
-
-				}
-			);
-		}
-
-	}
 
 	map.on("loadComplete", function () {
-		var x=$("#x").val().toString();
+		var x='<%=session.getAttribute("x")%>';
+		var y='<%=session.getAttribute("y")%>';
 		console.log(x)
+		parking();
 		//初始化导航对象
 		if(x!='null'){
-			var y=$("#y").val();
+			// var y=$("#y").val();
 			var navi = new esmap.ESNavigation({
 				map: map,
 				locationMarkerUrl: 'image/pointer.png',   //定位标注图片地址
@@ -156,7 +137,7 @@
 					lineType: esmap.ESLineType.ESARROW,
 					// lineType: esmap.ESLineType.FULL,
 					lineWidth: 6,		// 设置导航线的宽度
-					offsetHeight: 0.5,	// 设置导航线的高度
+					offsetHeight: 0.7,	// 设置导航线的高度
 					smooth: true,		// 设置导航线的转角线平滑效果
 					seeThrough: false,	// 设置导航线的穿透楼层地板总是显示的效果
 					noAnimate: false	// 设置导航线的动画效果
@@ -177,24 +158,145 @@
 			});
 			//确定终点
 			navi.setEndPoint({
-				x:x ,
+				x:x,
 				y:y,
 				fnum: 1,
 				height: 1,
-				url: 'https://i.loli.net/2020/04/18/tNJOEPphUar1jS6.png',
+				url: '',
 				size: 64
 			});
+
+			//通过名字区别创建不同的layer
+			var floorLayer = map.getFloor(1);  //获取第一层的楼层对象
+			var layer=floorLayer.getOrCreateLayerByName("camera",esmap.ESLayerType.IMAGE_MARKER);
+			im = new esmap.ESImageMarker({
+				x:x-0.1,
+				y:y-0.1,   //如果不添加x和y，则默认坐标在地图中心。
+				url: 'https://i.loli.net/2020/04/20/FTJM9EuqoR5GHOC.png',  //图片标注的图片地址
+				size: 64,   			//图片大小 或者 size:{w:32,h:64},
+				spritify:true,			//跟随地图缩放变化大小，默认为true，可选参数
+				height:2,    			//距离地面高度
+				showLevel: 20,  		//地图缩放等级达到多少时隐藏,可选参数
+				seeThrough: true,		//是否可以穿透楼层一直显示,可选参数
+				//angle:30,  	//如果设置了就是固定marker角度，与地图一起旋转。(size需要重新设置)
+				id: 2017,   			//id，可自定义
+				name: 'myMarker'   		//name可自定义
+			});
+			layer.addMarker(im);              //将imageMarker添加到图层
+			floorLayer.addLayer(layer);       //将图层添加到楼层对象
+
+
 			console.log("!!!")
 			navi.drawNaviLine();
 
 			var Cnum=$("#Cnum").val().toString();
-			console.log(Cnum)
-			map.changeModelColor({name:Cnum,color:'#676766'});
+			// console.log(Cnum)
+			// map.changeModelColor({name:Cnum,color:'#676766'});
 
-			setTimeout('remove()',5000); //指定10秒刷新一次
+			setTimeout('remove();parking()',5000); //指定10秒刷新一次
 		}
 	});
 
+	function prom() {
+		var carnum = prompt("请输入您的车牌号", ""); //将输入的内容赋给变量 name ，
+		//这里需要注意的是，prompt有两个参数，前面是提示的话，后面是当对话框出来后，在对话框里的默认值
+		if (carnum)//如果返回的有内容
+		{
+			$.ajax({
+					url: path + "/gate/findcarmsg",
+					async: "true",
+					type: "Post",
+					data: {"carnum":carnum},
+					dataType: "text",
+					success: function (res) {
+						if(res!='no'){
+							myrefresh()
+						}else {
+							alert("输入车牌有误，请重试")
+						}
+					}
+				}
+			);
+		}
+	}//车牌查询
+	function pwd() {
+		var pwd = prompt("请输入设备密码", ""); //将输入的内容赋给变量 name ，
+		//这里需要注意的是，prompt有两个参数，前面是提示的话，后面是当对话框出来后，在对话框里的默认值
+		if (pwd)//如果返回的有内容
+		{
+			$.ajax({
+					url: path + "/gate/machinepwd",
+					async: "true",
+					type: "Post",
+					data: {"pwd":pwd},
+					dataType: "text",
+					success: function (res) {
+						if(res!='no'){
+							Area();
+						}else {
+							alert("输入设备密码有误，请重试")
+						}
+					}
+				}
+			);
+		}
+	}//密码验证
+	function Area() {
+		var carnum = prompt("请输入设备号（1、2）", ""); //将输入的内容赋给变量 name ，
+		//这里需要注意的是，prompt有两个参数，前面是提示的话，后面是当对话框出来后，在对话框里的默认值
+		if (carnum)//如果返回的有内容
+		{
+			if(carnum=='1'||carnum=='2'){
+				$.ajax({
+						url: path + "/gate/saveArea",
+						async: "true",
+						type: "Post",
+						data: {'area':carnum},
+						success: function (res) {
+							myrefresh();
+						},
+						error: function () {
+						}
+					}
+				);
+			}else {
+				alert('设备号有误！')
+				Area();
+			}
+		}
+	}//设备号验证
+
+	function pay(){
+		saveArea();
+		var flag = confirm("是否跳转到缴费页面");
+		if(flag){
+			window.location.href='http://localhost:8080/Carpark/alipay/path/selfServicePayment'
+		}else{
+
+		}
+	}//页面跳转
+	//页面选择
+	function area() {
+		var area=$("#area").val();
+		area='<%=session.getAttribute("Area")%>'
+		if(area=='2'){
+			window.location.href='http://localhost:8080/Carpark/gate/cn/machine2'
+		}
+	}
+	function saveArea() {
+		var area=$("#area").val();
+		$.ajax({
+				url: path + "/gate/saveArea",
+				async: "true",
+				type: "Post",
+				data: {'area':area},
+				success: function (res) {
+				},
+				error: function () {
+				}
+			}
+		);
+	}
 
 	//刷新
 	function myrefresh() {
@@ -215,7 +317,7 @@
 				success: function (res) {
 					parking =res;
 					console.log(res);
-					map.changeModelColor({name:"'"+parking+"'",color:'#Fb7999'})
+					map.changeModelColor({name:parking,color:'#Fb7999'})
 				},
 				error: function () {
 					console.log("!!!")

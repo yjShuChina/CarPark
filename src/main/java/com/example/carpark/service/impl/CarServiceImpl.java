@@ -6,10 +6,7 @@ import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import com.example.carpark.dao.CarDao;
 import com.example.carpark.dao.ChargeDao;
-import com.example.carpark.javabean.TbParkCarInfo;
-import com.example.carpark.javabean.TbParkSpace;
-import com.example.carpark.javabean.TbUser;
-import com.example.carpark.javabean.TbWhiteList;
+import com.example.carpark.javabean.*;
 import com.example.carpark.service.CarService;
 import com.example.carpark.util.HttpUtils;
 import org.apache.http.HttpResponse;
@@ -194,5 +191,11 @@ public class CarServiceImpl implements CarService
     public Integer changestate(String state,String ps){
         Integer i =carDao.changestate(state,ps);
         return i;
+    }
+    @Override
+    public //查找设备密码
+    TbSystemParameter machinepwd(String pwd, String name){
+        TbSystemParameter tbSystemParameter=carDao.machinepwd(pwd,name);
+        return tbSystemParameter;
     }
 }

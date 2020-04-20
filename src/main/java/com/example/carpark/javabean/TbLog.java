@@ -5,7 +5,7 @@ public class TbLog {
 
   private long logId;
   private String uname;
-  private java.sql.Timestamp operationTime;
+  private String operationTime;
   private String operation;
   private String operationType;
 
@@ -28,14 +28,15 @@ public class TbLog {
   }
 
 
-  public java.sql.Timestamp getOperationTime() {
+  public String getOperationTime()
+  {
     return operationTime;
   }
 
-  public void setOperationTime(java.sql.Timestamp operationTime) {
+  public void setOperationTime(String operationTime)
+  {
     this.operationTime = operationTime;
   }
-
 
   public String getOperation() {
     return operation;

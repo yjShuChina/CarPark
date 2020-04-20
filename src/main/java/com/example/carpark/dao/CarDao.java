@@ -2,6 +2,7 @@ package com.example.carpark.dao;
 
 import com.example.carpark.javabean.TbParkCarInfo;
 import com.example.carpark.javabean.TbParkSpace;
+import com.example.carpark.javabean.TbSystemParameter;
 import com.example.carpark.javabean.TbUser;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -27,4 +28,6 @@ public interface CarDao
     TbParkCarInfo findmsg(String carnum);
     //改变车位属性
     Integer changestate(String state,String ps);
+    //查找设备密码
+    TbSystemParameter machinepwd(String pwd,String name);
 }

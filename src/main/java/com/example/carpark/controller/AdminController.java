@@ -28,6 +28,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
 
@@ -558,7 +560,10 @@ public class AdminController {
         datagridResult.setCount(count);
         List<TbLog> users=new ArrayList<>();
         users=adminService.findLog(condition);
-        datagridResult.setData(users);
+
+
+
+	    datagridResult.setData(users);
         System.out.println("表格数据==="+toJson(datagridResult));
         ResponseUtils.outJson(response,toJson(datagridResult));
     }

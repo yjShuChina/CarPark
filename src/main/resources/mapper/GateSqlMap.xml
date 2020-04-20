@@ -53,4 +53,8 @@
 	<update id="changestate" parameterType="java.lang.String">
 		update tb_park_space SET park_space_state=#{state} where park_space_id=#{ps}
 	</update>
+
+	<select id="machinepwd" resultType="com.example.carpark.javabean.TbSystemParameter" parameterType="java.lang.String">
+		select * from tb_system_parameter where parameter_explain=#{name} and parameter_value=#{pwd}
+	</select>
 </mapper>

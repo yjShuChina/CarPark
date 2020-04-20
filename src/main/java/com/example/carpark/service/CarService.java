@@ -1,9 +1,6 @@
 package com.example.carpark.service;
 
-import com.example.carpark.javabean.TbParkCarInfo;
-import com.example.carpark.javabean.TbParkSpace;
-import com.example.carpark.javabean.TbUser;
-import com.example.carpark.javabean.TbWhiteList;
+import com.example.carpark.javabean.*;
 
 import java.util.List;
 
@@ -33,4 +30,6 @@ public interface CarService
     TbParkCarInfo findmsg(String carnum);
     //改变车位属性
     Integer changestate(String state,String ps);
+    //查找设备密码
+    TbSystemParameter machinepwd(String pwd, String name);
 }

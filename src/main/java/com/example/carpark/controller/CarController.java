@@ -1,10 +1,7 @@
 package com.example.carpark.controller;
 
 
-import com.example.carpark.javabean.TbParkCarInfo;
-import com.example.carpark.javabean.TbParkSpace;
-import com.example.carpark.javabean.TbUser;
-import com.example.carpark.javabean.TbWhiteList;
+import com.example.carpark.javabean.*;
 import com.example.carpark.service.CarService;
 import com.example.carpark.util.ResponseUtils;
 import com.google.gson.Gson;
@@ -168,8 +165,8 @@ public class CarController
 		int Aparking=carService.findParkSpacenum("2","A");
 		int Bpsnum=carService.findParkSpacenum("1","B");
 		int Bparking=carService.findParkSpacenum("2","B");
-		int parkspase=carService.findParkSpacenum("1","");
-		int allps=carService.findParkSpacenum("","");
+		int parkspase=carService.findParkSpacenum("1","");//未停车
+		int allps=carService.findParkSpacenum("","");//所有车位
 
 		request.getSession().setAttribute("Apsnum", Apsnum);
 		request.getSession().setAttribute("Aparking", Aparking);
@@ -199,15 +196,36 @@ public class CarController
 
 		if (tbParkSpace!=null){
 			TbParkCarInfo tbParkCarInfo=carService.findmsg(carnum);
-			request.getSession().setAttribute("Ctime", tbParkCarInfo.getCarTime());
+			request.getSession().setAttribute("Ctime", tbParkCarInfo.getCarTime().toString().split("\\.")[0]);
 			request.getSession().setAttribute("Identity", tbParkCarInfo.getCarIdentity());
 			request.getSession().setAttribute("Cnum", tbParkCarInfo.getCarNumber());
 			request.getSession().setAttribute("Cps", tbParkCarInfo.getParkSpaceId());
-//			return "yes";
-			return tbParkSpace.getY()+","+tbParkSpace.getX();
+			request.getSession().setAttribute("x", tbParkSpace.getX());
+			request.getSession().setAttribute("y", tbParkSpace.getY());
+			request.getSession().setAttribute("Area",'1');
+			System.out.println(tbParkCarInfo.getCarTime().toString().split("\\.")[0]);
+			return "yes";
 		}else {
 			return "no";
 		}
+	}
+	@RequestMapping("/saveArea")
+	@ResponseBody
+	public String saveArea(HttpServletRequest request,HttpServletResponse response) {
+//    	System.out.println("设备号以保存");
+		String area=request.getParameter("area");
+		request.getSession().setAttribute("Area",area);
+		return "yes";
+	}
+	@RequestMapping("/machinepwd")
+	@ResponseBody
+	public String machinepwd(HttpServletRequest request,HttpServletResponse response) {
+		String area=request.getParameter("pwd");
+		TbSystemParameter tbSystemParameter=carService.machinepwd(area,"设备密码");
+		if(tbSystemParameter==null){
+			return "no";
+		}
+		return "yes";
 	}
 
 //	@RequestMapping("/removemsg")
