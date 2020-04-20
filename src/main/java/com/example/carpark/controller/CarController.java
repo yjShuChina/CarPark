@@ -185,7 +185,7 @@ public class CarController
 	public void findParking(HttpServletResponse response) {
 		List<String> PS2 = carService.findParkSpace("2");
 		String[] array2 = new String[PS2.size()];
-		PS2.toArray(array2);
+        PS2.toArray(array2);
 		String [] car = array2;
 		Gson g = new Gson();
 		ResponseUtils.outJson(response, g.toJson(car));

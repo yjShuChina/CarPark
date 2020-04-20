@@ -5,11 +5,9 @@ import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradePagePayRequest;
-import com.example.carpark.javabean.TbMonthChargeParameter;
-import com.example.carpark.javabean.TbMonthVip;
-import com.example.carpark.javabean.TbReceivable;
-import com.example.carpark.javabean.TbUser;
+import com.example.carpark.javabean.*;
 import com.example.carpark.service.AlipayService;
+import com.example.carpark.service.CostCalculationService;
 import com.example.carpark.service.MonthService;
 import com.example.carpark.util.AlipayConfig;
 import com.google.gson.Gson;
@@ -41,6 +39,9 @@ public class AlipayController {
 
     @Resource
     private AlipayService alipayService;
+
+    @Resource
+    private CostCalculationService costCalculationService;
 
     Gson g = new Gson();
     Date d = new Date();
@@ -79,6 +80,34 @@ public class AlipayController {
         return "/alipay/jsp/selfRenewalFee";
     }
 
+    //新的生效时间
+    @RequestMapping("/newTime")
+    public String newTime(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String carNumber = request.getParameter("carNumber");
+        System.out.println("月缴是否到期carNumber= " + carNumber);
+        int count = monthService.findCarNumber(carNumber);//根据车牌查询用户名判空
+        System.out.println("count=" + count);
+        if (count > 0) {
+            TbUser tbUser = monthService.findUserByCarNumber(carNumber);
+            String monthVipDeadline = tbUser.getMonthVipDeadline().toString();//月缴原来到期时间
+//            System.out.println("今天的日期：" + today);
+            int result = monthVipDeadline.compareTo(today);//result大于等于0，则月缴未到期
+            String monthVipBeginNew = monthVipDeadline.split("\\s+")[0];//根据空格切割日期
+            if (result >= 0) {
+                response.getWriter().print(monthVipBeginNew);
+                System.out.println("月缴是否到期monthVipBeginNew=" + monthVipBeginNew);
+            } else {
+                response.getWriter().print("pass");
+                System.out.println("用户办理月缴已过期，请缴费");
+            }
+        } else {
+            response.getWriter().print("error");
+            System.out.println("用户不是月缴用户");
+        }
+        return null;
+    }
+
+
     //根据月份，查询金额
     @RequestMapping("/payment")
     public String payment(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -92,6 +121,71 @@ public class AlipayController {
         return null;
     }
 
+    //临时车自助缴费数据显示
+    @RequestMapping("/temporaryCarShow")
+    public void temporaryCarShow(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        //车牌号
+        String carNumber = request.getParameter("carNumber");
+        Map<String, String> map = new HashMap<>();
+        System.out.println("车牌号=" + carNumber);
+
+        //出场时间
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+        String timeC = sdf.format(new Date());
+        map.put("timeC", timeC);
+
+        //场内信息查询
+        TbParkCarInfo tbParkCarInfo = costCalculationService.carInfo(carNumber);
+
+        String timej = "未找到";
+        String timeData = "无法计算";
+        if (tbParkCarInfo != null) {
+            timej = "" + tbParkCarInfo.getCarTime();
+
+            //获取停放时长
+            timeData = costCalculationService.getTimeDifference(timej, timeC);
+            /*
+             * 车辆状态查询
+             *  0 :白名单
+             *  -1 :包月车
+             *  -2 :临时车
+             *  >0 :包月时间包含停车时间的特殊车辆
+             */
+            long type = costCalculationService.chargeCalculation(carNumber);
+            int money = 0;
+            if (type > 0) {
+                //获取应缴费用
+                money = costCalculationService.timeDifferenceCount(type);
+                map.put("state", "月缴过期");
+            }
+            if (type == -2) {
+                //获取应缴费用
+                money = costCalculationService.carCount(timej, timeC);
+                map.put("state", "临时车辆");
+            }
+            if (type == -1) {
+                map.put("state", "月缴车辆");
+            }
+            if (type == 0) {
+                map.put("state", "高级VIP");
+            }
+            map.put("money", "" + money);
+        }
+        map.put("timej", timej);
+        map.put("timeData", timeData);
+
+        // new Date()为获取当前系统时间
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH.mm.ss");//设置日期格式
+        String timeDate = df.format(new Date());
+        System.out.println(timeDate);
+
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json; charset=utf-8");
+        String str = new Gson().toJson(map);
+        System.out.println(str);
+        response.getWriter().print(str);
+    }
 
     @RequestMapping("/tradePay")//办理月缴续费
     public void tradePay(HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException {
@@ -107,34 +201,77 @@ public class AlipayController {
         String totalAmount = new String(request.getParameter("totalAmount").getBytes("UTF-8"), "UTF-8");
         //订单名称，必填
         String subject = new String(request.getParameter("subject").getBytes("UTF-8"), "UTF-8");
-        //车牌号，可空
-        String carNumber = new String(request.getParameter("carNumber").getBytes("UTF-8"), "UTF-8");
-        String monthVipBegin = request.getParameter("monthVipBegin");
-        String mcpId = new String(request.getParameter("mcpId").getBytes("UTF-8"), "UTF-8");
 
-        System.out.println("订单号=" + outTradeNo);
-        System.out.println("付款金额=" + totalAmount);
-        System.out.println("订单名称=" + subject);
-        System.out.println("车牌号=" + carNumber);
-        System.out.println("生效时间=" + monthVipBegin);
-        System.out.println("月份id=" + mcpId);
+        TbReceivable tbReceivable = null;//月缴办理
+        TbTemporaryCarRecord tbTemporaryCarRecord = null;//临时车缴费
+        int count1 = 0 ,count2 = 0;
+        if (subject.equals("月缴续费")) {
+            //车牌号
+            String carNumber = new String(request.getParameter("carNumber").getBytes("UTF-8"), "UTF-8");
+            String monthVipBegin = request.getParameter("monthVipBegin");
+            String mcpId = new String(request.getParameter("mcpId").getBytes("UTF-8"), "UTF-8");
 
-        //生效时间转换格式
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        format.setLenient(false);
-        Timestamp newMonthVipBegin = new Timestamp(format.parse(monthVipBegin).getTime());
-        //赋值
-        TbReceivable tbReceivable = new TbReceivable();
-        tbReceivable.setPrice(new BigDecimal(totalAmount));
-        tbReceivable.setOutTradeNo(outTradeNo);
-        tbReceivable.setSubject(subject);
-        tbReceivable.setCarNumber(carNumber);
-        tbReceivable.setMonthVipBegin(newMonthVipBegin);
-        tbReceivable.setMcpId(Integer.parseInt(mcpId));
-        int count = alipayService.addReceivable(tbReceivable);
+            System.out.println("订单号=" + outTradeNo);
+            System.out.println("付款金额=" + totalAmount);
+            System.out.println("订单名称=" + subject);
+            System.out.println("车牌号=" + carNumber);
+            System.out.println("生效时间=" + monthVipBegin);
+            System.out.println("月份id=" + mcpId);
+
+            //生效时间转换格式
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            format.setLenient(false);
+            Timestamp newMonthVipBegin = new Timestamp(format.parse(monthVipBegin).getTime());
+
+            tbReceivable = new TbReceivable();
+
+            //赋值
+            tbReceivable.setPrice(new BigDecimal(totalAmount));
+            tbReceivable.setOutTradeNo(outTradeNo);
+            tbReceivable.setSubject(subject);
+            tbReceivable.setCarNumber(carNumber);
+            tbReceivable.setMonthVipBegin(newMonthVipBegin);
+            tbReceivable.setMcpId(Integer.parseInt(mcpId));
+            count1 = alipayService.addReceivable(tbReceivable);
+        } else if (subject.equals("临时车辆")) {
+
+            String carNumber = request.getParameter("carNumber");
+            String entryTime = request.getParameter("entryTime");//进场时间
+            String handleTime = request.getParameter("handleTime");//缴费时间
+            String time = request.getParameter("time");//停放时长
+
+            System.out.println("订单号=" + outTradeNo);
+            System.out.println("付款金额=" + totalAmount);
+            System.out.println("订单名称=" + subject);
+            System.out.println("车牌号=" + carNumber);
+            System.out.println("进场时间=" + entryTime);
+            System.out.println("出场时间=" + handleTime);
+            System.out.println("停放时长=" + time);
+
+            TbParkCarInfo tbParkCarInfo = alipayService.findParkCarInfoByCar(carNumber);
+
+            //生效时间转换格式
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            format.setLenient(false);
+            Timestamp newEntryTime = new Timestamp(format.parse(entryTime).getTime());//进场时间，时间格式
+            Timestamp newHandleTime = new Timestamp(format.parse(handleTime).getTime());//出场时间，时间格式
+
+            tbTemporaryCarRecord = new TbTemporaryCarRecord();
+            tbTemporaryCarRecord.setPciId(tbParkCarInfo.getPciId());
+            tbTemporaryCarRecord.setPrice(new BigDecimal(totalAmount));
+            tbTemporaryCarRecord.setOutTradeNo(outTradeNo);
+            tbTemporaryCarRecord.setSubject(subject);
+            tbTemporaryCarRecord.setCarNumber(carNumber);
+            tbTemporaryCarRecord.setEntryTime(newEntryTime);
+            tbTemporaryCarRecord.setHandleTime(newHandleTime);
+            tbTemporaryCarRecord.setTime(time);
+            count2 = alipayService.addTemporaryCarRecord(tbTemporaryCarRecord);
+        }
+
+
 
         //参数保存成功后，执行支付
-        if (count > 0) {
+        if (count1 > 0 || count2 > 0) {
 
             alipayRequest.setBizContent("{\"out_trade_no\":\"" + outTradeNo + "\","
                     + "\"total_amount\":\"" + totalAmount + "\","
@@ -169,117 +306,6 @@ public class AlipayController {
     }
 
 
-    //    @RequestMapping("/tradeQuery")//交 易 查 询
-//    public void tradeQuery(HttpServletRequest request, HttpServletResponse response) throws IOException {
-//
-//        //在公共参数中设置回跳和通知地址
-//        alipayRequest.setReturnUrl(return_url);
-//        alipayRequest.setNotifyUrl(notify_url);
-//
-//        //商户订单号，商户网站订单系统中唯一订单号
-//        String out_trade_no = new String(request.getParameter("WIDTQout_trade_no").getBytes("ISO-8859-1"), "UTF-8");
-//        //支付宝交易号
-//        String trade_no = new String(request.getParameter("WIDTQtrade_no").getBytes("ISO-8859-1"), "UTF-8");
-//        //请二选一设置
-//
-//        alipayRequest.setBizContent("{\"out_trade_no\":\"" + out_trade_no + "\"," + "\"trade_no\":\"" + trade_no + "\"}");
-//
-//        String form = "";
-//        try {
-//            form = alipayClient.pageExecute(alipayRequest).getBody(); // 调用SDK生成表单
-//        } catch (AlipayApiException e) {
-//            e.printStackTrace();
-//        }
-//        response.setContentType("text/html;charset=" + charset);
-//        response.getWriter().write(form);// 直接将完整的表单html输出到页面
-//        response.getWriter().flush();
-//        response.getWriter().close();
-//    }
-//
-//    @RequestMapping("/tradeRefund")//退 款
-//    public void tradeRefund(HttpServletRequest request, HttpServletResponse response) throws IOException {
-//
-//        //商户订单号，商户网站订单系统中唯一订单号
-//        String out_trade_no = new String(request.getParameter("WIDTRout_trade_no").getBytes("ISO-8859-1"), "UTF-8");
-//        //支付宝交易号
-//        String trade_no = new String(request.getParameter("WIDTRtrade_no").getBytes("ISO-8859-1"), "UTF-8");
-//        //请二选一设置
-//        //需要退款的金额，该金额不能大于订单金额，必填
-//        String refund_amount = new String(request.getParameter("WIDTRrefund_amount").getBytes("ISO-8859-1"), "UTF-8");
-//        //退款的原因说明
-//        String refund_reason = new String(request.getParameter("WIDTRrefund_reason").getBytes("ISO-8859-1"), "UTF-8");
-//        //标识一次退款请求，同一笔交易多次退款需要保证唯一，如需部分退款，则此参数必传
-//        String out_request_no = new String(request.getParameter("WIDTRout_request_no").getBytes("ISO-8859-1"), "UTF-8");
-//
-//        alipayRequest.setBizContent("{\"out_trade_no\":\"" + out_trade_no + "\","
-//                + "\"trade_no\":\"" + trade_no + "\","
-//                + "\"refund_amount\":\"" + refund_amount + "\","
-//                + "\"refund_reason\":\"" + refund_reason + "\","
-//                + "\"out_request_no\":\"" + out_request_no + "\"}");
-//
-//        String form = "";
-//        try {
-//            form = alipayClient.pageExecute(alipayRequest).getBody(); // 调用SDK生成表单
-//        } catch (AlipayApiException e) {
-//            e.printStackTrace();
-//        }
-//        response.setContentType("text/html;charset=" + charset);
-//        response.getWriter().write(form);// 直接将完整的表单html输出到页面
-//        response.getWriter().flush();
-//        response.getWriter().close();
-//    }
-//
-//    @RequestMapping("/tradeFastpay")//退 款 查 询
-//    public void tradeFastpay(HttpServletRequest request, HttpServletResponse response) throws IOException {
-//
-//        //商户订单号，商户网站订单系统中唯一订单号
-//        String out_trade_no = new String(request.getParameter("WIDRQout_trade_no").getBytes("ISO-8859-1"),"UTF-8");
-//        //支付宝交易号
-//        String trade_no = new String(request.getParameter("WIDRQtrade_no").getBytes("ISO-8859-1"),"UTF-8");
-//        //请二选一设置
-//        //请求退款接口时，传入的退款请求号，如果在退款请求时未传入，则该值为创建交易时的外部交易号，必填
-//        String out_request_no = new String(request.getParameter("WIDRQout_request_no").getBytes("ISO-8859-1"),"UTF-8");
-//
-//        alipayRequest.setBizContent("{\"out_trade_no\":\""+ out_trade_no +"\","
-//                +"\"trade_no\":\""+ trade_no +"\","
-//                +"\"out_request_no\":\""+ out_request_no +"\"}");
-//
-//        String form = "";
-//        try {
-//            form = alipayClient.pageExecute(alipayRequest).getBody(); // 调用SDK生成表单
-//        } catch (AlipayApiException e) {
-//            e.printStackTrace();
-//        }
-//        response.setContentType("text/html;charset=" + charset);
-//        response.getWriter().write(form);// 直接将完整的表单html输出到页面
-//        response.getWriter().flush();
-//        response.getWriter().close();
-//    }
-//
-//    @RequestMapping("/tradeClose")//交 易 关 闭
-//    public void tradeClose(HttpServletRequest request, HttpServletResponse response) throws IOException {
-//
-//        //商户订单号，商户网站订单系统中唯一订单号
-//        String out_trade_no = new String(request.getParameter("WIDTCout_trade_no").getBytes("ISO-8859-1"),"UTF-8");
-//        //支付宝交易号
-//        String trade_no = new String(request.getParameter("WIDTCtrade_no").getBytes("ISO-8859-1"),"UTF-8");
-//        //请二选一设置
-//
-//        alipayRequest.setBizContent("{\"out_trade_no\":\""+ out_trade_no +"\"," +"\"trade_no\":\""+ trade_no +"\"}");
-//
-//        String form = "";
-//        try {
-//            form = alipayClient.pageExecute(alipayRequest).getBody(); // 调用SDK生成表单
-//        } catch (AlipayApiException e) {
-//            e.printStackTrace();
-//        }
-//        response.setContentType("text/html;charset=" + charset);
-//        response.getWriter().write(form);// 直接将完整的表单html输出到页面
-//        response.getWriter().flush();
-//        response.getWriter().close();
-//    }
-//
-//
     @RequestMapping(value = "/returnUrl", method = RequestMethod.GET)
     public String returnUrl(HttpServletRequest request, HttpServletResponse response)
             throws IOException, AlipayApiException, ParseException {
@@ -320,8 +346,11 @@ public class AlipayController {
             //通过订单号，查询自助收费记录表
             TbReceivable tbReceivable = alipayService.findReceivableById(out_trade_no);
 
+            //通过订单号，查询临时车辆自助缴费记录表
+            TbTemporaryCarRecord tbTemporaryCarRecord = alipayService.findTemporaryCarRecordById(out_trade_no);
+
             //处理自助月缴续费的返回逻辑
-            if (tbReceivable.getSubject().equals("月缴续费")) {
+            if (tbReceivable != null && tbReceivable.getSubject().equals("月缴续费")) {
 
                 String carNumber = tbReceivable.getCarNumber();//车牌号
                 Timestamp monthVipBegin = tbReceivable.getMonthVipBegin();//新的生效时间
@@ -329,18 +358,8 @@ public class AlipayController {
                 TbMonthChargeParameter tbmcp = monthService.findMonthById(mcpId);
                 int month = (int) tbmcp.getMonth();//续费办理的月份
                 TbUser tbUser = monthService.findUserByCarNumber(carNumber);
-                String oldMonthVipBegin = tbUser.getMonthVipBegin().toString();//原先的生效时间
-                String oldMonthVipDeadline = tbUser.getMonthVipDeadline().toString();//原先的到期时间
-                int result = oldMonthVipBegin.compareTo(today);//result大于等于0，则月缴未到期
-                String monthVipDeadline = null;
-                if (result >= 0) {
-                    //未到期逻辑
-                    monthVipDeadline = timeFactory(oldMonthVipDeadline, month);//续费后，新的到期时间
-                } else {
-                    //到期逻辑
-                    tbUser.setMonthVipBegin(monthVipBegin);//新的生效时间
-                    monthVipDeadline = timeFactory(monthVipBegin.toString(), month);//续费后，新的到期时间
-                }
+                tbUser.setMonthVipBegin(monthVipBegin);//新的生效时间
+                String monthVipDeadline = timeFactory(monthVipBegin.toString(), month);//续费后，新的到期时间
                 DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                 format.setLenient(false);
                 Timestamp newMonthVipDeadline = new Timestamp(format.parse(monthVipDeadline).getTime());//到期时间转换格式
@@ -356,11 +375,17 @@ public class AlipayController {
                 if (count1 != 0 && count2 != 0) {
                     //支付成功，修复支付状态
                     alipayService.alterReceivableById(out_trade_no);
+                    return "/alipay/jsp/selfServicePayment";//跳转付款成功页面
                 }
+            } else if (tbTemporaryCarRecord != null && tbTemporaryCarRecord.getSubject().equals("临时车辆")) {
+                   int num = alipayService.alterTemporaryCarRecordById(out_trade_no);
+                   if (num > 0){
+                       return "/alipay/jsp/selfServicePayment";//跳转付款成功页面
+                   }
             }
-            return "alipay/jsp/ok";//跳转付款成功页面
+            return null;
         } else {
-            return "alipay/jsp/no";//跳转付款失败页面
+            return "/alipay/jsp/no";//跳转付款失败页面
         }
 
     }
@@ -421,9 +446,9 @@ public class AlipayController {
 
             //支付成功，修复支付状态
 //            payService.updateById(Integer.valueOf(out_trade_no));
-            return "alipay/jsp/ok";//跳转付款成功页面
+            return "/alipay/jsp/selfServicePayment";//跳转付款成功页面
         } else {
-            return "alipay/jsp/no";//跳转付款失败页面
+            return "/alipay/jsp/no";//跳转付款失败页面
         }
     }
 

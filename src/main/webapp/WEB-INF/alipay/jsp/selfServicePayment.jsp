@@ -7,7 +7,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>自助月缴办理</title>
+    <title>自助缴费办理</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" href=<%=path + "/layui/css/layui.css"%>>
     <script src=<%=jsPath + "jquery-3.4.1.js"%>></script>
@@ -18,14 +18,14 @@
 <input type="hidden" id="path" value="<%=path%>">
 <div class="layui-form">
     <div class="layui-row">
-        <div class="layui-form-item" style="font-size: 30px;text-align: center;padding-top: 10px">自助月缴办理</div>
+        <div class="layui-form-item" style="font-size: 30px;text-align: center;padding-top: 10px">自助缴费办理</div>
     </div>
     <div class="layui-form-item" style="margin-top: 200px;">
         <div class="layui-input-block" style="padding-left: 30%;">
-<%--            <div class="layui-input-inline" style="display: inline-block;">--%>
-<%--                <input class="layui-btn layui-btn-normal" onclick="addHandle(this)" type="button"--%>
-<%--                       value="新用户办理" style="width: 150px;">--%>
-<%--            </div>--%>
+            <div class="layui-input-inline" style="display: inline-block;">
+                <input class="layui-btn layui-btn-normal" onclick="temporary(this)" type="button"
+                       value="临时车辆缴费" style="width: 150px;">
+            </div>
             <div class="layui-input-inline" style="display: inline-block;">
                 <input class="layui-btn layui-btn-normal" onclick="renew(this)" type="button"
                        value="办理月缴续费" style="width: 150px;">
@@ -36,8 +36,8 @@
 <script>
 
 
-    //自助新增月缴用户
-    function addHandle(node) {
+    //临时车辆缴费
+    function temporary(node) {
         var path = $("#path").val();
         layui.use('layer', function () {
             var layer = layui.layer;
@@ -49,8 +49,8 @@
                 maxmin: false,
                 shadeClose: true,
                 shade: 0.3,
-                area: ['420px', '400px'],
-                content: path + '/alipay/findMonthCharge',
+                area: ['420px', '500px'],
+                content: path + '/alipay/path/selfTemporary',
                 end: function () {
                     location.reload();
                 }

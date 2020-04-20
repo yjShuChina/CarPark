@@ -7,7 +7,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>自助缴费办理</title>
+    <title>临时车辆缴费</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" href=<%=path + "/layui/css/layui.css"%>>
     <script src=<%=jsPath + "jquery-3.4.1.js"%>></script>
@@ -17,7 +17,7 @@
 <body>
 <form class="layui-form" action=<%=path + "/alipay/tradePay"%> method=post target="_parent">
     <div class="layui-form-item" style="text-align: center;font-size: 30px;padding-top: 10px;">
-        <label>自助缴费办理</label>
+        <label>临时车辆缴费</label>
     </div>
     <input type="hidden" id="path" value="<%=path%>">
     <div class="layui-form-item">
@@ -42,26 +42,27 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">生效时间：</label>
+        <label class="layui-form-label">入场时间：</label>
         <div class="layui-input-inline">
-            <input type="text" class="layui-input" id="monthVipBegin" name="monthVipBegin" lay-verify="required" readonly placeholder="yyyy-mm-dd">
+            <input type="text" class="layui-input" id="entryTime" name="entryTime" lay-verify="entryTime" readonly>
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">月缴产品：</label>
+        <label class="layui-form-label">缴费时间：</label>
         <div class="layui-input-inline">
-            <select id="mcpId" name="mcpId" lay-filter="mcpId">
-                <option value="">请选择</option>
-                <c:forEach items="${monthChargeParameterList}" begin="0" step="1" var="i">
-                    <option value="${i.mcpId}">${i.month}个月</option>
-                </c:forEach>
-            </select>
+            <input type="text" class="layui-input" id="handleTime" name="handleTime" lay-verify="handleTime" readonly>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">停放时长：</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input" id="time" name="time" lay-verify="time" readonly>
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">付款金额：</label>
         <div class="layui-input-inline">
-            <input type="text" id="totalAmount" name="totalAmount" class="layui-input" lay-verify="required" readonly>
+            <input type="text" id="totalAmount" name="totalAmount" class="layui-input" readonly>
         </div>
     </div>
     <div class="layui-form-item">
@@ -77,7 +78,7 @@
         var laydate = layui.laydate;
         var layer = layui.layer;
 
-        //输入车牌号获取原到期时间，做新的生效时间
+        //输入车牌号临时用户的出入场时间和费用
         $("#carNumber").mouseout(function () {
             var carNumber = $("#carNumber").val();
             var check = new RegExp("^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z]{1}[A-Z0-9]{4,5}[A-Z0-9挂学警港澳]{1}$");
@@ -86,21 +87,22 @@
                     console.log('carNumber=' + carNumber);
                     var path = $("#path").val();
                     $.ajax({
-                        url: path + "/alipay/newTime",
+                        url: path + "/alipay/temporaryCarShow",
                         async: true,
                         type: "POST",
                         data: "carNumber=" + carNumber,
                         datatype: "text",
-                        success: function (msg) {
-                            if (msg == "pass") {
-                                layer.alert('该用户月缴已过期，请充值', {icon: 6});
-                            } else if (msg == "error") {
-                                alert("用户不是月缴用户");
-                                layer.alert('用户不是月缴用户', {icon: 5});
-                            } else {
-                                console.log('msg=' + msg);
-                                $("#monthVipBegin").val(msg);
-                                // $("#monthVipBegin").attr("disabled", true); //禁用
+                        success: function (res) {
+                            if (res != null) {
+
+                                console.log('进场时间=' + res.timej);
+                                console.log('缴费时间=' + res.timeC);
+                                console.log('停车时长=' + res.timeData);
+                                console.log('停车费用=' + res.money);
+                                $("#entryTime").val(res.timej);
+                                $("#handleTime").val(res.timeC);
+                                $("#time").val(res.timeData);
+                                $("#totalAmount").val(res.money);
                             }
                         },
                         error: function () {
@@ -111,27 +113,6 @@
                     layer.alert('车牌号输入有误！', {icon: 5});
                 }
             }
-        });
-
-        //选择月份查询对应的月缴金额
-        form.on("select(mcpId)", function (data) {
-            var mcpId = $("#mcpId").val();
-            console.log('月缴金额mcpId=' + mcpId);
-            var path = $("#path").val();
-            $.ajax({
-                url: path + "/alipay/payment",
-                async: true,
-                type: "POST",
-                data: "mcpId=" + mcpId,
-                datatype: "text",
-                success: function (msg) {
-                    console.log('msg=' + msg);
-                    $("#totalAmount").val(msg);
-                },
-                error: function () {
-                    layer.alert('网络繁忙！', {icon: 7});
-                }
-            });
         });
 
         form.verify({
@@ -152,11 +133,10 @@
             sNow += String(vNow.getSeconds());
             sNow += String(vNow.getMilliseconds());
             document.getElementById("outTradeNo").value = sNow;
-            document.getElementById("subject").value = "月缴续费";
+            document.getElementById("subject").value = "临时车辆";
         }
 
         GetDateNow();
-
     });
 </script>
 </body>

@@ -20,4 +20,27 @@
 	<update id="alterReceivableById" parameterType="java.lang.String">
 		update tb_receivable set  trade_status = 'TRADE_SUCCESS' where out_trade_no = #{outTradeNo}
 	</update>
+
+	<!--临时车辆自助缴费表信息-->
+	<insert id="addTemporaryCarRecord" parameterType="TbTemporaryCarRecord">
+		insert into tb_temporary_car_record (pci_id,price,out_trade_no,subject,car_number,entry_time,handle_time,time,trade_status)
+		values
+		(#{pciId},#{price},#{outTradeNo},#{subject},#{carNumber},#{entryTime},#{handleTime},#{time},'TRADE_BEGIN')
+	</insert>
+
+	<!--通过订单号，查询临时车辆自助缴费记录表-->
+	<select id="findTemporaryCarRecordById" resultType="TbTemporaryCarRecord" parameterType="java.lang.String">
+		select * from tb_temporary_car_record where out_trade_no = #{outTradeNo}
+	</select>
+
+	<!--通过订单号，修改临时车辆自助缴费记录状态-->
+	<update id="alterTemporaryCarRecordById" parameterType="java.lang.String">
+		update tb_temporary_car_record set  trade_status = 'TRADE_SUCCESS' where out_trade_no = #{outTradeNo}
+	</update>
+
+	<!--通过车牌号，查询场内车辆信息表-->
+	<select id="findParkCarInfoByCar" resultType="TbParkCarInfo" parameterType="java.lang.String">
+		select * from tb_park_car_info where car_number = #{carNumber}
+	</select>
+
 </mapper>
