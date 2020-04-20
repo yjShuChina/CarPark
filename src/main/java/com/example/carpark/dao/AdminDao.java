@@ -235,8 +235,7 @@ public interface AdminDao {
 
     Integer selectTotalUser();
 
-    Integer resetAdminPwd(TbAdmin tbAdmin);
+    Integer updateAdminPwd(TbAdmin tbAdmin);
 
-
-
+    List<TbUser> selectExpiringUsers();
 }

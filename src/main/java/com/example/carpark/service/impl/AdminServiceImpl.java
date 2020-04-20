@@ -452,7 +452,7 @@ public class AdminServiceImpl implements AdminService {
         TbAdmin tbAdmin = (TbAdmin) session.getAttribute("tbAdmin");
         if(tbAdmin.getAdminPwd().equals(MD5.machining(oldPassword))){
             tbAdmin.setAdminPwd(MD5.machining(newPassword));
-            if(adminDao.resetAdminPwd(tbAdmin) > 0){
+            if(adminDao.updateAdminPwd(tbAdmin) > 0){
                 session.setAttribute("tbAdmin",tbAdmin);
                 return "success";
             }

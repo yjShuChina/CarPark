@@ -425,11 +425,17 @@
         SELECT count(*) from tb_user where TO_DAYS(month_vip_begin) = TO_DAYS(NOW())
     </select>
 
+<!--    查询所有用户-->
     <select id="selectTotalUser" resultType="java.lang.Integer">
         SELECT count(*) from tb_user where TO_DAYS(month_vip_deadline) >= TO_DAYS(NOW())
     </select>
-
-    <update id="resetAdminPwd"  parameterType="TbAdmin">
+<!--    管理员修改密码-->
+    <update id="updateAdminPwd"  parameterType="TbAdmin">
         update tb_admin set admin_pwd = #{adminPwd} where admin_id = #{adminId}
     </update>
+
+<!--    查询距离月缴产品不到3天过期的用户-->
+    <select id="selectExpiringUsers" resultType="TbUser">
+        SELECT * from tb_user WHERE DATEDIFF(month_vip_deadline,NOW())  &lt;= 3
+    </select>
 </mapper>
