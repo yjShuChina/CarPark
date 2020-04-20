@@ -358,7 +358,6 @@ public class AlipayController {
                 TbMonthChargeParameter tbmcp = monthService.findMonthById(mcpId);
                 int month = (int) tbmcp.getMonth();//续费办理的月份
                 TbUser tbUser = monthService.findUserByCarNumber(carNumber);
-                tbUser.setMonthVipBegin(monthVipBegin);//新的生效时间
                 String monthVipDeadline = timeFactory(monthVipBegin.toString(), month);//续费后，新的到期时间
                 DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                 format.setLenient(false);
