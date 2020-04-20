@@ -7,6 +7,7 @@ import com.example.carpark.service.RevenueService;
 import com.example.carpark.util.ApplicationContextHelper;
 import com.example.carpark.util.MD5;
 import com.example.carpark.util.ResponseUtils;
+import com.example.carpark.util.ScheduledUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +59,7 @@ public class AdminController {
      */
     @RequestMapping(value = "/adminLogin",produces = { "application/json;charset=UTF-8"})
     @ResponseBody
-    public String adminLogin(@RequestParam Map<String,Object> param, HttpSession session){
+    public String adminLogin(@RequestParam Map<String,Object> param, HttpSession session)  {
         System.out.println("===============================管理员登陆=============================");
         String vcode = session.getAttribute("vcode").toString();//获取session上的验证码
         System.out.println("验证码："+vcode);
