@@ -8,9 +8,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-/**
- * 计算一个月内每周起止日期
- */
 public class MonthUtil {
     public static List monthUtil(){
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
