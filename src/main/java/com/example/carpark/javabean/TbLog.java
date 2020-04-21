@@ -1,6 +1,10 @@
 package com.example.carpark.javabean;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
+@Component
+@Scope("prototype")
 public class TbLog {
 
   private long logId;
