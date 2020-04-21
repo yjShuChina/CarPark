@@ -5,6 +5,7 @@ public class TbTotalCarExit {
 
   private long tceId;
   private String carNumber;
+  private String carIdentity;
   private java.sql.Timestamp entryTime;
   private java.sql.Timestamp exitTime;
   private long price;
@@ -28,6 +29,15 @@ public class TbTotalCarExit {
 
   public void setCarNumber(String carNumber) {
     this.carNumber = carNumber;
+  }
+
+
+  public String getCarIdentity() {
+    return carIdentity;
+  }
+
+  public void setCarIdentity(String carIdentity) {
+    this.carIdentity = carIdentity;
   }
 
 

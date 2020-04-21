@@ -51,4 +51,20 @@ public interface ChargeDao {
 
     //白名单删除
     int delWhiteList(List<TbWhiteList> tbWhiteLists);
+
+    //场内车辆总数
+    int parkQueryCount();
+
+    //场内所有车辆信息查询
+    List<TbParkCarInfo> parkQuery(RowBounds rowBounds);
+
+    //出场车辆总数
+    int carExitQueryCount();
+
+    //出场车辆信息查询
+    List<TbTotalCarExit> carExitQuery(Map<String,Integer> map);
+
+    //最新进场车辆查询
+    TbParkCarInfo gateMaxQuery();
+
 }

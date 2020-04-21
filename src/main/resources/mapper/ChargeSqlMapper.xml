@@ -17,7 +17,7 @@
 
     <!--    场内车辆信息查询-->
     <select id="carParkQuery" parameterType="String" resultType="TbParkCarInfo">
-        select * from tb_park_car_info where car_number = #{carNumber}
+        select * from tb_park_car_info where car_number = #{carNumber} order by car_time asc limit 1;
     </select>
 
     <!--    月卡用户查询-->
@@ -75,4 +75,29 @@
             #{item.wlId}
         </foreach>
     </delete>
+
+    <!--    场内车辆总数-->
+    <select id="parkQueryCount" resultType="int">
+        select count(*) from tb_park_car_info
+    </select>
+    <!--    场内所有车辆信息查询-->
+    <select id="parkQuery" resultType="TbParkCarInfo">
+        select * from tb_park_car_info order by car_time desc
+    </select>
+
+    <!--    出场车辆总数-->
+    <select id="carExitQueryCount" resultType="int">
+        select count(*) from tb_total_car_exit
+    </select>
+
+    <!--    出场车辆信息查询-->
+    <select id="carExitQuery" resultType="TbTotalCarExit" parameterType="java.util.Map">
+        select * from tb_total_car_exit order by entry_time desc limit #{page},#{limit}
+    </select>
+
+    <!--    最新进场信息查询-->
+    <select id="gateMaxQuery" resultType="TbParkCarInfo">
+        select * from tb_park_car_info order by car_time desc limit 1
+    </select>
+
 </mapper>

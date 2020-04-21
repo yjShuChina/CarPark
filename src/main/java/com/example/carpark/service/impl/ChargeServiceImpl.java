@@ -10,8 +10,10 @@ import com.example.carpark.javabean.*;
 import com.example.carpark.service.ChargeService;
 import com.example.carpark.util.HttpUtils;
 import com.google.gson.Gson;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ClassUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -168,7 +170,6 @@ public class ChargeServiceImpl implements ChargeService {
         String fileTyle = fileName.substring(fileName.lastIndexOf("."), fileName.length());
         System.out.println("后缀名：" + fileTyle);
 
-
         // 图片存储目录及图片名称
         String url_path = "images" + File.separator + name + fileTyle;
         //图片保存路径
@@ -249,6 +250,74 @@ public class ChargeServiceImpl implements ChargeService {
         }
         return chargeDao.delChargePrice(tbChargerParameters);
     }
+
+    //场内信息查看
+    @Override
+    public String parkQuery(int page, int limit) {
+
+        System.out.println("场内车辆信息,page = "+page +" limit = " +limit);
+        PageBean pageBean = new PageBean();
+        int page1 = (page - 1) * limit ;
+        RowBounds rowBounds = new RowBounds(page1, limit);
+
+        int count = chargeDao.parkQueryCount();
+
+        List<TbParkCarInfo> tbParkCarInfos = chargeDao.parkQuery(rowBounds);
+        if (tbParkCarInfos != null){
+            pageBean.setData(tbParkCarInfos);
+        }
+        pageBean.setCount(count);
+        pageBean.setCode(0);
+        System.out.println(new Gson().toJson(pageBean));
+        return new Gson().toJson(pageBean);
+    }
+
+    //出场车辆信息查看
+    @Override
+    public String carExitQuery(int page, int limit) {
+
+        System.out.println("场内车辆信息,page = "+page +" limit = " +limit);
+        int page1 = (page - 1) * limit ;
+        Map<String,Integer> map = new HashMap<>();
+        map.put("limit",limit);
+        map.put("page",page1);
+        PageBean pageBean = new PageBean();
+
+        int count = chargeDao.carExitQueryCount();
+        List<TbTotalCarExit> tbTotalCarExits = chargeDao.carExitQuery(map);
+
+        if (tbTotalCarExits != null){
+            pageBean.setData(tbTotalCarExits);
+        }
+        pageBean.setCount(count);
+        pageBean.setCode(0);
+        System.out.println(new Gson().toJson(pageBean));
+        return new Gson().toJson(pageBean);
+
+    }
+
+    //进场车辆数据获取
+    @Override
+    public String gateMaxQuery() {
+        TbParkCarInfo tbParkCarInfo = chargeDao.gateMaxQuery();
+        if (tbParkCarInfo != null){
+            String imgBase64 = "";
+            try {
+                File files = new File(tbParkCarInfo.getImgUrl());
+                byte[] content = new byte[(int) files.length()];
+                FileInputStream finputstream = new FileInputStream(files);
+                finputstream.read(content);
+                finputstream.close();
+                imgBase64 = new String(Base64.encodeBase64(content));
+                tbParkCarInfo.setImgUrl(imgBase64);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+          return new Gson().toJson(tbParkCarInfo);
+        }
+        return "null";
+    }
+
 
     //数组转时间
     public String getTimeDate(String timeSize) {

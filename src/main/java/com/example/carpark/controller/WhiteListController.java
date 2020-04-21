@@ -66,4 +66,6 @@ public class WhiteListController {
             response.getWriter().print("succeed");
         }
     }
+
+
 }

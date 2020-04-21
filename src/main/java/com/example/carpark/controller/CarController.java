@@ -4,6 +4,7 @@ package com.example.carpark.controller;
 import com.example.carpark.javabean.*;
 import com.example.carpark.service.CarService;
 import com.example.carpark.util.ResponseUtils;
+import com.example.carpark.websocket.WebSocket;
 import com.google.gson.Gson;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -55,89 +56,99 @@ public class CarController
      */
     @RequestMapping("/findusermsg")
     @ResponseBody
-    public String findcarmsg(@RequestParam("file") MultipartFile fileaot) throws IOException
-    {
+    public String findcarmsg(@RequestParam("file") MultipartFile fileaot, HttpServletRequest request) throws IOException {
+        String path = request.getSession().getServletContext().getRealPath("/upload");
         System.out.println("图片路径");
-	    SimpleDateFormat si=new SimpleDateFormat("yyyy-MM-dd hh.mm.ss");
-	    ///获得当前系统时间zd  年-月-日 时：分：秒版
-	    String time=si.format(new Date());
-	    //将时间拼接在文件名上权即可
+        SimpleDateFormat si = new SimpleDateFormat("yyyy-MM-dd hh.mm.ss");
+        ///获得当前系统时间zd  年-月-日 时：分：秒版
+        String time = si.format(new Date());
+        //将时间拼接在文件名上权即可
 
-	    String fileName = fileaot.getOriginalFilename();  //获取文件名
-	    String fileType = fileName.substring(fileName.lastIndexOf("."), fileName.length());
-        try
-        {
-            fileaot.transferTo(new File("D:/Test/"+time+fileType));
-        } catch (IOException e)
-        {
+        String fileName = fileaot.getOriginalFilename();  //获取文件名
+        String fileType = fileName.substring(fileName.lastIndexOf("."), fileName.length());
+        try {
+            fileaot.transferTo(new File(path + "/" + time + fileType));
+        } catch (IOException e) {
             e.printStackTrace();
         }
         System.out.println("图片路径");
-        String str = "D:/Test/" +time+fileType;
+        String str = path + "/" + time + fileType;
         System.out.println(str);
         //车牌号
-        String carnumber=carService.findcarnumber(str);
+        String carnumber = carService.findcarnumber(str);
         //查询用户信息（1、月卡 2、白名单）
-        TbUser tbUser=carService.findUsermsg(carnumber);
-        TbWhiteList tbWhiteList=carService.findWhite(carnumber);
-		//自动选择车位
-	    List<String> PS2 = carService.findParkSpace("1");
-	    //时间
-	    LocalDateTime dateTime = LocalDateTime.now();
-	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        TbUser tbUser = carService.findUsermsg(carnumber);
+        TbWhiteList tbWhiteList = carService.findWhite(carnumber);
+        //自动选择车位
+        List<String> PS2 = carService.findParkSpace("1");
+        //时间
+        LocalDateTime dateTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-	    if(PS2.size()==0){//无车位
-	    	return "NO";
-	    }else {
-		    String cps = PS2.get(0);
+        if (PS2.size() == 0) {//无车位
+            return "NO";
+        } else {
+            String cps = PS2.get(0);
 
-		    TbParkCarInfo tbParkCarInfo = new TbParkCarInfo();
-		    if (tbWhiteList != null)
-		    {
-		    	//添加停车信息
-			    tbParkCarInfo.setCarTime(Timestamp.valueOf(dateTime.format(formatter)));
-			    tbParkCarInfo.setCarNumber(carnumber);
-			    tbParkCarInfo.setCarIdentity("白名单车辆");
-			    tbParkCarInfo.setParkSpaceId(cps);
-			    tbParkCarInfo.setImgUrl(str);
-			    int i = carService.CarIn(tbParkCarInfo);
-			    //改变车位状态
-			    int c=carService.changestate("2",cps);
-			    //返回
-			    return carnumber + "," + tbWhiteList.getUserName() + ",白名单车辆,"
-					    + dateTime.format(formatter)+","+cps;
-		    } else if (tbUser != null)
-		    {
-			    tbParkCarInfo.setCarTime(Timestamp.valueOf(dateTime.format(formatter)));
-			    tbParkCarInfo.setCarNumber(carnumber);
-			    tbParkCarInfo.setCarIdentity("月卡车辆");
-			    tbParkCarInfo.setParkSpaceId(cps);
-			    tbParkCarInfo.setImgUrl(str);
-			    int i = carService.CarIn(tbParkCarInfo);
+            TbParkCarInfo tbParkCarInfo = new TbParkCarInfo();
 
-			    //改变车位状态
-			    int c=carService.changestate("2",cps);
-			    return carnumber + "," + tbUser.getUserName() + ",月卡车辆," +
-					    dateTime.format(formatter)+","+cps;
+            if (tbWhiteList != null) {
+                //添加停车信息
+                tbParkCarInfo.setCarTime(Timestamp.valueOf(dateTime.format(formatter)));
+                tbParkCarInfo.setCarNumber(carnumber);
+                tbParkCarInfo.setCarIdentity("白名单车辆");
+                tbParkCarInfo.setParkSpaceId(cps);
+                tbParkCarInfo.setImgUrl(str);
+                int i = carService.CarIn(tbParkCarInfo);
+                //改变车位状态
+                int c = carService.changestate("2", cps);
+                //返回
+				websocket();
+                return carnumber + "," + tbWhiteList.getUserName() + ",白名单车辆,"
+                        + dateTime.format(formatter) + "," + cps;
+            } else if (tbUser != null) {
+                tbParkCarInfo.setCarTime(Timestamp.valueOf(dateTime.format(formatter)));
+                tbParkCarInfo.setCarNumber(carnumber);
+                tbParkCarInfo.setCarIdentity("月卡车辆");
+                tbParkCarInfo.setParkSpaceId(cps);
+                tbParkCarInfo.setImgUrl(str);
+                int i = carService.CarIn(tbParkCarInfo);
 
-		    } else
-		    {
-			    tbParkCarInfo.setCarTime(Timestamp.valueOf(dateTime.format(formatter)));
-			    tbParkCarInfo.setCarNumber(carnumber);
-			    tbParkCarInfo.setCarIdentity("临时车辆");
-			    tbParkCarInfo.setParkSpaceId(cps);
-			    tbParkCarInfo.setImgUrl(str);
-			    int i = carService.CarIn(tbParkCarInfo);
+                //改变车位状态
+                int c = carService.changestate("2", cps);
+				websocket();
+                return carnumber + "," + tbUser.getUserName() + ",月卡车辆," +
+                        dateTime.format(formatter) + "," + cps;
 
-			    //改变车位状态
-			    int c=carService.changestate("2",cps);
-			    return carnumber + "," + "临时用户" + ",临时车辆,"
-					    + dateTime.format(formatter)+","+cps;
-		    }
-	    }
+            } else {
+                tbParkCarInfo.setCarTime(Timestamp.valueOf(dateTime.format(formatter)));
+                tbParkCarInfo.setCarNumber(carnumber);
+                tbParkCarInfo.setCarIdentity("临时车辆");
+                tbParkCarInfo.setParkSpaceId(cps);
+                tbParkCarInfo.setImgUrl(str);
+                int i = carService.CarIn(tbParkCarInfo);
+
+                //改变车位状态
+                int c = carService.changestate("2", cps);
+				websocket();
+                return carnumber + "," + "临时用户" + ",临时车辆,"
+                        + dateTime.format(formatter) + "," + cps;
+            }
+        }
 
     }
 
+    private void websocket() {
+        try {
+            if (WebSocket.electricSocketMap.get("charge") != null) {
+                for (Session session : WebSocket.electricSocketMap.get("charge")) {
+                    session.getBasicRemote().sendText("{\"type\":\"gate\"}");
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 	@RequestMapping("/img")
