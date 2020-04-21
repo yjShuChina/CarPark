@@ -26,11 +26,9 @@ layui.use(['element','layer'], function(){
             type:'post',
             success:function (msg) {
                 var html = "";
-                for (var i = 0;i < msg.length; i++)
-                {
+                for (var i = 0;i < msg.length; i++) {
                     html += '<li class="layui-nav-item"><a class="" href="javascript:;">'+msg[i].menuName+'</a><dl class="layui-nav-child">';
-                    for (var j = 0; j < msg[i].submenuList.length;j++)
-                    {
+                    for (var j = 0; j < msg[i].submenuList.length;j++) {
                         html += '<dd><a href="javascript:;" title="'+msg[i].submenuList[j].menuUrl+'" onclick="changePath(this)">'+msg[i].submenuList[j].menuName+'</a></dd>';
                     }
                     html += '</dl></li>';

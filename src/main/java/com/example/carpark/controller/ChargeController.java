@@ -1,10 +1,9 @@
 package com.example.carpark.controller;
 
 import com.example.carpark.javabean.*;
-import com.example.carpark.service.ChargeService;
-import com.example.carpark.service.CostCalculationService;
-import com.example.carpark.service.MonthService;
+import com.example.carpark.service.*;
 import com.example.carpark.util.MD5;
+import com.example.carpark.websocket.WebSocket;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,10 +19,12 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.websocket.Session;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -43,7 +44,13 @@ public class ChargeController {
     private ChargeService chargeService;
 
     @Resource
+    private CarService carService;
+
+    @Resource
     private CostCalculationService costCalculationService;
+
+    @Resource
+    private RevenueService revenueService;
 
     @Resource
     private MonthService monthService;
@@ -51,6 +58,8 @@ public class ChargeController {
     Date d = new Date();
     SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
     String today = df.format(d);//今天时间
+    SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    String today1 = df1.format(d);//今天时间
 
     @Resource
     private Refund refund;
@@ -74,7 +83,13 @@ public class ChargeController {
             TbCashier tbCashier = chargeService.chargeLogin(param);
 
             if (tbCashier != null) {
-                request.getSession().setAttribute("tbCashier", tbCashier);
+                Map<String,String> map = new HashMap<>();
+                map.put("name",tbCashier.getCashierName());
+
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+                String time = sdf.format(new Date());
+                map.put("time",time);
+                request.getSession().setAttribute("tbCashier", map);
                 return "验证成功";
             }
             return "账号或密码错误";
@@ -157,20 +172,72 @@ public class ChargeController {
             timej = "" + tbParkCarInfo.getCarTime();
 
             //获取停放时长
-            timeData = costCalculationService.getTimeDifference(timej,timeC);
+            timeData = costCalculationService.getTimeDifference(timej, timeC);
 
+            String imgBase64 = "";
+            try {
+                File files = new File(tbParkCarInfo.getImgUrl());
+                byte[] content = new byte[(int) files.length()];
+                FileInputStream finputstream = new FileInputStream(files);
+                finputstream.read(content);
+                finputstream.close();
+                imgBase64 = new String(encodeBase64(content));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            map.put("gateUrl",imgBase64);
         }
         map.put("timej", timej);
         map.put("timeData", timeData);
+
+        /*
+         * 车辆交费状态查询
+         *  0 :白名单
+         *  -1 :包月车
+         *  -2 :临时车
+         *  -3 :无进场记录
+         *  >0 :包月时间包含停车时间的特殊车辆
+         */
+        long type = costCalculationService.chargeCalculation(car);
+        int money = 0;
+        if (type > 0) {
+            //获取应缴费用
+            money = costCalculationService.timeDifferenceCount(type);
+            map.put("state", "月缴过期");
+        }
+        if (type == -2) {
+            //获取应缴费用
+            money = costCalculationService.carCount(timej, timeC);
+            map.put("state", "临时车辆");
+        }
+        if (type == -1) {
+            map.put("state", "月缴车辆");
+        }
+        if (type == -3) {
+            map.put("state", "无进场记录");
+        }
+        if (type == 0) {
+            map.put("state", "高级VIP");
+        }
+        map.put("money", "" + money);
+
 
         // new Date()为获取当前系统时间
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH.mm.ss");//设置日期格式
         String timeDate = df.format(new Date());
         System.out.println(timeDate);
-        //获取图片url
-        String url = chargeService.uploadImage(file, timeDate + car);
-        String imgBase64 = "";
+        String path = request.getSession().getServletContext().getRealPath("/upload");
 
+        //获取图片url
+//        String url = chargeService.uploadImage(file, timeDate + car);
+        String fileName = file.getOriginalFilename();  //获取文件名
+        String fileTyle = fileName.substring(fileName.lastIndexOf("."), fileName.length());
+        System.out.println("后缀名：" + fileTyle);
+        String url = path + "/" + timeDate + car + fileTyle;
+        System.out.println("url=================" + url);
+        file.transferTo(new File(url));
+
+        String imgBase64 = "";
         try {
             File files = new File(url);
             byte[] content = new byte[(int) files.length()];
@@ -181,111 +248,77 @@ public class ChargeController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println(imgBase64);
-        map.put("url", imgBase64);
 
-        /*
-         * 车辆状态查询
-         *  0 :白名单
-         *  -1 :包月车
-         *  -2 :临时车
-         *  >0 :包月时间包含停车时间的特殊车辆
-         */
-        long type = costCalculationService.chargeCalculation(car);
-        int money = 0;
-        if (type > 0){
-            //获取应缴费用
-            money = costCalculationService.timeDifferenceCount(type);
-            map.put("state","月缴过期");
-        }
-        if (type == -2){
-            //获取应缴费用
-            money = costCalculationService.carCount(timej,timeC);
-            map.put("state","临时车辆");
-        }
-        if (type == -1){
-            map.put("state","月缴车辆");
-        }
-        if (type == 0){
-            map.put("state","高级VIP");
-        }
-        map.put("money",""+money);
+        map.put("departureUrl", imgBase64);
+
+        map.put("type", "departure");
 
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json; charset=utf-8");
         String str = new Gson().toJson(map);
         System.out.println(str);
         response.getWriter().print(str);
+        if (WebSocket.electricSocketMap.get("charge") != null) {
+            for (Session session : WebSocket.electricSocketMap.get("charge")) {
+                session.getBasicRemote().sendText(str);
+            }
+        }
     }
 
-    //临时车自助缴费数据获取
-    @RequestMapping("/temporaryPayment")
-    @ResponseBody
-    public void temporaryPayment (String car , HttpServletResponse response, HttpServletRequest request) throws IOException {
 
-        Map<String, String> map = new HashMap<>();
-        //车牌号
-        System.out.println("车牌号=" + car);
-        map.put("carnumber", car);
 
-        //出场时间
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
-        String timeC = sdf.format(new Date());
-        map.put("timeC", timeC);
+    //进场车辆数据获取
+    @RequestMapping("/gateMaxQuery")
+    public void gateMaxQuery( HttpServletResponse response) throws IOException {
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json; charset=utf-8");
+        response.getWriter().print(chargeService.gateMaxQuery());
+    }
 
-        //场内信息查询
-        TbParkCarInfo tbParkCarInfo = costCalculationService.carInfo(car);
+    //停车场车位数量查询
+    @RequestMapping("/chargeQuery")
+    public void chargeQuery( HttpServletResponse response) throws IOException {
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json; charset=utf-8");
+        Map<String,Integer> map = new HashMap<>();
+        int parkspase=carService.findParkSpacenum("1","");//未停车
+        int allps=carService.findParkSpacenum("","");//所有车位
+        map.put("parkspase",parkspase);
+        map.put("allps",allps);
+        response.getWriter().print(new Gson().toJson(map));
+    }
 
-        String timej = "未找到";
-        String timeData = "无法计算";
-        if (tbParkCarInfo != null) {
-            timej = "" + tbParkCarInfo.getCarTime();
 
-            //获取停放时长
-            timeData = costCalculationService.getTimeDifference(timej,timeC);
 
-        }
-        map.put("timej", timej);
-        map.put("timeData", timeData);
 
-        // new Date()为获取当前系统时间
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH.mm.ss");//设置日期格式
-        String timeDate = df.format(new Date());
-        System.out.println(timeDate);
-
-        /*
-         * 车辆状态查询
-         *  0 :白名单
-         *  -1 :包月车
-         *  -2 :临时车
-         *  >0 :包月时间包含停车时间的特殊车辆
-         */
-        long type = costCalculationService.chargeCalculation(car);
-        int money = 0;
-        if (type > 0){
-            //获取应缴费用
-            money = costCalculationService.timeDifferenceCount(type);
-            map.put("state","月缴过期");
-        }
-        if (type == -2){
-            //获取应缴费用
-            money = costCalculationService.carCount(timej,timeC);
-            map.put("state","临时车辆");
-        }
-        if (type == -1){
-            map.put("state","月缴车辆");
-        }
-        if (type == 0){
-            map.put("state","高级VIP");
-        }
-        map.put("money",""+money);
+    //场内车辆信息查看
+    @RequestMapping("/parkQuery")
+    public void parkQuery(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json; charset=utf-8");
-        String str = new Gson().toJson(map);
-        System.out.println(str);
-        response.getWriter().print(str);
+
+        int page = Integer.parseInt(request.getParameter("page"));
+        int limit = Integer.parseInt(request.getParameter("limit"));
+
+        response.getWriter().write(chargeService.parkQuery(page, limit));
+        response.getWriter().flush();
     }
+
+    //出场车辆信息查看
+    @RequestMapping("/carExitQuery")
+    public void carExitQuery(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json; charset=utf-8");
+
+        int page = Integer.parseInt(request.getParameter("page"));
+        int limit = Integer.parseInt(request.getParameter("limit"));
+
+        response.getWriter().write(chargeService.carExitQuery(page, limit));
+        response.getWriter().flush();
+    }
+
     //添加月缴信息
     @RequestMapping("/addMonthlyPayment")
     public void addMonthlyPayment(HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException {
@@ -389,11 +422,9 @@ public class ChargeController {
         System.out.println("count=" + count);
         if (count > 0) {
             TbUser tbUser = monthService.findUserByCarNumber(carNumber);
-            String monthVipBegin = tbUser.getMonthVipBegin().toString();//月缴生效时间
             String monthVipDeadline = tbUser.getMonthVipDeadline().toString();//月缴到期时间
-//            System.out.println("今天的日期：" + today);
             int result = monthVipDeadline.compareTo(today);//result大于等于0，则月缴未到期
-            String monthVipBeginNew = monthVipBegin.split("\\s+")[0];//根据空格切割日期
+            String monthVipBeginNew = monthVipDeadline.split("\\s+")[0];//根据空格切割日期
             if (result >= 0) {
                 response.getWriter().print(monthVipBeginNew);
                 System.out.println("月缴是否到期monthVipBeginNew=" + monthVipBeginNew);
@@ -431,22 +462,11 @@ public class ChargeController {
         String mcpId = request.getParameter("mcpId");
         System.out.println("月缴续费的tbUser= " + tbUser.toString());
         System.out.println("月缴续费的mcpId= " + mcpId);
-        TbMonthChargeParameter tbmcp = monthService.findMonthById(Integer.parseInt(mcpId));//续费办理的月份
-        int month = (int) tbmcp.getMonth();
-        TbUser tbUser1 = monthService.findUserByCarNumber(tbUser.getCarNumber());
-        String oldMonthVipBegin = tbUser1.getMonthVipBegin().toString();//原先的生效时间
-        String oldMonthVipDeadline = tbUser1.getMonthVipDeadline().toString();//原先的到期时间
+        TbMonthChargeParameter tbmcp = monthService.findMonthById(Integer.parseInt(mcpId));
+        int month = (int) tbmcp.getMonth();//续费办理的月份
+        TbUser tbUser1 = monthService.findUserByCarNumber(tbUser.getCarNumber());//续费前，用户信息
         String newMonthVipBegin = tbUser.getMonthVipBegin().toString();//新的生效时间
-        int result = oldMonthVipBegin.compareTo(today);//result大于等于0，则月缴未到期
-        String monthVipDeadline = null;
-        if (result >= 0) {
-            //未到期逻辑
-            monthVipDeadline = timeFactory(oldMonthVipDeadline, month);//续费后，新的到期时间
-        } else {
-            //到期逻辑
-            tbUser1.setMonthVipBegin(tbUser.getMonthVipBegin());//新的生效时间
-            monthVipDeadline = timeFactory(newMonthVipBegin, month);//续费后，新的到期时间
-        }
+        String monthVipDeadline = timeFactory(newMonthVipBegin, month);//续费后，新的到期时间
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         format.setLenient(false);
         Timestamp newMonthVipDeadline = new Timestamp(format.parse(monthVipDeadline).getTime());//到期时间转换格式
@@ -460,8 +480,19 @@ public class ChargeController {
         tbMonthVip.setCurrentDeadline(tbUser1.getMonthVipDeadline());
         int count2 = monthService.alterMonthVipById(tbMonthVip);
         if (count1 != 0 && count2 != 0) {
-            response.getWriter().print("success");
-            System.out.println("月缴续费成功");
+
+            //添加统计
+            TbRevenue tbRevenue = new TbRevenue();
+            tbRevenue.setIncomeType("manual");
+            tbRevenue.setMonth(month);
+            tbRevenue.setPrice(new BigDecimal(tbmcp.getPrice()));
+            tbRevenue.setTime(today1);
+            tbRevenue.setRevenue(1);
+            String num = revenueService.addRevenue(tbRevenue);
+            if (num != null) {
+                response.getWriter().print("success");
+                System.out.println("月缴续费成功");
+            }
         } else {
             response.getWriter().print("error");
             System.out.println("月缴续费失败");

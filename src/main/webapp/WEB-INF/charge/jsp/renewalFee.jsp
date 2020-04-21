@@ -44,7 +44,7 @@
         <label class="layui-form-label">生效时间：</label>
         <div class="layui-input-inline">
             <input type="text" class="layui-input" id="monthVipBegin" name="${monthVipBegin}" lay-verify="monthVipBegin"
-                   placeholder="请选择生效日期">
+                   placeholder="yyyy-mm-dd" readonly>
         </div>
     </div>
     <div class="layui-form-item">
@@ -77,9 +77,10 @@
                         success: function (msg) {
                             if (msg == "pass") {
                                 layer.alert('该用户月缴已过期，请充值', {icon: 6});
+                                var currentdate = getNowFormatDate();
+                                $("#monthVipBegin").val(currentdate);
                             } else if (msg == "error") {
-                                alert("用户不是月缴用户");
-                                layer.alert('用户不是月缴用户', {icon: 5});
+                                layer.alert('非月缴用户,请去新增用户！', {icon: 5});
                             } else {
                                 console.log('msg=' + msg);
                                 $("#monthVipBegin").val(msg);
@@ -93,13 +94,6 @@
                     layer.alert('车牌号输入有误！', {icon: 5});
                 }
             }
-        });
-
-        laydate.render({
-            elem: '#monthVipBegin' //指定元素
-            , theme: '#009688'
-            , showBottom: false
-            , format: 'yyyy-MM-dd'
         });
 
         form.verify({
@@ -147,6 +141,24 @@
             return false;
         });
     });
+
+    //今天时间
+    function getNowFormatDate() {
+        var date = new Date();
+        var seperator1 = "-";
+        var year = date.getFullYear();
+        var month = date.getMonth() + 1;
+        var strDate = date.getDate();
+        if (month >= 1 && month <= 9) {
+            month = "0" + month;
+        }
+        if (strDate >= 0 && strDate <= 9) {
+            strDate = "0" + strDate;
+        }
+        var currentdate = year + seperator1 + month + seperator1 + strDate;
+        return currentdate;
+    }
+
 </script>
 </body>
 </html>

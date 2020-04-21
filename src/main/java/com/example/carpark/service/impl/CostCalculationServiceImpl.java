@@ -125,6 +125,7 @@ public class CostCalculationServiceImpl implements CostCalculationService {
      *  0 :白名单
      *  -1 :包月车
      *  -2 :临时车
+     *  -3 :无进场记录
      *  >0 :包月时间包含停车时间的特殊车辆
      */
 
@@ -153,7 +154,9 @@ public class CostCalculationServiceImpl implements CostCalculationService {
             e.printStackTrace();
         }
         TbParkCarInfo tbParkCarInfo = chargeDao.carParkQuery(carNumber);
-
+        if (tbParkCarInfo == null){
+            return -3l;
+        }
         //车辆进场时间
         long jc = tbParkCarInfo.getCarTime().getTime();
 
@@ -213,23 +216,23 @@ public class CostCalculationServiceImpl implements CostCalculationService {
         return null;
     }
 
-    public static void main(String[] args) {
-
-
-        String imgBase64 = "";
-        try {
-            File file = new File("target/classes/static/images/IMG_20160704_093231.jpg");
-            byte[] content = new byte[(int) file.length()];
-            FileInputStream finputstream = new FileInputStream(file);
-            finputstream.read(content);
-            finputstream.close();
-            imgBase64 = new String(encodeBase64(content));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.out.println(imgBase64);
-
-    }
+//    public static void main(String[] args) {
+//
+//
+//        String imgBase64 = "";
+//        try {
+//            File file = new File("target/classes/static/images/IMG_20160704_093231.jpg");
+//            byte[] content = new byte[(int) file.length()];
+//            FileInputStream finputstream = new FileInputStream(file);
+//            finputstream.read(content);
+//            finputstream.close();
+//            imgBase64 = new String(encodeBase64(content));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        System.out.println(imgBase64);
+//
+//    }
 
     //数组转时间
     public String getTimeDate(String timeSize) {

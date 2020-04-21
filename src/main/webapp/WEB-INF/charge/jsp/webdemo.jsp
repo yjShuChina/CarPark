@@ -25,7 +25,7 @@
 <script>
     var websocket = null;
     if('WebSocket' in window){
-        websocket = new WebSocket("ws://127.0.0.1:8080/Carpark/websocket/1");
+        websocket = new WebSocket("ws://127.0.0.1:8080/Carpark/websocket/charge");
     }else{
         alert("您的浏览器不支持websocket");
     }

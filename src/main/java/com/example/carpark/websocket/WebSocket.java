@@ -37,6 +37,7 @@ public class WebSocket {
     @OnOpen
     public void onOpen(@PathParam("pageCode") String pageCode, Session session) {
         List<Session> sessions = electricSocketMap.get(pageCode);
+        System.out.println("pageCode===="+pageCode);
         if(null==sessions){
             List<Session> sessionList = new ArrayList<>();
             sessionList.add(session);

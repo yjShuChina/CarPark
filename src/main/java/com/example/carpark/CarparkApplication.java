@@ -14,12 +14,4 @@ public class CarparkApplication {
     public static void main(String[] args) {
         SpringApplication.run(CarparkApplication.class, args);
     }
-
-
-    //websocket
-    @Bean
-    public ServerEndpointExporter serverEndpointExporter() {
-        return new ServerEndpointExporter();
-    }
-
 }

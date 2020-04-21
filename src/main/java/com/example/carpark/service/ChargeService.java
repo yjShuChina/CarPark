@@ -38,4 +38,13 @@ public interface ChargeService {
 
     //收费规则删除
     int delChargePrice(TbChargerParameter[] tbChargerParameter);
+
+    //场内信息查看
+    String parkQuery(int page,int limit);
+
+    //出场车辆信息查看
+    String carExitQuery(int page,int limit);
+
+    //进场车辆数据获取
+    String gateMaxQuery();
 }
