@@ -80,7 +80,13 @@ public class ChargeController {
             TbCashier tbCashier = chargeService.chargeLogin(param);
 
             if (tbCashier != null) {
-                request.getSession().setAttribute("tbCashier", tbCashier);
+                Map<String,String> map = new HashMap<>();
+                map.put("name",tbCashier.getCashierName());
+
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+                String time = sdf.format(new Date());
+                map.put("time",time);
+                request.getSession().setAttribute("tbCashier", map);
                 return "验证成功";
             }
             return "账号或密码错误";

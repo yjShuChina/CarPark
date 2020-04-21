@@ -114,9 +114,9 @@
             <div style="background:#2F4056;height: 120px;width: 160px;padding-top:20px;">
                 <h6>收费员信息</h6>
                 <div style="padding-left:10px;padding-top:20px">
-                    <a>收费人员:</a><a>老王中王</a><br>
+                    <a>收费人员:</a><a>${tbCashier.name}</a><br>
                     <a>上班时间:</a><br>
-                    <a>2020-04-20 23:56:23</a>
+                    <a>${tbCashier.time}</a>
                 </div>
             </div>
         </div>
