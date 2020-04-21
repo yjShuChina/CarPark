@@ -16,12 +16,13 @@
 </head>
 <body style=" background-repeat:no-repeat; background-size:100% 100%; background-attachment: fixed;height: 100%">
 <input type="hidden" id="path" value="<%=path%>">
+<input type="hidden" id="area" value='<%=session.getAttribute("Area")%>'>
 <div class="layui-form">
     <div class="layui-row">
         <div class="layui-form-item" style="font-size: 30px;text-align: center;padding-top: 10px">自助缴费办理</div>
     </div>
     <div class="layui-form-item" style="margin-top: 200px;">
-        <div class="layui-input-block" style="padding-left: 30%;">
+        <div class="layui-input-block" style="padding-left: 25%;">
             <div class="layui-input-inline" style="display: inline-block;">
                 <input class="layui-btn layui-btn-normal" onclick="temporary(this)" type="button"
                        value="临时车辆缴费" style="width: 150px;">
@@ -29,6 +30,10 @@
             <div class="layui-input-inline" style="display: inline-block;">
                 <input class="layui-btn layui-btn-normal" onclick="renew(this)" type="button"
                        value="办理月缴续费" style="width: 150px;">
+            </div>
+            <div class="layui-input-inline" style="display: inline-block;">
+                <input class="layui-btn layui-btn-normal" onclick="saveArea(this)" type="button"
+                       value="返回主页" style="width: 150px;">
             </div>
         </div>
     </div>
@@ -78,6 +83,25 @@
                 }
             });
         });
+    }
+
+    //返回主页
+    function saveArea() {
+
+        var path = $("#path").val();
+        var area=$("#area").val();
+        $.ajax({
+                url: path + "/gate/saveArea",
+                async: "true",
+                type: "Post",
+                data: {'area':area},
+                success: function (res) {
+                    window.location.href='http://localhost:8080/Carpark/gate/cn/machine'
+                },
+                error: function () {
+                }
+            }
+        );
     }
 
 </script>
