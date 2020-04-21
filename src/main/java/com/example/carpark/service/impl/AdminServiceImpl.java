@@ -19,10 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 管理员service层
@@ -69,27 +66,30 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public List<TbMenu> findMenu(TbAdmin tbAdmin) {
         List<TbMenu> parentMenuList = adminDao.findParentMenu(0);//查询父级菜单
-        for (int i = 0;i < parentMenuList.size();i++)//循环遍历父级菜单
-        {
+        Iterator<TbMenu> iterator = parentMenuList.iterator();//创建父级菜单迭代器
+        while (iterator.hasNext()) {
+            TbMenu tbMenu = iterator.next();
             HashMap<String,Object> map = new HashMap<>();
             map.put("roleId",tbAdmin.getRoleId());//将角色id添加到map
-            map.put("parentId",parentMenuList.get(i).getMenuId());//将父级菜单id添加到map
+            map.put("parentId",tbMenu.getMenuId());//将父级菜单id添加到map
             List<TbMenu> submenuList = adminDao.findMenu(map);//查询该父级菜单下所有子菜单
-            for (int j = 0; j < submenuList.size(); j++) {//遍历子菜单集
-                if(submenuList.get(j).getState() == 2)//如果状态为2,则移除
+            Iterator<TbMenu> iterator2 = submenuList.iterator();//创建子菜单迭代器
+            while (iterator2.hasNext()) {
+                TbMenu tbMenu2 = iterator2.next();
+                if(tbMenu2.getState() == 2)//如果状态为2,则移除
                 {
-                    submenuList.remove(j);
+                    iterator2.remove();
                 }
             }
-            if(submenuList.size()==0)//如果该子集菜单为null,则移除父级菜单,否则添加到父级菜单
+            if(submenuList.size()<1)//如果该子集菜单为null,则移除父级菜单,否则添加到父级菜单
             {
-                parentMenuList.remove(parentMenuList.get(i));
+                iterator.remove();
             }else
             {
-                parentMenuList.get(i).setSubmenuList(submenuList);
+                tbMenu.setSubmenuList(submenuList);
             }
         }
-        System.out.println(parentMenuList.toString());
+        System.out.println("处理后的菜单===>"+parentMenuList.toString());
         return parentMenuList;
     }
 
