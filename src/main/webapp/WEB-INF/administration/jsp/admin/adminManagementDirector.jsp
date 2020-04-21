@@ -26,6 +26,10 @@
 		margin-right: auto;
 		margin-top: 50px;
 	}
+	.layui-table-cell{
+		height: auto!important;
+		white-space: normal;
+	}
 </style>
 <body>
 
@@ -79,6 +83,24 @@
 				<input type="password"  lay-verify="required|confirmPass" placeholder="请再次输入密码" autocomplete="off" class="layui-input">
 			</div>
 		</div>
+		<!--************这里是上传图片的代码***************-->
+		<!--************这里添加的隐藏的输入框，用来传递images的参数***************-->
+		<input type="hidden" name="images" required lay-verify="required" id="image" class="layui-input">
+		<div class="layui-form-item">
+			<label class="layui-form-label">修改头像</label>
+			<div class="layui-input-inline uploadHeadImage">
+				<div class="layui-upload-drag" id="headImg">
+					<i class="layui-icon"></i>
+					<p>点击上传图片，或将图片拖拽到此处</p>
+				</div>
+			</div>
+			<div class="layui-input-inline">
+				<div class="layui-upload-list">
+					<img class="layui-upload-img headImage" style="height: 160px;width: 250px" src="http://t.cn/RCzsdCq" id="demo1">
+					<p id="demoText"></p>
+				</div>
+			</div>
+		</div>
 		<div class="layui-form-item">
 			<label class="layui-form-label">姓名</label>
 			<div class="layui-input-inline">
@@ -113,6 +135,9 @@
 		</div>
 	</form>
 </div>
+<script type="text/html" id="imgTpl">
+	<img src="${pageContext.request.contextPath}{{d.adminHeadImg}}">
+</script>
 <script type="text/html" id="barDemo">
 	<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit">修改</a>
 	{{#  if(d.adminState == "1"){ }}
@@ -126,14 +151,14 @@
 </script>
 <script>
 	var path = $("#path").val();
-	layui.use(['table', 'form','laydate'], function(){
+	layui.use(['table', 'form','laydate',"upload"], function(){
 		var table =layui.table
 			,form = layui.form
+			,upload = layui.upload
 			,laydate = layui.laydate
 			, $=layui.jquery;
 		table.render({
 			elem:'#test',
-			height:321,
 			url: "${pageContext.request.contextPath}/admin/adminManagementDirector",
 			type:'get',
 			dataType:"json",
@@ -143,8 +168,9 @@
 			cols: [[
 				{field:'adminId', title: 'ID' , align: 'center'},
 				{field:'adminTime', title: '新增时间' , align: 'center'},
-				{field:'adminAccount', title: '管理员账号' , align: 'center'},
-				{field:'adminName', title: '管理员姓名' , align: 'center'},
+				{field:'adminAccount', title: '账号' , align: 'center'},
+				{field:'adminName', title: '姓名' , align: 'center'},
+				{field:'adminHeadImg',title: '头像', align: 'center',width:150,templet:'#imgTpl'},
 				{field:'adminSex', title: '性别' , align: 'center'},
 				{field:'adminPhone', title: '手机号' , align: 'center'},
 				{field:'adminAddress', title: '居住地址' , align: 'center'},
@@ -165,8 +191,25 @@
 					}
 				});
 				// pageCurr=curr;
+				hoverOpenImg();//显示大图
 			}
 		});
+		//悬停显示大图
+		function hoverOpenImg(){
+			var img_show = null; // tips提示
+			$('td img').hover(function(){
+				//alert($(this).attr('src'));
+				var img = "<img class='img_msg' src='"+$(this).attr('src')+"' style='width:370px;' />";
+				img_show = layer.tips(img, this,{
+					tips:[2, 'rgba(41,41,41,.5)']
+					,area: ['400px']
+				});
+			},function(){
+				layer.close(img_show);
+			});
+			$('td img').attr('style','max-width:70px');
+		};
+
 		//禁用启用
 		table.on('tool(test)', function(obj){
 			var data = obj.data;
@@ -415,6 +458,40 @@
 			confirmPass:function(value){
 				if($('input[name=adminPwd]').val() !== value)
 					return '两次密码输入不一致！';
+			}
+		});
+		//上传头像
+		var uploadInst = upload.render({
+			elem: '#headImg'
+			, url: '${pageContext.request.contextPath}/admin/uploadHeadImg'
+			, size: 500
+			, before: function (obj) {
+				//预读本地文件示例，不支持ie8
+				obj.preview(function (index, file, result) {
+					$('#demo1').attr('src', result); //图片链接（base64）
+				});
+			}
+			, done: function (res) {
+				//如果上传失败
+				if (res.code > 0) {
+					return layer.msg('上传失败');
+				}
+				//上传成功
+				//打印后台传回的地址: 把地址放入一个隐藏的input中, 和表单一起提交到后台, 此处略..
+				/*   console.log(res.data.src);*/
+				var demoText = $('#demoText');
+				demoText.html('<span style="color: #8f8f8f;">上传成功!!!</span>');
+				var fileupload = $("#image");
+				fileupload.attr("value",res.data.src);
+				console.log(fileupload.attr("value"));
+			}
+			, error: function () {
+				//演示失败状态，并实现重传
+				var demoText = $('#demoText');
+				demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-mini demo-reload">重试</a>');
+				demoText.find('.demo-reload').on('click', function () {
+					uploadInst.upload();
+				});
 			}
 		});
 	});

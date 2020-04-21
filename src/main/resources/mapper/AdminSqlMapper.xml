@@ -251,7 +251,7 @@
             </if>
         </where>
         ORDER BY cashier_id desc limit #{currentPage},#{pageSize}
-    </select>
+</select>
     <!-- 用户管理 查找条数  收费员 -->
     <select id="findCount" resultType="int" >
         select  count(*) from tb_cashier
@@ -285,7 +285,7 @@
     <!--  重置密码 收费员  -->
     <update id="resetPwd" parameterType="java.util.Map">
 			update tb_cashier
-			set  cashier_pwd = (select parameter_value from tb_system_parameter where parameter_id = 3)
+			set  cashier_pwd = #{pwdMD5}
 			where cashier_id = #{cashierId}
 	</update>
     <!--  编辑  收费员  -->
@@ -303,7 +303,7 @@
 			set  cashier_account = #{cashierAccount}
            ,cashier_name = #{cashierName}
            ,cashier_phone = #{cashierPhone}
-           ,cashier_address = #{cashierAddress}
+           ,cashier_head_img = #{cashierHeadImg}
 			where cashier_id = #{cashierId}
 	</update>
     <!-- 新增   收费员  -->
@@ -317,6 +317,7 @@
 					,cashier_sex
 					,cashier_address
 					,cashier_time
+					,cashier_head_img
 				)values(
 					 #{cashierAccount}
 					,#{cashierPwd}
@@ -326,6 +327,7 @@
 					,#{cashierSex}
 					,#{cashierAddress}
 					,CURDATE()
+					,#{cashierHeadImg}
 				)
 	</insert>
     <!-- 林堂星——用户管理 查找 管理员  -->
@@ -343,7 +345,7 @@
     </select>
     <!-- 用户管理 查找条数  管理员-->
     <select id="findCountAdmin" resultType="int" >
-        select  count(*) from (select * from tb_admin where role_id = 1) a
+        select  count(*) from (select * from tb_admin where role_id = 2) a
         <where>
             <if test="adminName != '' and adminName !=null">
                 and a.admin_name = #{adminName}
@@ -371,10 +373,14 @@
 			set  admin_state = '2'
 			where admin_id = #{adminId}
 	</update>
+    <!--  重置密码  管理员md5  加密-->
+    <select id="resetPwdAdminMD5" resultType="java.lang.String">
+			select parameter_value from tb_system_parameter where parameter_id = 2;
+	</select>
     <!--  重置密码  管理员-->
     <update id="resetPwdAdmin" parameterType="java.util.Map">
 			update tb_admin
-			set  admin_pwd = (select parameter_value from tb_system_parameter where parameter_id = 2)
+			set  admin_pwd = #{pwdMD5}
 			where admin_id = #{adminId}
 	</update>
     <!--  编辑  管理员-->
@@ -393,6 +399,7 @@
            ,admin_name = #{adminName}
            ,admin_phone = #{adminPhone}
            ,admin_address = #{adminAddress}
+           ,admin_head_img = #{adminHeadImg}
 			where admin_id = #{adminId}
 	</update>
     <!-- 新增管理员  管理员-->
@@ -407,6 +414,7 @@
 					,admin_address
 					,admin_time
 					,role_id
+					,admin_head_img
 				)values(
 					 #{adminAccount}
 					,#{adminPwd}
@@ -416,7 +424,8 @@
 					,#{adminSex}
 					,#{adminAddress}
 					,CURDATE()
-					,1
+					,2
+					,#{adminHeadImg}
 				)
 	</insert>
 

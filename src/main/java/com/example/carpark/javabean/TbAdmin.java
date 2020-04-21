@@ -13,7 +13,17 @@ public class TbAdmin {
   private String adminPhone;
   private String adminAddress;
   private String adminTime;
+  private String adminHeadImg;
 
+  public String getAdminHeadImg()
+  {
+    return adminHeadImg;
+  }
+
+  public void setAdminHeadImg(String adminHeadImg)
+  {
+    this.adminHeadImg = adminHeadImg;
+  }
 
   public long getAdminId() {
     return adminId;

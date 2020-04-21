@@ -14,8 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.imageio.ImageIO;
@@ -26,7 +28,10 @@ import javax.servlet.http.HttpSession;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -623,11 +628,11 @@ public class AdminController {
 
     @RequestMapping("/addCashier")
     @ResponseBody
-    public String addCashier(String cashierAccount, String cashierPwd, String cashierName,String cashierSex,String cashierPhone,String cashierAddress)
+    public String addCashier(String cashierAccount, String cashierPwd, String cashierName,String cashierSex,String cashierPhone,String cashierAddress,String images)
     {
         long cashierState =1;
 	    String cashierPwdMD5 = MD5.machining(cashierPwd);
-        String flag = adminService.addCashier(cashierAccount,cashierPwdMD5,cashierName,cashierSex,cashierPhone,cashierAddress,cashierState);
+        String flag = adminService.addCashier(cashierAccount,cashierPwdMD5,cashierName,cashierSex,cashierPhone,cashierAddress,cashierState,images);
         if (flag.equals("success")){
             return "新增收费员成功";
         }
@@ -645,9 +650,9 @@ public class AdminController {
     }
     @RequestMapping("/toUpdateCashier")
     @ResponseBody
-    public String toUpdateCashier(String uid,String cashierAccountUpdate,String cashierNameUpdate,String cashierPhoneUpdate,String cashierAddressUpdate)
+    public String toUpdateCashier(String uid,String cashierAccountUpdate,String cashierNameUpdate,String cashierPhoneUpdate,String cashierAddressUpdate,String images)
     {
-        String flag = adminService.toUpdateCashier(uid,cashierAccountUpdate,cashierNameUpdate,cashierPhoneUpdate,cashierAddressUpdate);
+        String flag = adminService.toUpdateCashier(uid,cashierAccountUpdate,cashierNameUpdate,cashierPhoneUpdate,cashierAddressUpdate,images);
         if (flag.equals("success")){
             return "修改成功";
         }
@@ -655,6 +660,54 @@ public class AdminController {
             return "修改失败";
         }
     }
+    @RequestMapping(value = "/uploadHeadImgCashier", method = {RequestMethod.POST})
+    @ResponseBody
+    public Object headImgCashier(@RequestParam(value="file",required=false) MultipartFile file, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String prefix="";
+        String dateStr="";
+        //保存上传
+        OutputStream out = null;
+        InputStream fileInput=null;
+        String uuid = UUID.randomUUID()+"";
+        String originalName = file.getOriginalFilename();
+        prefix=originalName.substring(originalName.lastIndexOf(".")+1);
+        Date date = new Date();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        dateStr = simpleDateFormat.format(date);
+        System.out.println(request.getServletContext().getRealPath("/upload/"));
+        String filepath = request.getServletContext().getRealPath("/upload/") + dateStr +"\\"+uuid+ "." + prefix;
+        filepath = filepath.replace("\\", "/");
+        try{
+            if(file!=null){
+                File files=new File(filepath);
+                //打印查看上传路径
+                System.out.println(filepath);
+                if(!files.getParentFile().exists()){
+                    files.getParentFile().mkdirs();
+                }
+                file.transferTo(files);
+            }
+        }catch (Exception e){
+        }finally{
+            try {
+                if(out!=null){
+                    out.close();
+                }
+                if(fileInput!=null){
+                    fileInput.close();
+                }
+            } catch (IOException e) {
+            }
+        }
+        Map<String,Object> map2=new HashMap<>();
+        Map<String,Object> map=new HashMap<>();
+        map.put("code",0);
+        map.put("msg","");
+        map.put("data",map2);
+        map2.put("src","/upload/"+ dateStr+"/"+uuid+"." + prefix);
+        return map;
+    }
+
 	//林堂星_用户管理_管理员
 	@RequestMapping("/adminManagementDirector")
 	@ResponseBody
@@ -678,11 +731,11 @@ public class AdminController {
 
 	@RequestMapping("/addAdmin")
 	@ResponseBody
-	public String addAdmin(String adminAccount, String adminPwd, String adminName,String adminSex,String adminPhone,String adminAddress)
+	public String addAdmin(String adminAccount, String adminPwd, String adminName,String adminSex,String adminPhone,String adminAddress,String images)
 	{
 		long adminState =1;
 		String adminPwdMD5 = MD5.machining(adminPwd);
-		String flag = adminService.addAdmin(adminAccount,adminPwdMD5,adminName,adminSex,adminPhone,adminAddress,adminState);
+		String flag = adminService.addAdmin(adminAccount,adminPwdMD5,adminName,adminSex,adminPhone,adminAddress,adminState,images);
 		if (flag.equals("success")){
 			return "新增管理员成功";
 		}
@@ -700,9 +753,9 @@ public class AdminController {
 	}
 	@RequestMapping("/toUpdateAdmin")
 	@ResponseBody
-	public String toUpdateAdmin(String uid,String adminAccountUpdate,String adminNameUpdate,String adminPhoneUpdate,String adminAddressUpdate)
+	public String toUpdateAdmin(String uid,String adminAccountUpdate,String adminNameUpdate,String adminPhoneUpdate,String adminAddressUpdate,String images)
 	{
-		String flag = adminService.toUpdateAdmin(uid,adminAccountUpdate,adminNameUpdate,adminPhoneUpdate,adminAddressUpdate);
+		String flag = adminService.toUpdateAdmin(uid,adminAccountUpdate,adminNameUpdate,adminPhoneUpdate,adminAddressUpdate,images);
 		if (flag.equals("success")){
 			return "修改成功";
 		}
@@ -710,4 +763,52 @@ public class AdminController {
 			return "修改失败";
 		}
 	}
+    @RequestMapping(value = "/uploadHeadImg", method = {RequestMethod.POST})
+    @ResponseBody
+    public Object headImg(@RequestParam(value="file",required=false) MultipartFile file, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String prefix="";
+        String dateStr="";
+        //保存上传
+        OutputStream out = null;
+        InputStream fileInput=null;
+        String uuid = UUID.randomUUID()+"";
+        String originalName = file.getOriginalFilename();
+        prefix=originalName.substring(originalName.lastIndexOf(".")+1);
+        Date date = new Date();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        dateStr = simpleDateFormat.format(date);
+        System.out.println(request.getServletContext().getRealPath("/upload/"));
+        String filepath = request.getServletContext().getRealPath("/upload/") + dateStr +"\\"+uuid+ "." + prefix;
+        filepath = filepath.replace("\\", "/");
+        try{
+            if(file!=null){
+                File files=new File(filepath);
+                //打印查看上传路径
+                System.out.println(filepath);
+                if(!files.getParentFile().exists()){
+                    files.getParentFile().mkdirs();
+                }
+                file.transferTo(files);
+            }
+        }catch (Exception e){
+        }finally{
+            try {
+                if(out!=null){
+                    out.close();
+                }
+                if(fileInput!=null){
+                    fileInput.close();
+                }
+            } catch (IOException e) {
+            }
+        }
+        Map<String,Object> map2=new HashMap<>();
+        Map<String,Object> map=new HashMap<>();
+        map.put("code",0);
+        map.put("msg","");
+        map.put("data",map2);
+        map2.put("src","/upload/"+ dateStr+"/"+uuid+"." + prefix);
+        return map;
+    }
+
 }

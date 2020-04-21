@@ -60,6 +60,7 @@ public interface AdminDao {
     List<TbAdmin> findAllAdmin(Map parameters);
     int findCountAdmin(Map parameters);
     int forbiddenStateAdmin(Map parameters);
+    String resetPwdAdminMD5();
     int resetPwdAdmin(Map parameters);
     int resignStateAdmin(Map parameters);
     int openStateAdmin(Map parameters);

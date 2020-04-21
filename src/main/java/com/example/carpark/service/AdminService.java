@@ -73,18 +73,18 @@ public interface AdminService {
     int findCount(String userName,String startTime,String endTime);
     int forbiddenState(String stateId);
     int openState(String stateId);
-	String addCashier(String cashierAccount, String cashierPwd, String cashierName, String cashierSex, String cashierPhone, String cashierAddress, long cashierState);
+	String addCashier(String cashierAccount, String cashierPwd, String cashierName, String cashierSex, String cashierPhone, String cashierAddress, long cashierState,String images);
     int resignState(String resignId);
 	int resetPwd(String resetId);
     TbCashier updateCashier(String uid);
-	String toUpdateCashier(String uid, String cashierAccountUpdate, String cashierNameUpdate, String cashierPhoneUpdate, String cashierAddressUpdate);
+	String toUpdateCashier(String uid, String cashierAccountUpdate, String cashierNameUpdate, String cashierPhoneUpdate, String cashierAddressUpdate,String images);
 	int forbiddenStateAdmin(String stateId);
     int openStateAdmin(String oId);
     int resignStateAdmin(String resignId);
     int resetPwdAdmin(String resetId);
     List<TbAdmin> findAllAdmin(String uid, int pageInt, int limitInt, String startTime, String endTime);
     int findCountAdmin(String uid, String startTime, String endTime);
-    String addAdmin(String adminAccount, String adminPwd, String adminName, String adminSex, String adminPhone, String adminAddress, long adminState);
+    String addAdmin(String adminAccount, String adminPwd, String adminName, String adminSex, String adminPhone, String adminAddress, long adminState ,String images);
     TbAdmin updateAdmin(String uid);
-    String toUpdateAdmin(String uid, String adminAccountUpdate, String adminNameUpdate, String adminPhoneUpdate, String adminAddressUpdate);
+    String toUpdateAdmin(String uid, String adminAccountUpdate, String adminNameUpdate, String adminPhoneUpdate, String adminAddressUpdate,String images);
 }

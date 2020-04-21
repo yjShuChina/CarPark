@@ -12,7 +12,17 @@ public class TbCashier {
   private String cashierPhone;
   private String cashierAddress;
   private String cashierTime;
+  private String cashierHeadImg;
 
+  public String getCashierHeadImg()
+  {
+    return cashierHeadImg;
+  }
+
+  public void setCashierHeadImg(String cashierHeadImg)
+  {
+    this.cashierHeadImg = cashierHeadImg;
+  }
 
   public long getCashierId()
   {
