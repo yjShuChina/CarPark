@@ -96,7 +96,7 @@
                 type: "Post",
                 data: {'area': area},
                 success: function (res) {
-                    window.location.href = path + '/gate/cn/machine'
+                    window.location.href = path + '/gate/cn/machine2'
                 },
                 error: function () {
                 }

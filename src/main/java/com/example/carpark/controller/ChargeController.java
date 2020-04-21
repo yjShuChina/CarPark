@@ -1,10 +1,7 @@
 package com.example.carpark.controller;
 
 import com.example.carpark.javabean.*;
-import com.example.carpark.service.CarService;
-import com.example.carpark.service.ChargeService;
-import com.example.carpark.service.CostCalculationService;
-import com.example.carpark.service.MonthService;
+import com.example.carpark.service.*;
 import com.example.carpark.util.MD5;
 import com.example.carpark.websocket.WebSocket;
 import com.google.gson.Gson;
@@ -27,6 +24,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -52,11 +50,16 @@ public class ChargeController {
     private CostCalculationService costCalculationService;
 
     @Resource
+    private RevenueService revenueService;
+
+    @Resource
     private MonthService monthService;
     Gson g = new Gson();
     Date d = new Date();
     SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
     String today = df.format(d);//今天时间
+    SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    String today1 = df1.format(d);//今天时间
 
     @Resource
     private Refund refund;
@@ -419,11 +422,9 @@ public class ChargeController {
         System.out.println("count=" + count);
         if (count > 0) {
             TbUser tbUser = monthService.findUserByCarNumber(carNumber);
-            String monthVipBegin = tbUser.getMonthVipBegin().toString();//月缴生效时间
             String monthVipDeadline = tbUser.getMonthVipDeadline().toString();//月缴到期时间
-//            System.out.println("今天的日期：" + today);
             int result = monthVipDeadline.compareTo(today);//result大于等于0，则月缴未到期
-            String monthVipBeginNew = monthVipBegin.split("\\s+")[0];//根据空格切割日期
+            String monthVipBeginNew = monthVipDeadline.split("\\s+")[0];//根据空格切割日期
             if (result >= 0) {
                 response.getWriter().print(monthVipBeginNew);
                 System.out.println("月缴是否到期monthVipBeginNew=" + monthVipBeginNew);
@@ -461,22 +462,11 @@ public class ChargeController {
         String mcpId = request.getParameter("mcpId");
         System.out.println("月缴续费的tbUser= " + tbUser.toString());
         System.out.println("月缴续费的mcpId= " + mcpId);
-        TbMonthChargeParameter tbmcp = monthService.findMonthById(Integer.parseInt(mcpId));//续费办理的月份
-        int month = (int) tbmcp.getMonth();
-        TbUser tbUser1 = monthService.findUserByCarNumber(tbUser.getCarNumber());
-        String oldMonthVipBegin = tbUser1.getMonthVipBegin().toString();//原先的生效时间
-        String oldMonthVipDeadline = tbUser1.getMonthVipDeadline().toString();//原先的到期时间
+        TbMonthChargeParameter tbmcp = monthService.findMonthById(Integer.parseInt(mcpId));
+        int month = (int) tbmcp.getMonth();//续费办理的月份
+        TbUser tbUser1 = monthService.findUserByCarNumber(tbUser.getCarNumber());//续费前，用户信息
         String newMonthVipBegin = tbUser.getMonthVipBegin().toString();//新的生效时间
-        int result = oldMonthVipBegin.compareTo(today);//result大于等于0，则月缴未到期
-        String monthVipDeadline = null;
-        if (result >= 0) {
-            //未到期逻辑
-            monthVipDeadline = timeFactory(oldMonthVipDeadline, month);//续费后，新的到期时间
-        } else {
-            //到期逻辑
-            tbUser1.setMonthVipBegin(tbUser.getMonthVipBegin());//新的生效时间
-            monthVipDeadline = timeFactory(newMonthVipBegin, month);//续费后，新的到期时间
-        }
+        String monthVipDeadline = timeFactory(newMonthVipBegin, month);//续费后，新的到期时间
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         format.setLenient(false);
         Timestamp newMonthVipDeadline = new Timestamp(format.parse(monthVipDeadline).getTime());//到期时间转换格式
@@ -490,8 +480,19 @@ public class ChargeController {
         tbMonthVip.setCurrentDeadline(tbUser1.getMonthVipDeadline());
         int count2 = monthService.alterMonthVipById(tbMonthVip);
         if (count1 != 0 && count2 != 0) {
-            response.getWriter().print("success");
-            System.out.println("月缴续费成功");
+
+            //添加统计
+            TbRevenue tbRevenue = new TbRevenue();
+            tbRevenue.setIncomeType("manual");
+            tbRevenue.setMonth(month);
+            tbRevenue.setPrice(new BigDecimal(tbmcp.getPrice()));
+            tbRevenue.setTime(today1);
+            tbRevenue.setRevenue(1);
+            String num = revenueService.addRevenue(tbRevenue);
+            if (num != null) {
+                response.getWriter().print("success");
+                System.out.println("月缴续费成功");
+            }
         } else {
             response.getWriter().print("error");
             System.out.println("月缴续费失败");
