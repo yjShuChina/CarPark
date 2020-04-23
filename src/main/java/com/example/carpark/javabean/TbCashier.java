@@ -1,6 +1,8 @@
 package com.example.carpark.javabean;
 
 
+import java.util.Arrays;
+
 public class TbCashier {
 
   private long cashierId;
@@ -13,6 +15,7 @@ public class TbCashier {
   private String cashierAddress;
   private String cashierTime;
   private String cashierHeadImg;
+  private byte[] cashierFace;
 
   public String getCashierHeadImg()
   {
@@ -112,5 +115,30 @@ public class TbCashier {
   public void setCashierTime(String cashierTime)
   {
     this.cashierTime = cashierTime;
+  }
+
+  public byte[] getCashierFace() {
+    return cashierFace;
+  }
+
+  public void setCashierFace(byte[] cashierFace) {
+    this.cashierFace = cashierFace;
+  }
+
+  @Override
+  public String toString() {
+    return "TbCashier{" +
+            "cashierId=" + cashierId +
+            ", cashierAccount='" + cashierAccount + '\'' +
+            ", cashierPwd='" + cashierPwd + '\'' +
+            ", cashierName='" + cashierName + '\'' +
+            ", cashierState=" + cashierState +
+            ", cashierSex='" + cashierSex + '\'' +
+            ", cashierPhone='" + cashierPhone + '\'' +
+            ", cashierAddress='" + cashierAddress + '\'' +
+            ", cashierTime='" + cashierTime + '\'' +
+            ", cashierHeadImg='" + cashierHeadImg + '\'' +
+            ", cashierFace=" + Arrays.toString(cashierFace) +
+            '}';
   }
 }

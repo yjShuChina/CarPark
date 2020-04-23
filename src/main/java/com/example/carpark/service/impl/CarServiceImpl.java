@@ -89,7 +89,7 @@ public class CarServiceImpl implements CarService
         try {
             if(is_old_format) {
                 JSONObject obj = new JSONObject();
-                obj.put("image", getParam(50, imgBase64));
+                obj.put("static/image", getParam(50, imgBase64));
                 if(config_str.length() > 0) {
                     obj.put("configure", getParam(50, config_str));
                 }
@@ -97,7 +97,7 @@ public class CarServiceImpl implements CarService
                 inputArray.add(obj);
                 requestObj.put("inputs", inputArray);
             }else{
-                requestObj.put("image", imgBase64);
+                requestObj.put("static/image", imgBase64);
                 if(config_str.length() > 0) {
                     requestObj.put("configure", config_str);
                 }

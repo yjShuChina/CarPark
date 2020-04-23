@@ -1,0 +1,192 @@
+@charset "UTF-8";
+#loadingDiv {
+    position: fixed;
+    left: 0;
+    width: 100%;
+    top: 0;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 1;
+    filter: alpha(opacity=80);
+    z-index: 9999;
+}
+
+
+
+/*****
+*	文件名称：base.css
+*	文件用途：基础CSS，提供通用类，慎重修改
+*	作者标记：NightIngale
+*	Email:  2535924382@qq.com
+*	制作日期：2011年8月29日
+*	最新更新：2011年10月22日
+*****/
+/*CSS reset*/
+body, div, h1, h2, h3, h4, h5, h6, ul, ol, li, dl, dt, dd, pre, form, fieldset, input, textarea, p, blockquote, th, td {
+    margin: 0px;
+    padding: 0px;
+}
+
+body {
+    font-family: "Microsoft YaHei";
+    font-size: 12px;
+    line-height: 1.6;
+    color: #000;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+img, feldset {
+    border: 0;
+}
+
+/*address, cite, caption, code, dfn, em, th, var { font-style:normal; font-weight:normal; }*/
+ul, ol {
+    list-style: none;
+}
+
+caption, th {
+    text-decoration: none;
+}
+
+/*h1, h2, h3, h4, h5, h6 { font-size:120%; font-weight:normal; }*/
+blockquote, q {
+    quotes: none;
+}
+
+blockquote:before, blockquote:after, q:before, q:after {
+    content: '';
+    content: none;
+}
+
+:focus {
+    outline: 0;
+}
+
+
+
+
+
+/*-------------------*/
+.rigcon {
+    width: 700px;
+    margin-top: 100px;
+}
+/*-------------------*/
+
+
+.rigcon .position {
+    height: 36px;
+    border-bottom: 1px solid #dedede;
+    line-height: 36px;
+}
+
+
+
+
+.rigcon .position .poscatname {
+    font-size: 20px;
+    color: #3c3c3c;
+    border-bottom: 2px solid #04abf3;
+}
+
+.rigcon .position .pos {
+    color: #9a9a9a;
+}
+
+.rigcon .position .pos a {
+    color: #9a9a9a;
+}
+
+.rigcon .position .pos a:hover {
+    transition: all 0.4s 0s ease-in-out;
+    -webkit-transition: all 0.4s 0s ease-in-out;
+    -moz-transition: all 0.4s 0s ease-in-out;
+    -o-transition: all 0.4s 0s ease-in-out;
+    color: #04abf3;
+}
+
+.rigcon .position .pos .this {
+    color: #000;
+}
+
+/*---------------------*/
+.newsdeldiv {
+    margin-top: 30px;
+    margin-bottom: 10px;
+    width: 100%;
+    margin-left: 350px;
+}
+/*---------------------*/
+
+/*---------------------*/
+.newsdeldiv .newsdel_tit {
+    font-size: 18px;
+    color: #3c3c3c;
+    text-align: center;
+    padding-bottom: 5px;
+    line-height: 25px;
+}
+/*---------------------*/
+
+/*---------------------*/
+.newsdeldiv .explain {
+    color: #ababab;
+    text-align: center;
+    padding-bottom: 30px;
+    border-bottom: 1px solid #f2f2f2;
+}
+/*---------------------*/
+.newsdeldiv .newsdel_content {
+    color: #6c6c6c;
+    line-height: 25px;
+    padding-top: 25px;
+    padding-bottom: 80px;
+}
+
+.newsdeldiv .newsdelpre_next {
+    background: #f0f0f0;
+    height: 40px;
+    line-height: 40px;
+    width: 100%;
+}
+
+.newsdeldiv .newsdelpre_next .pre_tit_fl {
+    margin-left: 20px;
+    color: #000;
+}
+
+.newsdeldiv .newsdelpre_next .pre_tit_fl a {
+    color: #3c3c3c;
+}
+
+.newsdeldiv .newsdelpre_next .pre_tit_fl a:hover {
+    color: #04abf3;
+    transition: all 0.4s 0s ease-in-out;
+    -webkit-transition: all 0.4s 0s ease-in-out;
+    -moz-transition: all 0.4s 0s ease-in-out;
+    -o-transition: all 0.4s 0s ease-in-out;
+}
+
+.newsdeldiv .newsdelpre_next .pre_tit_fr {
+    margin-right: 20px;
+    color: #000;
+}
+
+.newsdeldiv .newsdelpre_next .pre_tit_fr a {
+    color: #3c3c3c;
+}
+
+.newsdeldiv .newsdelpre_next .pre_tit_fr a:hover {
+    color: #04abf3;
+    transition: all 0.4s 0s ease-in-out;
+    -webkit-transition: all 0.4s 0s ease-in-out;
+    -moz-transition: all 0.4s 0s ease-in-out;
+    -o-transition: all 0.4s 0s ease-in-out;
+}
+/*---------------------*/
+
+
+.

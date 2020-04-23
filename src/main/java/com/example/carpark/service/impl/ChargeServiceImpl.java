@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
-import com.example.carpark.dao.AdminDao;
 import com.example.carpark.dao.ChargeDao;
 import com.example.carpark.javabean.*;
 import com.example.carpark.service.CarService;
@@ -27,9 +26,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -112,7 +108,7 @@ public class ChargeServiceImpl implements ChargeService {
         try {
             if (is_old_format) {
                 JSONObject obj = new JSONObject();
-                obj.put("image", getParam(50, imgBase64));
+                obj.put("static/image", getParam(50, imgBase64));
                 if (config_str.length() > 0) {
                     obj.put("configure", getParam(50, config_str));
                 }
@@ -120,7 +116,7 @@ public class ChargeServiceImpl implements ChargeService {
                 inputArray.add(obj);
                 requestObj.put("inputs", inputArray);
             } else {
-                requestObj.put("image", imgBase64);
+                requestObj.put("static/image", imgBase64);
                 if (config_str.length() > 0) {
                     requestObj.put("configure", config_str);
                 }

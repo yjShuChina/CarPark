@@ -107,6 +107,10 @@
                             onclick="monthlyPayment()">月缴办理
                     </button>
                 </div>
+                <div style="padding-left:30px;padding-top:20px">
+                    <button type="button" style="height: 40px;width: 100px;" class="layui-btn" onclick="jumpAddFace()">添加人脸
+                    </button>
+                </div>
             </div>
             <div style="background:#2F4056;height: 120px;width: 160px;padding-top:20px;">
                 <h6>停车场信息</h6>
@@ -177,12 +181,12 @@
             </div>
         </div>
     </div>
-
 </form>
 <script src=<%=path + "/charge/js/chargeLnterface.js"%>></script>
-
 <script>
-
+    function jumpAddFace(){
+        window.location.href="${pageContext.request.contextPath}/charge/path/addChargeFace";
+    }
 </script>
 </body>
 </html>

@@ -1,6 +1,8 @@
 package com.example.carpark.javabean;
 
 
+import java.util.Arrays;
+
 public class TbAdmin {
 
   private long adminId;
@@ -14,6 +16,7 @@ public class TbAdmin {
   private String adminAddress;
   private String adminTime;
   private String adminHeadImg;
+  private byte[] adminFace;
 
   public String getAdminHeadImg()
   {
@@ -116,5 +119,31 @@ public class TbAdmin {
   public void setAdminTime(String adminTime)
   {
     this.adminTime = adminTime;
+  }
+
+  public byte[] getAdminFace() {
+    return adminFace;
+  }
+
+  public void setAdminFace(byte[] adminFace) {
+    this.adminFace = adminFace;
+  }
+
+  @Override
+  public String toString() {
+    return "TbAdmin{" +
+            "adminId=" + adminId +
+            ", adminAccount='" + adminAccount + '\'' +
+            ", adminPwd='" + adminPwd + '\'' +
+            ", adminName='" + adminName + '\'' +
+            ", roleId=" + roleId +
+            ", adminState=" + adminState +
+            ", adminSex='" + adminSex + '\'' +
+            ", adminPhone='" + adminPhone + '\'' +
+            ", adminAddress='" + adminAddress + '\'' +
+            ", adminTime='" + adminTime + '\'' +
+            ", adminHeadImg='" + adminHeadImg + '\'' +
+            ", adminFace=" + Arrays.toString(adminFace) +
+            '}';
   }
 }

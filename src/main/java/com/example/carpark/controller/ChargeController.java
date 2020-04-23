@@ -5,11 +5,6 @@ import com.example.carpark.service.*;
 import com.example.carpark.util.MD5;
 import com.example.carpark.websocket.WebSocket;
 import com.google.gson.Gson;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -94,14 +89,21 @@ public class ChargeController {
             TbCashier tbCashier = chargeService.chargeLogin(param);
 
             if (tbCashier != null) {
-                Map<String,String> map = new HashMap<>();
-                map.put("name",tbCashier.getCashierName());
+                if (tbCashier.getCashierState() == 1) {
+                    Map<String, String> map = new HashMap<>();
+                    map.put("cashierAccount",tbCashier.getCashierAccount());
+                    map.put("name", tbCashier.getCashierName());
 
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
-                String time = sdf.format(new Date());
-                map.put("time",time);
-                request.getSession().setAttribute("tbCashier", map);
-                return "验证成功";
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+                    String time = sdf.format(new Date());
+                    map.put("time", time);
+                    request.getSession().setAttribute("tbCashier", map);
+                    return "验证成功";
+                } else if (tbCashier.getCashierState() == 0) {
+                    return "该账户已禁用";
+                } else if (tbCashier.getCashierState() == 2) {
+                    return "该管理员已离职";
+                }
             }
             return "账号或密码错误";
         }

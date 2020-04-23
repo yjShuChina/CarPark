@@ -35,7 +35,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">车牌号：</label>
         <div class="layui-input-inline">
-            <input type="text" id="carNumber" name="carNumber" value="${carNumber}" required lay-verify="carNumber"
+            <input type="text" id="carNumber" name="carNumber" value="${carNumber}" required lay-verify="required"
                    placeholder="请输入车牌号"
                    autocomplete="off"
                    class="layui-input">
@@ -44,25 +44,25 @@
     <div class="layui-form-item">
         <label class="layui-form-label">入场时间：</label>
         <div class="layui-input-inline">
-            <input type="text" class="layui-input" id="entryTime" name="entryTime" lay-verify="entryTime" readonly>
+            <input type="text" class="layui-input" id="entryTime" name="entryTime" required lay-verify="required" readonly>
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">缴费时间：</label>
         <div class="layui-input-inline">
-            <input type="text" class="layui-input" id="handleTime" name="handleTime" lay-verify="handleTime" readonly>
+            <input type="text" class="layui-input" id="handleTime" name="handleTime" required lay-verify="required" readonly>
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">停放时长：</label>
         <div class="layui-input-inline">
-            <input type="text" class="layui-input" id="time" name="time" lay-verify="time" readonly>
+            <input type="text" class="layui-input" id="time" name="time" required lay-verify="required" readonly>
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">付款金额：</label>
         <div class="layui-input-inline">
-            <input type="text" id="totalAmount" name="totalAmount" class="layui-input" readonly>
+            <input type="text" id="totalAmount" name="totalAmount" class="layui-input" required readonly>
         </div>
     </div>
     <div class="layui-form-item">
@@ -93,8 +93,10 @@
                         data: "carNumber=" + carNumber,
                         datatype: "text",
                         success: function (res) {
-                            if (res != null) {
+                            if (res == "error") {
+                                layer.alert('无进场记录！', {icon: 5});
 
+                            }else {
                                 console.log('进场时间=' + res.timej);
                                 console.log('缴费时间=' + res.timeC);
                                 console.log('停车时长=' + res.timeData);
