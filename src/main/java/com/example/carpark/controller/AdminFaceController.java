@@ -18,10 +18,8 @@ import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * 管理员人脸识别控制类
@@ -48,21 +46,21 @@ public class AdminFaceController {
     //添加人脸
     @RequestMapping("/addAdminFace")
     @ResponseBody
-    public Map<String, Object> addAdminFace(HttpServletRequest request, HttpSession session){
+    public Map<String, Object> addAdminFace(HttpServletRequest request, HttpSession session) {
 
         String adminFace = request.getParameter("adminFace");
-        System.out.println("adminFace="+adminFace);
+        System.out.println("adminFace=" + adminFace);
         TbAdmin tbAdmin = (TbAdmin) session.getAttribute("tbAdmin");
-        System.out.println("tbadmin="+tbAdmin.toString());
+        System.out.println("tbadmin=" + tbAdmin.toString());
         byte[] bytes = adminFace.getBytes();
         tbAdmin.setAdminFace(bytes);
         Map<String, Object> map = new HashMap<String, Object>();
-        int i= faceService.addAdminFace(tbAdmin);
-        if(i>0){
+        int i = faceService.addAdminFace(tbAdmin);
+        if (i > 0) {
 
             map.put("msg", "1");
 
-        }else {
+        } else {
             map.put("msg", "2");
         }
         return map;
@@ -71,28 +69,34 @@ public class AdminFaceController {
     //刚拍的照片和数据库的照片对比
     @RequestMapping("/adminFaceLogin")
     @ResponseBody
-    public Map<String, Object> adminFaceLogin(HttpServletRequest request,
-                                         HttpServletResponse response, HttpSession session) {
-        // 获取前端页面传过来的参数
-        Map<String, Object> map=new HashMap<String, Object>();
+    public String adminFaceLogin(HttpServletRequest request, HttpServletResponse response) {
         String adminFace = request.getParameter("adminFace");
-        TbAdmin tbAdmin = (TbAdmin) session.getAttribute("tbAdmin");
+        List<TbAdmin> tbAdminList = faceService.adminLoginFace();
         String base64 = "";
         response.reset();
+        for (int i = 0; i < tbAdminList.size(); i++) {
+            System.out.println("数据库脸:" + tbAdminList.get(i).getAdminFace().length);
 
-
-        base64 = new String(tbAdmin.getAdminFace());
-        boolean result = getResult(adminFace, base64);
-        if (result) {
-            map.put("msg",1);
-        }else {
-            map.put("msg",0);
+            base64 = new String(tbAdminList.get(i).getAdminFace());
+            boolean result = getResult(adminFace, base64);
+            if (result) {
+                System.out.println("状态:" + tbAdminList.get(i).getAdminState());
+                if (tbAdminList.get(i).getAdminState() == 1) {
+                    request.getSession().setAttribute("tbAdmin", tbAdminList.get(i));//将管理员信息放到session
+                    return "验证成功";
+                } else if (tbAdminList.get(i).getAdminState() == 0) {
+                    return "该账户已禁用";
+                } else if (tbAdminList.get(i).getAdminState() == 2) {
+                    return "该管理员已离职";
+                }
+            }
         }
-
-        return map;
+        return "无法识别面部,请用账户密码登录!";
     }
 
-    /** 人脸识别 比对 */
+    /**
+     * 人脸识别比对
+     */
     public boolean getResult(String imStr1, String imgStr2) {
 
         String accessToken = GetToken.getAuth();
@@ -157,12 +161,15 @@ public class AdminFaceController {
             e.printStackTrace();
         }
 
-
-        System.out.println(result);
+        System.out.println("人脸识别比对:" + result);
         JSONObject fromObject = JSONObject.fromObject(result);
 
         JSONObject jsonArray = fromObject.getJSONObject("result");
-
+        // 此时需要加个判断
+        if (jsonArray.isNullObject()) {
+            System.out.println("jsonObject 为空");
+            return flag;
+        }
         double resultList = jsonArray.getDouble("score");
         if (resultList >= 90) {
             flag = true;

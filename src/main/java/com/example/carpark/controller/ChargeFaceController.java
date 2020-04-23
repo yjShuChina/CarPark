@@ -78,27 +78,25 @@ public class ChargeFaceController {
         String base64 = "";
         response.reset();
         for (int i = 0; i < tbCashierList.size(); i++) {
-            System.out.println("数据库脸:"+tbCashierList.get(i).getCashierFace().length);
-            if (tbCashierList.get(i).getCashierFace().length > 0) {
-                base64 = new String(tbCashierList.get(i).getCashierFace());
-                boolean result = getResult(chargeFace, base64);
-                if (result) {
-                    System.out.println("状态:" + tbCashierList.get(i).getCashierState());
-                    if (tbCashierList.get(i).getCashierState() == 1) {
-                        Map<String, String> map = new HashMap<>();
-                        map.put("cashierAccount", tbCashierList.get(i).getCashierAccount());
-                        map.put("name", tbCashierList.get(i).getCashierName());
+            System.out.println("数据库脸:" + tbCashierList.get(i).getCashierFace().length);
+            base64 = new String(tbCashierList.get(i).getCashierFace());
+            boolean result = getResult(chargeFace, base64);
+            if (result) {
+                System.out.println("状态:" + tbCashierList.get(i).getCashierState());
+                if (tbCashierList.get(i).getCashierState() == 1) {
+                    Map<String, String> map = new HashMap<>();
+                    map.put("cashierAccount", tbCashierList.get(i).getCashierAccount());
+                    map.put("name", tbCashierList.get(i).getCashierName());
 
-                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
-                        String time = sdf.format(new Date());
-                        map.put("time", time);
-                        request.getSession().setAttribute("tbCashier", map);
-                        return "验证成功";
-                    } else if (tbCashierList.get(i).getCashierState() == 0) {
-                        return "该账户已禁用";
-                    } else if (tbCashierList.get(i).getCashierState() == 2) {
-                        return "该管理员已离职";
-                    }
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+                    String time = sdf.format(new Date());
+                    map.put("time", time);
+                    request.getSession().setAttribute("tbCashier", map);
+                    return "验证成功";
+                } else if (tbCashierList.get(i).getCashierState() == 0) {
+                    return "该账户已禁用";
+                } else if (tbCashierList.get(i).getCashierState() == 2) {
+                    return "该管理员已离职";
                 }
             }
         }
@@ -172,12 +170,15 @@ public class ChargeFaceController {
             e.printStackTrace();
         }
 
-
-        System.out.println(result);
+        System.out.println("人脸识别比对:" + result);
         JSONObject fromObject = JSONObject.fromObject(result);
 
         JSONObject jsonArray = fromObject.getJSONObject("result");
-
+        // 此时需要加个判断
+        if (jsonArray.isNullObject()) {
+            System.out.println("jsonObject 为空");
+            return flag;
+        }
         double resultList = jsonArray.getDouble("score");
         if (resultList >= 90) {
             flag = true;

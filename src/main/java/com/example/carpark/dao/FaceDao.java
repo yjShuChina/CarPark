@@ -14,7 +14,7 @@ public interface FaceDao
     public int addAdminFace(TbAdmin tbAdmin);
 
     //管理员人脸登陆验证
-
+    public List<TbAdmin> adminLoginFace();
 
     //添加收费员人脸
     public int addChargeFace(TbCashier tbCashier);

@@ -13,8 +13,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>人脸登录</title>
-    <link rel="stylesheet" type="text/css" href=<%=path+"/css/default.css"%>/>
-    <link rel="stylesheet" type="text/css" href=<%=path+"/css/facelogincss.css"%>/>
+    <link rel="stylesheet" type="text/css" href=<%=path+"/css/facelogincss.css"%>>
 
 </head>
 <body>
@@ -144,14 +143,21 @@
                 url: "${pageContext.request.contextPath}/adminFace/adminFaceLogin",
                 data: {"adminFace": adminFace},
 				success:function(data){
-					if(data.msg==="1"){
-						layer.msg('验证成功，两秒后自动跳转',{icon:6, time:2000},function () {
-							window.location.href = path+'/url/admin/adminMain';
-						})
-					}else if(data.msg==="2"){
-						alert("人脸验证失败,请用账号密码登录!");
-					}
-
+					if(data ==="验证成功"){
+						<%--layer.msg('验证成功，两秒后自动跳转',{icon:6, time:2000},function () {--%>
+						<%--	window.location.href = '${pageContext.request.contextPath}/url/admin/adminMain';--%>
+						<%--});--%>
+                        //登入成功的提示与跳转
+                        layer.msg('登入成功', {
+                            offset: '15px'
+                            , icon: 1
+                            , time: 300
+                        }, function () {
+                            location.href = '${pageContext.request.contextPath}/url/admin/adminMain'; //后台主页
+                        });
+					}else {
+                        layer.msg(data);
+                    }
 				}
             });
         });

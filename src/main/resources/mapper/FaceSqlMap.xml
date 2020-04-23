@@ -12,7 +12,7 @@
 
     <!--管理员人脸登陆验证-->
     <select id="adminLoginFace" resultType="TbAdmin">
-        select * from tb_admin
+        select * from tb_admin where admin_face is not null
     </select>
 
 
@@ -24,7 +24,7 @@
 
     <!--收费员人脸登陆验证-->
     <select id="chargeLoginFace" resultType="TbCashier">
-        select * from tb_cashier
+        select * from tb_cashier where cashier_face is not null
     </select>
 
     <!--通过收费员账户,查询收费员信息-->
