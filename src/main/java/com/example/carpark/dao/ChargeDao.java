@@ -67,4 +67,21 @@ public interface ChargeDao {
     //最新进场车辆查询
     TbParkCarInfo gateMaxQuery();
 
+    //查询自助缴费记录
+    List<TbTemporaryCarRecord> tbTemporaryCarRecordQuery(TbParkCarInfo tbParkCarInfo);
+
+    //当前班次车辆出场记录
+    int addTbCurrentCarExit(Map<String,String> map);
+
+    //出场记录总表
+    int addTbTotalCarExit(Map<String,String> map);
+
+    //删除场内信息记录
+    int delTbParkCarInfo(Map<String,String> map);
+
+    //当前班次车辆出场记录查询
+    List<TbCurrentCarExit> tbCurrentCarExitQuery();
+
+    //当前班次车辆出场记录清空
+    int delTbCurrentCarExit();
 }

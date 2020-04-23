@@ -100,4 +100,33 @@
         select * from tb_park_car_info order by car_time desc limit 1
     </select>
 
+    <!--    查询自助缴费记录-->
+    <select id="tbTemporaryCarRecordQuery" resultType="TbTemporaryCarRecord" parameterType="TbParkCarInfo">
+        select * from tb_temporary_car_record where pci_id = #{pciId} and car_number = #{carNumber} and entry_time = #{carTime} and trade_status = 'TRADE_SUCCESS';
+    </select>
+
+    <!--    当前班次车辆出场记录-->
+    <insert id="addTbCurrentCarExit" parameterType="java.util.Map">
+        insert into tb_current_car_exit (car_number, car_identity, entry_time, exit_time, price, channel, park_space_id, cashier_id) values (#{carnumber},#{state},#{timej},#{timeC},#{collect},#{channel},#{parkSpaceId},#{cashierId});
+    </insert>
+    <!--    出场记录总表-->
+    <insert id="addTbTotalCarExit" parameterType="java.util.Map">
+        insert into tb_total_car_exit (car_number, car_identity, entry_time, exit_time, price, channel, park_space_id, cashier_id, entry_img_url, exit_img_url) values (#{carnumber},#{state},#{timej},#{timeC},#{collect},#{channel},#{parkSpaceId},#{cashierId},#{entryImgUrl},#{exitImgUrl});
+    </insert>
+
+    <!--    删除场内信息记录-->
+    <delete id="delTbParkCarInfo" parameterType="java.util.Map">
+        delete from tb_park_car_info where car_number = #{carnumber}
+    </delete>
+
+    <!--    当前班次车辆出场记录查询-->
+    <select id="tbCurrentCarExitQuery" resultType="TbCurrentCarExit">
+        select * from tb_current_car_exit
+    </select>
+
+    <!--    当前班次车辆出场记录清空-->
+    <delete id="delTbCurrentCarExit">
+        delete from tb_current_car_exit
+    </delete>
+
 </mapper>

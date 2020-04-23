@@ -12,6 +12,8 @@ public class TbTotalCarExit {
   private String channel;
   private String parkSpaceId;
   private long cashierId;
+  private String entryImgUrl;
+  private String exitImgUrl;
 
 
   public long getTceId() {
@@ -22,7 +24,6 @@ public class TbTotalCarExit {
     this.tceId = tceId;
   }
 
-
   public String getCarNumber() {
     return carNumber;
   }
@@ -30,7 +31,6 @@ public class TbTotalCarExit {
   public void setCarNumber(String carNumber) {
     this.carNumber = carNumber;
   }
-
 
   public String getCarIdentity() {
     return carIdentity;
@@ -40,7 +40,6 @@ public class TbTotalCarExit {
     this.carIdentity = carIdentity;
   }
 
-
   public java.sql.Timestamp getEntryTime() {
     return entryTime;
   }
@@ -48,7 +47,6 @@ public class TbTotalCarExit {
   public void setEntryTime(java.sql.Timestamp entryTime) {
     this.entryTime = entryTime;
   }
-
 
   public java.sql.Timestamp getExitTime() {
     return exitTime;
@@ -92,6 +90,24 @@ public class TbTotalCarExit {
 
   public void setCashierId(long cashierId) {
     this.cashierId = cashierId;
+  }
+
+
+  public String getEntryImgUrl() {
+    return entryImgUrl;
+  }
+
+  public void setEntryImgUrl(String entryImgUrl) {
+    this.entryImgUrl = entryImgUrl;
+  }
+
+
+  public String getExitImgUrl() {
+    return exitImgUrl;
+  }
+
+  public void setExitImgUrl(String exitImgUrl) {
+    this.exitImgUrl = exitImgUrl;
   }
 
 }

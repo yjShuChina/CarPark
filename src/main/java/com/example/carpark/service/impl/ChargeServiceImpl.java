@@ -7,6 +7,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.example.carpark.dao.AdminDao;
 import com.example.carpark.dao.ChargeDao;
 import com.example.carpark.javabean.*;
+import com.example.carpark.service.CarService;
 import com.example.carpark.service.ChargeService;
 import com.example.carpark.util.HttpUtils;
 import com.google.gson.Gson;
@@ -14,11 +15,17 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ClassUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.sql.Timestamp;
 import java.text.DateFormat;
@@ -38,7 +45,8 @@ public class ChargeServiceImpl implements ChargeService {
     @Resource
     private ChargeDao chargeDao;
 
-
+    @Resource
+    private CarService carService;
     /*
      * 收费员登录
      * */
@@ -316,6 +324,125 @@ public class ChargeServiceImpl implements ChargeService {
           return new Gson().toJson(tbParkCarInfo);
         }
         return "null";
+    }
+
+    //收费员确认收款
+    @Override
+    @Transactional
+    public String confirmCollection(Map<String, String> map) {
+        carService.changestate("1", map.get("parkSpaceId"));
+        chargeDao.addTbCurrentCarExit(map);
+        chargeDao.addTbTotalCarExit(map);
+        chargeDao.delTbParkCarInfo(map);
+        return "success";
+    }
+
+    //查询自助缴费记录
+    @Override
+    public List<TbTemporaryCarRecord> tbTemporaryCarRecordQuery(TbParkCarInfo tbParkCarInfo) {
+        return chargeDao.tbTemporaryCarRecordQuery(tbParkCarInfo);
+    }
+
+    @Override
+    public String excelGenerate(HttpServletRequest request) {
+        HSSFWorkbook hssfWorkbook = new HSSFWorkbook();
+        HSSFSheet hssfSheet = hssfWorkbook.createSheet("sheet");
+        HSSFRow row = hssfSheet.createRow(0);
+        HSSFCell cell = row.createCell(0);
+        cell.setCellValue("车牌号");
+
+        cell = row.createCell(1);
+        cell.setCellValue("车辆状态");
+
+        cell = row.createCell(2);
+        cell.setCellValue("进场时间");
+
+        cell = row.createCell(3);
+        cell.setCellValue("出场时间");
+
+        cell = row.createCell(4);
+        cell.setCellValue("收费渠道");
+
+        cell = row.createCell(5);
+        cell.setCellValue("金额");
+
+        int x = 1,total = 0 , self = 0,manual = 0;
+
+        List<TbCurrentCarExit> tbCurrentCarExits =chargeDao.tbCurrentCarExitQuery();
+        for (int i = 0; i < tbCurrentCarExits.size(); i++) {
+            TbCurrentCarExit tblUser = tbCurrentCarExits.get(i);
+            row = hssfSheet.createRow(x++);
+
+            int r = 0;
+            cell = row.createCell(r++);// 车牌号
+            cell.setCellValue(tblUser.getCarNumber());
+
+            cell = row.createCell(r++);// 车辆状态
+            cell.setCellValue(tblUser.getCarIdentity());
+
+            cell = row.createCell(r++);// 进场时间
+            cell.setCellValue(tblUser.getEntryTime());
+
+            cell = row.createCell(r++);// 出场时间
+            cell.setCellValue(tblUser.getExitTime());
+
+            cell = row.createCell(r++);// 收费渠道
+            cell.setCellValue(tblUser.getChannel());
+
+            cell = row.createCell(r++);// 金额
+            cell.setCellValue(tblUser.getPrice());
+
+            if ("人工收取".equals(tblUser.getChannel())){
+                manual += tblUser.getPrice();
+            }else {
+                self += tblUser.getPrice();
+            }
+            total += tblUser.getPrice();
+        }
+        row = hssfSheet.createRow(x++);
+
+        cell = row.createCell(4);
+        cell.setCellValue("自助缴费合计:");
+
+        cell = row.createCell(5);
+        cell.setCellValue(self);
+
+        row = hssfSheet.createRow(x++);
+
+        cell = row.createCell(4);
+        cell.setCellValue("人工收取合计:");
+
+        cell = row.createCell(5);
+        cell.setCellValue(manual);
+
+        row = hssfSheet.createRow(x++);
+
+        cell = row.createCell(4);
+        cell.setCellValue("共合计:");
+
+        cell = row.createCell(5);
+        cell.setCellValue(total);
+
+        String path = request.getSession().getServletContext().getRealPath("/excel");
+        // new Date()为获取当前系统时间
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH.mm.ss");//设置日期格式
+        String timeDate = df.format(new Date());
+        String url = path + "/" + timeDate + ".xls";
+        try {
+            FileOutputStream out = new FileOutputStream(url);
+
+            hssfWorkbook.write(out);
+            out.flush();
+
+        } catch (FileNotFoundException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        chargeDao.delTbCurrentCarExit();
+        return url;
     }
 
 

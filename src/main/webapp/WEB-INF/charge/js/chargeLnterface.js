@@ -1,7 +1,10 @@
 var path = $("#path").val();
 var websocket = null;
 if ('WebSocket' in window) {
+    // var str = "ws://"+path+"/websocket/charge";
     websocket = new WebSocket("ws://127.0.0.1:8080/Carpark/websocket/charge");
+    // websocket = new WebSocket("ws://112.74.72.11:10086/Carpark/websocket/charge");
+    // websocket = new WebSocket(str);
 } else {
     alert("您的浏览器不支持websocket");
 }
@@ -13,9 +16,22 @@ websocket.onmessage = function (event) {
     switch (obj.type) {
         case "departure":
             departure(obj);
+            chargeWindow(obj);
             break;
         case "gate":
             gate();
+            chargeQuery();
+            break;
+        case "payment":
+            departure(obj);
+            chargeQuery();
+            break;
+        case "paymentExpire":
+            departure(obj);
+            chargeQuery();
+            if ( obj.money > 0){
+                chargeWindow(obj);
+            }
             break;
     }
 }
@@ -148,3 +164,94 @@ function timeDatezhuang(time) {
     var date = new Date(time);
     return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
 }
+
+function monthlyPayment() {
+    var layer = layui.layer;
+    var path = $("#path").val();
+    layer.open({
+        type: 2,
+        title: '月缴办理',
+        content: path + "/charge/path/monthlyPayment",
+        offset: '100px',
+        anim: 1,
+        resize: false,
+        area: ['90%', '500px'],
+        closeBtn: 2,
+        shade: 0.6,
+        move: false,
+        cancel: function (index, layero) {
+            layer.close(index);
+            return false;
+        },
+    });
+}
+function chargeWindow(obj) {
+    var timej = obj.timej;
+    if (obj.timej != "未找到") {
+        timej = timeDatezhuang(timej);
+    }
+    //进场时间
+    document.getElementById("chargeTimer").innerHTML = timej;
+    //车牌号
+    document.getElementById("chargeCarnumber").innerHTML = obj.carnumber;
+    //车辆状态
+    document.getElementById("chargeState").innerHTML = obj.state;
+    //出场时间
+    document.getElementById("chargeTimeC").innerHTML = timeDatezhuang(obj.timeC);
+    //停车时长
+    document.getElementById("chargeTimeData").innerHTML = obj.timeData;
+    //金额
+    document.getElementById("chargeMoney").innerHTML = obj.money + "元"
+    //出场图片
+    document.getElementById("chargeDepartureUrl").src = "data:image/png;base64," + obj.departureUrl;
+    //进场图片
+    document.getElementById("chargeGateUrl").src = "data:image/png;base64," + obj.gateUrl
+
+
+    var layer = layui.layer;
+    var path = $("#path").val();
+    layer.open({
+        type: 1,
+        title: '车辆出场',
+        content: $("#modify"),
+        offset: '100px',
+        anim: 1,
+        resize: false,
+        area: ['1000px', '550px'],
+        closeBtn: 2,
+        shade: 0.6,
+        move: false,
+        btn: ['确认收款'],
+        btn1: function (index, layero) {
+            $.ajax({
+                    url: path + "/charge/confirmCollection",
+                    async: "true",
+                    success: function (res) {
+                        if (res == "error"){
+                            layer.alert("确认失败，请修正收费信息");
+                        }else {
+                            layer.msg("收款成功");
+                            layer.close(index);
+                        }
+                       console.log(res);
+                    },
+                    error: function () {
+                        layer.msg('网络正忙', {icon: 6});
+                    }
+                }
+            );
+        },
+        cancel: function (index, layero) {
+            layer.close(index);
+            return false;
+        },
+    });
+}
+
+// function download() {
+//     var url = path + "/charge/download";
+//     var fileName = "testAjaxDownload.txt";
+//     var form = $("<form></form>").attr("action", url).attr("method", "post").attr("accept-charset","UTF-8");
+//     form.append($("<input></input>").attr("type", "hidden").attr("name", "fileName").attr("value", fileName));
+//     form.appendTo('body').submit().remove();
+// }
