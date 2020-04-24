@@ -8,6 +8,7 @@
     <result column="price" jdbcType="DECIMAL" property="price" />
     <result column="time" jdbcType="TIMESTAMP" property="time" />
     <result column="revenue" jdbcType="INTEGER" property="revenue" />
+    <result column="car_number" jdbcType="VARCHAR" property="carNumber"/>
   </resultMap>
   <sql id="Base_Column_List">
     revenue_id, income_type, month, price, time, revenue

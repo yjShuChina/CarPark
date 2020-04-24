@@ -1,5 +1,7 @@
 package com.example.carpark.service;
 
-public interface UserService {
+import com.example.carpark.javabean.TbUser;
 
+public interface UserService {
+    TbUser userLogin(TbUser tbUser);
 }

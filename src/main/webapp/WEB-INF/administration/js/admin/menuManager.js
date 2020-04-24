@@ -75,7 +75,7 @@ layui.use(['form','laypage','layer','tree','util','table'], function(){
                     },
                     success:function (msg) {
                         if(msg === 'success'){
-                            layer.msg('[菜单ID: '+ data.menuId +'] ' + field + ' 字段更改为：'+ value);
+                            layer.msg(msg);
                         }else {
                             layer.msg('发生了某种错误');
                             obj.update({

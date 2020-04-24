@@ -73,7 +73,7 @@ layui.use(['layer','table','form','util'],function () {
                     },
                     success:function (msg) {
                         if(msg === 'success'){
-                            layer.msg('[参数ID: '+ data.menuId +'] ' + field + ' 字段更改为：'+ value);
+                            layer.msg(msg);
                         }else {
                             layer.msg('参数名已存在');
                             obj.update({

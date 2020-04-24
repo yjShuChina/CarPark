@@ -21,6 +21,8 @@ public class TbRevenue {
     private String time;
     //收入或支出（1为收入/2为支出）
     private Integer revenue;
+    //车牌号
+    private String carNumber;
 
     public Integer getRevenueId() {
         return revenueId;
@@ -70,6 +72,14 @@ public class TbRevenue {
         this.revenue = revenue;
     }
 
+    public String getCarNumber() {
+        return carNumber;
+    }
+
+    public void setCarNumber(String carNumber) {
+        this.carNumber = carNumber;
+    }
+
     @Override
     public String toString() {
         return "TbRevenue{" +
@@ -77,8 +87,9 @@ public class TbRevenue {
                 ", incomeType='" + incomeType + '\'' +
                 ", month=" + month +
                 ", price=" + price +
-                ", time=" + time +
+                ", time='" + time + '\'' +
                 ", revenue=" + revenue +
+                ", carNumber='" + carNumber + '\'' +
                 '}';
     }
 }

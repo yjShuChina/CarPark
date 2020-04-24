@@ -134,11 +134,12 @@ layui.use(['form','laypage','layer','tree','util','table'], function() {
                         }
                     },
                     success:function (msg) {
-                        if(msg === 'success'){
-                            layer.msg('[角色ID:'+ data.roleId +']' + field + '字段更改为：'+ value);
-                        }else {
-                            layer.msg(msg);
+                        if(msg === 'error'){
+                            obj.update({
+                                [field]:old
+                            });
                         }
+                        layer.msg();
                     },
                     error:function (msg) {
                         obj.update({

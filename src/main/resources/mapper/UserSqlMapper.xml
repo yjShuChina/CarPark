@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.carpark.mapper.TbUserMapper">
+<mapper namespace="com.example.carpark.dao.UserDao">
   <resultMap id="BaseResultMap" type="com.example.carpark.javabean.TbUser">
     <id column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="user_tel" jdbcType="VARCHAR" property="userTel" />
@@ -114,4 +114,8 @@
       month_vip_deadline = #{monthVipDeadline,jdbcType=TIMESTAMP}
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
+
+  <select id="userLogin" parameterType="TbUser" resultType="TbUser">
+        select * from tb_user where user_tel = #{userTel} and user_pwd = #{userPwd}
+  </select>
 </mapper>
