@@ -111,7 +111,6 @@ public class CarServiceImpl implements CarService
 
             HttpResponse response = HttpUtils.doPost(host, path, method, headers, querys, bodys);
             int stat = response.getStatusLine().getStatusCode();
-            System.out.println(stat);
             if(stat != 200){
                 System.out.println("Http code: " + stat);
                 System.out.println("http header error msg: "+ response.getFirstHeader("X-Ca-Error-Message"));
