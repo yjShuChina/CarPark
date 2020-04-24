@@ -41,7 +41,7 @@
 				<input type="text" name="password" id="uid"  placeholder="请输入用户名" autocomplete="off" class="layui-input">
 			</div>
 			<div class="layui-inline">
-				<label class="layui-form-label">新增时间</label>
+				<label class="layui-form-label">添加时间</label>
 				<div class="layui-input-block">
 					<input name="beginTimeFrom" type="text" autocomplete="off" id="startTime" class="layui-input laydate">
 				</div>
@@ -139,15 +139,20 @@
 	<img src="${pageContext.request.contextPath}{{d.adminHeadImg}}">
 </script>
 <script type="text/html" id="barDemo">
+	{{#  if(d.adminState != "2"){ }}
 	<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit">修改</a>
 	{{#  if(d.adminState == "1"){ }}
 	<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="forbidden">禁用</a>
 	{{#  } }}
 	{{#  if(d.adminState == "0"){ }}
 	<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="open">启用</a>
-	{{#  } }}
+	{{#  } }}<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="detail">详情</a>
 	<a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="reset">重置密码</a>
 	<a class="layui-btn layui-btn layui-btn-xs" lay-event="resign">离职</a>
+	{{#  } }}
+	{{#  if(d.adminState == "2"){ }}
+	<a>已离职</a>
+	{{#  } }}
 </script>
 <script>
 	var path = $("#path").val();
@@ -167,15 +172,15 @@
 			cellMinWidth: 80,
 			cols: [[
 				{field:'adminId', title: 'ID' , align: 'center'},
-				{field:'adminTime', title: '新增时间' , align: 'center'},
+				{field:'adminHeadImg',title: '头像', align: 'center',width:150,templet:'#imgTpl'},
 				{field:'adminAccount', title: '账号' , align: 'center'},
 				{field:'adminName', title: '姓名' , align: 'center'},
-				{field:'adminHeadImg',title: '头像', align: 'center',width:150,templet:'#imgTpl'},
-				{field:'adminSex', title: '性别' , align: 'center'},
-				{field:'adminPhone', title: '手机号' , align: 'center'},
-				{field:'adminAddress', title: '居住地址' , align: 'center'},
+				// {field:'adminSex', title: '性别' , align: 'center'},
+				// {field:'adminPhone', title: '手机号' , align: 'center'},
+				// {field:'adminAddress', title: '居住地址' , align: 'center'},
 				{field:'adminState', title: '状态',align: 'center'},
-				{fixed: 'right', title:'操作', toolbar: '#barDemo', width:250,align: 'center'}
+				{field:'adminTime', title: '添加时间' , align: 'center'},
+				{fixed: 'right', title:'操作', toolbar: '#barDemo', width:300,align: 'center'}
 			]],
 			done: function(res, curr, count){
 				//如果是异步请求数据方式，res即为你接口返回的信息。
@@ -342,6 +347,30 @@
 						fixed: false, //不固定
 						maxmin: true,
 						content: '${pageContext.request.contextPath}/url/admin/adminManagementEditDirector'
+					});
+					layer.close(index);
+				});
+				form.render();
+			}
+			else if(obj.event === 'detail'){
+				var uid = obj.data.adminId;
+				$.ajax({
+					url:"${pageContext.request.contextPath}/admin/updateAdmin",
+					type:'post',
+					data: {'uid':uid},
+					dataType:"json",
+					success:function(data){
+						// setTimeout('window.location.reload()', 1);
+					}
+				});
+				layer.confirm('是否前往详情页面?', {icon: 1, title:'提示'}, function(index) {
+					layer.open({
+						title: ['管理员详情', 'font-size:18px;'],
+						type: 2,
+						area: ['700px', '650px'],
+						fixed: false, //不固定
+						maxmin: true,
+						content: '${pageContext.request.contextPath}/url/admin/adminManagementDetailDirector'
 					});
 					layer.close(index);
 				});
