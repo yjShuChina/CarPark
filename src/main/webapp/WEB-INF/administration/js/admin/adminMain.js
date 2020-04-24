@@ -15,9 +15,10 @@ layui.use(['element','layer'], function(){
             type:'post',
             success:function (msg) {
                 $('#admin_name').text(msg.adminName);
+                $('#headImg').attr('src',path+msg.adminHeadImg);
             },
             error:function (msg) {
-                layer.msg('网络开小差啦',{icon:5})
+                layer.msg('网络开小差啦',{icon:5});
             }
         })
         //ajax获取菜单

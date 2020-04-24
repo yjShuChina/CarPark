@@ -8,9 +8,10 @@
     <result column="price" jdbcType="DECIMAL" property="price" />
     <result column="time" jdbcType="TIMESTAMP" property="time" />
     <result column="revenue" jdbcType="INTEGER" property="revenue" />
+    <result column="car_number" jdbcType="VARCHAR" property="carNumber"/>
   </resultMap>
   <sql id="Base_Column_List">
-    revenue_id, income_type, month, price, time, revenue
+    revenue_id, income_type, month, price, time, revenue,car_number
   </sql>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -27,9 +28,9 @@
 
   <insert id="insert" parameterType="TbRevenue">
     insert into tb_revenue (income_type, month,
-      price, time, revenue)
+      price, time, revenue,car_number)
     values (#{incomeType,jdbcType=VARCHAR}, #{month,jdbcType=INTEGER},
-      #{price,jdbcType=DECIMAL}, #{time,jdbcType=TIMESTAMP}, #{revenue,jdbcType=INTEGER})
+      #{price,jdbcType=DECIMAL}, #{time,jdbcType=TIMESTAMP}, #{revenue,jdbcType=INTEGER},#{carNumber,jdbcType=VARCHAR})
   </insert>
 
   <insert id="insertSelective" parameterType="TbRevenue">
@@ -50,6 +51,9 @@
       <if test="revenue != null">
         revenue,
       </if>
+      <if test="carNumber != null">
+        car_number,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="incomeType != null">
@@ -66,6 +70,9 @@
       </if>
       <if test="revenue != null">
         #{revenue,jdbcType=INTEGER},
+      </if>
+      <if test="carNumber != null">
+        #{carNumber,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -88,6 +95,9 @@
       <if test="revenue != null">
         revenue = #{revenue,jdbcType=INTEGER},
       </if>
+      <if test="carNumber != null">
+        car_number = #{carNumber,jdbcType=VARCHAR},
+      </if>
     </set>
     where revenue_id = #{revenueId,jdbcType=INTEGER}
   </update>
@@ -98,7 +108,8 @@
       month = #{month,jdbcType=INTEGER},
       price = #{price,jdbcType=DECIMAL},
       time = #{time,jdbcType=TIMESTAMP},
-      revenue = #{revenue,jdbcType=INTEGER}
+      revenue = #{revenue,jdbcType=INTEGER},
+      car_number = #{carNumber,jdbcType=VARCHAR}
     where revenue_id = #{revenueId,jdbcType=INTEGER}
   </update>
 

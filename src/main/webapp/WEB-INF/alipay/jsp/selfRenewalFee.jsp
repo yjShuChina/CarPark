@@ -44,13 +44,13 @@
     <div class="layui-form-item">
         <label class="layui-form-label">生效时间：</label>
         <div class="layui-input-inline">
-            <input type="text" class="layui-input" id="monthVipBegin" name="monthVipBegin" lay-verify="required" readonly placeholder="yyyy-mm-dd">
+            <input type="text" class="layui-input" id="monthVipBegin" name="monthVipBegin" required lay-verify="required" placeholder="yyyy-mm-dd" readonly>
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">月缴产品：</label>
         <div class="layui-input-inline">
-            <select id="mcpId" name="mcpId" lay-filter="mcpId">
+            <select id="mcpId" name="mcpId" required lay-filter="mcpId">
                 <option value="">请选择</option>
                 <c:forEach items="${monthChargeParameterList}" begin="0" step="1" var="i">
                     <option value="${i.mcpId}">${i.month}个月</option>
@@ -61,7 +61,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">付款金额：</label>
         <div class="layui-input-inline">
-            <input type="text" id="totalAmount" name="totalAmount" class="layui-input" lay-verify="required" readonly>
+            <input type="text" id="totalAmount" name="totalAmount" class="layui-input" required lay-verify="required" readonly>
         </div>
     </div>
     <div class="layui-form-item">
@@ -95,7 +95,6 @@
                             if (msg == "pass") {
                                 layer.alert('该用户月缴已过期，请充值', {icon: 6});
                             } else if (msg == "error") {
-                                alert("用户不是月缴用户");
                                 layer.alert('用户不是月缴用户', {icon: 5});
                             } else {
                                 console.log('msg=' + msg);
@@ -140,6 +139,41 @@
                 , '请输入正确的车牌号'
             ]
         });
+
+        //监听提交
+        // form.on('submit(formDemo)', function (data) {
+        //
+        //     var outTradeNo = $("#outTradeNo").val();
+        //     var subject = $("#subject").val();
+        //     var carNumber = $("#carNumber").val();
+        //     var monthVipBegin = $("#monthVipBegin").val();
+        //     var mcpId = $("#mcpId").val();
+        //     var totalAmount = $("#totalAmount").val();
+        //     var path = $("#path").val();
+        //
+        //     $.ajax({
+        //         url: path + "/alipay/tradePay",
+        //         async: true,
+        //         type: "POST",
+        //         data: "outTradeNo=" + outTradeNo + "&subject=" + subject + "&carNumber=" + carNumber + "&monthVipBegin=" + monthVipBegin + "&mcpId=" + mcpId + "&totalAmount=" + totalAmount,
+        //         datatype: "text",
+        //         success: function (msg) {
+        //
+        //             if (msg == "success") {
+        //                 alert('新增成功！');
+        //                 var index = parent.layer.getFrameIndex(window.name);
+        //                 parent.layer.close(index);//关闭弹出的子页面窗口
+        //                 window.location.reload();
+        //             } else {
+        //                 alert('新增失败！');
+        //             }
+        //         },
+        //         error: function () {
+        //             layer.alert('网络繁忙！', {icon: 7});
+        //         }
+        //     });
+        //     return false;
+        // });
 
         function GetDateNow() {
             var vNow = new Date();

@@ -1,68 +1,99 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: 92059
-  Date: 2020/4/7
-  Time: 14:46
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--郭子淳--%>
-<!DOCTYPE html>
+<%
+    String path = request.getContextPath();
+%>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0">
-    <%String path = request.getContextPath();%>
-    <link rel="stylesheet" href=<%=path+"/layui/css/layui.css"%>>
-    <script src=<%=path + "/layui/layui.js"%>></script>
+    <meta charset="utf-8">
+    <title>管理员登录</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href=<%=path+"/layuiadmin/layui/css/layui.css"%> media="all">
+    <link rel="stylesheet" href=<%=path+"/layuiadmin/style/admin.css"%> media="all">
+    <link rel="stylesheet" href=<%=path+"/layuiadmin/style/login.css"%> media="all">
     <script src=<%=path + "/js/jquery-3.4.1.js"%>></script>
-    <script src=<%=path + "/js/json2.js"%>></script>
-    <title>管理员登陆</title>
+    <style>
+        /* 登陆表单 */
+        .lofo_main {
+            background-color: rgba(255, 255, 255, 0.9);
+            width: 400px;
+            position: absolute;
+            right: 10%;
+            top: 22%;
+            z-index: 99999999;
+        }
+
+        @media screen and (max-width: 768px) {
+            .lofo_main {
+                width: 100%;
+                height: 350px;
+                right: 0;
+            }
+        }
+    </style>
 </head>
-<body>
+<body style="background-image: url(https://i.loli.net/2020/04/23/piSHEqKTxzQBIwo.jpg);background-repeat:no-repeat;
+        background-size:100% 100%;
+        background-attachment: fixed;">
 <input type="hidden" id="path" value="<%=path%>">
-<form class="layui-form" onsubmit="return false;"> <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
-    <div style="padding-top: 10%;padding-left: 50%;">
-        <div class="layui-form-item">
-            <h3 style="align-content: center">智能车牌识别停车场 管理端</h3>
-            <hr style="width: 40%">
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">帐号：</label>
-            <div class="layui-input-inline">
-                <input type="text" name="adminAccount" placeholder="请输入帐号" required lay-verify="required" autocomplete="off"
-                       class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">密码：</label>
-            <div class="layui-input-inline">
-                <input type="password" name="adminPwd" required lay-verify="required" placeholder="请输入密码"
-                       autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label"></label>
-            <div class="layui-input-inline">
-                <img title="点击更换" id="image" src="${pageContext.request.contextPath}/admin/CheckCodeServlet" onclick="changeCode()">
-                <a href="javascript:;" onclick="changeCode()">看不清?换一张</a>
-            </div>
-            <div ></div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">验证码：</label>
-            <div class="layui-input-inline">
-                <input type="text" name="captcha" placeholder="请输入验证码" required lay-verify="required" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <div class="layui-input-block">
-                <button class="layui-btn" lay-submit lay-filter="login">登录</button>
+<form class="layui-form" onsubmit="return false;">
+    <div class="lofo_main">
+        <div class="layui-row layui-col-space15">
+            <div class="layadmin-user-login-main">
+                <div class="layadmin-user-login-box layadmin-user-login-header">
+                    <h2>传一停车场</h2>
+                    <p>管理员登录</p>
+                </div>
+                <div class="layadmin-user-login-box layadmin-user-login-body layui-form">
+                    <div class="layui-form-item">
+                        <label class="layadmin-user-login-icon layui-icon layui-icon-username"
+                               for="LAY-user-login-username"></label>
+                        <input type="text" name="adminAccount" id="LAY-user-login-username" required
+                               lay-verify="required" autocomplete="off"
+                               placeholder="请输入帐号"
+                               class="layui-input">
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layadmin-user-login-icon layui-icon layui-icon-password"
+                               for="LAY-user-login-password"></label>
+                        <input type="password" name="adminPwd" id="LAY-user-login-password" required
+                               lay-verify="required"
+                               placeholder="请输入密码" autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-row">
+                            <div class="layui-col-xs7">
+                                <label class="layadmin-user-login-icon layui-icon layui-icon-vercode"
+                                       for="LAY-user-login-vercode"></label>
+                                <input type="text" name="captcha" id="LAY-user-login-vercode" required
+                                       lay-verify="required" autocomplete="off"
+                                       placeholder="图形验证码" class="layui-input">
+                            </div>
+                            <div class="layui-col-xs5">
+                                <div style="margin-left: 10px;">
+                                    <img id="image" src="${pageContext.request.contextPath}/admin/CheckCodeServlet"
+                                         alt="更换验证码"
+                                         height="36" width="100%" onclick="changeCode(this)">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item" style="margin-bottom: 20px;">
+                        <a class="layadmin-user-jump-change layadmin-link" style="margin-top: 7px;"
+                           href=<%=path + "/adminFace/path/adminFaceLogin"%>>人脸识别登录&nbsp;&nbsp;</a>
+                    </div>
+                    <div class="layui-form-item">
+                        <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="login">登&nbsp;&nbsp;&nbsp;&nbsp;录</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </form>
+<script src=<%=path + "/layuiadmin/layui/layui.js"%>></script>
 <script>
     //获取路径
     var path = $("#path").val();
@@ -98,6 +129,7 @@
     function changeCode() {
         $("#image").attr("src",path + "/admin/CheckCodeServlet?num="+Math.random())
     }
+
 </script>
 </body>
 </html>

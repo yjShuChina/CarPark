@@ -49,17 +49,20 @@ layui.use(['form','layer','util','table','laydate'], function() {
         elem: '#demotable'
         ,url:$('#path').val()+'/admin/findRevenueByPage'
         ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+        ,toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+        ,defaultToolbar: ['filter', 'exports', 'print']
         ,limit:10
         ,id: 'demotable'
         ,page: true
         ,cols: [
             [
-                {field:'revenueId', title: '收支表ID',width:180, sort: true}
+                {field:'revenueId', title: '收支表ID',width:80, sort: true}
                 ,{field:'incomeType', title: '缴费渠道',width:150,templet:'#tpl3'}
                 ,{field:'month', title: '月缴产品',width:150,templet:'#tpl1'}
                 ,{field:'price', title: '金额（元）',width:150,sort:true}
                 ,{field:'time', title: '发生时间',sort:true}
                 ,{field:'revenue', title: '收入/支出',width:150,templet:'#tpl2'}
+                ,{field:'carNumber', title: '车牌号',width:150}
                 ,{field:'right', title: '操作',toolbar: '#barDemo'}
             ]
         ]
@@ -103,6 +106,12 @@ layui.use(['form','layer','util','table','laydate'], function() {
                     '   <label class="layui-form-label">金额：</label>'+
                     '   <div class="layui-input-inline">' +
                     '       <input type="text" name="price" id="price"  placeholder="请输入金额" autocomplete="off" class="layui-input">'+
+                    '   </div>'+
+                    '</div>'+
+                    '<div class="layui-form-item">'+
+                    '   <label class="layui-form-label">车牌号：</label>'+
+                    '   <div class="layui-input-inline">' +
+                    '       <input type="text" name="carNumber" id="carNumber"  placeholder="请输入车牌号" autocomplete="off" class="layui-input">'+
                     '   </div>'+
                     '</div>'+
                     '<div class="layui-form-item">'+
@@ -155,7 +164,7 @@ layui.use(['form','layer','util','table','laydate'], function() {
                     $.ajax({
                         url:$('#path').val() + '/admin/addRevenue',
                         type:'post',
-                        data:{'incomeType':$('#incomeType2').val(),'revenue':$('#revenue2').val(),'month':$('#month2').val(),'price':$('#price').val(),'time':$('#time2').val()},
+                        data:{'incomeType':$('#incomeType2').val(),'revenue':$('#revenue2').val(),'month':$('#month2').val(),'price':$('#price').val(),'time':$('#time2').val(),'carNumber':$('#carNumber').val()},
                         beforeSend:function () {
                             if($('#month2').val() === '0' && ($('#price').val() === '' ||$('#price').val() === null)){
                                 layer.msg('金额不能为空');
@@ -163,6 +172,10 @@ layui.use(['form','layer','util','table','laydate'], function() {
                             };
                             if($('#time2').val()===''||$('#time2').val().length<1){
                                 layer.msg('请选择时间');
+                                return false;
+                            }
+                            if($('#carNumber').val() === null || $('#carNumber').val() === ''){
+                                layer.msg('请输入车牌号');
                                 return false;
                             }
                         },
@@ -273,6 +286,12 @@ layui.use(['form','layer','util','table','laydate'], function() {
                                 '   </div>'+
                                 '</div>'+
                                 '<div class="layui-form-item">'+
+                                '   <label class="layui-form-label">车牌号：</label>'+
+                                '   <div class="layui-input-inline">' +
+                                '       <input type="text" name="carNumber3" id="carNumber3"  placeholder="请输入车牌号" autocomplete="off" class="layui-input">'+
+                                '   </div>'+
+                                '</div>'+
+                                '<div class="layui-form-item">'+
                                 '   <label class="layui-form-label">发生时间：</label>'+
                                 '   <div class="layui-input-inline">' +
                                 '        <input type="text" id="time3" value="'+msg2.time+'" placeholder="yy-MM-dd HH:mm:ss" autocomplete="off" class="layui-input" >'+
@@ -282,6 +301,7 @@ layui.use(['form','layer','util','table','laydate'], function() {
                             form.val('formTest',{
                                 'incomeType3':msg2.incomeType,
                                 'revenue3':msg2.revenue,
+                                'carNumber':msg2.carNumber,
                                 'month3':msg2.month
                             });//给下拉框赋初始值，formTest是form的lay-filter,parentId是name
                             form.render();
@@ -340,6 +360,10 @@ layui.use(['form','layer','util','table','laydate'], function() {
                                 };
                                 if($('#time3').val()===''||$('#time3').val().length<1){
                                     layer.msg('请选择时间');
+                                    return false;
+                                }
+                                if($('#carNumber3').val() === null || $('#carNumber3').val() === ''){
+                                    layer.msg('请输入车牌号');
                                     return false;
                                 }
                             },

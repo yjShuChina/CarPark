@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.carpark.dao.UserDao">
+  <resultMap id="BaseResultMap" type="com.example.carpark.javabean.TbUser">
+    <id column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_tel" jdbcType="VARCHAR" property="userTel" />
+    <result column="user_pwd" jdbcType="VARCHAR" property="userPwd" />
+    <result column="car_number" jdbcType="VARCHAR" property="carNumber" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="month_vip_begin" jdbcType="TIMESTAMP" property="monthVipBegin" />
+    <result column="month_vip_deadline" jdbcType="TIMESTAMP" property="monthVipDeadline" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    user_id, user_tel, user_pwd, car_number, user_name, month_vip_begin, month_vip_deadline
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.carpark.javabean.TbUser">
+    insert into tb_user (user_id, user_tel, user_pwd, 
+      car_number, user_name, month_vip_begin, 
+      month_vip_deadline)
+    values (#{userId,jdbcType=INTEGER}, #{userTel,jdbcType=VARCHAR}, #{userPwd,jdbcType=VARCHAR}, 
+      #{carNumber,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{monthVipBegin,jdbcType=TIMESTAMP}, 
+      #{monthVipDeadline,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.carpark.javabean.TbUser">
+    insert into tb_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="userTel != null">
+        user_tel,
+      </if>
+      <if test="userPwd != null">
+        user_pwd,
+      </if>
+      <if test="carNumber != null">
+        car_number,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="monthVipBegin != null">
+        month_vip_begin,
+      </if>
+      <if test="monthVipDeadline != null">
+        month_vip_deadline,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userTel != null">
+        #{userTel,jdbcType=VARCHAR},
+      </if>
+      <if test="userPwd != null">
+        #{userPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="carNumber != null">
+        #{carNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="monthVipBegin != null">
+        #{monthVipBegin,jdbcType=TIMESTAMP},
+      </if>
+      <if test="monthVipDeadline != null">
+        #{monthVipDeadline,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.carpark.javabean.TbUser">
+    update tb_user
+    <set>
+      <if test="userTel != null">
+        user_tel = #{userTel,jdbcType=VARCHAR},
+      </if>
+      <if test="userPwd != null">
+        user_pwd = #{userPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="carNumber != null">
+        car_number = #{carNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="monthVipBegin != null">
+        month_vip_begin = #{monthVipBegin,jdbcType=TIMESTAMP},
+      </if>
+      <if test="monthVipDeadline != null">
+        month_vip_deadline = #{monthVipDeadline,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.carpark.javabean.TbUser">
+    update tb_user
+    set user_tel = #{userTel,jdbcType=VARCHAR},
+      user_pwd = #{userPwd,jdbcType=VARCHAR},
+      car_number = #{carNumber,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      month_vip_begin = #{monthVipBegin,jdbcType=TIMESTAMP},
+      month_vip_deadline = #{monthVipDeadline,jdbcType=TIMESTAMP}
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+
+  <select id="userLogin" parameterType="TbUser" resultType="TbUser">
+        select * from tb_user where user_tel = #{userTel} and user_pwd = #{userPwd}
+  </select>
+</mapper>

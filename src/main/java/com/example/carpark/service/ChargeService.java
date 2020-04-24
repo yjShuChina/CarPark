@@ -1,11 +1,10 @@
 package com.example.carpark.service;
 
 
-import com.example.carpark.javabean.PageBean;
-import com.example.carpark.javabean.TbCashier;
-import com.example.carpark.javabean.TbChargerParameter;
+import com.example.carpark.javabean.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -47,4 +46,12 @@ public interface ChargeService {
 
     //进场车辆数据获取
     String gateMaxQuery();
+
+    //收费员确认收款
+    String confirmCollection(Map<String,String> map);
+
+    //查询自助缴费记录
+    List<TbTemporaryCarRecord> tbTemporaryCarRecordQuery(TbParkCarInfo tbParkCarInfo);
+
+    String excelGenerate(HttpServletRequest request);
 }

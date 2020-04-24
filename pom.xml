@@ -17,7 +17,7 @@
 
     <properties>
         <java.version>1.8</java.version>
-<!--        <skipTests>true</skipTests>-->
+        <!--        <skipTests>true</skipTests>-->
     </properties>
 
     <dependencies>
@@ -127,7 +127,26 @@
             <artifactId>alipay-sdk-java</artifactId>
             <version>4.9.9</version>
         </dependency>
+        <!--人脸识别JSONObject对象使用-->
+        <dependency>
+            <groupId>net.sf.json-lib</groupId>
+            <artifactId>json-lib</artifactId>
+            <version>2.4</version>
+            <classifier>jdk13</classifier>
+        </dependency>
 
+        <!--        阿里云短信服务-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.aliyun</groupId>-->
+        <!--            <artifactId>aliyun-java-sdk-core</artifactId>-->
+        <!--            <version>4.0.6</version> &lt;!&ndash; 注：如提示报错，先升级基础包版，无法解决可联系技术支持 &ndash;&gt;-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.aliyun</groupId>-->
+        <!--            <artifactId>aliyun-java-sdk-dysmsapi</artifactId>-->
+        <!--            <version>1.1.0</version>-->
+        <!--        </dependency>-->
+        <!--======-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -151,23 +170,56 @@
             <artifactId>spring-boot-starter-freemarker</artifactId>
         </dependency>
         <!--        websocket依赖-->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework</groupId>-->
-<!--            <artifactId>spring-websocket</artifactId>-->
-<!--            <version>4.3.8.RELEASE</version>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
+
+        <!--数据导出excel-->
+        <!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.17</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>3.17</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml-schemas -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml-schemas</artifactId>
+            <version>3.17</version>
+        </dependency>
+
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework</groupId>-->
+        <!--            <artifactId>spring-websocket</artifactId>-->
+        <!--            <version>4.3.8.RELEASE</version>-->
+        <!--        </dependency>-->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-websocket</artifactId>
-<!--            <scope>provided</scope>-->
+            <!--            <scope>provided</scope>-->
         </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>org.eclipse.jetty.websocket</groupId>-->
+        <!--            <artifactId>websocket-server</artifactId>-->
+        <!--            <version>9.4.7.v20170914</version>-->
+        <!--            <scope>test</scope>-->
+        <!--        </dependency>-->
+
 <!--        <dependency>-->
 <!--            <groupId>org.eclipse.jetty.websocket</groupId>-->
 <!--            <artifactId>websocket-server</artifactId>-->
 <!--            <version>9.4.7.v20170914</version>-->
 <!--            <scope>test</scope>-->
 <!--        </dependency>-->
+
     </dependencies>
 
     <build>
@@ -176,13 +228,13 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-<!--            <plugin>-->
-<!--                <groupId>org.apache.maven.plugins</groupId>-->
-<!--                <artifactId>maven-surefire-plugin</artifactId>-->
-<!--                <configuration>-->
-<!--                    <skip>true</skip>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
+            <!--            <plugin>-->
+            <!--                <groupId>org.apache.maven.plugins</groupId>-->
+            <!--                <artifactId>maven-surefire-plugin</artifactId>-->
+            <!--                <configuration>-->
+            <!--                    <skip>true</skip>-->
+            <!--                </configuration>-->
+            <!--            </plugin>-->
         </plugins>
     </build>
 

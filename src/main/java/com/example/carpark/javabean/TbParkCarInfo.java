@@ -19,7 +19,6 @@ public class TbParkCarInfo {
     this.pciId = pciId;
   }
 
-
   public String getCarNumber() {
     return carNumber;
   }
@@ -45,7 +44,6 @@ public class TbParkCarInfo {
   public void setParkSpaceId(String parkSpaceId) {
     this.parkSpaceId = parkSpaceId;
   }
-
 
   public java.sql.Timestamp getCarTime() {
     return carTime;

@@ -12,6 +12,7 @@ public class MyMvcConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
 
         registry.addResourceHandler("/layui/**").addResourceLocations("/WEB-INF/" + "/layui/");
+        registry.addResourceHandler("/layuiadmin/**").addResourceLocations("/WEB-INF/" + "/layuiadmin/");
         registry.addResourceHandler("/administration/**").addResourceLocations("/WEB-INF/" + "/administration/");
         registry.addResourceHandler("/charge/**").addResourceLocations("/WEB-INF/" + "/charge/");
         registry.addResourceHandler("/gate/**").addResourceLocations("/WEB-INF/" + "/gate/");
@@ -20,6 +21,8 @@ public class MyMvcConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/js/**").addResourceLocations("/WEB-INF/" + "/js/");
         registry.addResourceHandler("/esmap/**").addResourceLocations("/WEB-INF/" + "/esmap/");
         registry.addResourceHandler("/alipay/**").addResourceLocations("/WEB-INF/" + "/alipay/");
+        registry.addResourceHandler("/assembly/**").addResourceLocations("/WEB-INF/" + "/assembly/");
+        registry.addResourceHandler("/css/**").addResourceLocations("/WEB-INF/" + "/css/");
     }
 
 //    @Override

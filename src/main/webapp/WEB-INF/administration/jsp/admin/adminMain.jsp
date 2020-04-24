@@ -33,10 +33,11 @@
         <ul class="layui-nav layui-layout-right ">
             <li class="layui-nav-item">
                 <a href="javascript:;">
-                    <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+                    <img id="headImg" src="http://t.cn/RCzsdCq" class="layui-nav-img">
                     <span id="admin_name"></span>
                 </a>
                 <dl class="layui-nav-child">
+                    <dd><a href="javascript:;" title="/url/admin/adminMessage" onclick="changePath(this)">个人信息</a></dd>
                     <dd><a href="javascript:;" title="/url/admin/password" onclick="changePath(this)">安全设置</a></dd>
                 </dl>
             </li>

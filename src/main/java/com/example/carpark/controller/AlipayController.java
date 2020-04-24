@@ -174,23 +174,21 @@ public class AlipayController {
                 map.put("state", "高级VIP");
             }
             map.put("money", "" + money);
+            map.put("timej", timej);
+            map.put("timeData", timeData);
+
+            response.setCharacterEncoding("UTF-8");
+            response.setContentType("application/json; charset=utf-8");
+            String str = new Gson().toJson(map);
+            System.out.println(str);
+            response.getWriter().print(str);
+        }else{
+            response.getWriter().print("error");
         }
-        map.put("timej", timej);
-        map.put("timeData", timeData);
-
-        // new Date()为获取当前系统时间
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH.mm.ss");//设置日期格式
-        String timeDate = df.format(new Date());
-        System.out.println(timeDate);
-
-        response.setCharacterEncoding("UTF-8");
-        response.setContentType("application/json; charset=utf-8");
-        String str = new Gson().toJson(map);
-        System.out.println(str);
-        response.getWriter().print(str);
     }
 
-    @RequestMapping("/tradePay")//办理月缴续费
+    //办理月缴续费
+    @RequestMapping("/tradePay")
     public void tradePay(HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException {
 
 
@@ -345,6 +343,67 @@ public class AlipayController {
             System.out.println("支付宝交易号=" + trade_no);
             System.out.println("付款金额=" + total_amount);
 
+            //-------------------------------------------
+            //通过订单号，查询自助收费记录表
+//            TbReceivable tbReceivable = alipayService.findReceivableById(out_trade_no);
+//
+//            //通过订单号，查询临时车辆自助缴费记录表
+//            TbTemporaryCarRecord tbTemporaryCarRecord = alipayService.findTemporaryCarRecordById(out_trade_no);
+//
+//            //处理自助月缴续费的返回逻辑
+//            if (tbReceivable != null && tbReceivable.getSubject().equals("月缴续费")) {
+//
+//                String carNumber = tbReceivable.getCarNumber();//车牌号
+//                Timestamp monthVipBegin = tbReceivable.getMonthVipBegin();//新的生效时间
+//                int mcpId = (int) tbReceivable.getMcpId();
+//                TbMonthChargeParameter tbmcp = monthService.findMonthById(mcpId);
+//                int month = (int) tbmcp.getMonth();//续费办理的月份
+//                TbUser tbUser = monthService.findUserByCarNumber(carNumber);
+//                String monthVipDeadline = timeFactory(monthVipBegin.toString(), month);//续费后，新的到期时间
+//                DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+//                format.setLenient(false);
+//                Timestamp newMonthVipDeadline = new Timestamp(format.parse(monthVipDeadline).getTime());//到期时间转换格式
+//                tbUser.setMonthVipDeadline(newMonthVipDeadline);//修改到期日期
+//
+//                int count1 = monthService.alterUserByCarNumber(tbUser);//修改用户表日期信息
+//                //通过用户id，查询月缴用户记录信息
+//                TbMonthVip tbMonthVip = monthService.findMonthVipById((int) tbUser.getUserId());
+//                tbMonthVip.setMcpId(mcpId);
+//                tbMonthVip.setOriginDeadline(tbUser.getMonthVipDeadline());
+//                tbMonthVip.setCurrentDeadline(tbUser.getMonthVipDeadline());
+//                int count2 = monthService.alterMonthVipById(tbMonthVip);
+//                if (count1 != 0 && count2 != 0) {
+//                    //支付成功，修复支付状态
+//                    int num = alipayService.alterReceivableById(out_trade_no);
+//                    if (num > 0){
+//                        //添加统计
+//                        TbRevenue tbRevenue = new TbRevenue();
+//                        tbRevenue.setIncomeType("auto");
+//                        tbRevenue.setMonth(month);
+//                        tbRevenue.setPrice(new BigDecimal(total_amount));
+//                        tbRevenue.setTime(tbReceivable.getReceivableTime().toString());
+//                        tbRevenue.setRevenue(1);
+//                        revenueService.addRevenue(tbRevenue);
+//
+//                    }
+//                    return "/alipay/jsp/selfServicePayment";//跳转付款成功页面
+//                }
+//            } else if (tbTemporaryCarRecord != null && tbTemporaryCarRecord.getSubject().equals("临时车辆")) {
+//                int num = alipayService.alterTemporaryCarRecordById(out_trade_no);
+//                if (num > 0) {
+//                    //添加统计
+//                    TbRevenue tbRevenue = new TbRevenue();
+//                    tbRevenue.setIncomeType("auto");
+//                    tbRevenue.setMonth(0);
+//                    tbRevenue.setPrice(new BigDecimal(total_amount));
+//                    tbRevenue.setTime(tbTemporaryCarRecord.getHandleTime().toString());
+//                    tbRevenue.setRevenue(1);
+//                    revenueService.addRevenue(tbRevenue);
+//                    return "/alipay/jsp/selfServicePayment";//跳转付款成功页面
+//                }
+//            }
+//            return null;
+            //-----------------------------------------------
             return "/alipay/jsp/selfServicePayment";//跳转付款成功页面
         } else {
             return "/alipay/jsp/no";//跳转付款失败页面
@@ -422,7 +481,7 @@ public class AlipayController {
                 if (count1 != 0 && count2 != 0) {
                     //支付成功，修复支付状态
                     int num = alipayService.alterReceivableById(out_trade_no);
-                    if (num > 0){
+                    if (num > 0) {
                         //添加统计
                         TbRevenue tbRevenue = new TbRevenue();
                         tbRevenue.setIncomeType("auto");
@@ -454,16 +513,16 @@ public class AlipayController {
                 //判断该笔订单是否在商户网站中已经做过处理
                 //如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
                 //如果有做过处理，不执行商户的业务程序
-                System.out.println("TRADE_FINISHED");
-                response.getWriter().println("success");
+//                System.out.println("TRADE_FINISHED");
+//                response.getWriter().println("success");
                 //注意：
                 //退款日期超过可退款期限后（如三个月可退款），支付宝系统发送该交易状态通知
             } else if (trade_status.equals("TRADE_SUCCESS")) {
                 //判断该笔订单是否在商户网站中已经做过处理
                 //如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
                 //如果有做过处理，不执行商户的业务程序
-                System.out.println("TRADE_SUCCESS");
-                response.getWriter().println("success");
+//                System.out.println("TRADE_SUCCESS");
+//                response.getWriter().println("success");
                 //注意：
                 //付款完成后，支付宝系统发送该交易状态通知
             }

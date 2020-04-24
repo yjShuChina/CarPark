@@ -5,7 +5,9 @@ import com.example.carpark.service.*;
 import com.example.carpark.util.MD5;
 import com.example.carpark.websocket.WebSocket;
 import com.google.gson.Gson;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,12 +21,14 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.swing.*;
 import javax.websocket.Session;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
+import java.io.*;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -48,6 +52,8 @@ public class ChargeController {
 
     @Resource
     private CostCalculationService costCalculationService;
+
+    private static Map<String, String> chargeMap = new HashMap<>();
 
     @Resource
     private RevenueService revenueService;
@@ -83,14 +89,21 @@ public class ChargeController {
             TbCashier tbCashier = chargeService.chargeLogin(param);
 
             if (tbCashier != null) {
-                Map<String,String> map = new HashMap<>();
-                map.put("name",tbCashier.getCashierName());
+                if (tbCashier.getCashierState() == 1) {
+                    Map<String, String> map = new HashMap<>();
+                    map.put("cashierAccount",tbCashier.getCashierAccount());
+                    map.put("name", tbCashier.getCashierName());
 
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
-                String time = sdf.format(new Date());
-                map.put("time",time);
-                request.getSession().setAttribute("tbCashier", map);
-                return "验证成功";
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+                    String time = sdf.format(new Date());
+                    map.put("time", time);
+                    request.getSession().setAttribute("tbCashier", map);
+                    return "验证成功";
+                } else if (tbCashier.getCashierState() == 0) {
+                    return "该账户已禁用";
+                } else if (tbCashier.getCashierState() == 2) {
+                    return "该管理员已离职";
+                }
             }
             return "账号或密码错误";
         }
@@ -153,10 +166,12 @@ public class ChargeController {
         System.out.println(file.getOriginalFilename());
 
         Map<String, String> map = new HashMap<>();
+        map.put("type", "departure");
         //获取车牌号
         String car = chargeService.findcarnumber(file);
         System.out.println("车牌号=" + car);
         map.put("carnumber", car);
+
 
         //出场时间
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
@@ -168,8 +183,28 @@ public class ChargeController {
 
         String timej = "未找到";
         String timeData = "无法计算";
+        int payment = 0;
         if (tbParkCarInfo != null) {
             timej = "" + tbParkCarInfo.getCarTime();
+            //查询自助缴费记录
+            List<TbTemporaryCarRecord> tbTemporaryCarRecord = chargeService.tbTemporaryCarRecordQuery(tbParkCarInfo);
+            if (tbTemporaryCarRecord != null) {
+                for (int i = 0; i < tbTemporaryCarRecord.size(); i++) {
+                    payment += tbTemporaryCarRecord.get(i).getPrice().intValue();
+                    if (tbTemporaryCarRecord.get(i).getHandleTime().getTime() + 600000 >= new Date().getTime()) {
+                        map.put("type", "payment");
+                    } else {
+                        map.put("type", "paymentExpire");
+                    }
+                }
+            }
+            //车位
+            map.put("parkSpaceId", tbParkCarInfo.getParkSpaceId());
+
+            map.put("cashierId", "0");
+
+            //进场图片url
+            map.put("entryImgUrl", tbParkCarInfo.getImgUrl());
 
             //获取停放时长
             timeData = costCalculationService.getTimeDifference(timej, timeC);
@@ -185,7 +220,7 @@ public class ChargeController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            map.put("gateUrl",imgBase64);
+            map.put("gateUrl", imgBase64);
         }
         map.put("timej", timej);
         map.put("timeData", timeData);
@@ -219,8 +254,17 @@ public class ChargeController {
         if (type == 0) {
             map.put("state", "高级VIP");
         }
-        map.put("money", "" + money);
 
+        if (map.get("type").equals("payment")) {
+            map.put("state", "临时自助缴费");
+        }
+
+        money -= payment;
+        map.put("payment", "" + payment);
+        map.put("money", "" + money);
+        if (map.get("type").equals("paymentExpire")) {
+            map.put("state", "自助缴费超时");
+        }
 
         // new Date()为获取当前系统时间
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH.mm.ss");//设置日期格式
@@ -233,7 +277,10 @@ public class ChargeController {
         String fileName = file.getOriginalFilename();  //获取文件名
         String fileTyle = fileName.substring(fileName.lastIndexOf("."), fileName.length());
         System.out.println("后缀名：" + fileTyle);
+
+        //出场图片url
         String url = path + "/" + timeDate + car + fileTyle;
+        map.put("exitImgUrl", url);
         System.out.println("url=================" + url);
         file.transferTo(new File(url));
 
@@ -251,8 +298,7 @@ public class ChargeController {
 
         map.put("departureUrl", imgBase64);
 
-        map.put("type", "departure");
-
+        chargeMap = map;
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json; charset=utf-8");
         String str = new Gson().toJson(map);
@@ -263,13 +309,77 @@ public class ChargeController {
                 session.getBasicRemote().sendText(str);
             }
         }
+
+        if (map.get("type").equals("payment")) {
+            map.put("state", "临时自助缴费");
+            automation();
+        }
+        if (map.get("type").equals("paymentExpire")) {
+            automation();
+        } else {
+            if (money <= 0) {
+                monthly();
+            }
+        }
     }
 
+    //临时自助缴费电脑自动放行记录
+    private void automation() {
+        chargeMap.put("cashierId", "0");
+        chargeMap.put("channel", "自助缴费");
+        chargeMap.put("collect", chargeMap.get("payment"));
+        chargeService.confirmCollection(chargeMap);
+    }
 
+    //月缴
+    private void monthly(){
+        chargeMap.put("cashierId", "0");
+        chargeMap.put("channel", chargeMap.get("state"));
+        chargeMap.put("collect", chargeMap.get("money"));
+        chargeService.confirmCollection(chargeMap);
+    }
+
+    //收费员确认收款
+    @RequestMapping("/confirmCollection")
+    public void confirmCollection(HttpServletResponse response, HttpServletRequest request) {
+        String money = chargeMap.get("money");
+        try {
+            Map<String, String> tbCashier = (Map<String, String>) request.getSession().getAttribute("tbCashier");
+            chargeMap.put("cashierId", tbCashier.get("id"));
+            if ((money.matches("[0-9]+"))) {
+                chargeMap.put("channel", "人工收取");
+                chargeMap.put("collect", money);
+                response.getWriter().print(chargeService.confirmCollection(chargeMap));
+            } else {
+                response.getWriter().print("error");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //excel下载
+    @RequestMapping("/download")
+    public ResponseEntity<byte[]> download(HttpServletRequest request) throws IOException {
+
+        String url = chargeService.excelGenerate(request);
+        System.out.println("url=============="+url);
+        File file = new File(url);
+        byte[] body = null;
+        InputStream is = new FileInputStream(file);
+        body = new byte[is.available()];
+        is.read(body);
+        String fileName = new String(file.getName().getBytes("UTF-8"), "iso-8859-1");//为了解决中文名称乱码问题
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "attchement;filename=" + fileName);
+        HttpStatus statusCode = HttpStatus.OK;
+        ResponseEntity<byte[]> entity = new ResponseEntity<byte[]>(body, headers, statusCode);
+        return entity;
+    }
 
     //进场车辆数据获取
     @RequestMapping("/gateMaxQuery")
-    public void gateMaxQuery( HttpServletResponse response) throws IOException {
+    public void gateMaxQuery(HttpServletResponse response) throws IOException {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json; charset=utf-8");
         response.getWriter().print(chargeService.gateMaxQuery());
@@ -277,18 +387,16 @@ public class ChargeController {
 
     //停车场车位数量查询
     @RequestMapping("/chargeQuery")
-    public void chargeQuery( HttpServletResponse response) throws IOException {
+    public void chargeQuery(HttpServletResponse response) throws IOException {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json; charset=utf-8");
-        Map<String,Integer> map = new HashMap<>();
-        int parkspase=carService.findParkSpacenum("1","");//未停车
-        int allps=carService.findParkSpacenum("","");//所有车位
-        map.put("parkspase",parkspase);
-        map.put("allps",allps);
+        Map<String, Integer> map = new HashMap<>();
+        int parkspase = carService.findParkSpacenum("1", "");//未停车
+        int allps = carService.findParkSpacenum("", "");//所有车位
+        map.put("parkspase", parkspase);
+        map.put("allps", allps);
         response.getWriter().print(new Gson().toJson(map));
     }
-
-
 
 
     //场内车辆信息查看

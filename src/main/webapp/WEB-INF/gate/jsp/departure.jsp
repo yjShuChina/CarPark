@@ -106,7 +106,7 @@
                 document.getElementById("money").innerHTML = res.money;
                 document.getElementById("state").innerHTML = res.state;
 
-                document.getElementById("imgPre").src = "data:image/png;base64," + res.url;
+                document.getElementById("imgPre").src = "data:image/png;base64," + res.departureUrl;
 
             }
             , error: function () {
