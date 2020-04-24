@@ -346,7 +346,7 @@ public class ChargeController {
         try {
             Map<String, String> tbCashier = (Map<String, String>) request.getSession().getAttribute("tbCashier");
             chargeMap.put("cashierId", tbCashier.get("id"));
-            if ((money.matches("[0-9]+")) && (Integer.parseInt(money) > 0)) {
+            if ((money.matches("[0-9]+"))) {
                 chargeMap.put("channel", "人工收取");
                 chargeMap.put("collect", money);
                 response.getWriter().print(chargeService.confirmCollection(chargeMap));
