@@ -49,6 +49,8 @@ layui.use(['form','layer','util','table','laydate'], function() {
         elem: '#demotable'
         ,url:$('#path').val()+'/admin/findRevenueByPage'
         ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+        ,toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+        ,defaultToolbar: ['filter', 'exports', 'print']
         ,limit:10
         ,id: 'demotable'
         ,page: true

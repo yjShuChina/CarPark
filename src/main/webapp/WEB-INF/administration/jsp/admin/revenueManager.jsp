@@ -91,4 +91,11 @@
     <span>人工收费</span>
     {{#  } }}
 </script>
+<script type="text/html" id="toolbarDemo">
+<%--    <div class="layui-btn-container">--%>
+<%--        <button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>--%>
+<%--        <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>--%>
+<%--        <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>--%>
+<%--    </div>--%>
+</script>
 </html>
