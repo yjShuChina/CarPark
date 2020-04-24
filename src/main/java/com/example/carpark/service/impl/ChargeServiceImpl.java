@@ -103,12 +103,13 @@ public class ChargeServiceImpl implements ChargeService {
             e.printStackTrace();
             return "";
         }
+
         // 拼装请求body的json字符串
         JSONObject requestObj = new JSONObject();
         try {
             if (is_old_format) {
                 JSONObject obj = new JSONObject();
-                obj.put("static/image", getParam(50, imgBase64));
+                obj.put("image", getParam(50, imgBase64));
                 if (config_str.length() > 0) {
                     obj.put("configure", getParam(50, config_str));
                 }
@@ -116,7 +117,7 @@ public class ChargeServiceImpl implements ChargeService {
                 inputArray.add(obj);
                 requestObj.put("inputs", inputArray);
             } else {
-                requestObj.put("static/image", imgBase64);
+                requestObj.put("image", imgBase64);
                 if (config_str.length() > 0) {
                     requestObj.put("configure", config_str);
                 }

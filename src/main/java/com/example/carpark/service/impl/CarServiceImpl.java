@@ -89,7 +89,7 @@ public class CarServiceImpl implements CarService
         try {
             if(is_old_format) {
                 JSONObject obj = new JSONObject();
-                obj.put("static/image", getParam(50, imgBase64));
+                obj.put("image", getParam(50, imgBase64));
                 if(config_str.length() > 0) {
                     obj.put("configure", getParam(50, config_str));
                 }
@@ -97,7 +97,7 @@ public class CarServiceImpl implements CarService
                 inputArray.add(obj);
                 requestObj.put("inputs", inputArray);
             }else{
-                requestObj.put("static/image", imgBase64);
+                requestObj.put("image", imgBase64);
                 if(config_str.length() > 0) {
                     requestObj.put("configure", config_str);
                 }
@@ -111,6 +111,7 @@ public class CarServiceImpl implements CarService
 
             HttpResponse response = HttpUtils.doPost(host, path, method, headers, querys, bodys);
             int stat = response.getStatusLine().getStatusCode();
+            System.out.println(stat);
             if(stat != 200){
                 System.out.println("Http code: " + stat);
                 System.out.println("http header error msg: "+ response.getFirstHeader("X-Ca-Error-Message"));
