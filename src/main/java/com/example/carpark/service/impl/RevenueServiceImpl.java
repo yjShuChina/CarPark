@@ -1,5 +1,6 @@
 package com.example.carpark.service.impl;
 
+import com.example.carpark.aoplog.Log;
 import com.example.carpark.dao.MonthDao;
 import com.example.carpark.dao.RevenueDao;
 import com.example.carpark.javabean.CountData;
@@ -57,6 +58,7 @@ public class RevenueServiceImpl implements RevenueService {
      * @return
      */
     @Override
+    @Log(operationName = "插入明细",operationType = "insert")
     public String addRevenue(TbRevenue tbRevenue) {
         return revenueDao.insert(tbRevenue) >0 ? "success":"error";
     }
@@ -71,21 +73,41 @@ public class RevenueServiceImpl implements RevenueService {
         return new BigDecimal(monthDao.selectPriceByMonth(month));
     }
 
+    /**
+     * 删除明细
+     * @param revenueId
+     * @return
+     */
     @Override
+    @Log(operationName = "删除明细",operationType = "delete")
     public Integer deleteRevenueById(Integer revenueId) {
         return revenueDao.deleteByPrimaryKey(revenueId);
     }
 
+    /**
+     * 根据id查询明细
+     * @param revenueId
+     * @return
+     */
     @Override
     public TbRevenue findRevenueById(Integer revenueId) {
         return revenueDao.selectByPrimaryKey(revenueId);
     }
 
+    /**
+     * 修改明细
+     * @param tbRevenue
+     * @return
+     */
     @Override
     public String updateRevenue(TbRevenue tbRevenue) {
         return revenueDao.updateByPrimaryKey(tbRevenue) > 0 ? "success":"error";
     }
 
+    /**
+     * 统计近七天不同渠道收入
+     * @return
+     */
     @Override
     public Map<String, Object> queryNearlySevenDays() {
         Map<String,Object> map = new HashMap<>();
@@ -95,6 +117,10 @@ public class RevenueServiceImpl implements RevenueService {
         return map;
     }
 
+    /**
+     * 统计上一个月不同渠道收入
+     * @return
+     */
     @Override
     public Map<String, Object> queryNearlyMonth() {
         List<String> list = MonthUtil.monthUtil();
