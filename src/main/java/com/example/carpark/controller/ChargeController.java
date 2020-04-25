@@ -429,8 +429,7 @@ public class ChargeController {
 
     //添加月缴信息
     @RequestMapping("/addMonthlyPayment")
-    @ResponseBody
-    public String addMonthlyPayment(HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException {
+    public void addMonthlyPayment(HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException {
 
         String jsonstr = request.getParameter("tbUser");
         TbUser tbUser = g.fromJson(jsonstr, TbUser.class);
@@ -462,15 +461,28 @@ public class ChargeController {
 //            System.out.println("tbMonthVip=" + tbMonthVip.toString());
                 int count2 = monthService.addMonthlyPayment(tbMonthVip);
                 if (count2 != 0) {
-                    return "月缴新增成功";
+                    //添加统计
+                    TbRevenue tbRevenue = new TbRevenue();
+                    tbRevenue.setIncomeType("manual");
+                    tbRevenue.setMonth(month);
+                    tbRevenue.setPrice(new BigDecimal(tbmcp.getPrice()));
+                    tbRevenue.setTime(today1);
+                    tbRevenue.setRevenue(1);
+                    tbRevenue.setCarNumber(tbUser.getCarNumber());
+                    String num = revenueService.addRevenue(tbRevenue);
+                    if (num != null) {
+                        response.getWriter().print("success");
+                        System.out.println("月缴新增成功");
+                    }
                 }
             } else {
-                return "月缴新增失败";
+                response.getWriter().print("error");
+                System.out.println("月缴新增失败");
             }
         }else {
-            return "该车牌号已注册！";
+            response.getWriter().print("exist");
+            System.out.println("该车牌号已注册！");
         }
-        return null;
     }
 
     //查询月缴产品表
@@ -528,8 +540,7 @@ public class ChargeController {
 
     //查询车牌号是否为新用户
     @RequestMapping("/newUser")
-    @ResponseBody
-    public String newUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void newUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String carNumber = request.getParameter("carNumber");
         System.out.println("是否为新用户carNumber= " + carNumber);
         int count = monthService.findCarNumber(carNumber);//根据车牌查询用户名判空
@@ -539,12 +550,13 @@ public class ChargeController {
             String monthVipDeadline = tbUser.getMonthVipDeadline().toString();//月缴到期时间
             int result = monthVipDeadline.compareTo(today);//result大于等于0，则月缴未到期
             if (result >= 0) {
-                return "该车牌号已注册！";
+                response.getWriter().print("exist");
+                System.out.println("该车牌号已注册！");
             } else {
-                return "用户办理月缴已过期，请缴费";
+                response.getWriter().print("pass");
+                System.out.println("用户办理月缴已过期，请缴费！");
             }
         }
-        return null;
     }
 
     //月缴是否到期
@@ -673,6 +685,8 @@ public class ChargeController {
         String price = request.getParameter("price");
         TbUser tbUser = monthService.findUserByCarNumber(carNumber);
         TbMonthVip tbMonthVip = monthService.findMonthVipById((int) tbUser.getUserId());
+        TbMonthChargeParameter tbmcp = monthService.findMonthById((int) tbMonthVip.getMcpId());
+        int month = (int) tbmcp.getMonth();//续费办理的月份
         //修改用户表的时间
         int count1 = monthService.resetTimeByCarNumber(carNumber);
         if (count1 > 0) {
@@ -682,7 +696,17 @@ public class ChargeController {
             tbRefund.setMvrId(tbMonthVip.getMvrId());
             tbRefund.setRefundPrice(Integer.parseInt(price));
             int count2 = monthService.addRefund(tbRefund);
-            if (count2 > 0) {
+
+            //添加统计
+            TbRevenue tbRevenue = new TbRevenue();
+            tbRevenue.setIncomeType("manual");
+            tbRevenue.setMonth(month);
+            tbRevenue.setPrice(new BigDecimal(tbmcp.getPrice()));
+            tbRevenue.setTime(today1);
+            tbRevenue.setRevenue(2);
+            tbRevenue.setCarNumber(tbUser.getCarNumber());
+            String count3 = revenueService.addRevenue(tbRevenue);
+            if (count2 > 0 && count3 != null) {
                 response.getWriter().print("success");
                 System.out.println("月缴退费成功");
             } else {

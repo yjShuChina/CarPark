@@ -90,10 +90,10 @@
                         data: "carNumber=" + carNumber,
                         datatype: "text",
                         success: function (msg) {
-                            if (msg == "该车牌号已注册！") {
+                            if (msg == "exist") {
                                 layer.alert('该车牌号已注册！', {icon: 6});
-                            } else {
-								layer.msg(msg);
+                            } else if (msg == "pass") {
+                                layer.alert('用户办理月缴已过期，请缴费！', {icon: 6});
                             }
                         },
                         error: function () {
@@ -154,14 +154,16 @@
                 datatype: "text",
                 success: function (msg) {
 
-                    if (msg == "月缴新增成功") {
+                    if (msg == "success") {
 						layer.alert('月缴新增成功！', {icon: 6});
 						var index = parent.layer.getFrameIndex(window.name);
 						parent.layer.close(index);//关闭弹出的子页面窗口
 						window.location.reload();
-					} else {
-						layer.msg(msg);
-					}
+					} else if (msg == "exist"){
+                        layer.alert('该车牌号已注册！', {icon: 5});
+					}else {
+                        layer.alert('月缴新增失败！', {icon: 5});
+                    }
                 },
                 error: function () {
                     layer.alert('网络繁忙！', {icon: 7});
