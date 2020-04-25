@@ -134,14 +134,12 @@ public class AdminFaceController {
             // 设置请求方法
             connection.setRequestMethod("POST");
             // 设置通用的请求属性
-            connection.setRequestProperty("Content-Type",
-                    "application/json");
+            connection.setRequestProperty("Content-Type", "application/json");
             connection.setRequestProperty("Connection", "Keep-Alive");
             connection.setDoInput(true);
             connection.setDoOutput(true);
             // 获得请求输出流对象
-            DataOutputStream out = new DataOutputStream(
-                    connection.getOutputStream());
+            DataOutputStream out = new DataOutputStream(connection.getOutputStream());
             out.writeBytes(images.toString());
             // 刷新流
             out.flush();
@@ -150,8 +148,7 @@ public class AdminFaceController {
             // 建立实际链接
             connection.connect();
             // 读取URL的响应
-            br = new BufferedReader(new InputStreamReader(
-                    connection.getInputStream()));
+            br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             String line = "";
             while ((line = br.readLine()) != null) {
                 result += line;
@@ -163,7 +160,6 @@ public class AdminFaceController {
 
         System.out.println("人脸识别比对:" + result);
         JSONObject fromObject = JSONObject.fromObject(result);
-
         JSONObject jsonArray = fromObject.getJSONObject("result");
         // 此时需要加个判断
         if (jsonArray.isNullObject()) {

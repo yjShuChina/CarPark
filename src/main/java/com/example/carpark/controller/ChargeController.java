@@ -429,43 +429,48 @@ public class ChargeController {
 
     //添加月缴信息
     @RequestMapping("/addMonthlyPayment")
-    public void addMonthlyPayment(HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException {
+    @ResponseBody
+    public String addMonthlyPayment(HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException {
 
         String jsonstr = request.getParameter("tbUser");
         TbUser tbUser = g.fromJson(jsonstr, TbUser.class);
         String mcpId = request.getParameter("mcpId");
-//        System.out.println("新增月缴用户的tbUser= " + tbUser.toString());
-//        System.out.println("新增月缴用户的mcpId= " + mcpId);
-        TbMonthChargeParameter tbmcp = monthService.findMonthById(Integer.parseInt(mcpId));//用户办理VIP月份
-        int month = (int) tbmcp.getMonth();
+        System.out.println("新增月缴用户的tbUser= " + tbUser.toString());
+        System.out.println("新增月缴用户的mcpId= " + mcpId);
+        int count = monthService.findCarNumber(tbUser.getCarNumber());//根据车牌查询用户名判空
+        if (count <= 0){
+            TbMonthChargeParameter tbmcp = monthService.findMonthById(Integer.parseInt(mcpId));//用户办理VIP月份
+            int month = (int) tbmcp.getMonth();
 //        System.out.println("用户办理VIP月份=" + month);
-        String monthVipDeadline = timeFactory(tbUser.getMonthVipBegin().toString(), month);//VIP到期时间
+            String monthVipDeadline = timeFactory(tbUser.getMonthVipBegin().toString(), month);//VIP到期时间
 //        System.out.println("VIP到期时间=" + monthVipDeadline);
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        format.setLenient(false);
-        Timestamp newMonthVipDeadline = new Timestamp(format.parse(monthVipDeadline).getTime());//到期时间转换格式
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            format.setLenient(false);
+            Timestamp newMonthVipDeadline = new Timestamp(format.parse(monthVipDeadline).getTime());//到期时间转换格式
 //        System.out.println(newMonthVipDeadline.toString());
-        tbUser.setMonthVipDeadline(newMonthVipDeadline);
-        int count1 = monthService.addUser(tbUser);
+            tbUser.setMonthVipDeadline(newMonthVipDeadline);
+            int count1 = monthService.addUser(tbUser);
 
-        if (count1 != 0) {
-            int userId = monthService.findIdByCarNumber(tbUser.getCarNumber());//新增用户的id
+            if (count1 != 0) {
+                int userId = monthService.findIdByCarNumber(tbUser.getCarNumber());//新增用户的id
 //            System.out.println("新增用户的id=" + userId);
-            TbMonthVip tbMonthVip = new TbMonthVip();
-            tbMonthVip.setUserId(userId);
-            tbMonthVip.setOriginDeadline(newMonthVipDeadline);
-            tbMonthVip.setCurrentDeadline(newMonthVipDeadline);
-            tbMonthVip.setMcpId(Integer.parseInt(mcpId));
+                TbMonthVip tbMonthVip = new TbMonthVip();
+                tbMonthVip.setUserId(userId);
+                tbMonthVip.setOriginDeadline(newMonthVipDeadline);
+                tbMonthVip.setCurrentDeadline(newMonthVipDeadline);
+                tbMonthVip.setMcpId(Integer.parseInt(mcpId));
 //            System.out.println("tbMonthVip=" + tbMonthVip.toString());
-            int count2 = monthService.addMonthlyPayment(tbMonthVip);
-            if (count2 != 0) {
-                response.getWriter().print("success");
-                System.out.println("月缴新增成功");
+                int count2 = monthService.addMonthlyPayment(tbMonthVip);
+                if (count2 != 0) {
+                    return "月缴新增成功";
+                }
+            } else {
+                return "月缴新增失败";
             }
-        } else {
-            response.getWriter().print("error");
-            System.out.println("月缴新增失败");
+        }else {
+            return "该车牌号已注册！";
         }
+        return null;
     }
 
     //查询月缴产品表
@@ -519,6 +524,27 @@ public class ChargeController {
             response.getWriter().print("error");
             System.out.println("用户不是月缴用户");
         }
+    }
+
+    //查询车牌号是否为新用户
+    @RequestMapping("/newUser")
+    @ResponseBody
+    public String newUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String carNumber = request.getParameter("carNumber");
+        System.out.println("是否为新用户carNumber= " + carNumber);
+        int count = monthService.findCarNumber(carNumber);//根据车牌查询用户名判空
+        System.out.println("count=" + count);
+        if (count > 0) {
+            TbUser tbUser = monthService.findUserByCarNumber(carNumber);
+            String monthVipDeadline = tbUser.getMonthVipDeadline().toString();//月缴到期时间
+            int result = monthVipDeadline.compareTo(today);//result大于等于0，则月缴未到期
+            if (result >= 0) {
+                return "该车牌号已注册！";
+            } else {
+                return "用户办理月缴已过期，请缴费";
+            }
+        }
+        return null;
     }
 
     //月缴是否到期
@@ -596,6 +622,7 @@ public class ChargeController {
             tbRevenue.setPrice(new BigDecimal(tbmcp.getPrice()));
             tbRevenue.setTime(today1);
             tbRevenue.setRevenue(1);
+            tbRevenue.setCarNumber(tbUser.getCarNumber());
             String num = revenueService.addRevenue(tbRevenue);
             if (num != null) {
                 response.getWriter().print("success");
