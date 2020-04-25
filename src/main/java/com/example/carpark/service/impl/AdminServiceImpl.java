@@ -44,7 +44,6 @@ public class AdminServiceImpl implements AdminService {
      * @return
      */
     @Override
-    @Log(operationType = "登录", operationName = "管理登录")
     public String adminLogin(Map<String,Object> map, HttpSession session) {
         map.put("adminPwd",MD5.machining(map.get("adminPwd").toString()));//将管理员输入的密码转成MD5加密
         TbAdmin tbAdmin2 = adminDao.adminLogin(map);
@@ -122,6 +121,7 @@ public class AdminServiceImpl implements AdminService {
      * @return
      */
     @Override
+    @Log(operationName = "新增一级菜单",operationType = "insert")
     public Integer addMenu(TbMenu tbMenu) {
         TbMenu tbMenu2 = adminDao.findMenuByName(tbMenu.getMenuName());//查询该菜单名是否存在
         if(tbMenu2 == null){
@@ -136,6 +136,7 @@ public class AdminServiceImpl implements AdminService {
      * @return
      */
     @Override
+    @Log(operationName = "编辑菜单",operationType = "update")
     public Integer updateMenu(TbMenu tbMenu) {
         return adminDao.updateMenu(tbMenu);
     }
@@ -151,6 +152,7 @@ public class AdminServiceImpl implements AdminService {
      * @return
      */
     @Override
+    @Log(operationName = "新增二级菜单",operationType = "insert")
     public Integer addSubmenu(Map<String, Object> map) {
         TbMenu tbMenu2 = adminDao.findMenuByName(map.get("menuName").toString());//查询该菜单名是否存在
         if(tbMenu2!=null){
@@ -192,6 +194,7 @@ public class AdminServiceImpl implements AdminService {
      * @return
      */
     @Override
+    @Log(operationName = "删除菜单",operationType = "delete")
     public Integer deleteMenu(TbMenu tbMenu) {
         if(tbMenu.getParentId() == 0){//判断是否是父级菜单
             List<TbMenu> menuList = adminDao.findParentMenu((int) tbMenu.getMenuId());//查询该父级菜单下所有子菜单
@@ -245,6 +248,7 @@ public class AdminServiceImpl implements AdminService {
      * @return
      */
     @Override
+    @Log(operationName = "新增角色",operationType = "insert")
     public String addRole(Map<String, Object> map) {
         Integer state = map.get("use").toString().equals("yes") ? 1 : 2;//是否开启所有菜单
         TbRole tbRole = adminDao.findRoleByName(map.get("role").toString());
@@ -277,6 +281,7 @@ public class AdminServiceImpl implements AdminService {
      * @return
      */
     @Override
+    @Log(operationName = "删除角色",operationType = "delete")
     public Integer deleteRole(Integer roleId) {
         TbRoleMenu tbRoleMenu = ApplicationContextHelper.getBean(TbRoleMenu.class);
         tbRoleMenu.setRoleId(roleId);
@@ -330,6 +335,7 @@ public class AdminServiceImpl implements AdminService {
      * @return
      */
     @Override
+    @Log(operationName = "修改角色权限",operationType = "update")
     public Integer updateRoleMenu(List<TreeData> list, Integer roleId) {
         TbRoleMenu tbRoleMenu = ApplicationContextHelper.getBean(TbRoleMenu.class);
         tbRoleMenu.setRoleId(roleId);
@@ -362,6 +368,7 @@ public class AdminServiceImpl implements AdminService {
      * @return
      */
     @Override
+    @Log(operationName = "编辑角色",operationType = "update")
     public String updateRole(TbRole tbRole) {
         Integer i = adminDao.updateRole(tbRole);
         if(i > 0){
@@ -384,6 +391,10 @@ public class AdminServiceImpl implements AdminService {
         return adminDao.findLog(condition);
     }
 
+    /**
+     * 监控数据
+     * @return
+     */
     @Override
     public Map<String, Object> getData() {
         Map<String,Object> map = new HashMap<>();
@@ -417,6 +428,7 @@ public class AdminServiceImpl implements AdminService {
      * @return
      */
     @Override
+    @Log(operationName = "新增系统参数",operationType = "insert")
     public String addSysParam(TbSystemParameter tbSystemParameter) {
         if(systemParameterDao.selectByName(tbSystemParameter.getParameterName())!=null){
             return "exist";
@@ -430,6 +442,7 @@ public class AdminServiceImpl implements AdminService {
      * @return
      */
     @Override
+    @Log(operationName = "删除系统参数",operationType = "delete")
     public String deleteSysParam(Integer parameterId) {
         return systemParameterDao.deleteByPrimaryKey(parameterId) > 0 ? "success":"error";
     }
@@ -440,11 +453,20 @@ public class AdminServiceImpl implements AdminService {
      * @return
      */
     @Override
+    @Log(operationName = "编辑系统参数",operationType = "update")
     public String updateSysParam(TbSystemParameter tbSystemParameter) {
         return systemParameterDao.updateByPrimaryKeySelective(tbSystemParameter) > 0 ? "success":"error";
     }
 
+    /**
+     * 管理员修改密码
+     * @param oldPassword
+     * @param newPassword
+     * @param session
+     * @return
+     */
     @Override
+    @Log(operationName = "管理员修改密码",operationType = "update")
     public String resetAdminPassword(String oldPassword, String newPassword,HttpSession session) {
         TbAdmin tbAdmin = (TbAdmin) session.getAttribute("tbAdmin");
         if(tbAdmin.getAdminPwd().equals(MD5.machining(oldPassword))){
