@@ -91,13 +91,14 @@ public class ChargeController {
             if (tbCashier != null) {
                 if (tbCashier.getCashierState() == 1) {
                     Map<String, String> map = new HashMap<>();
-                    map.put("cashierAccount",tbCashier.getCashierAccount());
+                    map.put("cashierAccount", tbCashier.getCashierAccount());
                     map.put("name", tbCashier.getCashierName());
-
+                    map.put("id", "" + tbCashier.getCashierId());
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
                     String time = sdf.format(new Date());
                     map.put("time", time);
                     request.getSession().setAttribute("tbCashier", map);
+                    chargeService.addTbCashierShifts("" + tbCashier.getCashierId());
                     return "验证成功";
                 } else if (tbCashier.getCashierState() == 0) {
                     return "该账户已禁用";
@@ -317,7 +318,7 @@ public class ChargeController {
         if (map.get("type").equals("paymentExpire")) {
             automation();
         } else {
-            if (money <= 0) {
+            if (money <= 0 && !"临时车辆".equals(map.get("state"))) {
                 monthly();
             }
         }
@@ -332,7 +333,7 @@ public class ChargeController {
     }
 
     //月缴
-    private void monthly(){
+    private void monthly() {
         chargeMap.put("cashierId", "0");
         chargeMap.put("channel", chargeMap.get("state"));
         chargeMap.put("collect", chargeMap.get("money"));
@@ -345,6 +346,7 @@ public class ChargeController {
         String money = chargeMap.get("money");
         try {
             Map<String, String> tbCashier = (Map<String, String>) request.getSession().getAttribute("tbCashier");
+
             chargeMap.put("cashierId", tbCashier.get("id"));
             if ((money.matches("[0-9]+"))) {
                 chargeMap.put("channel", "人工收取");
@@ -363,7 +365,7 @@ public class ChargeController {
     public ResponseEntity<byte[]> download(HttpServletRequest request) throws IOException {
 
         String url = chargeService.excelGenerate(request);
-        System.out.println("url=============="+url);
+        System.out.println("url==============" + url);
         File file = new File(url);
         byte[] body = null;
         InputStream is = new FileInputStream(file);
@@ -426,6 +428,21 @@ public class ChargeController {
         response.getWriter().write(chargeService.carExitQuery(page, limit));
         response.getWriter().flush();
     }
+
+
+    @RequestMapping("/settlementQuery")
+    public void settlementQuery(HttpServletRequest request, HttpServletResponse response) throws IOException
+    {
+        System.out.println("表格");
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json; charset=utf-8");
+
+        String aname = request.getParameter("aname");
+
+        response.getWriter().write(chargeService.settlementQuery(aname));
+        response.getWriter().flush();
+    }
+
 
     //添加月缴信息
     @RequestMapping("/addMonthlyPayment")

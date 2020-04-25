@@ -15,10 +15,12 @@
           content="width=device-width,user-scalable=no,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0">
     <title>收费端</title>
     <%String path = request.getContextPath();%>
-    <link rel="stylesheet" href=<%=path+"/layui/css/layui.css"%>>
-    <script src=<%=path + "/js/jquery-3.4.1.js"%>></script>
+
+    <%--    <link rel="stylesheet" href=<%=path+"/layui/css/layui.css"%>>--%>
     <script src=<%=path + "/js/json2.js"%>></script>
-    <script src=<%=path + "/layui/layui.js"%>></script>
+    <%--    <script src=<%=path + "/layui/layui.js"%>></script>--%>
+    <link rel="stylesheet" href=<%=path+"/dist/css/layui.css"%>>
+    <script src=<%=path + "/dist/layui.js"%>></script>
 
 </head>
 <style>
@@ -96,11 +98,11 @@
         <div style="height: 670px;width: 170px;float: left;background:#393D49;padding-left:10px;">
             <div style="background:#2F4056;height: 180px;width: 160px;padding-top:20px;">
                 <div style="padding-left:30px;">
-                    <a href="${pageContext.request.contextPath}/charge/download" download="xxx.xls">
-                        <button type="button" style="height: 40px;width: 100px;" class="layui-btn">
-                            下载结单
-                        </button>
-                    </a>
+                    <%--                    <a href="${pageContext.request.contextPath}/charge/download" download="xxx.xls">--%>
+                    <button type="button" style="height: 40px;width: 100px;" class="layui-btn" onclick="settlement()">
+                        下班结单
+                    </button>
+                    <%--                    </a>--%>
                 </div>
                 <div style="padding-left:30px;padding-top:20px">
                     <button type="button" style="height: 40px;width: 100px;" class="layui-btn"
@@ -108,7 +110,8 @@
                     </button>
                 </div>
                 <div style="padding-left:30px;padding-top:20px">
-                    <button type="button" style="height: 40px;width: 100px;" class="layui-btn" onclick="jumpAddFace()">添加人脸
+                    <button type="button" style="height: 40px;width: 100px;" class="layui-btn" onclick="jumpAddFace()">
+                        添加人脸
                     </button>
                 </div>
             </div>
@@ -182,10 +185,17 @@
         </div>
     </div>
 </form>
+<form class="layui-form" style="display: none" action="" id="settlement">
+
+</form>
+
+<script src=<%=path + "/charge/js/messaging.js"%>></script>
+<%--<script src=<%=path + "/js/jquery-3.4.1.js"%>></script>--%>
 <script src=<%=path + "/charge/js/chargeLnterface.js"%>></script>
+
 <script>
-    function jumpAddFace(){
-        window.location.href="${pageContext.request.contextPath}/charge/path/addChargeFace";
+    function jumpAddFace() {
+        window.location.href = "${pageContext.request.contextPath}/charge/path/addChargeFace";
     }
 </script>
 </body>

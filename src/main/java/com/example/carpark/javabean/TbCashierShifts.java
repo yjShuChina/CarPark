@@ -1,9 +1,10 @@
 package com.example.carpark.javabean;
 
+
 public class TbCashierShifts {
 
   private long csId;
-  private String shifts;
+  private String csTime;
   private long cashierId;
 
 
@@ -16,12 +17,12 @@ public class TbCashierShifts {
   }
 
 
-  public String getShifts() {
-    return shifts;
+  public String getCsTime() {
+    return csTime;
   }
 
-  public void setShifts(String shifts) {
-    this.shifts = shifts;
+  public void setCsTime(String csTime) {
+    this.csTime = csTime;
   }
 
 
