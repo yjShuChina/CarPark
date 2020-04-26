@@ -714,13 +714,21 @@ public class AdminController {
     public String addCashier(String cashierAccount, String cashierPwd, String cashierName,String cashierSex,String cashierPhone,String cashierAddress,String images)
     {
         long cashierState =1;
-	    String cashierPwdMD5 = MD5.machining(cashierPwd);
-        String flag = adminService.addCashier(cashierAccount,cashierPwdMD5,cashierName,cashierSex,cashierPhone,cashierAddress,cashierState,images);
-        if (flag.equals("success")){
-            return "新增收费员成功";
+        TbCashier only = adminService.addCashierOnly(cashierAccount);
+        if (only==null)
+        {
+            String cashierPwdMD5 = MD5.machining(cashierPwd);
+            String flag = adminService.addCashier(cashierAccount, cashierPwdMD5, cashierName, cashierSex, cashierPhone, cashierAddress, cashierState, images);
+            if (flag.equals("success"))
+            {
+                return "新增收费员成功";
+            } else
+            {
+                return "新增收费员失败";
+            }
         }
         else {
-            return "新增收费员失败";
+            return "账号已存在";
         }
     }
     @RequestMapping("/updateCashier")
@@ -877,14 +885,22 @@ public class AdminController {
 	public String addAdmin(String adminAccount, String adminPwd, String adminName,String adminSex,String adminPhone,String adminAddress,String images)
 	{
 		long adminState =1;
-		String adminPwdMD5 = MD5.machining(adminPwd);
-		String flag = adminService.addAdmin(adminAccount,adminPwdMD5,adminName,adminSex,adminPhone,adminAddress,adminState,images);
-		if (flag.equals("success")){
-			return "新增管理员成功";
-		}
-		else {
-			return "新增收管理员失败";
-		}
+        TbAdmin only = adminService.addAdminOnly(adminAccount);
+        if (only==null)
+        {
+            String adminPwdMD5 = MD5.machining(adminPwd);
+            String flag = adminService.addAdmin(adminAccount,adminPwdMD5,adminName,adminSex,adminPhone,adminAddress,adminState,images);
+            if (flag.equals("success")){
+                return "新增管理员成功";
+            }
+            else {
+                return "新增收管理员失败";
+            }
+        }
+        else {
+                return "账号已存在";
+        }
+
 	}
 	@RequestMapping("/updateAdmin")
 	@ResponseBody

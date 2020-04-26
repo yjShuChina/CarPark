@@ -152,7 +152,7 @@
 	{{#  } }}
 
 	{{#  if(d.cashierState == "2"){ }}
-	<a>已离职</a>
+	<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="open">复职</a>
 	{{#  } }}
 
 </script>
@@ -450,12 +450,11 @@
 				type:'post',
 				data: data.field,
 				success:function(data){
-					if (data==='新增成功') {
+					if (data==='账号已存在') {
 						layer.msg(data);
+						return false;//阻止表单跳转
 					}
-					else {
-						layer.msg(data);
-					}
+					layer.msg(data);
 					layer.closeAll('page');
 					setTimeout('window.location.reload()', 3000);
 				},error:function (err) {

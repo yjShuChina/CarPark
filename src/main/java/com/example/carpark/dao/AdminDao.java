@@ -239,4 +239,8 @@ public interface AdminDao {
     Integer updateAdminPwd(TbAdmin tbAdmin);
 
     List<TbUser> selectExpiringUsers();
+
+	TbAdmin addAdminOnly(Map parameters);
+
+    TbCashier addCashierOnly(Map parameters);
 }

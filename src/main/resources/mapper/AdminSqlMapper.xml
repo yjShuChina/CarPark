@@ -244,7 +244,7 @@
         select  * from tb_cashier
         <where>
             <if test="cashierName != '' and cashierName !=null">
-                and cashier_name = #{cashierName}
+                and cashier_name like concat('%',#{cashierName},'%')
             </if>
             <if test="startTime != '' and startTime !=null and endTime != '' and endTime !=null">
                 and cashier_time BETWEEN  #{startTime}  and  #{endTime}
@@ -257,7 +257,7 @@
         select  count(*) from tb_cashier
         <where>
             <if test="cashierName != '' and cashierName !=null">
-                and cashier_name = #{cashierName}
+                and cashier_name like concat('%',#{cashierName},'%')
             </if>
             <if test="startTime != '' and startTime !=null and endTime != '' and endTime !=null">
                 and cashier_time BETWEEN  #{startTime}  and  #{endTime}
@@ -306,6 +306,15 @@
            ,cashier_head_img = #{cashierHeadImg}
 			where cashier_id = #{cashierId}
 	</update>
+    <!--  查询账户唯一  收费员-->
+    <select id="addCashierOnly" resultType="com.example.carpark.javabean.TbCashier" parameterType="java.util.Map">
+        select  * from tb_cashier
+        <where>
+            <if test="cashierAccount != '' and cashierAccount !=null">
+                and cashier_account = #{cashierAccount}
+            </if>
+        </where>
+    </select>
     <!-- 新增   收费员  -->
     <insert id="addCashier"  parameterType="java.util.Map" >
 		insert into tb_cashier(
@@ -335,7 +344,7 @@
         select  * from (select * from tb_admin where role_id = 2) a
         <where>
             <if test="adminName != '' and adminName !=null">
-                and a.admin_name = #{adminName}
+                and a.admin_name like concat('%',#{adminName},'%')
             </if>
             <if test="startTime != '' and startTime !=null and endTime != '' and endTime !=null">
                 and a.admin_time BETWEEN  #{startTime}  and  #{endTime}
@@ -348,7 +357,7 @@
         select  count(*) from (select * from tb_admin where role_id = 2) a
         <where>
             <if test="adminName != '' and adminName !=null">
-                and a.admin_name = #{adminName}
+                and a.admin_name like concat('%',#{adminName},'%')
             </if>
             <if test="startTime != '' and startTime !=null and endTime != '' and endTime !=null">
                 and a.admin_time BETWEEN  #{startTime}  and  #{endTime}
@@ -402,6 +411,15 @@
            ,admin_head_img = #{adminHeadImg}
 			where admin_id = #{adminId}
 	</update>
+    <!--  查询账户唯一  管理员-->
+    <select id="addAdminOnly" resultType="com.example.carpark.javabean.TbAdmin" parameterType="java.util.Map">
+        select  * from tb_admin
+        <where>
+            <if test="adminAccount != '' and adminAccount !=null">
+                and admin_account = #{adminAccount}
+            </if>
+        </where>
+    </select>
     <!-- 新增管理员  管理员-->
     <insert id="addAdmin"  parameterType="java.util.Map" >
 		insert into tb_admin(

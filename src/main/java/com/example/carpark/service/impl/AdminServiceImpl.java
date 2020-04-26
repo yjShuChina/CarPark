@@ -597,6 +597,15 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    public TbCashier addCashierOnly(String cashierAccount)
+    {
+        Map parameters=new HashMap<>();
+        parameters. put( "cashierAccount" , cashierAccount);
+        TbCashier tbCashier=adminDao.addCashierOnly(parameters);
+        return tbCashier;
+    }
+
+    @Override
     @Log(operationName = "新增收费员",operationType = "新增")
     public String addCashier(String cashierAccount, String cashierPwd, String cashierName, String cashierSex, String cashierPhone, String cashierAddress, long cashierState,String images)
     {
@@ -731,6 +740,15 @@ public class AdminServiceImpl implements AdminService {
         }else {
             return "fail";
         }
+    }
+
+    @Override
+    public TbAdmin addAdminOnly(String adminAccount)
+    {
+        Map parameters=new HashMap<>();
+        parameters. put( "adminAccount" , adminAccount);
+        TbAdmin tbAdmin=adminDao.addAdminOnly(parameters);
+        return tbAdmin;
     }
 
     @Override

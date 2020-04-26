@@ -87,4 +87,6 @@ public interface AdminService {
     String addAdmin(String adminAccount, String adminPwd, String adminName, String adminSex, String adminPhone, String adminAddress, long adminState ,String images);
     TbAdmin updateAdmin(String uid);
     String toUpdateAdmin(String uid, String adminAccountUpdate, String adminNameUpdate, String adminPhoneUpdate, String adminAddressUpdate,String images);
+    TbAdmin addAdminOnly(String adminAccount);
+    TbCashier addCashierOnly(String cashierAccount);
 }
