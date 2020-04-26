@@ -37,6 +37,7 @@ public class WebSocket {
      */
     @OnOpen
     public void onOpen(@PathParam("pageCode") String pageCode, Session session) {
+        session.setMaxIdleTimeout(3600000);
         List<Session> sessions = electricSocketMap.get(pageCode);
         System.out.println("pageCode====" + pageCode);
         if (null == sessions) {
@@ -68,11 +69,11 @@ public class WebSocket {
     public void onMessage(String message, Session session) {
         IMData imData = new Gson().fromJson(message, IMData.class);
         UserEntity userEntity = new UserEntity();
-        userEntity.setUsername(imData.getTo().getUsername());
-        userEntity.setAvatar(imData.getTo().getAvatar());
-        userEntity.setType(imData.getTo().getType());
-        userEntity.setId(imData.getTo().getId());
         if (WebSocket.electricSocketMap.get(("" + imData.getTo().getId())) != null) {
+            userEntity.setUsername(imData.getMine().getUsername());
+            userEntity.setAvatar(imData.getMine().getAvatar());
+            userEntity.setType(imData.getMine().getType());
+            userEntity.setId(imData.getMine().getId());
             userEntity.setContent(imData.getMine().getContent());
             for (Session sessions : WebSocket.electricSocketMap.get(("" + imData.getTo().getId()))) {
                 try {
@@ -82,6 +83,10 @@ public class WebSocket {
                 }
             }
         } else {
+            userEntity.setUsername(imData.getTo().getUsername());
+            userEntity.setAvatar(imData.getTo().getAvatar());
+            userEntity.setType(imData.getTo().getType());
+            userEntity.setId(imData.getTo().getId());
             userEntity.setContent("您好，我现在有事不在，一会再和您联系。");
             try {
                 session.getBasicRemote().sendText(new Gson().toJson(userEntity));
