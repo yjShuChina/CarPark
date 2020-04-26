@@ -76,6 +76,10 @@ public class CarController
         System.out.println(str);
         //车牌号
         String carnumber = carService.findcarnumber(str);
+        if(carnumber=="NO")
+        {
+	        return "NOCAR";
+        }
         //查询用户信息（1、月卡 2、白名单）
         TbUser tbUser = carService.findUsermsg(carnumber);
         TbWhiteList tbWhiteList = carService.findWhite(carnumber);

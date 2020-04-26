@@ -223,8 +223,9 @@
             <if test="TYPE!='' and TYPE !=null">
                 and u.operation_type = #{TYPE}
             </if>
-            and 1=1 limit #{pageInt},#{limitInt}
+            and 1=1 order by log_id desc limit #{pageInt},#{limitInt}
         </where>
+
     </select>
 
     <select id="findLogCount" resultType="java.lang.Integer"  parameterType="com.example.carpark.javabean.TbLog">

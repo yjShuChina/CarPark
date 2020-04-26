@@ -566,7 +566,7 @@ public class AdminController {
     //日志查找 4.11
     @ResponseBody
     @RequestMapping("/table")
-    public void table(HttpServletRequest request, HttpServletResponse response){
+    public DataManagementResult table(HttpServletRequest request, HttpServletResponse response){
         HashMap<String,Object> condition = new HashMap<>();
         String name=request.getParameter("key");
         String type= request.getParameter("type");
@@ -584,44 +584,13 @@ public class AdminController {
         condition.put("pageInt",limitInt * (pageInt - 1));
         condition.put("limitInt",limitInt);
         int count=adminService.findLogCount(condition);
-        datagridResult.setCode(0);
-        datagridResult.setMsg("");
-        datagridResult.setCount(count);
-        List<TbLog> users=new ArrayList<>();
-        users=adminService.findLog(condition);
-
-
-
-	    datagridResult.setData(users);
-        System.out.println("表格数据==="+toJson(datagridResult));
-        ResponseUtils.outJson(response,toJson(datagridResult));
-    }
-    //转json(日志)
-    protected String toJson(Diagis datagridResult){
-        Gson gson=new Gson();
-        StringBuilder sb = new StringBuilder();
-        sb.append("{\"code\":").append(datagridResult.getCode())
-                .append(",\"msg\":\"").append(datagridResult.getMsg())
-                .append("\",\"count\":").append(datagridResult.getCount())
-                .append(",\"data\":[");
-        if(datagridResult.getData().size()!=0){
-            for(Object object : datagridResult.getData()){
-                TbLog user = (TbLog) object;
-                String sql=gson.toJson(user);
-                System.out.println("对象转gson"+sql);
-                sb.append(sql);
-                sb.append(",");
-            }
-            sb.delete(sb.length() - 1, sb.length());
-            sb.append("]}");
-        }else{
-            for(int i=0;i<8;i++){
-                sb.delete(sb.length(),sb.length());
-            }
-            sb.append("}");
-        }
-
-        return sb.toString();
+        List<TbLog> users =adminService.findLog(condition);
+        DataManagementResult dataManagementResult = new DataManagementResult();
+        dataManagementResult.setCode(0);
+        dataManagementResult.setMsg("");
+        dataManagementResult.setCount(count);
+        dataManagementResult.setData(users);
+        return dataManagementResult;
     }
 
 

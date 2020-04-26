@@ -68,7 +68,6 @@
 				{field: 'operation', title: '操作事项', width:180},
 				{field: 'operationType', title: '操作类型', width: 205},
 				{field: 'operationTime', title: '操作时间', width:220}
-
 			]]
 		});
 		$('.layui-btn').on('click',function () {
