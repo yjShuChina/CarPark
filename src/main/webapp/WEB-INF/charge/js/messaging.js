@@ -2,6 +2,19 @@ layui.use(['layim', 'jquery'], function (layim) {
     var $ = layui.$
     var path = $("#path").val();
     console.log(path);
+    var websocket = null;
+    $.ajax({
+            url: path + "/msg/getChargeId",
+            async: "true",
+            success: function (res) {
+                // websocket = new WebSocket("ws://127.0.0.1:8080/Carpark/websocket/" + res);
+                websocket = new WebSocket("ws://112.74.72.11:10086/Carpark/websocket/" + res);
+            },
+            error: function () {
+                layer.msg('网络正忙', {icon: 6});
+            }
+        }
+    );
 
     //演示自动回复
     var autoReplay = [
@@ -18,50 +31,18 @@ layui.use(['layim', 'jquery'], function (layim) {
 
     //基础配置
     layim.config({
-
         //初始化接口
         init: {
             url: path + '/msg/getList'
             , data: {}
         }
-
-        // 查看群员接口
-        // , members: {
-        //     url: path + '/msg/getMembers'
-        //     , data: {}
-        // }
-
         , title: 'WebIM' //自定义主面板最小化时的标题
-        //,right: '100px' //主面板相对浏览器右侧距离
-        //,minRight: '90px' //聊天面板最小化时相对浏览器右侧距离
         , initSkin: '1.jpg' //1-5 设置初始背景
-        //,skin: ['aaa.jpg'] //新增皮肤
-        //,isfriend: false //是否开启好友
-        ,isgroup: false //是否开启群组
-        //,min: true //是否始终最小化主面板，默认false
+        , isgroup: false //是否开启群组
         , notice: true //是否开启桌面消息提醒，默认false
-        //,voice: false //声音提醒，默认开启，声音文件为：default.mp3
-
         , msgbox: layui.cache.dir + 'css/modules/layim/html/msgbox.html' //消息盒子页面地址，若不开启，剔除该项即可
         , find: layui.cache.dir + 'css/modules/layim/html/find.html' //发现页面地址，若不开启，剔除该项即可
-        // , chatLog: layui.cache.dir + 'css/modules/layim/html/chatlog.html' //聊天记录页面地址，若不开启，剔除该项即可
-
     });
-
-    /*
-    layim.chat({
-      name: '在线客服-小苍'
-      ,type: 'kefu'
-      ,avatar: 'http://tva3.sinaimg.cn/crop.0.0.180.180.180/7f5f6861jw1e8qgp5bmzyj2050050aa8.jpg'
-      ,id: -1
-    });
-    layim.chat({
-      name: '在线客服-心心'
-      ,type: 'kefu'
-      ,avatar: 'http://tva1.sinaimg.cn/crop.219.144.555.555.180/0068iARejw8esk724mra6j30rs0rstap.jpg'
-      ,id: -2
-    });
-    layim.setChatMin();*/
 
     //监听在线状态的切换事件
     layim.on('online', function (data) {
@@ -85,63 +66,22 @@ layui.use(['layim', 'jquery'], function (layim) {
         });
     });
 
-    监听layim建立就绪
+    // 监听layim建立就绪
     layim.on('ready', function (res) {
+        //接受消息
+        websocket.onmessage = function (event) {
+            layim.getMessage(JSON.parse(event.data));
+        }
 
-        setTimeout(function () {
-            //接受消息（如果检测到该socket）
-
-            layim.getMessage({
-                username: "贤心"
-                , avatar: "http://tp1.sinaimg.cn/1571889140/180/40030060651/1"
-                , id: "100001"
-                , type: "friend"
-                , content: "嗨，你好！欢迎体验LayIM。演示标记：" + new Date().getTime()
-            });
-
-        }, 3000);
     });
 
     //监听发送消息
     layim.on('sendMessage', function (data) {
-        console.log(data)
-        var To = data.to;
-        //console.log(data);
 
-        if (To.type === 'friend') {
-            layim.setChatStatus('<span style="color:#FF5722;">对方正在输入。。。</span>');
-        }
-
+        websocket.send(JSON.stringify(data));
         //演示自动回复
-        setTimeout(function () {
-            var obj = {};
-            if (To.type === 'group') {
-                obj = {
-                    username: '模拟群员' + (Math.random() * 100 | 0)
-                    , avatar: layui.cache.dir + 'images/face/' + (Math.random() * 72 | 0) + '.gif'
-                    , id: To.id
-                    , type: To.type
-                    , content: autoReplay[Math.random() * 9 | 0]
-                }
-            } else {
-                obj = {
-                    username: To.name
-                    , avatar: To.avatar
-                    , id: To.id
-                    , type: To.type
-                    // , content: autoReplay[Math.random() * 9 | 0]
-                    , content: data.mine.content
-                }
-                layim.setChatStatus('<span style="color:#FF5722;">在线</span>');
-            }
-            layim.getMessage(obj);
-        }, 1000);
     });
 
-    //监听查看群员
-    layim.on('members', function (data) {
-        //console.log(data);
-    });
 
     //监听聊天窗口的切换
     layim.on('chatChange', function (res) {

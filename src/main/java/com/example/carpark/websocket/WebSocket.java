@@ -1,8 +1,9 @@
 package com.example.carpark.websocket;
 
 
-
+import com.example.carpark.javabean.IMData;
 import com.example.carpark.javabean.TbAdmin;
+import com.example.carpark.javabean.UserEntity;
 import com.google.gson.Gson;
 import org.springframework.stereotype.Component;
 
@@ -25,7 +26,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 public class WebSocket {
 
-    private static final String loggerName=WebSocket.class.getName();
+    private static final String loggerName = WebSocket.class.getName();
     //concurrent包的线程安全Set，用来存放每个客户端对应的MyWebSocket对象。若要实现服务端与单一客户端通信的话，可以使用Map来存放，其中Key可以为用户标识
     public static Map<String, List<Session>> electricSocketMap = new ConcurrentHashMap<String, List<Session>>();
 
@@ -37,12 +38,12 @@ public class WebSocket {
     @OnOpen
     public void onOpen(@PathParam("pageCode") String pageCode, Session session) {
         List<Session> sessions = electricSocketMap.get(pageCode);
-        System.out.println("pageCode===="+pageCode);
-        if(null==sessions){
+        System.out.println("pageCode====" + pageCode);
+        if (null == sessions) {
             List<Session> sessionList = new ArrayList<>();
             sessionList.add(session);
-            electricSocketMap.put(pageCode,sessionList);
-        }else{
+            electricSocketMap.put(pageCode, sessionList);
+        } else {
             sessions.add(session);
         }
     }
@@ -51,8 +52,8 @@ public class WebSocket {
      * 连接关闭调用的方法
      */
     @OnClose
-    public void onClose(@PathParam("pageCode") String pageCode,Session session) {
-        if (electricSocketMap.containsKey(pageCode)){
+    public void onClose(@PathParam("pageCode") String pageCode, Session session) {
+        if (electricSocketMap.containsKey(pageCode)) {
             electricSocketMap.get(pageCode).remove(session);
         }
     }
@@ -65,11 +66,28 @@ public class WebSocket {
      */
     @OnMessage
     public void onMessage(String message, Session session) {
-        System.out.println("websocket received message:"+message);
-        try {
-            session.getBasicRemote().sendText("这是推送测试数据！您刚发送的消息是："+message);
-        } catch (IOException e) {
-            e.printStackTrace();
+        IMData imData = new Gson().fromJson(message, IMData.class);
+        UserEntity userEntity = new UserEntity();
+        userEntity.setUsername(imData.getTo().getUsername());
+        userEntity.setAvatar(imData.getTo().getAvatar());
+        userEntity.setType(imData.getTo().getType());
+        userEntity.setId(imData.getTo().getId());
+        if (WebSocket.electricSocketMap.get(("" + imData.getTo().getId())) != null) {
+            userEntity.setContent(imData.getMine().getContent());
+            for (Session sessions : WebSocket.electricSocketMap.get(("" + imData.getTo().getId()))) {
+                try {
+                    sessions.getBasicRemote().sendText(new Gson().toJson(userEntity));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        } else {
+            userEntity.setContent("您好，我现在有事不在，一会再和您联系。");
+            try {
+                session.getBasicRemote().sendText(new Gson().toJson(userEntity));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
