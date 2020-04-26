@@ -12,11 +12,11 @@ public class msgController {
 
 
     /**
-     * 路径跳转
-     *
-     * @param path
-     * @return
-     */
+//     * 路径跳转
+//     *
+//     * @param path
+//     * @return
+//     */
 //    @RequestMapping("/path/{uri}")
 //    public String redirect(@PathVariable(value = "uri") String path) {
 //        return "demo/" + path;
