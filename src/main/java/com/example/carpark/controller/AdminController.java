@@ -891,7 +891,7 @@ public class AdminController {
 	public TbAdmin updateAdmin(String uid, HttpSession session)
 	{
 		TbAdmin tbAdmin = adminService.updateAdmin(uid);
-		session.setAttribute("tbAdmin", tbAdmin);
+		session.setAttribute("updateAdmin", tbAdmin);
 		return tbAdmin;
 	}
 	@RequestMapping("/toUpdateAdmin")

@@ -25,18 +25,18 @@
 	<div class="layui-form-item">
 		<label class="layui-form-label">id</label>
 		<div class="layui-input-inline">
-			<input type="text" name="uid" readonly = "readonly" class="layui-input" value="${sessionScope.tbAdmin.adminId}">
+			<input type="text" name="uid" readonly = "readonly" class="layui-input" value="${sessionScope.updateAdmin.adminId}">
 		</div>
 	</div>
 	<div class="layui-form-item">
 		<label class="layui-form-label">账号</label>
 		<div class="layui-input-inline">
-			<input type="text" name="adminAccountUpdate" required lay-verify="required" placeholder="请输入账号" autocomplete="off" class="layui-input" value="${sessionScope.tbAdmin.adminAccount}">
+			<input type="text" name="adminAccountUpdate" required lay-verify="required" placeholder="请输入账号" autocomplete="off" class="layui-input" value="${sessionScope.updateAdmin.adminAccount}">
 		</div>
 	</div>
 	<!--************这里是上传图片的代码***************-->
 	<!--************这里添加的隐藏的输入框，用来传递images的参数***************-->
-	<input type="hidden" name="images" required lay-verify="required" id="image" class="layui-input" value="${sessionScope.tbAdmin.adminHeadImg}">
+	<input type="hidden" name="images" required lay-verify="required" id="image" class="layui-input" value="${sessionScope.updateAdmin.adminHeadImg}">
 	<div class="layui-form-item">
 		<label class="layui-form-label">修改头像</label>
 		<div class="layui-input-inline uploadHeadImage">
@@ -47,7 +47,7 @@
 		</div>
 		<div class="layui-input-inline">
 			<div class="layui-upload-list">
-				<img class="layui-upload-img headImage" style="height: 160px;width: 250px" src="${pageContext.request.contextPath}${sessionScope.tbAdmin.adminHeadImg}" id="demo1">
+				<img class="layui-upload-img headImage" style="height: 160px;width: 250px" src="${pageContext.request.contextPath}${sessionScope.updateAdmin.adminHeadImg}" id="demo1">
 				<p id="demoText"></p>
 			</div>
 		</div>
@@ -55,20 +55,20 @@
 	<div class="layui-form-item">
 		<label class="layui-form-label">姓名</label>
 		<div class="layui-input-inline">
-			<input type="text" name="adminNameUpdate" required lay-verify="name" placeholder="请输入姓名" autocomplete="off" class="layui-input" value="${sessionScope.tbAdmin.adminName}">
+			<input type="text" name="adminNameUpdate" required lay-verify="name" placeholder="请输入姓名" autocomplete="off" class="layui-input" value="${sessionScope.updateAdmin.adminName}">
 		</div>
 	</div>
 	<div class="layui-form-item">
 		<label class="layui-form-label">手机号</label>
 		<div class="layui-input-inline">
-			<input type="tel" name="adminPhoneUpdate" lay-verify="required|phone" placeholder="请输入手机号" autocomplete="off" class="layui-input" value="${sessionScope.tbAdmin.adminPhone}">
+			<input type="tel" name="adminPhoneUpdate" lay-verify="required|phone" placeholder="请输入手机号" autocomplete="off" class="layui-input" value="${sessionScope.updateAdmin.adminPhone}">
 <%--			<input type="text" name="cashierPhoneUpdate" required lay-verify="phones" placeholder="请输入手机号" autocomplete="off" class="layui-input" value="${sessionScope.tbAdmin.adminPhone}">--%>
 		</div>
 	</div>
 	<div class="layui-form-item">
 		<label class="layui-form-label">居住地址</label>
 		<div class="layui-input-inline">
-			<input type="text" name="adminAddressUpdate" required lay-verify="required" placeholder="请输入居住地址" autocomplete="off" class="layui-input" value="${sessionScope.tbAdmin.adminAddress}">
+			<input type="text" name="adminAddressUpdate" required lay-verify="required" placeholder="请输入居住地址" autocomplete="off" class="layui-input" value="${sessionScope.updateAdmin.adminAddress}">
 		</div>
 	</div>
 	<div class="layui-form-item">
