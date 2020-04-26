@@ -225,17 +225,14 @@
 				var startTime = $("#startTime").val();
 				var endTime = $("#endTime").val();
 				var stateId = obj.data.adminId;
-				var oId = null;
-				var resignId = null;
 				table.reload('one',{
 					method:'post',
+					url: "${pageContext.request.contextPath}/admin/adminForbidden",
 					where:{
 						'uid':uid,
 						'startTime':startTime,
 						'endTime':endTime,
-						'oId':oId,
-						'stateId':stateId,
-						'resignId':resignId
+						'stateId':stateId
 					},
 					page:{
 						page:1
@@ -252,17 +249,14 @@
 				var startTime = $("#startTime").val();
 				var endTime = $("#endTime").val();
 				var oId = obj.data.adminId;
-				var stateId = null;
-				var resignId = null;
 				table.reload('one',{
 					method:'post',
+					url: "${pageContext.request.contextPath}/admin/adminOpen",
 					where:{
 						'uid':uid,
 						'startTime':startTime,
 						'endTime':endTime,
-						'oId':oId,
-						'stateId':stateId,
-						'resignId':resignId
+						'oId':oId
 					},
 					page:{
 						page:1
@@ -278,17 +272,14 @@
 					var uid = $("#uid").val();
 					var startTime = $("#startTime").val();
 					var endTime = $("#endTime").val();
-					var oId = null;
-					var stateId = null;
 					var resignId = obj.data.adminId;
 					table.reload('one',{
 						method:'post',
+						url: "${pageContext.request.contextPath}/admin/adminResign",
 						where:{
 							'uid':uid,
 							'startTime':startTime,
 							'endTime':endTime,
-							'oId':oId,
-							'stateId':stateId,
 							'resignId':resignId
 						},
 						page:{
@@ -305,19 +296,14 @@
 					var uid = $("#uid").val();
 					var startTime = $("#startTime").val();
 					var endTime = $("#endTime").val();
-					var oId = null;
-					var stateId = null;
-					var resignId = null;
 					var resetId = obj.data.adminId;
 					table.reload('one',{
 						method:'post',
+						url: "${pageContext.request.contextPath}/admin/adminReset",
 						where:{
 							'uid':uid,
 							'startTime':startTime,
 							'endTime':endTime,
-							'oId':oId,
-							'stateId':stateId,
-							'resignId':resignId,
 							'resetId':resetId
 						},
 						page:{

@@ -778,10 +778,6 @@ public class AdminController {
 	{
 		int pageInt = Integer.valueOf(page);
 		int limitInt = Integer.valueOf(limit);
-		int forbidden = adminService.forbiddenStateAdmin(stateId);
-		int open = adminService.openStateAdmin(oId);
-		int resign = adminService.resignStateAdmin(resignId);
-		int rest = adminService.resetPwdAdmin(resetId);
 		List<TbAdmin> list = adminService.findAllAdmin(uid,pageInt,limitInt,startTime,endTime);
 		int count = adminService.findCountAdmin(uid,startTime,endTime);
 		DataManagementResult dataManagementResult = new DataManagementResult();
@@ -791,7 +787,71 @@ public class AdminController {
 		dataManagementResult.setData(list);
 		return dataManagementResult;
 	}
+    @RequestMapping("/adminForbidden")
+    @ResponseBody
+    public DataManagementResult adminForbidden(String page, String limit, String uid, String startTime, String endTime, String stateId)
+    {
+        int pageInt = Integer.valueOf(page);
+        int limitInt = Integer.valueOf(limit);
+        int forbidden = adminService.forbiddenStateAdmin(stateId);
+        List<TbAdmin> list = adminService.findAllAdmin(uid,pageInt,limitInt,startTime,endTime);
+        int count = adminService.findCountAdmin(uid,startTime,endTime);
+        DataManagementResult dataManagementResult = new DataManagementResult();
+        dataManagementResult.setCode(0);
+        dataManagementResult.setMsg("");
+        dataManagementResult.setCount(count);
+        dataManagementResult.setData(list);
+        return dataManagementResult;
+    }
 
+    @RequestMapping("/adminOpen")
+    @ResponseBody
+    public DataManagementResult adminOpen(String page, String limit,String uid, String startTime, String endTime, String oId)
+    {
+        int pageInt = Integer.valueOf(page);
+        int limitInt = Integer.valueOf(limit);
+        int open = adminService.openStateAdmin(oId);
+        List<TbAdmin> list = adminService.findAllAdmin(uid,pageInt,limitInt,startTime,endTime);
+        int count = adminService.findCountAdmin(uid,startTime,endTime);
+        DataManagementResult dataManagementResult = new DataManagementResult();
+        dataManagementResult.setCode(0);
+        dataManagementResult.setMsg("");
+        dataManagementResult.setCount(count);
+        dataManagementResult.setData(list);
+        return dataManagementResult;
+    }
+    @RequestMapping("/adminResign")
+    @ResponseBody
+    public DataManagementResult adminResign(String page, String limit, String uid, String startTime, String endTime,String resignId)
+    {
+        int pageInt = Integer.valueOf(page);
+        int limitInt = Integer.valueOf(limit);
+        int resign = adminService.resignStateAdmin(resignId);
+        List<TbAdmin> list = adminService.findAllAdmin(uid,pageInt,limitInt,startTime,endTime);
+        int count = adminService.findCountAdmin(uid,startTime,endTime);
+        DataManagementResult dataManagementResult = new DataManagementResult();
+        dataManagementResult.setCode(0);
+        dataManagementResult.setMsg("");
+        dataManagementResult.setCount(count);
+        dataManagementResult.setData(list);
+        return dataManagementResult;
+    }
+    @RequestMapping("/adminReset")
+    @ResponseBody
+    public DataManagementResult adminReset(String page, String limit, String uid, String startTime, String endTime,String resetId)
+    {
+        int pageInt = Integer.valueOf(page);
+        int limitInt = Integer.valueOf(limit);
+        int rest = adminService.resetPwdAdmin(resetId);
+        List<TbAdmin> list = adminService.findAllAdmin(uid,pageInt,limitInt,startTime,endTime);
+        int count = adminService.findCountAdmin(uid,startTime,endTime);
+        DataManagementResult dataManagementResult = new DataManagementResult();
+        dataManagementResult.setCode(0);
+        dataManagementResult.setMsg("");
+        dataManagementResult.setCount(count);
+        dataManagementResult.setData(list);
+        return dataManagementResult;
+    }
 	@RequestMapping("/addAdmin")
 	@ResponseBody
 	public String addAdmin(String adminAccount, String adminPwd, String adminName,String adminSex,String adminPhone,String adminAddress,String images)
