@@ -31,16 +31,17 @@
 			<div class="layui-input-inline">
 				<input type="text" name="name" id="name" required  lay-verify="required" placeholder="请输入名字" autocomplete="off" class="layui-input">
 			</div>
-				<label class="layui-form-label">状态查询</label>
+				<label class="layui-form-label" style="margin-left: 20px">操作查询</label>
 				<div class="layui-input-inline">
-					<select id="type" name="type" lay-verify="required" class="layui-input-inline">
-						<option value=""></option>
-						<option value="查看信息">查看</option>
-						<option value="续费">续费</option>
+					<select id="type" name="type" lay-verify="required" class="layui-input">
+						<option value="">无</option>
+						<option value="insert">写入</option>
+						<option value="update">修改</option>
+						<option value="delete">删除</option>
+						<option value="login">登录</option>
 					</select>
 				</div>
 			<button class="layui-btn" data-type="reload" lay-filter="formDemo" style="margin-left: 60px">查找</button>
-			<button data-method="dialog" class="layui-btn" id="open" style="margin-left: 60px">弹出</button>
 		</div>
 	<table id="demo" lay-filter="demotest"></table>
 </div>

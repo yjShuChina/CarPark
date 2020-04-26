@@ -15,4 +15,6 @@ public interface LogService
      */
     //添加日志
     int NLinsertLog(TbLog log);
+
+    int CashierLog(String uname);
 }

@@ -51,6 +51,9 @@ public class ChargeController {
     private CarService carService;
 
     @Resource
+    private LogService logService;
+
+    @Resource
     private CostCalculationService costCalculationService;
 
     private static Map<String, String> chargeMap = new HashMap<>();
@@ -87,6 +90,8 @@ public class ChargeController {
             param.put("cashier_pwd", pass);
             System.out.println(param.get("cashier_pwd").toString());
             TbCashier tbCashier = chargeService.chargeLogin(param);
+
+            logService.CashierLog(tbCashier.getCashierName());
 
             if (tbCashier != null) {
                 if (tbCashier.getCashierState() == 1) {
