@@ -470,12 +470,20 @@ public class AdminController {
         return revenueService.queryCurYearBySeason();
     }
 
+    /**
+     * 请求今年按月份统计
+     * @return
+     */
     @ResponseBody
     @RequestMapping("/queryCurYearByMonth")
     public Map<String,Object> queryCurYearByMonth(){
         return revenueService.queryCurYearByMonth();
     }
 
+    /**
+     * 查询当月收支
+     * @return
+     */
     @ResponseBody
     @RequestMapping("/queryMonthRevenue")
     public Map<String,Object> queryMonthRevenue(){
@@ -492,6 +500,11 @@ public class AdminController {
         return adminService.getData();
     }
 
+    /**
+     * 查询参数表
+     * @param param
+     * @return
+     */
     @ResponseBody
     @RequestMapping("/findSysParamByPage")
     public ResultDate<TbSystemParameter> findSysParamByPage(@RequestParam Map<String,Object> param){
@@ -533,6 +546,13 @@ public class AdminController {
         return adminService.updateSysParam(tbSystemParameter);
     }
 
+    /**
+     * 管理员重置密码
+     * @param oldPassword
+     * @param newPassword
+     * @param session
+     * @return
+     */
     @ResponseBody
     @RequestMapping("/resetAdminPassword")
     public String resetAdminPassword(String oldPassword,String newPassword,HttpSession session){
