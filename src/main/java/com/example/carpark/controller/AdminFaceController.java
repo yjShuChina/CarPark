@@ -1,8 +1,11 @@
 package com.example.carpark.controller;
 
 import com.example.carpark.javabean.TbAdmin;
+import com.example.carpark.javabean.TbCashier;
 import com.example.carpark.service.FaceService;
 import com.example.carpark.util.GetToken;
+import com.example.carpark.util.GsonUtils;
+import com.example.carpark.util.HttpUtil;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,130 +51,170 @@ public class AdminFaceController {
     @ResponseBody
     public Map<String, Object> addAdminFace(HttpServletRequest request, HttpSession session) {
 
+        // 请求url
+        String url = "https://aip.baidubce.com/rest/2.0/face/v3/faceset/user/add";
+        Map<String, Object> mapAdd = new HashMap<String, Object>();
         String adminFace = request.getParameter("adminFace");
         System.out.println("adminFace=" + adminFace);
+
         TbAdmin tbAdmin = (TbAdmin) session.getAttribute("tbAdmin");
         System.out.println("tbadmin=" + tbAdmin.toString());
-        byte[] bytes = adminFace.getBytes();
-        tbAdmin.setAdminFace(bytes);
-        Map<String, Object> map = new HashMap<String, Object>();
-        int i = faceService.addAdminFace(tbAdmin);
-        if (i > 0) {
+        try {
+            boolean flag = faceSearch(adminFace);//判断百度中是否存在该人脸
+            String result = null;
+            if (flag == false) {
 
-            map.put("msg", "1");
+                Map<String, Object> map = new HashMap<>();
+                map.put("image", adminFace);
+                map.put("group_id", "admin_face");//分组
+                map.put("user_id", tbAdmin.getAdminAccount());//账户
+                map.put("liveness_control", "NORMAL");
+                map.put("image_type", "BASE64");
+                map.put("quality_control", "LOW");
 
-        } else {
-            map.put("msg", "2");
+                String param = GsonUtils.toJson(map);
+
+                // 注意这里仅为了简化编码每一次请求都去获取access_token，线上环境access_token有过期时间， 客户端可自行缓存，过期后重新获取。
+                String accessToken = GetToken.getAuth();
+
+                result = HttpUtil.post(url, accessToken, "application/json", param);
+                System.out.println("添加result=" + result);
+            } else {
+                result = faceUpdate(adminFace, tbAdmin.getAdminAccount());
+                System.out.println("更新result=" + result);
+            }
+            JSONObject jsonObject = JSONObject.fromObject(result);
+            JSONObject fromObject = jsonObject.getJSONObject("result");
+            String face_token = (String) fromObject.get("face_token");//得到百度返回是人脸
+            System.out.println("添加人脸face_token=" + face_token);
+
+            if (face_token != null && !"".equals(face_token)) {
+                mapAdd.put("msg", "1");
+
+            } else {
+                mapAdd.put("msg", "2");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return map;
+
+        return mapAdd;
     }
 
-    //刚拍的照片和数据库的照片对比
+    //人脸登录
     @RequestMapping("/adminFaceLogin")
     @ResponseBody
     public String adminFaceLogin(HttpServletRequest request, HttpServletResponse response) {
-        String adminFace = request.getParameter("adminFace");
-        List<TbAdmin> tbAdminList = faceService.adminLoginFace();
-        String base64 = "";
-        response.reset();
-        for (int i = 0; i < tbAdminList.size(); i++) {
-            System.out.println("数据库脸:" + tbAdminList.get(i).getAdminFace().length);
 
-            base64 = new String(tbAdminList.get(i).getAdminFace());
-            boolean result = getResult(adminFace, base64);
-            if (result) {
-                System.out.println("状态:" + tbAdminList.get(i).getAdminState());
-                if (tbAdminList.get(i).getAdminState() == 1) {
-                    request.getSession().setAttribute("tbAdmin", tbAdminList.get(i));//将管理员信息放到session
+        String adminFace = request.getParameter("adminFace");
+
+        String url = "https://aip.baidubce.com/rest/2.0/face/v3/search";
+        try {
+            Map<String, Object> map = new HashMap<>();
+            map.put("image", adminFace);
+            map.put("liveness_control", "NORMAL");
+            map.put("group_id_list", "admin_face");
+            map.put("image_type", "BASE64");
+            map.put("quality_control", "LOW");
+
+            String param = GsonUtils.toJson(map);
+
+            // 注意这里仅为了简化编码每一次请求都去获取access_token，线上环境access_token有过期时间， 客户端可自行缓存，过期后重新获取。
+            String accessToken = GetToken.getAuth();
+
+            String result = HttpUtil.post(url, accessToken, "application/json", param);
+            System.out.println(result);
+
+            JSONObject fromObject = JSONObject.fromObject(result);
+            JSONObject jsonObject = fromObject.getJSONObject("result");
+            // 此时需要加个判断
+            if (jsonObject.isNullObject()) {
+                System.out.println("jsonObject 为空");
+                return "无法识别面部!";
+            }
+            JSONObject jsonArray = jsonObject.getJSONArray("user_list").getJSONObject(0);
+            String adminAccount = (String) jsonArray.get("user_id");
+            System.out.println("adminAccount=" + adminAccount);
+            TbAdmin tbAdmin = faceService.findAdminByAccount(adminAccount);
+            if (tbAdmin != null) {
+                if (tbAdmin.getAdminState() == 1) {
+                    request.getSession().setAttribute("tbAdmin", tbAdmin);//将管理员信息放到session
                     return "验证成功";
-                } else if (tbAdminList.get(i).getAdminState() == 0) {
+                } else if (tbAdmin.getAdminState() == 0) {
                     return "该账户已禁用";
-                } else if (tbAdminList.get(i).getAdminState() == 2) {
+                } else if (tbAdmin.getAdminState() == 2) {
                     return "该管理员已离职";
                 }
             }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return "无法识别面部,请用账户密码登录!";
     }
 
     /**
-     * 人脸识别比对
+     * 人脸搜索
+     * 查看百度中是否存在当前人脸
      */
-    public boolean getResult(String imStr1, String imgStr2) {
-
-        String accessToken = GetToken.getAuth();
-        boolean flag = false;
-        BufferedReader br = null;
-        String result = "";
-        // 定义请求地址
-        String mathUrl = "https://aip.baidubce.com/rest/2.0/face/v3/match";
+    public boolean faceSearch(String image) {
+        // 请求url
+        String url = "https://aip.baidubce.com/rest/2.0/face/v3/search";
         try {
-            //页面抓拍到的人脸
-            List<JSONObject> images = new ArrayList<>();
-            JSONObject image1 = new JSONObject();
-            image1.put("image", imStr1);
-            image1.put("image_type", "BASE64");
-            image1.put("face_type", "LIVE");
-            image1.put("quality_control", "LOW");
-            image1.put("liveness_control", "NORMAL");
+            Map<String, Object> map = new HashMap<>();
+            map.put("image", image);
+            map.put("liveness_control", "NORMAL");
+            map.put("group_id_list", "admin_face");
+            map.put("image_type", "BASE64");
+            map.put("quality_control", "LOW");
 
-            //数据库中人脸
-            JSONObject image2 = new JSONObject();
-            image2.put("image", imgStr2);
-            image2.put("image_type", "BASE64");
-            image2.put("face_type", "LIVE");
-            image2.put("quality_control", "LOW");
-            image2.put("liveness_control", "NORMAL");
-            images.add(image1);
-            images.add(image2);
-            // 调用百度云 【人脸对比】接口
-            String genrearlURL = mathUrl + "?access_token=" + accessToken;
-            // 创建请求对象
-            URL url = new URL(genrearlURL);
-            // 打开请求链接
-            HttpURLConnection connection = (HttpURLConnection) url
-                    .openConnection();
-            // 设置请求方法
-            connection.setRequestMethod("POST");
-            // 设置通用的请求属性
-            connection.setRequestProperty("Content-Type", "application/json");
-            connection.setRequestProperty("Connection", "Keep-Alive");
-            connection.setDoInput(true);
-            connection.setDoOutput(true);
-            // 获得请求输出流对象
-            DataOutputStream out = new DataOutputStream(connection.getOutputStream());
-            out.writeBytes(images.toString());
-            // 刷新流
-            out.flush();
-            // 关闭流
-            out.close();
-            // 建立实际链接
-            connection.connect();
-            // 读取URL的响应
-            br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            String line = "";
-            while ((line = br.readLine()) != null) {
-                result += line;
+            String param = GsonUtils.toJson(map);
+
+            // 注意这里仅为了简化编码每一次请求都去获取access_token，线上环境access_token有过期时间， 客户端可自行缓存，过期后重新获取。
+            String accessToken = GetToken.getAuth();
+
+            String result = HttpUtil.post(url, accessToken, "application/json", param);
+            System.out.println("人脸搜索result=" + result);
+            JSONObject jsonObject = JSONObject.fromObject(result);
+            String error_msg = (String) jsonObject.get("error_msg");
+            if (error_msg.equals("SUCCESS") && !"".equals(error_msg)){
+                return true;
             }
-            br.close();
+            return false;
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return false;
+    }
 
-        System.out.println("人脸识别比对:" + result);
-        JSONObject fromObject = JSONObject.fromObject(result);
-        JSONObject jsonArray = fromObject.getJSONObject("result");
-        // 此时需要加个判断
-        if (jsonArray.isNullObject()) {
-            System.out.println("jsonObject 为空");
-            return flag;
-        }
-        double resultList = jsonArray.getDouble("score");
-        if (resultList >= 90) {
-            flag = true;
+    /**
+     * 人脸更新
+     */
+    public String faceUpdate(String image, String adminAccount) {
+        // 请求url
+        String url = "https://aip.baidubce.com/rest/2.0/face/v3/faceset/user/update";
+        try {
+            Map<String, Object> map = new HashMap<>();
+            map.put("image", image);
+            map.put("group_id", "admin_face");
+            map.put("user_id", adminAccount);
+            map.put("liveness_control", "NORMAL");
+            map.put("image_type", "BASE64");
+            map.put("quality_control", "LOW");
 
+            String param = GsonUtils.toJson(map);
+
+            // 注意这里仅为了简化编码每一次请求都去获取access_token，线上环境access_token有过期时间， 客户端可自行缓存，过期后重新获取。
+            String accessToken = GetToken.getAuth();
+
+            String result = HttpUtil.post(url, accessToken, "application/json", param);
+            System.out.println("人脸更新方法result=" + result);
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return flag;
+        return null;
     }
 
 }

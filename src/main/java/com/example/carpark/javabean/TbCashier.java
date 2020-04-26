@@ -15,7 +15,7 @@ public class TbCashier {
   private String cashierAddress;
   private String cashierTime;
   private String cashierHeadImg;
-  private byte[] cashierFace;
+  private String cashierFace;
 
   public String getCashierHeadImg()
   {
@@ -117,11 +117,11 @@ public class TbCashier {
     this.cashierTime = cashierTime;
   }
 
-  public byte[] getCashierFace() {
+  public String getCashierFace() {
     return cashierFace;
   }
 
-  public void setCashierFace(byte[] cashierFace) {
+  public void setCashierFace(String cashierFace) {
     this.cashierFace = cashierFace;
   }
 
@@ -138,7 +138,7 @@ public class TbCashier {
             ", cashierAddress='" + cashierAddress + '\'' +
             ", cashierTime='" + cashierTime + '\'' +
             ", cashierHeadImg='" + cashierHeadImg + '\'' +
-            ", cashierFace=" + Arrays.toString(cashierFace) +
+            ", cashierFace='" + cashierFace + '\'' +
             '}';
   }
 }
