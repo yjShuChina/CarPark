@@ -111,6 +111,11 @@ public class ChargeController {
         return "验证码错误";
     }
 
+    @RequestMapping("/exit")
+    public String exit(HttpServletRequest request){
+        request.getSession().invalidate();
+        return "/charge/jsp/chargeLogin";
+    }
 
     /**
      * 路径跳转

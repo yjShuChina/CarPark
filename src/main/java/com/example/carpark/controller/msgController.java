@@ -5,6 +5,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
+
 @Controller
 @RequestMapping("/msg")
 public class msgController {
@@ -24,8 +27,12 @@ public class msgController {
 
     @RequestMapping("/getList")
     @ResponseBody
-    public String getList() {
+    public String getList(HttpServletRequest request) {
+        Map<String, String> tbCashier = (Map<String, String>) request.getSession().getAttribute("tbCashier");
 
+//        chargeMap.put("cashierId", tbCashier.get("id"));
+//[url=https://sm.ms/image/Hf7jkG82WKON9Ed][img]https://i.loli.net/2020/04/26/Hf7jkG82WKON9Ed.jpg[/img][/url]
+//[url=https://sm.ms/image/nQEAZX1Y4GRSHyj][img]https://i.loli.net/2020/04/26/nQEAZX1Y4GRSHyj.jpg[/img][/url]
         return "{\n" +
                 "  \"code\": 0\n" +
                 "  ,\"msg\": \"\"\n" +
@@ -44,12 +51,12 @@ public class msgController {
                 "      ,\"list\": [{\n" +
                 "        \"username\": \"贤心\"\n" +
                 "        ,\"id\": \"100001\"\n" +
-                "        ,\"avatar\": \"http://tp1.sinaimg.cn/1571889140/180/40030060651/1\"\n" +
+                "        ,\"avatar\": \"https://i.loli.net/2020/04/26/Hf7jkG82WKON9Ed.jpg\"\n" +
                 "        ,\"sign\": \"这些都是测试数据，实际使用请严格按照该格式返回\"\n" +
                 "      },{\n" +
                 "        \"username\": \"Z_子晴\"\n" +
                 "        ,\"id\": \"108101\"\n" +
-                "        ,\"avatar\": \"http://tva3.sinaimg.cn/crop.0.0.512.512.180/8693225ajw8f2rt20ptykj20e80e8weu.jpg\"\n" +
+                "        ,\"avatar\": \"https://i.loli.net/2020/04/26/nQEAZX1Y4GRSHyj.jpg\"\n" +
                 "        ,\"sign\": \"微电商达人\"\n" +
                 "      },{\n" +
                 "        \"username\": \"Lemon_CC\"\n" +

@@ -31,6 +31,14 @@ public class LoginInterceptor implements HandlerInterceptor {
             System.out.println(">>>>>>>>>>不需要验证>>>>>>>>>可跳转");
             return true;
         }
+        if (uri.contains("/msg")){
+            if (request.getSession().getAttribute("tbAdmin") != null || request.getSession().getAttribute("tbCashier") != null) {
+                System.out.println(">>>>>>>认证成功>>>>>>允许访问");
+                return true;
+            }
+            System.out.println(">>>>>>>>>未登录>>>>>>>无法访问");
+            response.sendRedirect(request.getContextPath() + "/url/admin/adminLogin");
+        }
 
         if(uri.contains("/admin") || uri.contains("/white") || uri.contains("/month")){
             System.out.println(">>>>>>>>>进入管理员认证是否登陆");

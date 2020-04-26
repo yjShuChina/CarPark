@@ -2,8 +2,7 @@ layui.use(['layim', 'jquery'], function (layim) {
     var $ = layui.$
     var path = $("#path").val();
     console.log(path);
-    // const path = "http://"+document.location.host+":"+document.location.port;  //通用
-    // console.log(path);
+
     //演示自动回复
     var autoReplay = [
         '您好，我现在有事不在，一会再和您联系。',
@@ -27,10 +26,10 @@ layui.use(['layim', 'jquery'], function (layim) {
         }
 
         // 查看群员接口
-        , members: {
-            url: path + '/msg/getMembers'
-            , data: {}
-        }
+        // , members: {
+        //     url: path + '/msg/getMembers'
+        //     , data: {}
+        // }
 
         , title: 'WebIM' //自定义主面板最小化时的标题
         //,right: '100px' //主面板相对浏览器右侧距离
