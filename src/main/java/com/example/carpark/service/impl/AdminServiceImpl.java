@@ -44,7 +44,7 @@ public class AdminServiceImpl implements AdminService {
      * @return
      */
     @Override
-    @Log(operationName = "管理员登录",operationType = "登录")
+    @Log(operationName = "管理员登录",operationType = "login")
     public String adminLogin(Map<String,Object> map, HttpSession session) {
         map.put("adminPwd",MD5.machining(map.get("adminPwd").toString()));//将管理员输入的密码转成MD5加密
         TbAdmin tbAdmin2 = adminDao.adminLogin(map);
@@ -507,7 +507,7 @@ public class AdminServiceImpl implements AdminService {
         return count;
     }
     @Override
-    @Log(operationName = "收费员禁用",operationType = "禁用")
+    @Log(operationName = "收费员禁用",operationType = "update")
     public int forbiddenState(String stateId)
     {
         int count=0;
@@ -521,7 +521,7 @@ public class AdminServiceImpl implements AdminService {
         return count;
     }
     @Override
-    @Log(operationName = "收费员启用",operationType = "启用")
+    @Log(operationName = "收费员启用",operationType = "update")
     public int openState(String stateId)
     {
         int count=0;
@@ -536,7 +536,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    @Log(operationName = "收费员离职",operationType = "离职")
+    @Log(operationName = "收费员离职",operationType = "update")
     public int resignState(String resignId)
     {
         int count=0;
@@ -551,7 +551,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    @Log(operationName = "重置收费员密码",operationType = "重置密码")
+    @Log(operationName = "重置收费员密码",operationType = "update")
     public int resetPwd(String resetId)
     {
         int count=0;
@@ -578,7 +578,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    @Log(operationName = "修改收费员信息",operationType = "修改")
+    @Log(operationName = "修改收费员信息",operationType = "update")
     public String toUpdateCashier(String uid, String cashierAccountUpdate, String cashierNameUpdate, String cashierPhoneUpdate, String cashierAddressUpdate,String images)
     {
         Map<String, String> parameters=new HashMap<>();
@@ -606,7 +606,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    @Log(operationName = "新增收费员",operationType = "新增")
+    @Log(operationName = "新增收费员",operationType = "insert")
     public String addCashier(String cashierAccount, String cashierPwd, String cashierName, String cashierSex, String cashierPhone, String cashierAddress, long cashierState,String images)
     {
         Map<String, String> parameters=new HashMap<>();
@@ -653,7 +653,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    @Log(operationName = "管理员禁用",operationType = "禁用")
+    @Log(operationName = "管理员禁用",operationType = "update")
     public int forbiddenStateAdmin(String stateId)
     {
         int count=0;
@@ -667,7 +667,7 @@ public class AdminServiceImpl implements AdminService {
         return count;
     }
     @Override
-    @Log(operationName = "管理员启用",operationType = "启用")
+    @Log(operationName = "管理员启用",operationType = "update")
     public int openStateAdmin(String stateId)
     {
         int count=0;
@@ -682,7 +682,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    @Log(operationName = "管理员离职",operationType = "离职")
+    @Log(operationName = "管理员离职",operationType = "update")
     public int resignStateAdmin(String resignId)
     {
         int count=0;
@@ -697,7 +697,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    @Log(operationName = "重置管理员密码",operationType = "重置密码")
+    @Log(operationName = "重置管理员密码",operationType = "update")
     public int resetPwdAdmin(String resetId)
     {
         int count=0;
@@ -724,7 +724,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    @Log(operationName = "修改管理员信息",operationType = "修改")
+    @Log(operationName = "修改管理员信息",operationType = "update")
     public String toUpdateAdmin(String uid, String adminAccountUpdate, String adminNameUpdate, String adminPhoneUpdate, String adminAddressUpdate,String images)
     {
         Map<String, String> parameters=new HashMap<>();
@@ -752,7 +752,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    @Log(operationName = "新增管理员",operationType = "新增")
+    @Log(operationName = "新增管理员",operationType = "insert")
     public String addAdmin(String adminAccount, String adminPwd, String adminName, String adminSex, String adminPhone, String adminAddress, long adminState,String images)
     {
         Map<String, String> parameters=new HashMap<>();

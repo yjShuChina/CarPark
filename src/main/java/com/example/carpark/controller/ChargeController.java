@@ -51,6 +51,9 @@ public class ChargeController {
     private CarService carService;
 
     @Resource
+    private LogService logService;
+
+    @Resource
     private CostCalculationService costCalculationService;
 
     private static Map<String, String> chargeMap = new HashMap<>();
@@ -88,15 +91,19 @@ public class ChargeController {
             System.out.println(param.get("cashier_pwd").toString());
             TbCashier tbCashier = chargeService.chargeLogin(param);
 
+            logService.CashierLog(tbCashier.getCashierName());
+
             if (tbCashier != null) {
                 if (tbCashier.getCashierState() == 1) {
                     Map<String, String> map = new HashMap<>();
                     map.put("cashierAccount", tbCashier.getCashierAccount());
                     map.put("name", tbCashier.getCashierName());
                     map.put("id", "" + tbCashier.getCashierId());
+                    map.put("sex",tbCashier.getCashierSex());
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
                     String time = sdf.format(new Date());
                     map.put("time", time);
+                    request.getSession().setAttribute("msg", map);
                     request.getSession().setAttribute("tbCashier", map);
                     chargeService.addTbCashierShifts("" + tbCashier.getCashierId());
                     return "验证成功";
@@ -111,6 +118,11 @@ public class ChargeController {
         return "验证码错误";
     }
 
+    @RequestMapping("/exit")
+    public String exit(HttpServletRequest request){
+        request.getSession().invalidate();
+        return "/charge/jsp/chargeLogin";
+    }
 
     /**
      * 路径跳转
@@ -123,40 +135,7 @@ public class ChargeController {
         return "/charge/jsp/" + path;
     }
 
-    //收费规则数据查询接口
-    @RequestMapping("/chargePrice")
-    public void chargePrice(HttpServletResponse response) throws IOException {
-        response.getWriter().print(chargeService.chargePrice());
-    }
 
-    //收费规则修改
-    @RequestMapping("/modifyChargePrice")
-    public void modifyChargePrice(TbChargerParameter tbChargerParameter, HttpServletResponse response) throws IOException {
-        int i = chargeService.modifyChargePrice(tbChargerParameter);
-        if (i == 1) {
-            response.getWriter().print("succeed");
-        }
-    }
-
-    //收费规则添加
-    @RequestMapping("/addChargePrice")
-    public void addChargePrice(TbChargerParameter tbChargerParameter, HttpServletResponse response) throws IOException {
-        int i = chargeService.addChargePrice(tbChargerParameter);
-        if (i == 1) {
-            response.getWriter().print("succeed");
-        }
-    }
-
-    //收费规则删除
-    @RequestMapping("/delChargePrice")
-    public void delChargePrice(String data, HttpServletResponse response) throws IOException {
-        TbChargerParameter[] tbChargerParameter = new Gson().fromJson(data, TbChargerParameter[].class);
-        System.out.println("后台接受数据===" + new Gson().toJson(tbChargerParameter));
-        Integer i = chargeService.delChargePrice(tbChargerParameter);
-        if (i == tbChargerParameter.length) {
-            response.getWriter().print("succeed");
-        }
-    }
 
 
     //车辆出场图片识别车牌号

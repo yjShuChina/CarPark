@@ -481,6 +481,16 @@ public class ChargeServiceImpl implements ChargeService {
         chargeDao.addTbCashierShifts(tbCashierShifts);
     }
 
+    @Override
+    public List<TbCashier> tbCashierQuery() {
+        return chargeDao.tbCashierQuery();
+    }
+
+    @Override
+    public List<TbAdmin> tbAdminQuery() {
+        return chargeDao.tbAdminQuery();
+    }
+
 
     //数组转时间
     public String getTimeDate(String timeSize) {

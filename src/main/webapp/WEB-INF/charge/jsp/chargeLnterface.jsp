@@ -96,7 +96,7 @@
         </div>
 
         <div style="height: 670px;width: 170px;float: left;background:#393D49;padding-left:10px;">
-            <div style="background:#2F4056;height: 180px;width: 160px;padding-top:20px;">
+            <div style="background:#2F4056;height: 240px;width: 160px;padding-top:20px;">
                 <div style="padding-left:30px;">
                     <%--                    <a href="${pageContext.request.contextPath}/charge/download" download="xxx.xls">--%>
                     <button type="button" style="height: 40px;width: 100px;" class="layui-btn" onclick="settlement()">
@@ -113,6 +113,13 @@
                     <button type="button" style="height: 40px;width: 100px;" class="layui-btn" onclick="jumpAddFace()">
                         添加人脸
                     </button>
+                </div>
+                <div style="padding-left:30px;padding-top:20px">
+                    <a href="${pageContext.request.contextPath}/charge/exit">
+                        <button type="button" style="height: 40px;width: 100px;" class="layui-btn">
+                            退出登录
+                        </button>
+                    </a>
                 </div>
             </div>
             <div style="background:#2F4056;height: 120px;width: 160px;padding-top:20px;">

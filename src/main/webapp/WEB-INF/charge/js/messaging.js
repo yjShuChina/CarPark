@@ -2,8 +2,7 @@ layui.use(['layim', 'jquery'], function (layim) {
     var $ = layui.$
     var path = $("#path").val();
     console.log(path);
-    // const path = "http://"+document.location.host+":"+document.location.port;  //通用
-    // console.log(path);
+
     //演示自动回复
     var autoReplay = [
         '您好，我现在有事不在，一会再和您联系。',
@@ -27,10 +26,10 @@ layui.use(['layim', 'jquery'], function (layim) {
         }
 
         // 查看群员接口
-        , members: {
-            url: path + '/msg/getMembers'
-            , data: {}
-        }
+        // , members: {
+        //     url: path + '/msg/getMembers'
+        //     , data: {}
+        // }
 
         , title: 'WebIM' //自定义主面板最小化时的标题
         //,right: '100px' //主面板相对浏览器右侧距离
@@ -86,23 +85,23 @@ layui.use(['layim', 'jquery'], function (layim) {
         });
     });
 
-    //监听layim建立就绪
-    // layim.on('ready', function (res) {
-    //
-    //     setTimeout(function () {
-    //         //接受消息（如果检测到该socket）
-    //
-    //
-    //
-    //     }, 3000);
-    // });
-    layim.getMessage({
-        username: "贤心"
-        , avatar: "http://tp1.sinaimg.cn/1571889140/180/40030060651/1"
-        , id: "100001"
-        , type: "friend"
-        , content: "嗨，你好！欢迎体验LayIM。演示标记：" + new Date().getTime()
+    监听layim建立就绪
+    layim.on('ready', function (res) {
+
+        setTimeout(function () {
+            //接受消息（如果检测到该socket）
+
+            layim.getMessage({
+                username: "贤心"
+                , avatar: "http://tp1.sinaimg.cn/1571889140/180/40030060651/1"
+                , id: "100001"
+                , type: "friend"
+                , content: "嗨，你好！欢迎体验LayIM。演示标记：" + new Date().getTime()
+            });
+
+        }, 3000);
     });
+
     //监听发送消息
     layim.on('sendMessage', function (data) {
         console.log(data)

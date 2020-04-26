@@ -1,5 +1,6 @@
 package com.example.carpark.service.impl;
 
+import com.example.carpark.aoplog.Log;
 import com.example.carpark.dao.AlipayDao;
 import com.example.carpark.dao.FaceDao;
 import com.example.carpark.javabean.TbAdmin;
@@ -17,6 +18,7 @@ public class FaceServiceImpl implements FaceService {
     private FaceDao faceDao;
 
     @Override
+    @Log(operationName = "添加管理员面部",operationType = "insert")
     public int addAdminFace(TbAdmin tbAdmin) {
         return faceDao.addAdminFace(tbAdmin);
     }
@@ -27,6 +29,7 @@ public class FaceServiceImpl implements FaceService {
     }
 
     @Override
+    @Log(operationName = "添加收费员面部",operationType = "insert")
     public int addChargeFace(TbCashier tbCashier) {
         return faceDao.addChargeFace(tbCashier);
     }

@@ -3,6 +3,7 @@ package com.example.carpark.controller;
 
 import com.example.carpark.javabean.*;
 import com.example.carpark.service.AdminService;
+import com.example.carpark.service.ChargeService;
 import com.example.carpark.service.RevenueService;
 import com.example.carpark.util.ApplicationContextHelper;
 import com.example.carpark.util.MD5;
@@ -51,6 +52,9 @@ public class AdminController {
 
     @Resource
     private RevenueService revenueService;
+
+    @Resource
+    private ChargeService chargeService;
 
     @Resource
     private Diagis datagridResult;
@@ -968,6 +972,42 @@ public class AdminController {
         map.put("data",map2);
         map2.put("src","/upload/"+ dateStr+"/"+uuid+"." + prefix);
         return map;
+    }
+
+
+    //收费规则数据查询接口
+    @RequestMapping("/chargePrice")
+    public void chargePrice(HttpServletResponse response) throws IOException {
+        response.getWriter().print(chargeService.chargePrice());
+    }
+
+    //收费规则修改
+    @RequestMapping("/modifyChargePrice")
+    public void modifyChargePrice(TbChargerParameter tbChargerParameter, HttpServletResponse response) throws IOException {
+        int i = chargeService.modifyChargePrice(tbChargerParameter);
+        if (i == 1) {
+            response.getWriter().print("succeed");
+        }
+    }
+
+    //收费规则添加
+    @RequestMapping("/addChargePrice")
+    public void addChargePrice(TbChargerParameter tbChargerParameter, HttpServletResponse response) throws IOException {
+        int i = chargeService.addChargePrice(tbChargerParameter);
+        if (i == 1) {
+            response.getWriter().print("succeed");
+        }
+    }
+
+    //收费规则删除
+    @RequestMapping("/delChargePrice")
+    public void delChargePrice(String data, HttpServletResponse response) throws IOException {
+        TbChargerParameter[] tbChargerParameter = new Gson().fromJson(data, TbChargerParameter[].class);
+        System.out.println("后台接受数据===" + new Gson().toJson(tbChargerParameter));
+        Integer i = chargeService.delChargePrice(tbChargerParameter);
+        if (i == tbChargerParameter.length) {
+            response.getWriter().print("succeed");
+        }
     }
 
 }

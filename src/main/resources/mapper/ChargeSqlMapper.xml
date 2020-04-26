@@ -151,4 +151,14 @@
         order by exit_time desc
     </select>
 
+    <!--    收费员查询-->
+    <select id="tbCashierQuery" resultType="TbCashier">
+        select * from tb_cashier
+    </select>
+
+    <!--    管理员查询-->
+    <select id="tbAdminQuery" resultType="TbAdmin">
+        select * from tb_admin
+    </select>
+
 </mapper>

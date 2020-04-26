@@ -25,7 +25,7 @@ layui.use(['form', 'layer', 'table'], function () {
     table.render({
         elem: '#demo'
         , height: 420
-        , url: path + '/charge/chargePrice' //数据接口
+        , url: path + '/admin/chargePrice' //数据接口
         , title: '收费规则表'
         , toolbar: 'default' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
         , width: 494
@@ -165,7 +165,7 @@ function edit(data) {
 
             layer.msg('修改中');
             $.ajax({
-                url: path + "/charge/modifyChargePrice",
+                url: path + "/admin/modifyChargePrice",
                 async: "true",
                 type: "Post",
                 data: usermodify,
@@ -274,7 +274,7 @@ function add() {
 
             layer.msg('添加中');
             $.ajax({
-                url: path + "/charge/addChargePrice",
+                url: path + "/admin/addChargePrice",
                 async: "true",
                 type: "Post",
                 data: usermodify,
@@ -323,7 +323,7 @@ function del(data) {
     var path = $("#path").val();
     layer.msg('删除中');
     $.ajax({
-        url: path + "/charge/delChargePrice",
+        url: path + "/admin/delChargePrice",
         async: "true",
         type: "post",
         data: "data=" + JSON.stringify(data),

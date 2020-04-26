@@ -7,8 +7,8 @@ layui.use(['layim', 'jquery'], function (layim) {
     var websocket = null;
     if ('WebSocket' in window) {
         // var str = "ws://"+path+"/websocket/charge";
-        // websocket = new WebSocket("ws://127.0.0.1:8080/Carpark/websocket/charge");
-        websocket = new WebSocket("ws://112.74.72.11:10086/Carpark/websocket/charge");
+        websocket = new WebSocket("ws://127.0.0.1:8080/Carpark/websocket/charge");
+        // websocket = new WebSocket("ws://112.74.72.11:10086/Carpark/websocket/charge");
         // websocket = new WebSocket(str);
     } else {
         alert("您的浏览器不支持websocket");
@@ -261,7 +261,7 @@ function monthlyPayment() {
     layer.open({
         type: 2,
         title: '月缴办理',
-        content: path + "/charge/path/monthlyPayment",
+        content: path + "/charge/path/paymentMonth",
         offset: '100px',
         anim: 1,
         resize: false,

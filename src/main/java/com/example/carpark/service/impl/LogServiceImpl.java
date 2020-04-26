@@ -22,6 +22,8 @@ import javax.annotation.Resource;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,5 +43,20 @@ public class LogServiceImpl implements LogService
     public int NLinsertLog(TbLog log){
         return logDao.insertLog(log);
     }
+
+    @Override
+    public int CashierLog(String uname)
+    {
+        LocalDateTime dateTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        TbLog tbLog = new TbLog();
+        tbLog.setOperation("收费员登录");
+        tbLog.setUname(uname);
+        tbLog.setOperationType("login");
+        tbLog.setOperationTime(dateTime.format(formatter));
+        return logDao.insertLog(tbLog);
+    }
+
 
 }
