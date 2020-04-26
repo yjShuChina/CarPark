@@ -27,7 +27,7 @@ public class LoginInterceptor implements HandlerInterceptor {
             return true;
         }
 
-        if(uri.contains("/gate") || uri.contains("/alipay")){
+        if(uri.contains("/gate") || uri.contains("/alipay")||uri.contains("/esmap")){
             System.out.println(">>>>>>>>>>不需要验证>>>>>>>>>可跳转");
             return true;
         }
