@@ -43,6 +43,7 @@ public class ChargeServiceImpl implements ChargeService {
 
     @Resource
     private CarService carService;
+
     /*
      * 收费员登录
      * */
@@ -204,7 +205,7 @@ public class ChargeServiceImpl implements ChargeService {
         pageBean.setCode(0);
         List<TbChargerParameter> tbChargerParameters = chargeDao.chargePrice();
 
-        System.out.println("车辆计费规则数据========="+new Gson().toJson(tbChargerParameters));
+        System.out.println("车辆计费规则数据=========" + new Gson().toJson(tbChargerParameters));
         if (tbChargerParameters == null) {
             pageBean.setCount(0);
         } else {
@@ -260,15 +261,15 @@ public class ChargeServiceImpl implements ChargeService {
     @Override
     public String parkQuery(int page, int limit) {
 
-        System.out.println("场内车辆信息,page = "+page +" limit = " +limit);
+        System.out.println("场内车辆信息,page = " + page + " limit = " + limit);
         PageBean pageBean = new PageBean();
-        int page1 = (page - 1) * limit ;
+        int page1 = (page - 1) * limit;
         RowBounds rowBounds = new RowBounds(page1, limit);
 
         int count = chargeDao.parkQueryCount();
 
         List<TbParkCarInfo> tbParkCarInfos = chargeDao.parkQuery(rowBounds);
-        if (tbParkCarInfos != null){
+        if (tbParkCarInfos != null) {
             pageBean.setData(tbParkCarInfos);
         }
         pageBean.setCount(count);
@@ -281,17 +282,17 @@ public class ChargeServiceImpl implements ChargeService {
     @Override
     public String carExitQuery(int page, int limit) {
 
-        System.out.println("场内车辆信息,page = "+page +" limit = " +limit);
-        int page1 = (page - 1) * limit ;
-        Map<String,Integer> map = new HashMap<>();
-        map.put("limit",limit);
-        map.put("page",page1);
+        System.out.println("场内车辆信息,page = " + page + " limit = " + limit);
+        int page1 = (page - 1) * limit;
+        Map<String, Integer> map = new HashMap<>();
+        map.put("limit", limit);
+        map.put("page", page1);
         PageBean pageBean = new PageBean();
 
         int count = chargeDao.carExitQueryCount();
         List<TbTotalCarExit> tbTotalCarExits = chargeDao.carExitQuery(map);
 
-        if (tbTotalCarExits != null){
+        if (tbTotalCarExits != null) {
             pageBean.setData(tbTotalCarExits);
         }
         pageBean.setCount(count);
@@ -305,7 +306,7 @@ public class ChargeServiceImpl implements ChargeService {
     @Override
     public String gateMaxQuery() {
         TbParkCarInfo tbParkCarInfo = chargeDao.gateMaxQuery();
-        if (tbParkCarInfo != null){
+        if (tbParkCarInfo != null) {
             String imgBase64 = "";
             try {
                 File files = new File(tbParkCarInfo.getImgUrl());
@@ -318,7 +319,7 @@ public class ChargeServiceImpl implements ChargeService {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-          return new Gson().toJson(tbParkCarInfo);
+            return new Gson().toJson(tbParkCarInfo);
         }
         return "null";
     }
@@ -363,9 +364,9 @@ public class ChargeServiceImpl implements ChargeService {
         cell = row.createCell(5);
         cell.setCellValue("金额");
 
-        int x = 1,total = 0 , self = 0,manual = 0;
+        int x = 1, total = 0, self = 0, manual = 0;
 
-        List<TbCurrentCarExit> tbCurrentCarExits =chargeDao.tbCurrentCarExitQuery();
+        List<TbCurrentCarExit> tbCurrentCarExits = chargeDao.tbCurrentCarExitQuery();
         for (int i = 0; i < tbCurrentCarExits.size(); i++) {
             TbCurrentCarExit tblUser = tbCurrentCarExits.get(i);
             row = hssfSheet.createRow(x++);
@@ -389,9 +390,9 @@ public class ChargeServiceImpl implements ChargeService {
             cell = row.createCell(r++);// 金额
             cell.setCellValue(tblUser.getPrice());
 
-            if ("人工收取".equals(tblUser.getChannel())){
+            if ("人工收取".equals(tblUser.getChannel())) {
                 manual += tblUser.getPrice();
-            }else {
+            } else {
                 self += tblUser.getPrice();
             }
             total += tblUser.getPrice();
@@ -440,6 +441,44 @@ public class ChargeServiceImpl implements ChargeService {
         }
         chargeDao.delTbCurrentCarExit();
         return url;
+    }
+
+    @Override
+    public String settlementQuery(String aname) {
+        List<TbCashierShifts> tbCashierShifts = chargeDao.tbCashierShiftsQuery();
+        int x = 0;
+        if (tbCashierShifts.size() > 1) {
+            for (int i = 0; i < tbCashierShifts.size() - 1; i++) {
+                if (tbCashierShifts.get(i).getCashierId() != tbCashierShifts.get(i+1).getCashierId()) {
+                    x = i;
+                    break;
+                }
+                x = tbCashierShifts.size() -1;
+            }
+        }
+        String time = tbCashierShifts.get(x).getCsTime();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+        String timeDate = df.format(new Date());
+
+        Map<String,String> map = new HashMap<>();
+        map.put("timeQ",time);
+        map.put("timeH",timeDate);
+        map.put("aname",aname);
+
+        PageBean pageBean = new PageBean();
+        pageBean.setData(chargeDao.settlementQuery(map));
+        pageBean.setCode(0);
+        return new Gson().toJson(pageBean);
+    }
+
+    @Override
+    public void addTbCashierShifts(String id) {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+        String timeDate = df.format(new Date());
+        TbCashierShifts tbCashierShifts = new TbCashierShifts();
+        tbCashierShifts.setCashierId(Integer.parseInt(id));
+        tbCashierShifts.setCsTime(timeDate);
+        chargeDao.addTbCashierShifts(tbCashierShifts);
     }
 
 

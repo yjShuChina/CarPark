@@ -21,19 +21,20 @@
     <div class="layui-row">
         <div class="layui-form-item" style="font-size: 30px;text-align: center;padding-top: 10px">自助缴费办理</div>
     </div>
-    <div class="layui-form-item" style="margin-top: 200px;">
-        <div class="layui-input-block" style="padding-left: 25%;">
-            <div class="layui-input-inline" style="display: inline-block;">
-                <input class="layui-btn layui-btn-normal" onclick="temporary(this)" type="button"
-                       value="临时车辆缴费" style="width: 150px;">
-            </div>
-            <div class="layui-input-inline" style="display: inline-block;">
-                <input class="layui-btn layui-btn-normal" onclick="renew(this)" type="button"
-                       value="办理月缴续费" style="width: 150px;">
-            </div>
-            <div class="layui-input-inline" style="display: inline-block;">
-                <input class="layui-btn layui-btn-normal" onclick="saveArea(this)" type="button"
-                       value="返回主页" style="width: 150px;">
+    <div class="layui-form-item" style="margin-top: 100px;">
+        <div class="layui-input-block" style="padding-left: 34%;display: inline-block;">
+            <input class="layui-btn layui-btn-normal" onclick="temporary(this)" type="button"
+                   value="临时车辆缴费" style="font-size: 25px;width: 300px;height: 60px;"><br><br>
+            <input class="layui-btn layui-btn-normal" onclick="renew(this)" type="button"
+                   value="办理月缴续费" style="font-size: 25px;width: 300px;height: 60px;"><br><br>
+            <input class="layui-btn layui-btn-normal" onclick="saveArea(this)" type="button"
+                   value="反向寻车" style="font-size: 25px;width: 300px;height: 60px;"><br><br>
+        </div>
+        <div class="layui-input-block" style="padding-left: 28%;display: inline-block;">
+            <label style="font-size: 20px;float: right;">手机端查询，请扫描！</label>
+            <div class="layui-input-block"
+                 style="height: 200px;width: 200px;">
+                <img src="https://i.loli.net/2020/04/25/kjDos6hVT8GgQZX.png"/>
             </div>
         </div>
     </div>

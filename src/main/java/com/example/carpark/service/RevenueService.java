@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface RevenueService {
-    ResultDate<TbRevenue> findRevenueByPage(Map<String,Object> map);
+    ResultDate<TbRevenue> findRevenueByPage(Map<String, Object> map);
 
     List<TbMonthChargeParameter> findAllMonthParameter();
 
@@ -24,13 +24,13 @@ public interface RevenueService {
 
     String updateRevenue(TbRevenue tbRevenue);
 
-    Map<String,Object> queryNearlySevenDays();
+    Map<String, Object> queryNearlySevenDays();
 
-    Map<String,Object> queryNearlyMonth();
+    Map<String, Object> queryNearlyMonth();
 
-    Map<String,Object> queryCurYearBySeason();
+    Map<String, Object> queryCurYearBySeason();
 
-    Map<String,Object> queryCurYearByMonth();
+    Map<String, Object> queryCurYearByMonth();
 
-    Map<String,Object> queryMonthRevenue();
+    Map<String, Object> queryMonthRevenue();
 }

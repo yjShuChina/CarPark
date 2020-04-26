@@ -60,7 +60,7 @@
 
     <!--通过车牌号，重置用户表时间-->
     <update id="resetTimeByCarNumber" parameterType="java.lang.String">
-		update tb_user set month_vip_begin = '1970-01-01 00:00:00',month_vip_deadline = '1970-01-01 00:00:00' where car_number = #{carNumber}
+		update tb_user set month_vip_begin = (select DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s') from dual),month_vip_deadline = (select DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s') from dual) where car_number = #{carNumber}
 	</update>
 
     <!--添加退费表信息-->

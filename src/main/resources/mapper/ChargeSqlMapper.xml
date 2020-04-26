@@ -129,4 +129,26 @@
         delete from tb_current_car_exit
     </delete>
 
+    <!--    收费员登录时间记录-->
+    <insert id="addTbCashierShifts" parameterType="TbCashierShifts">
+        insert into tb_cashier_shifts (cs_time, cashier_id) VALUES (#{csTime},#{cashierId});
+    </insert>
+
+    <!--    收费员查询首次登录时间-->
+    <select id="tbCashierShiftsQuery" resultType="TbCashierShifts">
+        select * from tb_cashier_shifts order by cs_time desc
+    </select>
+
+    <!--    日结单查看-->
+    <select id="settlementQuery" resultType="TbTotalCarExit" parameterType="java.util.Map">
+        select * from tb_total_car_exit
+        <where>
+            <if test="aname != null and aname != '' ">
+                and channel = #{aname}
+            </if>
+            and exit_time between #{timeQ} and #{timeH}
+        </where>
+        order by exit_time desc
+    </select>
+
 </mapper>

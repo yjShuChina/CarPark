@@ -142,16 +142,20 @@ public class SystemLogAspect {
             System.out.println("=====service后置通知开始=====");
             System.out.println("请求方法:" + (joinPoint.getTarget().getClass().getName() + "." + joinPoint.getSignature().getName() + "()")+"."+operationType);
             System.out.println("方法描述:" + operationName);
-
             System.out.println("请求IP:" + ip);
             //*========数据库日志=========*//
-	        TbLog tbLog =new TbLog();
-	        tbLog.setOperation(operationName);
-	        tbLog.setOperationType(operationType);
-	        tbLog.setOperationTime(dateTime.format(formatter));
-	        tbLog.setUname(user.getAdminName());
+            TbLog tbLog =new TbLog();
+            if(user!=null){
+                tbLog.setOperation(operationName);
+                tbLog.setOperationType(operationType);
+                tbLog.setOperationTime(dateTime.format(formatter));
+                tbLog.setUname(user.getAdminName());
+            }else {
+                tbLog=null;
+            }
+
             //保存数据库
-            if (operationName!=""){
+            if (operationName!=""&&tbLog!=null){
                 logService.NLinsertLog(tbLog);
 	            System.out.println("方法名:"+methodName);
 	            System.out.println("用户名:"+user.getAdminName());

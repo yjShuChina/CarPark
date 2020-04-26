@@ -91,13 +91,14 @@ public class ChargeController {
             if (tbCashier != null) {
                 if (tbCashier.getCashierState() == 1) {
                     Map<String, String> map = new HashMap<>();
-                    map.put("cashierAccount",tbCashier.getCashierAccount());
+                    map.put("cashierAccount", tbCashier.getCashierAccount());
                     map.put("name", tbCashier.getCashierName());
-
+                    map.put("id", "" + tbCashier.getCashierId());
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
                     String time = sdf.format(new Date());
                     map.put("time", time);
                     request.getSession().setAttribute("tbCashier", map);
+                    chargeService.addTbCashierShifts("" + tbCashier.getCashierId());
                     return "验证成功";
                 } else if (tbCashier.getCashierState() == 0) {
                     return "该账户已禁用";
@@ -317,7 +318,7 @@ public class ChargeController {
         if (map.get("type").equals("paymentExpire")) {
             automation();
         } else {
-            if (money <= 0) {
+            if (money <= 0 && !"临时车辆".equals(map.get("state"))) {
                 monthly();
             }
         }
@@ -332,7 +333,7 @@ public class ChargeController {
     }
 
     //月缴
-    private void monthly(){
+    private void monthly() {
         chargeMap.put("cashierId", "0");
         chargeMap.put("channel", chargeMap.get("state"));
         chargeMap.put("collect", chargeMap.get("money"));
@@ -345,6 +346,7 @@ public class ChargeController {
         String money = chargeMap.get("money");
         try {
             Map<String, String> tbCashier = (Map<String, String>) request.getSession().getAttribute("tbCashier");
+
             chargeMap.put("cashierId", tbCashier.get("id"));
             if ((money.matches("[0-9]+"))) {
                 chargeMap.put("channel", "人工收取");
@@ -363,7 +365,7 @@ public class ChargeController {
     public ResponseEntity<byte[]> download(HttpServletRequest request) throws IOException {
 
         String url = chargeService.excelGenerate(request);
-        System.out.println("url=============="+url);
+        System.out.println("url==============" + url);
         File file = new File(url);
         byte[] body = null;
         InputStream is = new FileInputStream(file);
@@ -427,6 +429,21 @@ public class ChargeController {
         response.getWriter().flush();
     }
 
+
+    @RequestMapping("/settlementQuery")
+    public void settlementQuery(HttpServletRequest request, HttpServletResponse response) throws IOException
+    {
+        System.out.println("表格");
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json; charset=utf-8");
+
+        String aname = request.getParameter("aname");
+
+        response.getWriter().write(chargeService.settlementQuery(aname));
+        response.getWriter().flush();
+    }
+
+
     //添加月缴信息
     @RequestMapping("/addMonthlyPayment")
     public void addMonthlyPayment(HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException {
@@ -434,37 +451,54 @@ public class ChargeController {
         String jsonstr = request.getParameter("tbUser");
         TbUser tbUser = g.fromJson(jsonstr, TbUser.class);
         String mcpId = request.getParameter("mcpId");
-//        System.out.println("新增月缴用户的tbUser= " + tbUser.toString());
-//        System.out.println("新增月缴用户的mcpId= " + mcpId);
-        TbMonthChargeParameter tbmcp = monthService.findMonthById(Integer.parseInt(mcpId));//用户办理VIP月份
-        int month = (int) tbmcp.getMonth();
+        System.out.println("新增月缴用户的tbUser= " + tbUser.toString());
+        System.out.println("新增月缴用户的mcpId= " + mcpId);
+        int count = monthService.findCarNumber(tbUser.getCarNumber());//根据车牌查询用户名判空
+        if (count <= 0){
+            TbMonthChargeParameter tbmcp = monthService.findMonthById(Integer.parseInt(mcpId));//用户办理VIP月份
+            int month = (int) tbmcp.getMonth();
 //        System.out.println("用户办理VIP月份=" + month);
-        String monthVipDeadline = timeFactory(tbUser.getMonthVipBegin().toString(), month);//VIP到期时间
+            String monthVipDeadline = timeFactory(tbUser.getMonthVipBegin().toString(), month);//VIP到期时间
 //        System.out.println("VIP到期时间=" + monthVipDeadline);
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        format.setLenient(false);
-        Timestamp newMonthVipDeadline = new Timestamp(format.parse(monthVipDeadline).getTime());//到期时间转换格式
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            format.setLenient(false);
+            Timestamp newMonthVipDeadline = new Timestamp(format.parse(monthVipDeadline).getTime());//到期时间转换格式
 //        System.out.println(newMonthVipDeadline.toString());
-        tbUser.setMonthVipDeadline(newMonthVipDeadline);
-        int count1 = monthService.addUser(tbUser);
+            tbUser.setMonthVipDeadline(newMonthVipDeadline);
+            int count1 = monthService.addUser(tbUser);
 
-        if (count1 != 0) {
-            int userId = monthService.findIdByCarNumber(tbUser.getCarNumber());//新增用户的id
+            if (count1 != 0) {
+                int userId = monthService.findIdByCarNumber(tbUser.getCarNumber());//新增用户的id
 //            System.out.println("新增用户的id=" + userId);
-            TbMonthVip tbMonthVip = new TbMonthVip();
-            tbMonthVip.setUserId(userId);
-            tbMonthVip.setOriginDeadline(newMonthVipDeadline);
-            tbMonthVip.setCurrentDeadline(newMonthVipDeadline);
-            tbMonthVip.setMcpId(Integer.parseInt(mcpId));
+                TbMonthVip tbMonthVip = new TbMonthVip();
+                tbMonthVip.setUserId(userId);
+                tbMonthVip.setOriginDeadline(newMonthVipDeadline);
+                tbMonthVip.setCurrentDeadline(newMonthVipDeadline);
+                tbMonthVip.setMcpId(Integer.parseInt(mcpId));
 //            System.out.println("tbMonthVip=" + tbMonthVip.toString());
-            int count2 = monthService.addMonthlyPayment(tbMonthVip);
-            if (count2 != 0) {
-                response.getWriter().print("success");
-                System.out.println("月缴新增成功");
+                int count2 = monthService.addMonthlyPayment(tbMonthVip);
+                if (count2 != 0) {
+                    //添加统计
+                    TbRevenue tbRevenue = new TbRevenue();
+                    tbRevenue.setIncomeType("manual");
+                    tbRevenue.setMonth(month);
+                    tbRevenue.setPrice(new BigDecimal(tbmcp.getPrice()));
+                    tbRevenue.setTime(today1);
+                    tbRevenue.setRevenue(1);
+                    tbRevenue.setCarNumber(tbUser.getCarNumber());
+                    String num = revenueService.addRevenue(tbRevenue);
+                    if (num != null) {
+                        response.getWriter().print("success");
+                        System.out.println("月缴新增成功");
+                    }
+                }
+            } else {
+                response.getWriter().print("error");
+                System.out.println("月缴新增失败");
             }
-        } else {
-            response.getWriter().print("error");
-            System.out.println("月缴新增失败");
+        }else {
+            response.getWriter().print("exist");
+            System.out.println("该车牌号已注册！");
         }
     }
 
@@ -518,6 +552,27 @@ public class ChargeController {
         } else {
             response.getWriter().print("error");
             System.out.println("用户不是月缴用户");
+        }
+    }
+
+    //查询车牌号是否为新用户
+    @RequestMapping("/newUser")
+    public void newUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String carNumber = request.getParameter("carNumber");
+        System.out.println("是否为新用户carNumber= " + carNumber);
+        int count = monthService.findCarNumber(carNumber);//根据车牌查询用户名判空
+        System.out.println("count=" + count);
+        if (count > 0) {
+            TbUser tbUser = monthService.findUserByCarNumber(carNumber);
+            String monthVipDeadline = tbUser.getMonthVipDeadline().toString();//月缴到期时间
+            int result = monthVipDeadline.compareTo(today);//result大于等于0，则月缴未到期
+            if (result >= 0) {
+                response.getWriter().print("exist");
+                System.out.println("该车牌号已注册！");
+            } else {
+                response.getWriter().print("pass");
+                System.out.println("用户办理月缴已过期，请缴费！");
+            }
         }
     }
 
@@ -596,6 +651,7 @@ public class ChargeController {
             tbRevenue.setPrice(new BigDecimal(tbmcp.getPrice()));
             tbRevenue.setTime(today1);
             tbRevenue.setRevenue(1);
+            tbRevenue.setCarNumber(tbUser.getCarNumber());
             String num = revenueService.addRevenue(tbRevenue);
             if (num != null) {
                 response.getWriter().print("success");
@@ -646,6 +702,8 @@ public class ChargeController {
         String price = request.getParameter("price");
         TbUser tbUser = monthService.findUserByCarNumber(carNumber);
         TbMonthVip tbMonthVip = monthService.findMonthVipById((int) tbUser.getUserId());
+        TbMonthChargeParameter tbmcp = monthService.findMonthById((int) tbMonthVip.getMcpId());
+        int month = (int) tbmcp.getMonth();//续费办理的月份
         //修改用户表的时间
         int count1 = monthService.resetTimeByCarNumber(carNumber);
         if (count1 > 0) {
@@ -655,7 +713,17 @@ public class ChargeController {
             tbRefund.setMvrId(tbMonthVip.getMvrId());
             tbRefund.setRefundPrice(Integer.parseInt(price));
             int count2 = monthService.addRefund(tbRefund);
-            if (count2 > 0) {
+
+            //添加统计
+            TbRevenue tbRevenue = new TbRevenue();
+            tbRevenue.setIncomeType("manual");
+            tbRevenue.setMonth(month);
+            tbRevenue.setPrice(new BigDecimal(tbmcp.getPrice()));
+            tbRevenue.setTime(today1);
+            tbRevenue.setRevenue(2);
+            tbRevenue.setCarNumber(tbUser.getCarNumber());
+            String count3 = revenueService.addRevenue(tbRevenue);
+            if (count2 > 0 && count3 != null) {
                 response.getWriter().print("success");
                 System.out.println("月缴退费成功");
             } else {
