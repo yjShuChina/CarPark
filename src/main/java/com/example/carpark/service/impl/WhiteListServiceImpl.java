@@ -1,5 +1,6 @@
 package com.example.carpark.service.impl;
 
+import com.example.carpark.aoplog.Log;
 import com.example.carpark.dao.ChargeDao;
 import com.example.carpark.javabean.PageBean;
 import com.example.carpark.javabean.TbWhiteList;
@@ -24,7 +25,6 @@ public class WhiteListServiceImpl implements WhiteListService {
     //白名单查看
     @Override
     public String queryWhiteList(int page, int limit) {
-
         System.out.println("白名单,page = "+page +" limit = " +limit);
         PageBean pageBean = new PageBean();
         int page1 = (page - 1) * limit ;
@@ -43,16 +43,19 @@ public class WhiteListServiceImpl implements WhiteListService {
     }
     //白名单修改
     @Override
+    @Log(operationName = "白名单修改",operationType = "updata")
     public int modifyWhiteList(TbWhiteList tbWhiteList) {
         return chargeDao.modifyWhiteList(tbWhiteList);
     }
     //白名单添加
     @Override
+    @Log(operationName = "白名单添加",operationType = "insert")
     public int addWhiteList(TbWhiteList tbWhiteList) {
         return chargeDao.addWhiteList(tbWhiteList);
     }
     //白名单删除
     @Override
+    @Log(operationName = "白名单删除",operationType = "delete")
     public int delWhiteList(TbWhiteList[] tbWhiteLists) {
         List<TbWhiteList> tbWhiteListList = new ArrayList<>();
         for (int i = 0; i < tbWhiteLists.length; i++) {
