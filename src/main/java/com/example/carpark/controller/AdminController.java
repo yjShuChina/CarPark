@@ -612,7 +612,7 @@ public class AdminController {
     {
         int pageInt = Integer.valueOf(page);
         int limitInt = Integer.valueOf(limit);
-        int forbidden = adminService.forbiddenState(stateId);
+//        int forbidden = adminService.forbiddenState(stateId);
         int open = adminService.openState(oId);
         int resign = adminService.resignState(resignId);
 	    int rest = adminService.resetPwd(resetId);
@@ -624,6 +624,13 @@ public class AdminController {
         dataManagementResult.setCount(count);
         dataManagementResult.setData(list);
         return dataManagementResult;
+    }
+
+    @RequestMapping("/cashierForbidden")
+    @ResponseBody
+    public void cashierForbidden(String page, String limit, String uid, String startTime, String endTime, String stateId, String oId,String resignId,String resetId)
+    {
+        int forbidden = adminService.forbiddenState(stateId);
     }
 
     @RequestMapping("/addCashier")

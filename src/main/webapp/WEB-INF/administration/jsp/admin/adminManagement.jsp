@@ -225,21 +225,12 @@
 			if(obj.event === 'forbidden'){
 				layer.confirm('确定要禁用?', {icon: 2, title:'提示'}, function(index) {
 				var table =layui.table, $=layui.jquery;
-				var uid = $("#uid").val();
-				var startTime = $("#startTime").val();
-				var endTime = $("#endTime").val();
 				var stateId = obj.data.cashierId;
-				var oId = null;
-				var resignId = null;
 				table.reload('one',{
+					url: "${pageContext.request.contextPath}/admin/cashierForbidden",
 					method:'post',
 					where:{
-						'uid':uid,
-						'startTime':startTime,
-						'endTime':endTime,
-						'oId':oId,
-						'stateId':stateId,
-						'resignId':resignId
+						'stateId':stateId
 					},
 					page:{
 						page:1
