@@ -13,14 +13,11 @@ public interface FaceDao
     //添加管理员人脸
     public int addAdminFace(TbAdmin tbAdmin);
 
-    //管理员人脸登陆验证
-    public List<TbAdmin> adminLoginFace();
+    //通过管理员账户,查询管理员信息
+    public TbAdmin findAdminByAccount(String adminAccount);
 
     //添加收费员人脸
     public int addChargeFace(TbCashier tbCashier);
-
-    //收费员人脸登陆验证
-    public List<TbCashier> chargeLoginFace();
 
     //通过收费员账户,查询收费员信息
     public TbCashier findChargeByAccount(String cashierAccount);

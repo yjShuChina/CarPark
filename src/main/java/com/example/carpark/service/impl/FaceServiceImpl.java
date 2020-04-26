@@ -22,18 +22,13 @@ public class FaceServiceImpl implements FaceService {
     }
 
     @Override
-    public List<TbAdmin> adminLoginFace() {
-        return faceDao.adminLoginFace();
+    public TbAdmin findAdminByAccount(String adminAccount) {
+        return faceDao.findAdminByAccount(adminAccount);
     }
 
     @Override
     public int addChargeFace(TbCashier tbCashier) {
         return faceDao.addChargeFace(tbCashier);
-    }
-
-    @Override
-    public List<TbCashier> chargeLoginFace() {
-        return faceDao.chargeLoginFace();
     }
 
     @Override

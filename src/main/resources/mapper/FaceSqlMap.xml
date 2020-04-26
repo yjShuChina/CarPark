@@ -6,30 +6,24 @@
 
     <!-- 添加管理员人脸-->
     <update id="addAdminFace" parameterType="TbAdmin">
-       UPDATE tb_admin SET admin_face=#{adminFace}
-       WHERE admin_account=#{adminAccount}
+       UPDATE tb_admin SET admin_face = #{adminFace}
+       WHERE admin_account = #{adminAccount}
     </update>
 
-    <!--管理员人脸登陆验证-->
-    <select id="adminLoginFace" resultType="TbAdmin">
-        select * from tb_admin where admin_face is not null
+    <!--通过收费员账户,查询收费员信息-->
+    <select id="findAdminByAccount" parameterType="java.lang.String" resultType="TbAdmin">
+        select * from tb_admin where admin_account = #{adminAccount}
     </select>
-
 
     <!-- 添加收费员人脸-->
     <update id="addChargeFace" parameterType="TbCashier">
-       UPDATE tb_cashier SET  cashier_face=#{cashierFace}
-       WHERE cashier_account=#{cashierAccount}
+       UPDATE tb_cashier SET  cashier_face = #{cashierFace}
+       WHERE cashier_account = #{cashierAccount}
     </update>
-
-    <!--收费员人脸登陆验证-->
-    <select id="chargeLoginFace" resultType="TbCashier">
-        select * from tb_cashier where cashier_face is not null
-    </select>
 
     <!--通过收费员账户,查询收费员信息-->
     <select id="findChargeByAccount" parameterType="java.lang.String" resultType="TbCashier">
-        select * from tb_cashier where cashier_account=#{cashierAccount}
+        select * from tb_cashier where cashier_account = #{cashierAccount}
     </select>
 
 </mapper>

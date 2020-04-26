@@ -16,7 +16,7 @@ public class TbAdmin {
   private String adminAddress;
   private String adminTime;
   private String adminHeadImg;
-  private byte[] adminFace;
+  private String adminFace;
 
   public String getAdminHeadImg()
   {
@@ -121,11 +121,11 @@ public class TbAdmin {
     this.adminTime = adminTime;
   }
 
-  public byte[] getAdminFace() {
+  public String getAdminFace() {
     return adminFace;
   }
 
-  public void setAdminFace(byte[] adminFace) {
+  public void setAdminFace(String adminFace) {
     this.adminFace = adminFace;
   }
 
@@ -143,7 +143,7 @@ public class TbAdmin {
             ", adminAddress='" + adminAddress + '\'' +
             ", adminTime='" + adminTime + '\'' +
             ", adminHeadImg='" + adminHeadImg + '\'' +
-            ", adminFace=" + Arrays.toString(adminFace) +
+            ", adminFace='" + adminFace + '\'' +
             '}';
   }
 }
