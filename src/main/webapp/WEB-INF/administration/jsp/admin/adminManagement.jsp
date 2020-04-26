@@ -229,17 +229,14 @@
 				var startTime = $("#startTime").val();
 				var endTime = $("#endTime").val();
 				var stateId = obj.data.cashierId;
-				var oId = null;
-				var resignId = null;
 				table.reload('one',{
+					url: "${pageContext.request.contextPath}/admin/cashierForbidden",
 					method:'post',
 					where:{
 						'uid':uid,
 						'startTime':startTime,
 						'endTime':endTime,
-						'oId':oId,
-						'stateId':stateId,
-						'resignId':resignId
+						'stateId':stateId
 					},
 					page:{
 						page:1
@@ -256,17 +253,14 @@
 				var startTime = $("#startTime").val();
 				var endTime = $("#endTime").val();
 				var oId = obj.data.cashierId;
-				var stateId = null;
-				var resignId = null;
 				table.reload('one',{
 					method:'post',
+					url: "${pageContext.request.contextPath}/admin/cashierOpen",
 					where:{
 						'uid':uid,
 						'startTime':startTime,
 						'endTime':endTime,
-						'oId':oId,
-						'stateId':stateId,
-						'resignId':resignId
+						'oId':oId
 					},
 					page:{
 						page:1
@@ -282,17 +276,14 @@
 					var uid = $("#uid").val();
 					var startTime = $("#startTime").val();
 					var endTime = $("#endTime").val();
-					var oId = null;
-					var stateId = null;
 					var resignId = obj.data.cashierId;
 					table.reload('one',{
 						method:'post',
+						url: "${pageContext.request.contextPath}/admin/cashierResign",
 						where:{
 							'uid':uid,
 							'startTime':startTime,
 							'endTime':endTime,
-							'oId':oId,
-							'stateId':stateId,
 							'resignId':resignId
 						},
 						page:{
@@ -309,19 +300,14 @@
 					var uid = $("#uid").val();
 					var startTime = $("#startTime").val();
 					var endTime = $("#endTime").val();
-					var oId = null;
-					var stateId = null;
-					var resignId = null;
 					var resetId = obj.data.cashierId;
 					table.reload('one',{
 						method:'post',
+						url: "${pageContext.request.contextPath}/admin/cashierReset",
 						where:{
 							'uid':uid,
 							'startTime':startTime,
 							'endTime':endTime,
-							'oId':oId,
-							'stateId':stateId,
-							'resignId':resignId,
 							'resetId':resetId
 						},
 						page:{
