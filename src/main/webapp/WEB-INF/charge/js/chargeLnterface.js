@@ -261,7 +261,7 @@ function monthlyPayment() {
     layer.open({
         type: 2,
         title: '月缴办理',
-        content: path + "/charge/path/monthlyPayment",
+        content: path + "/charge/path/paymentMonth",
         offset: '100px',
         anim: 1,
         resize: false,
