@@ -612,10 +612,6 @@ public class AdminController {
     {
         int pageInt = Integer.valueOf(page);
         int limitInt = Integer.valueOf(limit);
-//        int forbidden = adminService.forbiddenState(stateId);
-        int open = adminService.openState(oId);
-        int resign = adminService.resignState(resignId);
-	    int rest = adminService.resetPwd(resetId);
         List<TbCashier> list = adminService.findAll(uid,pageInt,limitInt,startTime,endTime);
         int count = adminService.findCount(uid,startTime,endTime);
         DataManagementResult dataManagementResult = new DataManagementResult();
@@ -628,10 +624,70 @@ public class AdminController {
 
     @RequestMapping("/cashierForbidden")
     @ResponseBody
-    public void cashierForbidden(String page, String limit, String uid, String startTime, String endTime, String stateId, String oId,String resignId,String resetId)
+    public DataManagementResult cashierForbidden(String page, String limit, String uid, String startTime, String endTime, String stateId)
     {
+        int pageInt = Integer.valueOf(page);
+        int limitInt = Integer.valueOf(limit);
         int forbidden = adminService.forbiddenState(stateId);
+        List<TbCashier> list = adminService.findAll(uid,pageInt,limitInt,startTime,endTime);
+        int count = adminService.findCount(uid,startTime,endTime);
+        DataManagementResult dataManagementResult = new DataManagementResult();
+        dataManagementResult.setCode(0);
+        dataManagementResult.setMsg("");
+        dataManagementResult.setCount(count);
+        dataManagementResult.setData(list);
+        return dataManagementResult;
     }
+	@RequestMapping("/cashierOpen")
+	@ResponseBody
+	public DataManagementResult cashierOpen(String page, String limit, String uid, String startTime, String endTime,String oId)
+	{
+		int pageInt = Integer.valueOf(page);
+		int limitInt = Integer.valueOf(limit);
+		int open = adminService.openState(oId);
+		List<TbCashier> list = adminService.findAll(uid,pageInt,limitInt,startTime,endTime);
+		int count = adminService.findCount(uid,startTime,endTime);
+		DataManagementResult dataManagementResult = new DataManagementResult();
+		dataManagementResult.setCode(0);
+		dataManagementResult.setMsg("");
+		dataManagementResult.setCount(count);
+		dataManagementResult.setData(list);
+		return dataManagementResult;
+	}
+
+	@RequestMapping("/cashierResign")
+	@ResponseBody
+	public DataManagementResult cashierResign(String page, String limit, String uid, String startTime, String endTime, String resignId)
+	{
+		int pageInt = Integer.valueOf(page);
+		int limitInt = Integer.valueOf(limit);
+		int resign = adminService.resignState(resignId);
+		List<TbCashier> list = adminService.findAll(uid,pageInt,limitInt,startTime,endTime);
+		int count = adminService.findCount(uid,startTime,endTime);
+		DataManagementResult dataManagementResult = new DataManagementResult();
+		dataManagementResult.setCode(0);
+		dataManagementResult.setMsg("");
+		dataManagementResult.setCount(count);
+		dataManagementResult.setData(list);
+		return dataManagementResult;
+	}
+
+	@RequestMapping("/cashierReset")
+	@ResponseBody
+	public DataManagementResult cashierReset(String page, String limit, String uid, String startTime, String endTime,String resetId)
+	{
+		int pageInt = Integer.valueOf(page);
+		int limitInt = Integer.valueOf(limit);
+		int rest = adminService.resetPwd(resetId);
+		List<TbCashier> list = adminService.findAll(uid,pageInt,limitInt,startTime,endTime);
+		int count = adminService.findCount(uid,startTime,endTime);
+		DataManagementResult dataManagementResult = new DataManagementResult();
+		dataManagementResult.setCode(0);
+		dataManagementResult.setMsg("");
+		dataManagementResult.setCount(count);
+		dataManagementResult.setData(list);
+		return dataManagementResult;
+	}
 
     @RequestMapping("/addCashier")
     @ResponseBody
