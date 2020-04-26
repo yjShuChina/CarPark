@@ -46,7 +46,7 @@ public class SystemLogAspect {
     private static Logger logger = Logger.getLogger("zxtest");
 
     //Controller层切点
-    @Pointcut("!execution (* com.example.carpark.service..*.NL*(..)) &&execution(* com.example.carpark.service.AdminService*..*(..))")
+    @Pointcut("execution (* com.example.carpark.service.WhiteListService*..*(..))||execution(* com.example.carpark.service.AdminService*..*(..))")
     public void controllerAspect() {
     }
 
