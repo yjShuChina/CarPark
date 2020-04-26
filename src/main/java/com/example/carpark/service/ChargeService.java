@@ -60,4 +60,10 @@ public interface ChargeService {
     String settlementQuery(String aname);
 
     void addTbCashierShifts(String id);
+
+    //收费员查询
+    List<TbCashier> tbCashierQuery();
+
+    //管理员查询
+    List<TbAdmin> tbAdminQuery();
 }

@@ -4,6 +4,8 @@ import com.example.carpark.javabean.TbAdmin;
 import com.example.carpark.javabean.TbCashier;
 import com.example.carpark.service.FaceService;
 import com.example.carpark.util.GetToken;
+import com.example.carpark.util.GsonUtils;
+import com.example.carpark.util.HttpUtil;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -47,144 +49,180 @@ public class ChargeFaceController {
     //添加人脸
     @RequestMapping("/addChargeFace")
     @ResponseBody
-    public Map<String, Object> addChargeFace(HttpServletRequest request, HttpSession session) {
+    public Map<String, Object> addChargeFace(HttpServletRequest request) {
 
-        String chargeFace = request.getParameter("chargeFace");
+        // 请求url
+        String url = "https://aip.baidubce.com/rest/2.0/face/v3/faceset/user/add";
+        Map<String, Object> mapAdd = new HashMap<String, Object>();
+        String chargeFace = request.getParameter("chargeFace");//图片转换的base64
         System.out.println("chargeFace=" + chargeFace);
+
         Map<String, String> mapCashier = (Map<String, String>) request.getSession().getAttribute("tbCashier");
         System.out.println("mapCashier=" + mapCashier.toString());
-        String cashierAccount = mapCashier.get("cashierAccount");
-        TbCashier tbCashier = faceService.findChargeByAccount(cashierAccount);
-        byte[] bytes = chargeFace.getBytes();
-        tbCashier.setCashierFace(bytes);
-        Map<String, Object> map = new HashMap<String, Object>();
-        int i = faceService.addChargeFace(tbCashier);
-        if (i > 0) {
-            map.put("msg", "1");
+        String cashierAccount = mapCashier.get("cashierAccount");//获取session的账户
+        try {
+            boolean flag = faceSearch(chargeFace);//判断百度中是否存在该人脸
+            String result = null;
+            if (flag == false) {
 
-        } else {
-            map.put("msg", "2");
+                Map<String, Object> map = new HashMap<>();
+                map.put("image", chargeFace);
+                map.put("group_id", "cashier_face");//分组
+                map.put("user_id", cashierAccount);//账户
+                map.put("liveness_control", "NORMAL");
+                map.put("image_type", "BASE64");
+                map.put("quality_control", "LOW");
+
+                String param = GsonUtils.toJson(map);
+
+                // 注意这里仅为了简化编码每一次请求都去获取access_token，线上环境access_token有过期时间， 客户端可自行缓存，过期后重新获取。
+                String accessToken = GetToken.getAuth();
+
+                result = HttpUtil.post(url, accessToken, "application/json", param);
+                System.out.println("添加result=" + result);
+            } else {
+                result = faceUpdate(chargeFace, cashierAccount);
+                System.out.println("更新result=" + result);
+            }
+            JSONObject jsonObject = JSONObject.fromObject(result);
+            JSONObject fromObject = jsonObject.getJSONObject("result");
+            String face_token = (String) fromObject.get("face_token");//得到百度返回是人脸
+            System.out.println("添加人脸face_token=" + face_token);
+
+            if (face_token != null && !"".equals(face_token)) {
+                mapAdd.put("msg", "1");
+
+            } else {
+                mapAdd.put("msg", "2");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return map;
+
+        return mapAdd;
     }
 
-    //刚拍的照片和数据库的照片对比
+    //人脸登录
     @RequestMapping("/chargeFaceLogin")
     @ResponseBody
     public String chargeFaceLogin(HttpServletRequest request, HttpServletResponse response) {
 
-        String chargeFace = request.getParameter("chargeFace");
-        List<TbCashier> tbCashierList = faceService.chargeLoginFace();
-        String base64 = "";
-        response.reset();
-        for (int i = 0; i < tbCashierList.size(); i++) {
-            System.out.println("数据库脸:" + tbCashierList.get(i).getCashierFace().length);
-            base64 = new String(tbCashierList.get(i).getCashierFace());
-            boolean result = getResult(chargeFace, base64);
-            if (result) {
-                System.out.println("状态:" + tbCashierList.get(i).getCashierState());
-                if (tbCashierList.get(i).getCashierState() == 1) {
-                    Map<String, String> map = new HashMap<>();
-                    map.put("cashierAccount", tbCashierList.get(i).getCashierAccount());
-                    map.put("name", tbCashierList.get(i).getCashierName());
+        String chargeFace = request.getParameter("chargeFace");//base64
+
+        String url = "https://aip.baidubce.com/rest/2.0/face/v3/search";
+        try {
+            Map<String, Object> map = new HashMap<>();
+            map.put("image", chargeFace);
+            map.put("liveness_control", "NORMAL");
+            map.put("group_id_list", "cashier_face");
+            map.put("image_type", "BASE64");
+            map.put("quality_control", "LOW");
+
+            String param = GsonUtils.toJson(map);
+
+            // 注意这里仅为了简化编码每一次请求都去获取access_token，线上环境access_token有过期时间， 客户端可自行缓存，过期后重新获取。
+            String accessToken = GetToken.getAuth();
+
+            String result = HttpUtil.post(url, accessToken, "application/json", param);
+            System.out.println(result);
+
+            JSONObject fromObject = JSONObject.fromObject(result);
+            JSONObject jsonObject = fromObject.getJSONObject("result");
+            // 此时需要加个判断
+            if (jsonObject.isNullObject()) {
+                System.out.println("jsonObject 为空");
+                return "无法识别面部!";
+            }
+            JSONObject jsonArray = jsonObject.getJSONArray("user_list").getJSONObject(0);
+            String cashierAccount = (String) jsonArray.get("user_id");
+            System.out.println("cashierAccount=" + cashierAccount);
+            TbCashier tbCashier = faceService.findChargeByAccount(cashierAccount);
+            if (tbCashier != null) {
+                if (tbCashier.getCashierState() == 1) {
+                    Map<String, String> mapLogin = new HashMap<>();
+                    map.put("cashierAccount", cashierAccount);
+                    map.put("name", tbCashier.getCashierName());
 
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
                     String time = sdf.format(new Date());
                     map.put("time", time);
                     request.getSession().setAttribute("tbCashier", map);
                     return "验证成功";
-                } else if (tbCashierList.get(i).getCashierState() == 0) {
+                } else if (tbCashier.getCashierState() == 0) {
                     return "该账户已禁用";
-                } else if (tbCashierList.get(i).getCashierState() == 2) {
+                } else if (tbCashier.getCashierState() == 2) {
                     return "该管理员已离职";
                 }
             }
-        }
-        return "无法识别面部,请用账户密码登录!";
-    }
 
-    /**
-     * 人脸识别 比对
-     */
-    public boolean getResult(String imStr1, String imgStr2) {
-
-        String accessToken = GetToken.getAuth();
-        boolean flag = false;
-        BufferedReader br = null;
-        String result = "";
-        // 定义请求地址
-        String mathUrl = "https://aip.baidubce.com/rest/2.0/face/v3/match";
-        try {
-            //页面抓拍到的人脸
-            List<JSONObject> images = new ArrayList<>();
-            JSONObject image1 = new JSONObject();
-            image1.put("image", imStr1);
-            image1.put("image_type", "BASE64");
-            image1.put("face_type", "LIVE");
-            image1.put("quality_control", "LOW");
-            image1.put("liveness_control", "NORMAL");
-
-            //数据库中人脸
-            JSONObject image2 = new JSONObject();
-            image2.put("image", imgStr2);
-            image2.put("image_type", "BASE64");
-            image2.put("face_type", "LIVE");
-            image2.put("quality_control", "LOW");
-            image2.put("liveness_control", "NORMAL");
-            images.add(image1);
-            images.add(image2);
-            // 调用百度云 【人脸对比】接口
-            String genrearlURL = mathUrl + "?access_token=" + accessToken;
-            // 创建请求对象
-            URL url = new URL(genrearlURL);
-            // 打开请求链接
-            HttpURLConnection connection = (HttpURLConnection) url
-                    .openConnection();
-            // 设置请求方法
-            connection.setRequestMethod("POST");
-            // 设置通用的请求属性
-            connection.setRequestProperty("Content-Type",
-                    "application/json");
-            connection.setRequestProperty("Connection", "Keep-Alive");
-            connection.setDoInput(true);
-            connection.setDoOutput(true);
-            // 获得请求输出流对象
-            DataOutputStream out = new DataOutputStream(
-                    connection.getOutputStream());
-            out.writeBytes(images.toString());
-            // 刷新流
-            out.flush();
-            // 关闭流
-            out.close();
-            // 建立实际链接
-            connection.connect();
-            // 读取URL的响应
-            br = new BufferedReader(new InputStreamReader(
-                    connection.getInputStream()));
-            String line = "";
-            while ((line = br.readLine()) != null) {
-                result += line;
-            }
-            br.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        System.out.println("人脸识别比对:" + result);
-        JSONObject fromObject = JSONObject.fromObject(result);
-
-        JSONObject jsonArray = fromObject.getJSONObject("result");
-        // 此时需要加个判断
-        if (jsonArray.isNullObject()) {
-            System.out.println("jsonObject 为空");
-            return flag;
-        }
-        double resultList = jsonArray.getDouble("score");
-        if (resultList >= 90) {
-            flag = true;
-
-        }
-        return flag;
+        return "无法识别面部,请用账户密码登录!";
     }
 
+    /**
+     * 人脸搜索
+     * 查看百度中是否存在当前人脸
+     */
+    public boolean faceSearch(String image) {
+        // 请求url
+        String url = "https://aip.baidubce.com/rest/2.0/face/v3/search";
+        try {
+            Map<String, Object> map = new HashMap<>();
+            map.put("image", image);
+            map.put("liveness_control", "NORMAL");
+            map.put("group_id_list", "cashier_face");
+            map.put("image_type", "BASE64");
+            map.put("quality_control", "LOW");
+
+            String param = GsonUtils.toJson(map);
+
+            // 注意这里仅为了简化编码每一次请求都去获取access_token，线上环境access_token有过期时间， 客户端可自行缓存，过期后重新获取。
+            String accessToken = GetToken.getAuth();
+
+            String result = HttpUtil.post(url, accessToken, "application/json", param);
+            System.out.println("人脸搜索result=" + result);
+            JSONObject jsonObject = JSONObject.fromObject(result);
+            String error_msg = (String) jsonObject.get("error_msg");
+            if (error_msg.equals("SUCCESS") && !"".equals(error_msg)){
+                return true;
+            }
+            return false;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * 人脸更新
+     */
+    public String faceUpdate(String image, String cashierAccount) {
+        // 请求url
+        String url = "https://aip.baidubce.com/rest/2.0/face/v3/faceset/user/update";
+        try {
+            Map<String, Object> map = new HashMap<>();
+            map.put("image", image);
+            map.put("group_id", "cashier_face");
+            map.put("user_id", cashierAccount);
+            map.put("liveness_control", "NORMAL");
+            map.put("image_type", "BASE64");
+            map.put("quality_control", "LOW");
+
+            String param = GsonUtils.toJson(map);
+
+            // 注意这里仅为了简化编码每一次请求都去获取access_token，线上环境access_token有过期时间， 客户端可自行缓存，过期后重新获取。
+            String accessToken = GetToken.getAuth();
+
+            String result = HttpUtil.post(url, accessToken, "application/json", param);
+            System.out.println("人脸更新方法result=" + result);
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

@@ -99,9 +99,11 @@ public class ChargeController {
                     map.put("cashierAccount", tbCashier.getCashierAccount());
                     map.put("name", tbCashier.getCashierName());
                     map.put("id", "" + tbCashier.getCashierId());
+                    map.put("sex",tbCashier.getCashierSex());
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
                     String time = sdf.format(new Date());
                     map.put("time", time);
+                    request.getSession().setAttribute("msg", map);
                     request.getSession().setAttribute("tbCashier", map);
                     chargeService.addTbCashierShifts("" + tbCashier.getCashierId());
                     return "验证成功";

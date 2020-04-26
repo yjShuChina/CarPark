@@ -85,23 +85,23 @@ layui.use(['layim', 'jquery'], function (layim) {
         });
     });
 
-    //监听layim建立就绪
-    // layim.on('ready', function (res) {
-    //
-    //     setTimeout(function () {
-    //         //接受消息（如果检测到该socket）
-    //
-    //
-    //
-    //     }, 3000);
-    // });
-    layim.getMessage({
-        username: "贤心"
-        , avatar: "http://tp1.sinaimg.cn/1571889140/180/40030060651/1"
-        , id: "100001"
-        , type: "friend"
-        , content: "嗨，你好！欢迎体验LayIM。演示标记：" + new Date().getTime()
+    监听layim建立就绪
+    layim.on('ready', function (res) {
+
+        setTimeout(function () {
+            //接受消息（如果检测到该socket）
+
+            layim.getMessage({
+                username: "贤心"
+                , avatar: "http://tp1.sinaimg.cn/1571889140/180/40030060651/1"
+                , id: "100001"
+                , type: "friend"
+                , content: "嗨，你好！欢迎体验LayIM。演示标记：" + new Date().getTime()
+            });
+
+        }, 3000);
     });
+
     //监听发送消息
     layim.on('sendMessage', function (data) {
         console.log(data)

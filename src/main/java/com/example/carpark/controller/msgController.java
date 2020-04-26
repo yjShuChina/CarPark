@@ -1,18 +1,25 @@
 package com.example.carpark.controller;
 
+import com.example.carpark.javabean.TbAdmin;
+import com.example.carpark.javabean.TbCashier;
+import com.example.carpark.service.ChargeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
 @RequestMapping("/msg")
 public class msgController {
 
-
+    @Resource
+    private ChargeService chargeService;
 
     /**
 //     * 路径跳转
@@ -28,11 +35,34 @@ public class msgController {
     @RequestMapping("/getList")
     @ResponseBody
     public String getList(HttpServletRequest request) {
-        Map<String, String> tbCashier = (Map<String, String>) request.getSession().getAttribute("tbCashier");
+        Map<String, String> tbCashier = (Map<String, String>) request.getSession().getAttribute("msg");
+
+        //本人信息
+        Map<String, String> mine = new HashMap<>();
+        mine.put("username",tbCashier.get("name"));
+        mine.put("id",tbCashier.get("id"));
+        mine.put("status","online");
+        mine.put("sign","");
+        if (tbCashier.get("sex") == "男"){
+            mine.put("avatar","https://i.loli.net/2020/04/26/Hf7jkG82WKON9Ed.jpg");
+        }else {
+            mine.put("avatar","https://i.loli.net/2020/04/26/nQEAZX1Y4GRSHyj.jpg");
+        }
+
+        //
+
+
+        //收费员查询
+        List<TbCashier> tbCashierList = chargeService.tbCashierQuery();
+
+        //管理员查询
+        List<TbAdmin> tbAdminList = chargeService.tbAdminQuery();
+
+        Map<String,Object> map = new HashMap<>();
 
 //        chargeMap.put("cashierId", tbCashier.get("id"));
-//[url=https://sm.ms/image/Hf7jkG82WKON9Ed][img]https://i.loli.net/2020/04/26/Hf7jkG82WKON9Ed.jpg[/img][/url]
-//[url=https://sm.ms/image/nQEAZX1Y4GRSHyj][img]https://i.loli.net/2020/04/26/nQEAZX1Y4GRSHyj.jpg[/img][/url]
+//https://i.loli.net/2020/04/26/Hf7jkG82WKON9Ed.jpg
+//https://i.loli.net/2020/04/26/nQEAZX1Y4GRSHyj.jpg
         return "{\n" +
                 "  \"code\": 0\n" +
                 "  ,\"msg\": \"\"\n" +
