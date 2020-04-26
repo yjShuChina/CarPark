@@ -53,5 +53,11 @@ public interface ChargeService {
     //查询自助缴费记录
     List<TbTemporaryCarRecord> tbTemporaryCarRecordQuery(TbParkCarInfo tbParkCarInfo);
 
+    //文件下载
     String excelGenerate(HttpServletRequest request);
+
+    //日结账单查看
+    String settlementQuery(String aname);
+
+    void addTbCashierShifts(String id);
 }

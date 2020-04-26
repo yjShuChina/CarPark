@@ -84,4 +84,13 @@ public interface ChargeDao {
 
     //当前班次车辆出场记录清空
     int delTbCurrentCarExit();
+
+    //收费员登录时间记录
+    int addTbCashierShifts(TbCashierShifts tbCashierShifts);
+
+    //收费员查询首次登录时间
+    List<TbCashierShifts> tbCashierShiftsQuery();
+
+    //日结单查看
+    List<TbTotalCarExit> settlementQuery(Map<String,String> map);
 }

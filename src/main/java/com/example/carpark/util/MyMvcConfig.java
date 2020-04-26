@@ -23,6 +23,8 @@ public class MyMvcConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/alipay/**").addResourceLocations("/WEB-INF/" + "/alipay/");
         registry.addResourceHandler("/assembly/**").addResourceLocations("/WEB-INF/" + "/assembly/");
         registry.addResourceHandler("/css/**").addResourceLocations("/WEB-INF/" + "/css/");
+        registry.addResourceHandler("/dist/**").addResourceLocations("/WEB-INF/" + "/dist/");
+        registry.addResourceHandler("/src/**").addResourceLocations("/WEB-INF/" + "/src/");
     }
 
 //    @Override
