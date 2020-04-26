@@ -11,29 +11,44 @@ public class LoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {
 
-        System.out.println("进入拦截器");
+        System.out.println(">>>>>>>>>>>>>>>进入拦截器");
         //获得请求路径的ur1
         String uri = request.getRequestURI();
-        System.out.println("打印uri：" + uri);
+        System.out.println("请求uri：" + uri);
 
-        //判断是否为请求css、js文件
-        if (uri.endsWith(".js") || uri.endsWith(".css")) {
-            return true;
-        }
+//        //判断是否为请求css、js文件
+//        if (uri.endsWith(".js") || uri.endsWith(".css")) {
+//            return true;
+//        }
 
         //判断路径是登出还是登录验证。是这两者之一的话执行controller中定义的方法
-        if (uri.endsWith("/admin/login") || uri.endsWith("/admin/out") || uri.endsWith("/admin/index")) {
+        if (uri.endsWith("/adminLogin") || uri.endsWith("/exit") || uri.endsWith("/chargeLogin") || uri.endsWith("/carpark") || uri.endsWith("/machine") || uri.endsWith("/machine2") || uri.endsWith("/adminFaceLogin") || uri.endsWith("/chargeFaceLogin")) {
+            System.out.println(">>>>>>>>>>不需要验证>>>>>>>>>可跳转");
             return true;
         }
 
-        //其他情况判断sossion中是否有key, 有的话维续用户的操作
-        if (request.getSession() != null && request.getSession().getAttribute("tbadmin") != null) {
+        if(uri.contains("/gate") || uri.contains("/alipay")){
+            System.out.println(">>>>>>>>>>不需要验证>>>>>>>>>可跳转");
             return true;
         }
 
-        //最后的情况就是进入登录页面
-        response.sendRedirect(request.getContextPath() + "/admin/index");
-
+        if(uri.contains("/admin") || uri.contains("/white") || uri.contains("/month")){
+            System.out.println(">>>>>>>>>进入管理员认证是否登陆");
+            if (request.getSession().getAttribute("tbAdmin") != null) {
+                System.out.println(">>>>>>>认证成功>>>>>>允许访问");
+                return true;
+            }
+            System.out.println(">>>>>>>>>未登录>>>>>>>无法访问");
+            response.sendRedirect(request.getContextPath() + "/url/admin/adminLogin");
+        }else if(uri.contains("/charge")){
+            System.out.println(">>>>>>>>>进入收费员认证是否登陆");
+            if (request.getSession().getAttribute("tbCashier") != null) {
+                System.out.println(">>>>>>>认证成功>>>>>>允许访问");
+                return true;
+            }
+            System.out.println(">>>>>>>>>未登录>>>>>>>无法访问");
+            response.sendRedirect(request.getContextPath() + "/charge/path/chargeLogin");
+        }
         return false;
     }
 
