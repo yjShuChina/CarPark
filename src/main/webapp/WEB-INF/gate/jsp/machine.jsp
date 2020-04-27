@@ -194,6 +194,7 @@
 			// map.changeModelColor({name:Cnum,color:'#676766'});
 
 			setTimeout('remove();parking()',5000); //指定10秒刷新一次
+			setTimeout('myrefresh()',20000); //指定20秒刷新一次
 		}
 	});
 
@@ -270,7 +271,7 @@
 		saveArea();
 		var flag = confirm("是否跳转到缴费页面");
 		if(flag){
-			window.location.href='http://localhost:8080/Carpark/alipay/path/selfServicePayment'
+			window.location.href = path + '/alipay/path/selfServicePayment'
 		}else{
 
 		}

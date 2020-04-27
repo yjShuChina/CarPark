@@ -196,7 +196,8 @@
             // console.log(Cnum)
             // map.changeModelColor({name:Cnum,color:'#676766'});
 
-            setTimeout('remove();parking()', 5000); //指定10秒刷新一次
+            setTimeout('remove();parking()',5000); //指定10秒刷新一次
+            setTimeout('myrefresh()',20000); //指定20秒刷新一次
         }
     });
 

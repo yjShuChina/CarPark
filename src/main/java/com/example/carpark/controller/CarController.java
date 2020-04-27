@@ -220,7 +220,7 @@ public class CarController
 			request.getSession().setAttribute("Cps", tbParkCarInfo.getParkSpaceId());
 			request.getSession().setAttribute("x", tbParkSpace.getX());
 			request.getSession().setAttribute("y", tbParkSpace.getY());
-			request.getSession().setAttribute("Area",'1');
+//			request.getSession().setAttribute("Area",'1');
 			System.out.println(tbParkCarInfo.getCarTime().toString().split("\\.")[0]);
 			return "yes";
 		}else {
@@ -251,6 +251,10 @@ public class CarController
 	public void msgremove(HttpServletRequest request,HttpServletResponse response) {
 		request.getSession().removeAttribute("x");
 		request.getSession().removeAttribute("y");
+		request.getSession().removeAttribute("Ctime");
+		request.getSession().removeAttribute("Identity");
+		request.getSession().removeAttribute("Cnum");
+		request.getSession().removeAttribute("Cps");
 	}
 
 }
