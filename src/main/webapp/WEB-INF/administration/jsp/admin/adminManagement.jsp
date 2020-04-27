@@ -223,7 +223,7 @@
 		table.on('tool(test)', function(obj){
 			var data = obj.data;
 			if(obj.event === 'forbidden'){
-				layer.confirm('确定要禁用?', {icon: 2, title:'提示'}, function(index) {
+				layer.confirm('确定要禁用?', {icon: 2, title:'提示',offset: '300px'}, function(index) {
 				var table =layui.table, $=layui.jquery;
 				var uid = $("#uid").val();
 				var startTime = $("#startTime").val();
@@ -242,12 +242,12 @@
 						page:1
 					}
 				});
-					layer.msg('禁用成功！');
+					layer.msg('禁用成功！', { offset: '300px' });
 					layer.close(index);
 				});
 				}
 			else if(obj.event === 'open'){
-				layer.confirm('确定要启用?', {icon: 1, title:'提示'}, function(index) {
+				layer.confirm('确定要启用?', {icon: 1, title:'提示',offset: '300px'}, function(index) {
 				var table =layui.table, $=layui.jquery;
 				var uid = $("#uid").val();
 				var startTime = $("#startTime").val();
@@ -266,12 +266,12 @@
 						page:1
 					}
 				});
-					layer.msg('启用成功！');
+					layer.msg('启用成功！', { offset: '300px' });
 					layer.close(index);
 				});
 			}
 			else if(obj.event === 'resign'){
-				layer.confirm('确定改为离职状态?', {icon: 1, title:'提示'}, function(index) {
+				layer.confirm('确定改为离职状态?', {icon: 1, title:'提示',offset: '300px'}, function(index) {
 					var table =layui.table, $=layui.jquery;
 					var uid = $("#uid").val();
 					var startTime = $("#startTime").val();
@@ -290,12 +290,12 @@
 							page:1
 						}
 					});
-					layer.msg('离职成功！');
+					layer.msg('离职成功！', { offset: '300px' });
 					layer.close(index);
 				});
 			}
 			else if(obj.event === 'reset'){
-				layer.confirm('确定重置密码?', {icon: 1, title:'提示'}, function(index) {
+				layer.confirm('确定重置密码?', {icon: 1, title:'提示',offset: '300px'}, function(index) {
 					var table =layui.table, $=layui.jquery;
 					var uid = $("#uid").val();
 					var startTime = $("#startTime").val();
@@ -314,7 +314,7 @@
 							page:1
 						}
 					});
-					layer.msg('重置密码成功！');
+					layer.msg('重置密码成功！', { offset: '300px' });
 					layer.close(index);
 				});
 			}
@@ -329,7 +329,7 @@
 						// setTimeout('window.location.reload()', 1);
 					}
 				});
-				layer.confirm('确定要编辑?', {icon: 1, title:'提示'}, function(index) {
+				layer.confirm('确定要编辑?', {icon: 1, title:'提示',offset: '300px'}, function(index) {
 					layer.open({
 						title: ['编辑收费员', 'font-size:18px;'],
 						type: 2,
@@ -354,7 +354,7 @@
 						// setTimeout('window.location.reload()', 1);
 					}
 				});
-				layer.confirm('是否前往详情页面?', {icon: 1, title:'提示'}, function(index) {
+				layer.confirm('是否前往详情页面?', {icon: 1, title:'提示',offset: '300px'}, function(index) {
 					layer.open({
 						title: ['收费员详情', 'font-size:18px;'],
 						type: 2,
@@ -456,7 +456,7 @@
 						layer.msg(data);
 						return false;//阻止表单跳转
 					}
-					layer.msg(data);
+					layer.msg(data, { offset: '300px' });
 					layer.closeAll('page');
 					setTimeout('window.location.reload()', 3000);
 				},error:function (err) {

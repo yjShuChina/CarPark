@@ -94,10 +94,10 @@
 				success:function(data){
 					if (data==='修改成功') {
 						// layer.msg(data);
-						parent.layer.msg(data);
+						parent.layer.msg(data, { offset: '300px' });
 					}
 					else {
-						parent.layer.msg(data);
+						parent.layer.msg(data, { offset: '300px' });
 					}
 					parent.layer.close(index);
 					parent.layui.table.reload('one',{page: {curr: 1}});
