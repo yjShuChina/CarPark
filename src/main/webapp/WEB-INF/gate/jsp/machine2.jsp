@@ -284,7 +284,7 @@
         var area = $("#area").val();
         area = '<%=session.getAttribute("Area")%>'
         if (area == '1') {
-            window.location.href = path + '/gate/cn/machine'
+            window.location.href =path+'/gate/cn/machine'
         }
     }
 

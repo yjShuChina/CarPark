@@ -281,7 +281,7 @@
 		var area=$("#area").val();
 		area='<%=session.getAttribute("Area")%>'
 		if(area=='2'){
-			window.location.href='http://localhost:8080/Carpark/gate/cn/machine2'
+			window.location.href=path + '/gate/cn/machine2'
 		}
 	}
 	function saveArea() {
