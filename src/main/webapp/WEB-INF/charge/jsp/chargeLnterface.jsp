@@ -115,11 +115,9 @@
                     </button>
                 </div>
                 <div style="padding-left:30px;padding-top:20px">
-                    <a href="${pageContext.request.contextPath}/charge/exit">
-                        <button type="button" style="height: 40px;width: 100px;" class="layui-btn">
+                        <button type="button" style="height: 40px;width: 100px;" class="layui-btn" onclick="exitcharge()">
                             退出登录
                         </button>
-                    </a>
                 </div>
             </div>
             <div style="background:#2F4056;height: 120px;width: 160px;padding-top:20px;">

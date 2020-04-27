@@ -283,5 +283,20 @@ function timeDatezhuang(time) {
     return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
 }
 
-
+function exitcharge() {
+    var layer = layui.layer;
+    layer.confirm('您确定要退出吗?', {icon: 3, title:'提示'}, function(index){
+        //do something
+        var path = $("#path").val();
+        $.ajax({
+                url: path + "/charge/exit",
+                async: "true",
+                error: function () {
+                    layer.msg('网络正忙', {icon: 6});
+                }
+            }
+        );
+        layer.close(index);
+    });
+}
 

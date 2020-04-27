@@ -284,6 +284,7 @@ public class ChargeController {
         String str = new Gson().toJson(map);
         System.out.println(str);
         response.getWriter().print(str);
+
         if (WebSocket.electricSocketMap.get("charge") != null) {
             for (Session session : WebSocket.electricSocketMap.get("charge")) {
                 session.getBasicRemote().sendText(str);

@@ -39,7 +39,16 @@ public class LoginInterceptor implements HandlerInterceptor {
             System.out.println(">>>>>>>>>未登录>>>>>>>无法访问");
             response.sendRedirect(request.getContextPath() + "/url/admin/adminLogin");
         }
-
+        if(uri.contains("/url/admin/mobile")){
+            System.out.println(">>>>>>>>>进入管理移动版认证是否登陆");
+            if (request.getSession().getAttribute("tbAdmin") != null) {
+                System.out.println(">>>>>>>认证成功>>>>>>允许访问");
+                return true;
+            }
+            System.out.println(">>>>>>>>>未登录>>>>>>>无法访问");
+            response.sendRedirect(request.getContextPath() + "/url/admin/indexLogin");
+            return false;
+        }
         if(uri.contains("/admin") || uri.contains("/white") || uri.contains("/month")){
             System.out.println(">>>>>>>>>进入管理员认证是否登陆");
             if (request.getSession().getAttribute("tbAdmin") != null) {
