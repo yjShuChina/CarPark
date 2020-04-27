@@ -71,7 +71,7 @@
             var carNumber = $("#carNumber").val();
             console.log("查询车牌号 = " + carNumber);
             $.ajax({
-                url: path + "/charge/monthVIP",
+                url: path + "/charge/VIPMonth",
                 async: true,
                 type: "POST",
                 data: "carNumber=" + carNumber,
@@ -79,7 +79,7 @@
                 success: function (msg) {
 
                     if (msg == "success") {
-                        layer.alert('该用户为月缴用户！', {icon: 6});
+                        layer.alert('用户已办理月缴，未到期！', {icon: 6});
                     } else if (msg == "pass") {
                         layer.alert('该用户月缴已过期，请充值！', {icon: 5});
                     } else {

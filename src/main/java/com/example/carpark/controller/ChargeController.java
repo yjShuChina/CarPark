@@ -511,7 +511,7 @@ public class ChargeController {
     }
 
     //查询车牌号是否办理月缴VIP
-    @RequestMapping("/monthVIP")
+    @RequestMapping("/VIPMonth")
     public void monthVIP(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String carNumber = request.getParameter("carNumber");
         System.out.println("是否办理月缴VIPcarNumber= " + carNumber);
