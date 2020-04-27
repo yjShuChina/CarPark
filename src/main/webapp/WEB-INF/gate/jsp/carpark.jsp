@@ -117,7 +117,6 @@
 
 
 	map.on("loadComplete", function () {
-
 		parking();//以停车位
 		parkmsg();//车位数
 		//查看车位

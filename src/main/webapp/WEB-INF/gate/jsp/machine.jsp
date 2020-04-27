@@ -303,8 +303,18 @@
 		window.location.reload();
 	}
 	function remove() {
-		$("#x").val("null");
-		$("#y").val("null");
+		$.ajax({
+				url: path + "/gate/remove",
+				async: "true",
+				type: "Post",
+				data: {},
+				success: function (res) {
+
+				},
+				error: function () {
+				}
+			}
+		);
 	}
 	function parking() {
 		var parking=new Array();

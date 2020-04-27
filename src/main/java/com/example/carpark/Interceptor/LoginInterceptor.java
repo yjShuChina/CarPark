@@ -22,7 +22,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 //        }
 
         //判断路径是登出还是登录验证。是这两者之一的话执行controller中定义的方法
-        if (uri.endsWith("/adminLogin") || uri.endsWith("/exit") || uri.endsWith("/chargeLogin") || uri.endsWith("/carpark") || uri.endsWith("/machine") || uri.endsWith("/machine2") || uri.endsWith("/adminFaceLogin") || uri.endsWith("/chargeFaceLogin")) {
+        if (uri.endsWith("/indexLogin") ||uri.endsWith("/adminLogin") || uri.endsWith("/exit") || uri.endsWith("/chargeLogin") || uri.endsWith("/carpark") || uri.endsWith("/machine") || uri.endsWith("/machine2") || uri.endsWith("/adminFaceLogin") || uri.endsWith("/chargeFaceLogin")) {
             System.out.println(">>>>>>>>>>不需要验证>>>>>>>>>可跳转");
             return true;
         }

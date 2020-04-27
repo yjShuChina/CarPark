@@ -39,6 +39,7 @@
 						<option value="update">修改</option>
 						<option value="delete">删除</option>
 						<option value="login">登录</option>
+						<option value="系统自动查询到期用户">到期用户</option>
 					</select>
 				</div>
 			<button class="layui-btn" data-type="reload" lay-filter="formDemo" style="margin-left: 60px">查找</button>
@@ -68,7 +69,6 @@
 				{field: 'operation', title: '操作事项', width:180},
 				{field: 'operationType', title: '操作类型', width: 205},
 				{field: 'operationTime', title: '操作时间', width:220}
-
 			]]
 		});
 		$('.layui-btn').on('click',function () {

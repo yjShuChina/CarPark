@@ -106,16 +106,14 @@ public class CarServiceImpl implements CarService
             e.printStackTrace();
         }
         String bodys = requestObj.toString();
-
         try {
-
             HttpResponse response = HttpUtils.doPost(host, path, method, headers, querys, bodys);
             int stat = response.getStatusLine().getStatusCode();
             if(stat != 200){
                 System.out.println("Http code: " + stat);
                 System.out.println("http header error msg: "+ response.getFirstHeader("X-Ca-Error-Message"));
                 System.out.println("Http body error msg:" + EntityUtils.toString(response.getEntity()));
-                return "";
+                return "NO";
             }
 
             String res = EntityUtils.toString(response.getEntity());
@@ -135,6 +133,7 @@ public class CarServiceImpl implements CarService
                 }
                 String str1=mapTypes.get("plates").toString();
                 str1=str1.split("\"txt\":\"")[1].split("\",\"")[0];
+                System.out.println("----------------");
                 System.out.println(str1);
                 carnumber=str1;
 
