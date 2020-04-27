@@ -39,6 +39,7 @@
 						<option value="update">修改</option>
 						<option value="delete">删除</option>
 						<option value="login">登录</option>
+						<option value="系统自动查询到期用户">到期用户</option>
 					</select>
 				</div>
 			<button class="layui-btn" data-type="reload" lay-filter="formDemo" style="margin-left: 60px">查找</button>

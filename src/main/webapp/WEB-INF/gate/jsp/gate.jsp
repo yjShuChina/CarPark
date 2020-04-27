@@ -124,17 +124,19 @@
                     alert("车位已满")
                 }else if(data=="NOCAR"){
                     alert("无识别到车牌")
+                }else if (data=="HAVEING") {
+	                alert("车牌重复，车辆已入库")
                 }else {
-                    var carnum = data.split(",")[0];
-                    var time1 = data.split(",")[3];
-                    var state = data.split(",")[2];
-                    var user = data.split(",")[1];
-                    var ps = data.split(",")[4];
-                    document.getElementById("username").innerHTML = "用户名：  " + user;
-                    document.getElementById("carnumber").innerHTML = "车牌号 :  " + carnum;
-                    document.getElementById("state").innerHTML = "车辆情况 :  " + state;
-                    document.getElementById("time").innerHTML = "入库时间 :  " + time1;
-                    document.getElementById("ps").innerHTML = "停车位:  " + ps;
+	                var carnum = data.split(",")[0];
+	                var time1 = data.split(",")[3];
+	                var state = data.split(",")[2];
+	                var user = data.split(",")[1];
+	                var ps = data.split(",")[4];
+	                document.getElementById("username").innerHTML = "用户名：  " + user;
+	                document.getElementById("carnumber").innerHTML = "车牌号 :  " + carnum;
+	                document.getElementById("state").innerHTML = "车辆情况 :  " + state;
+	                document.getElementById("time").innerHTML = "入库时间 :  " + time1;
+	                document.getElementById("ps").innerHTML = "停车位:  " + ps;
                 }
             }
         })

@@ -76,9 +76,12 @@ public class CarController
         System.out.println(str);
         //车牌号
         String carnumber = carService.findcarnumber(str);
+		TbParkSpace tbParkSpace =carService.findcarmsg(carnumber);
         if(carnumber=="NO")
         {
 	        return "NOCAR";
+        }else if(tbParkSpace!=null){
+        	return  "HAVEING";
         }
         //查询用户信息（1、月卡 2、白名单）
         TbUser tbUser = carService.findUsermsg(carnumber);
@@ -243,11 +246,11 @@ public class CarController
 		return "yes";
 	}
 
-//	@RequestMapping("/removemsg")
-//	@ResponseBody
-//	public void msgremove(HttpServletRequest request,HttpServletResponse response) {
-//		request.getSession().removeAttribute("x");
-//		request.getSession().removeAttribute("y");
-//	}
+	@RequestMapping("/remove")
+	@ResponseBody
+	public void msgremove(HttpServletRequest request,HttpServletResponse response) {
+		request.getSession().removeAttribute("x");
+		request.getSession().removeAttribute("y");
+	}
 
 }
