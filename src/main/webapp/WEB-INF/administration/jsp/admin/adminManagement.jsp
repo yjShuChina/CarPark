@@ -333,7 +333,8 @@
 					layer.open({
 						title: ['编辑收费员', 'font-size:18px;'],
 						type: 2,
-						area: ['700px', '450px'],
+						area: ['700px', '650px'],
+						offset: '50px',
 						fixed: false, //不固定
 						maxmin: true,
 						content: '${pageContext.request.contextPath}/url/admin/adminManagementEdit'
@@ -358,6 +359,7 @@
 						title: ['收费员详情', 'font-size:18px;'],
 						type: 2,
 						area: ['700px', '650px'],
+						offset: '50px',
 						fixed: false, //不固定
 						maxmin: true,
 						content: '${pageContext.request.contextPath}/url/admin/adminManagementDetail'

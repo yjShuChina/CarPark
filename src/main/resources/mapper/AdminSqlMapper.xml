@@ -303,6 +303,7 @@
 			set  cashier_account = #{cashierAccount}
            ,cashier_name = #{cashierName}
            ,cashier_phone = #{cashierPhone}
+           ,cashier_address = #{cashierAddress}
            ,cashier_head_img = #{cashierHeadImg}
 			where cashier_id = #{cashierId}
 	</update>

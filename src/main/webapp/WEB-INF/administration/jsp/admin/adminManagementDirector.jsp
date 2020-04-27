@@ -329,7 +329,8 @@
 					layer.open({
 						title: ['编辑管理员', 'font-size:18px;'],
 						type: 2,
-						area: ['700px', '450px'],
+						area: ['700px', '650px'],
+						offset: '50px',
 						fixed: false, //不固定
 						maxmin: true,
 						content: '${pageContext.request.contextPath}/url/admin/adminManagementEditDirector'
@@ -354,6 +355,7 @@
 						title: ['管理员详情', 'font-size:18px;'],
 						type: 2,
 						area: ['700px', '650px'],
+						offset: '50px',
 						fixed: false, //不固定
 						maxmin: true,
 						content: '${pageContext.request.contextPath}/url/admin/adminManagementDetailDirector'
