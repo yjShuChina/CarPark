@@ -117,25 +117,6 @@
 <script src=<%=path + "/layuiadmin/layui/layui.js"%>></script>
 
 <script type="text/javascript">
-    //访问用户媒体设备的兼容方法
-    function getUserMedia(constraints, success, error) {
-        if (navigator.mediaDevices.getUserMedia) {
-            //最新的标准API
-            navigator.mediaDevices.getUserMedia(constraints).then(success).catch(error);
-        } else if (navigator.webkitGetUserMedia) {
-            //webkit核心浏览器
-            navigator.webkitGetUserMedia(constraints, success, error)
-        } else if (navigator.mozGetUserMedia) {
-            //firfox浏览器
-            navigator.mozGetUserMedia(constraints, success, error);
-        } else if (navigator.getUserMedia) {
-            //旧版API
-            navigator.getUserMedia(constraints, success, error);
-        } else {
-            alert('不支持访问用户媒体');
-        }
-    }
-
     //var 是定义变量
     var video = document.getElementById("video"); //获取video标签
     var canvas = document.getElementById("canvas");
@@ -156,6 +137,25 @@
 
     //调用用户媒体设备, 访问摄像头
     getUserMedia({video: {width: 1980, height: 1024}}, success, error);
+
+    //访问用户媒体设备的兼容方法
+    function getUserMedia(constraints, success, error) {
+        if (navigator.mediaDevices.getUserMedia) {
+            //最新的标准API
+            navigator.mediaDevices.getUserMedia(constraints).then(success).catch(error);
+        } else if (navigator.webkitGetUserMedia) {
+            //webkit核心浏览器
+            navigator.webkitGetUserMedia(constraints, success, error)
+        } else if (navigator.mozGetUserMedia) {
+            //firfox浏览器
+            navigator.mozGetUserMedia(constraints, success, error);
+        } else if (navigator.getUserMedia) {
+            //旧版API
+            navigator.getUserMedia(constraints, success, error);
+        } else {
+            alert('不支持访问用户媒体');
+        }
+    }
 
     function addFace() {
         //把流媒体数据画到convas画布上去
