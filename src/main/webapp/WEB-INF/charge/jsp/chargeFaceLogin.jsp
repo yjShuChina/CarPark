@@ -122,13 +122,15 @@
             navigator.mediaDevices.getUserMedia(constraints).then(success).catch(error);
         } else if (navigator.webkitGetUserMedia) {
             //webkit核心浏览器
-            navigator.webkitGetUserMedia(constraints,success, error)
+            navigator.webkitGetUserMedia(constraints, success, error)
         } else if (navigator.mozGetUserMedia) {
             //firfox浏览器
             navigator.mozGetUserMedia(constraints, success, error);
         } else if (navigator.getUserMedia) {
             //旧版API
             navigator.getUserMedia(constraints, success, error);
+        } else {
+            alert('不支持访问用户媒体');
         }
     }
 
@@ -150,12 +152,8 @@
         console.log('访问用户媒体设备失败${error.name}, ${error.message}');
     }
 
-    if (navigator.mediaDevices.getUserMedia || navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia) {
-        //调用用户媒体设备, 访问摄像头
-        getUserMedia({video : {width: 1980, height: 1024}}, success, error);
-    } else {
-        alert('不支持访问用户媒体');
-    }
+    //调用用户媒体设备, 访问摄像头
+    getUserMedia({video: {width: 1980, height: 1024}}, success, error);
 
     function query() {
         layui.use('layer', function () {

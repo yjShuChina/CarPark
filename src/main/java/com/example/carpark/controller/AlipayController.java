@@ -182,7 +182,7 @@ public class AlipayController {
             String str = new Gson().toJson(map);
             System.out.println(str);
             response.getWriter().print(str);
-        }else{
+        } else {
             response.getWriter().print("error");
         }
     }
@@ -384,9 +384,8 @@ public class AlipayController {
 //                        tbRevenue.setTime(tbReceivable.getReceivableTime().toString());
 //                        tbRevenue.setRevenue(1);
 //                        revenueService.addRevenue(tbRevenue);
-//
+//                        return "/alipay/jsp/selfServicePayment";//跳转付款成功页面
 //                    }
-//                    return "/alipay/jsp/selfServicePayment";//跳转付款成功页面
 //                }
 //            } else if (tbTemporaryCarRecord != null && tbTemporaryCarRecord.getSubject().equals("临时车辆")) {
 //                int num = alipayService.alterTemporaryCarRecordById(out_trade_no);
