@@ -83,7 +83,7 @@
                     </div>
                     <div class="layui-form-item" style="margin-bottom: 20px;">
                         <a class="layadmin-user-jump-change layadmin-link" style="margin-top: 7px;"
-                           href=<%=path + "/charge/path/chargeFaceLogin"%>>人脸识别登录&nbsp;&nbsp;</a>
+                           href=<%="https://"+ path + "/charge/path/chargeFaceLogin"%>>人脸识别登录&nbsp;&nbsp;</a>
                     </div>
                     <div class="layui-form-item">
                         <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="login">登&nbsp;&nbsp;&nbsp;&nbsp;录</button>
