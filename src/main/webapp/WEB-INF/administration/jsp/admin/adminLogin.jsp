@@ -83,7 +83,7 @@
                     </div>
                     <div class="layui-form-item" style="margin-bottom: 20px;">
                         <a class="layadmin-user-jump-change layadmin-link" style="margin-top: 7px;"
-                           href=<%="https:"+path + "/adminFace/path/adminFaceLogin"%>>人脸识别登录&nbsp;&nbsp;</a>
+                           href=<%=path + "/adminFace/path/adminFaceLogin"%>>人脸识别登录&nbsp;&nbsp;</a>
                     </div>
                     <div class="layui-form-item">
                         <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="login">登&nbsp;&nbsp;&nbsp;&nbsp;录</button>
@@ -98,21 +98,21 @@
     //获取路径
     var path = $("#path").val();
     //管理员ajax登陆
-    layui.use('form', function(){
+    layui.use('form', function () {
         var form = layui.form;
         //监听提交
-        form.on('submit(login)', function(data){
+        form.on('submit(login)', function (data) {
             $.ajax({
                     url: path + "/admin/adminLogin",
                     type: "post",
                     data: data.field,
                     dataType: "text",
                     success: function (res) {
-                        if(res === 'success'){
-                            layer.msg('验证成功，两秒后自动跳转',{icon:6, time:2000},function () {
-                                window.location.href = path+'/url/admin/adminMain';
+                        if (res === 'success') {
+                            layer.msg('验证成功，两秒后自动跳转', {icon: 6, time: 2000}, function () {
+                                window.location.href = path + '/url/admin/adminMain';
                             })
-                        }else {
+                        } else {
                             layer.msg(res);
                             changeCode();
                         }
@@ -125,9 +125,10 @@
             return false;
         });
     });
+
     //ajax获取验证码
     function changeCode() {
-        $("#image").attr("src",path + "/admin/CheckCodeServlet?num="+Math.random())
+        $("#image").attr("src", path + "/admin/CheckCodeServlet?num=" + Math.random())
     }
 
 </script>
