@@ -6,14 +6,9 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="046fad6c-5b40-4ebc-baec-0bdd24e146e1" name="Default Changelist" comment="4.26 日志（除人脸）">
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/Carpark_war_exploded.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/Carpark_war_exploded.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="046fad6c-5b40-4ebc-baec-0bdd24e146e1" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Carpark.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Carpark.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/gate/jsp/machine.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/gate/jsp/machine.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/gate/jsp/machine2.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/gate/jsp/machine2.jsp" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -102,8 +97,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/gate/jsp/machine.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="364">
-              <caret line="190" column="28" lean-forward="true" selection-start-line="111" selection-start-column="4" selection-end-line="190" selection-end-column="28" />
+            <state relative-caret-position="204">
+              <caret line="196" column="56" lean-forward="true" selection-start-line="195" selection-start-column="12" selection-end-line="196" selection-end-column="56" />
             </state>
           </provider>
         </entry>
@@ -111,7 +106,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/example/carpark/aoplog/SystemLogAspect.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="336">
+            <state relative-caret-position="840">
               <caret line="55" column="7" selection-start-line="55" selection-start-column="7" selection-end-line="55" selection-end-column="7" />
             </state>
           </provider>
@@ -120,8 +115,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/gate/jsp/machine2.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-812">
-              <caret line="113" column="4" selection-start-line="113" selection-start-column="4" selection-end-line="113" selection-end-column="4" />
+            <state relative-caret-position="-1858">
+              <caret line="115" column="47" selection-start-line="115" selection-start-column="47" selection-end-line="115" selection-end-column="47" />
             </state>
           </provider>
         </entry>
@@ -129,7 +124,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/example/carpark/controller/CarController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="576">
+            <state relative-caret-position="5544">
               <caret line="254" column="57" selection-start-line="254" selection-start-column="57" selection-end-line="254" selection-end-column="57" />
             </state>
           </provider>
@@ -152,8 +147,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/example/carpark/service/impl/CarServiceImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-840">
-              <caret line="71" column="67" lean-forward="true" selection-start-line="71" selection-start-column="67" selection-end-line="71" selection-end-column="67" />
+            <state relative-caret-position="1200">
+              <caret line="71" column="67" selection-start-line="71" selection-start-column="67" selection-end-line="71" selection-end-column="67" />
             </state>
           </provider>
         </entry>
@@ -198,8 +193,8 @@
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/administration/jsp/admin/LogTable.jsp" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/gate/jsp/gate.jsp" />
         <option value="$PROJECT_DIR$/src/main/java/com/example/carpark/controller/CarController.java" />
-        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/gate/jsp/machine.jsp" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/gate/jsp/machine2.jsp" />
+        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/gate/jsp/machine.jsp" />
       </list>
     </option>
   </component>
@@ -230,6 +225,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -336,7 +332,6 @@
         </subPane>
       </pane>
       <pane id="Scope" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="ProjectViewState">
@@ -511,7 +506,8 @@
       <workItem from="1587903309165" duration="7530000" />
       <workItem from="1587948549088" duration="6899000" />
       <workItem from="1587976350733" duration="2879000" />
-      <workItem from="1588143607659" duration="3805000" />
+      <workItem from="1588143607659" duration="4000000" />
+      <workItem from="1588151914905" duration="628000" />
     </task>
     <task id="LOCAL-00001" summary="舒元金实体类提交">
       <created>1586245009296</created>
@@ -688,11 +684,18 @@
       <option name="project" value="LOCAL" />
       <updated>1587976877601</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="4.29 导航启动！">
+      <created>1588149903034</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1588149903035</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="38252000" />
+    <option name="totallyTimeSpent" value="39075000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -707,7 +710,7 @@
     <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1966581" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1992288" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="UI Designer" order="3" />
@@ -715,7 +718,7 @@
       <window_info id="Web" order="5" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49871466" visible="true" weight="0.13391557" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49871466" weight="0.6186317" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -730,7 +733,7 @@
       <window_info anchor="bottom" id="Run with VisualVM" order="14" />
       <window_info anchor="bottom" id="Java Enterprise" order="15" weight="0.32896653" />
       <window_info anchor="bottom" id="Database Changes" order="16" />
-      <window_info anchor="bottom" id="Version Control" order="17" sideWeight="0.49871466" weight="0.33187774" />
+      <window_info active="true" anchor="bottom" id="Version Control" order="17" sideWeight="0.49871466" visible="true" weight="0.33187774" />
       <window_info anchor="bottom" id="Debug with VisualVM" order="18" />
       <window_info anchor="bottom" id="MyBatis Log" order="19" />
       <window_info anchor="bottom" id="Tail" order="20" />
@@ -809,7 +812,8 @@
     <MESSAGE value="4.26--日志 地图更新（过期或文件损坏）" />
     <MESSAGE value="4.27 入库修改" />
     <MESSAGE value="4.26 日志（除人脸）" />
-    <option name="LAST_COMMIT_MESSAGE" value="4.26 日志（除人脸）" />
+    <MESSAGE value="4.29 导航启动！" />
+    <option name="LAST_COMMIT_MESSAGE" value="4.29 导航启动！" />
   </component>
   <component name="WindowStateProjectService">
     <state x="361" y="71" key="#Project_Structure" timestamp="1586394696212">
@@ -1279,6 +1283,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/carpark/aoplog/SystemLogAspect.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="840">
+          <caret line="55" column="7" selection-start-line="55" selection-start-column="7" selection-end-line="55" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/carpark/controller/CarController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5544">
+          <caret line="254" column="57" selection-start-line="254" selection-start-column="57" selection-end-line="254" selection-end-column="57" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/example/carpark/service/CarService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="624">
@@ -1289,38 +1307,24 @@
     <entry file="file://$PROJECT_DIR$/src/main/resources/mapper/GateSqlMap.xml">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/carpark/aoplog/SystemLogAspect.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="336">
-          <caret line="55" column="7" selection-start-line="55" selection-start-column="7" selection-end-line="55" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/carpark/controller/CarController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="576">
-          <caret line="254" column="57" selection-start-line="254" selection-start-column="57" selection-end-line="254" selection-end-column="57" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/example/carpark/service/impl/CarServiceImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-840">
-          <caret line="71" column="67" lean-forward="true" selection-start-line="71" selection-start-column="67" selection-end-line="71" selection-end-column="67" />
+        <state relative-caret-position="1200">
+          <caret line="71" column="67" selection-start-line="71" selection-start-column="67" selection-end-line="71" selection-end-column="67" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/gate/jsp/machine.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="364">
-          <caret line="190" column="28" lean-forward="true" selection-start-line="111" selection-start-column="4" selection-end-line="190" selection-end-column="28" />
+        <state relative-caret-position="204">
+          <caret line="196" column="56" lean-forward="true" selection-start-line="195" selection-start-column="12" selection-end-line="196" selection-end-column="56" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/gate/jsp/machine2.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-812">
-          <caret line="113" column="4" selection-start-line="113" selection-start-column="4" selection-end-line="113" selection-end-column="4" />
+        <state relative-caret-position="-1858">
+          <caret line="115" column="47" selection-start-line="115" selection-start-column="47" selection-end-line="115" selection-end-column="47" />
         </state>
       </provider>
     </entry>
