@@ -113,27 +113,27 @@
 
 
     map.on("loadComplete", function () {
-        var x = '<%=session.getAttribute("x")%>';
-        var y = '<%=session.getAttribute("y")%>';
+        var x='<%=session.getAttribute("x")%>';
+        var y='<%=session.getAttribute("y")%>';
         console.log(x)
         parking();
         //初始化导航对象
-        if (x != 'null') {
+        if(x!='null'){
             // var y=$("#y").val();
             var navi = new esmap.ESNavigation({
                 map: map,
-                locationMarkerUrl: 'image/pointer.png',   //定位标注图片地址
+                locationMarkerUrl:'https://i.loli.net/2020/04/29/3dMnsH6zCBupivg.png',   //定位标注图片地址
                 locationMarkerSize: 150,    //定位标注尺寸大小
                 speed: 5,   //模拟导航速度
-                followAngle: true,  //地图是否跟随旋转
-                followPosition: true,  //地图视角是否跟随位置
-                followGap: 3,      //导航视角跟随间隔(单位:/s)
+                followAngle: false,  //地图是否跟随旋转
+                followPosition: false,  //地图视角是否跟随位置
+                followGap:3,      //导航视角跟随间隔(单位:/s)
                 tiltAngle: 30,   //模拟导航时的倾斜角
-                audioPlay: false,  //是否开启语音播报
-                // scaleLevel:0,   //模拟导航时的放大等级
+                audioPlay:false,  //是否开启语音播报
+                scaleLevel:10,   //模拟导航时的放大等级
                 // mode:2,         //mode=1:人行(默认),mode=2：车行
                 offsetHeight: 1,    //定位标注的高度
-                ladderType: 1,  //跨层方案选择。1:距离最近(默认),2:电梯 3.楼梯 4.扶梯
+                ladderType:1,  //跨层方案选择。1:距离最近(默认),2:电梯 3.楼梯 4.扶梯
                 lineStyle: {   //路径规划线样式配置
                     color: '#33cc61',
                     //设置线为导航线样式
@@ -156,13 +156,13 @@
                 y: 4858233.242,
                 fnum: 1,
                 height: 1,
-                url: 'image/start.png',
+                url: '',
                 size: 64
             });
             //确定终点
             navi.setEndPoint({
-                x: x,
-                y: y,
+                x:x,
+                y:y,
                 fnum: 1,
                 height: 1,
                 url: '',
@@ -171,14 +171,14 @@
 
             //通过名字区别创建不同的layer
             var floorLayer = map.getFloor(1);  //获取第一层的楼层对象
-            var layer = floorLayer.getOrCreateLayerByName("camera", esmap.ESLayerType.IMAGE_MARKER);
+            var layer=floorLayer.getOrCreateLayerByName("camera",esmap.ESLayerType.IMAGE_MARKER);
             im = new esmap.ESImageMarker({
-                x: x - 0.1,
-                y: y - 0.1,   //如果不添加x和y，则默认坐标在地图中心。
+                x:x-0.1,
+                y:y-0.1,   //如果不添加x和y，则默认坐标在地图中心。
                 url: 'https://i.loli.net/2020/04/20/FTJM9EuqoR5GHOC.png',  //图片标注的图片地址
                 size: 64,   			//图片大小 或者 size:{w:32,h:64},
-                spritify: true,			//跟随地图缩放变化大小，默认为true，可选参数
-                height: 2,    			//距离地面高度
+                spritify:true,			//跟随地图缩放变化大小，默认为true，可选参数
+                height:2,    			//距离地面高度
                 showLevel: 20,  		//地图缩放等级达到多少时隐藏,可选参数
                 seeThrough: true,		//是否可以穿透楼层一直显示,可选参数
                 //angle:30,  	//如果设置了就是固定marker角度，与地图一起旋转。(size需要重新设置)
@@ -191,6 +191,7 @@
 
             console.log("!!!")
             navi.drawNaviLine();
+            navi.simulate();
 
             var Cnum = $("#Cnum").val().toString();
             // console.log(Cnum)

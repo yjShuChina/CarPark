@@ -119,15 +119,15 @@
 			// var y=$("#y").val();
 			var navi = new esmap.ESNavigation({
 				map: map,
-				locationMarkerUrl: 'image/pointer.png',   //定位标注图片地址
+				locationMarkerUrl:'https://i.loli.net/2020/04/29/3dMnsH6zCBupivg.png',   //定位标注图片地址
 				locationMarkerSize: 150,    //定位标注尺寸大小
 				speed: 5,   //模拟导航速度
-				followAngle: true,  //地图是否跟随旋转
-				followPosition: true,  //地图视角是否跟随位置
+				followAngle: false,  //地图是否跟随旋转
+				followPosition: false,  //地图视角是否跟随位置
 				followGap:3,      //导航视角跟随间隔(单位:/s)
 				tiltAngle: 30,   //模拟导航时的倾斜角
 				audioPlay:false,  //是否开启语音播报
-				// scaleLevel:0,   //模拟导航时的放大等级
+				scaleLevel:10,   //模拟导航时的放大等级
 				// mode:2,         //mode=1:人行(默认),mode=2：车行
 				offsetHeight: 1,    //定位标注的高度
 				ladderType:1,  //跨层方案选择。1:距离最近(默认),2:电梯 3.楼梯 4.扶梯
@@ -188,13 +188,13 @@
 
 			console.log("!!!")
 			navi.drawNaviLine();
-
+			navi.simulate();
 			var Cnum=$("#Cnum").val().toString();
 			// console.log(Cnum)
 			// map.changeModelColor({name:Cnum,color:'#676766'});
 
-			setTimeout('remove();parking()',5000); //指定10秒刷新一次
-			setTimeout('myrefresh()',20000); //指定20秒刷新一次
+			// setTimeout('remove();parking()',5000); //指定10秒刷新一次
+			// setTimeout('myrefresh()',20000); //指定20秒刷新一次
 		}
 	});
 
