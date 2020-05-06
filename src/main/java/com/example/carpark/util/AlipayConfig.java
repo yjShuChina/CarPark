@@ -23,11 +23,13 @@ public class AlipayConfig {
     public static String alipay_public_key = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAx0EU7ovjaqF+YDr75dbbzTQUS9+ml3UO5YJ7VPXd/vDCFkBxUJO+nid/66j+Tb/v0gbrtUqkXp5JdrMQ9q7K5g38Vea4e2zGkqXh6td0YNdOqgo2/c/b1k1ANxqffuMv9V0GJEBowWfWlIMtcpsYP1l5wBY9sqLHKs3aN6V5eLv03XgDDnTmYsIaUVta+bfdLGi85Nb2owVVJkogE/lfG0HybhiShRqezaRhhLxnr3pCd9YFDueF0PHA49Jo3WBHHUosS3TSxjWEqkzGZ6aG6rci1sE+9VSm/8x9ud2bWZHiDj35JT91rPqoA+/byNVSKjEg8YULIxDFqtvkcmf/EwIDAQAB";
 
 	// 服务器异步通知页面路径  需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
-	public static String notify_url = "http://112.74.72.11:10086/Carpark/alipay/notifyUrl";
+	public static String notify_url = "http://118.190.104.254:8080/Carpark/alipay/notifyUrl";
+//	public static String notify_url = "http://112.74.72.11:10086/Carpark/alipay/notifyUrl";
 //	public static String notify_url = "http://localhost:8080/Carpark/alipay/notifyUrl";
 
 	// 页面跳转同步通知页面路径 需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
-	public static String return_url = "http://112.74.72.11:10086/Carpark/alipay/returnUrl";
+	public static String return_url = "http://118.190.104.254:8080/Carpark/alipay/returnUrl";
+//	public static String return_url = "http://112.74.72.11:10086/Carpark/alipay/returnUrl";
 //	public static String return_url = "http://localhost:8080/Carpark/alipay/returnUrl";
 
 	// 签名方式
